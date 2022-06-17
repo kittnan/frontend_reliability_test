@@ -1,14 +1,12 @@
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-requests',
+  templateUrl: './requests.component.html',
+  styleUrls: ['./requests.component.scss']
 })
-export class AppComponent {
-  title = 'reliability';
-
+export class RequestsComponent implements OnInit {
   mobileQuery: MediaQueryList;
   items: any[] = []
 
@@ -35,4 +33,7 @@ export class AppComponent {
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
+  ngOnInit(): void {
+  }
+
 }

@@ -1,0 +1,289 @@
+<div fxLayout="row wrap" fxLayoutAlign="center start">
+    <div fxFlex="80" style="background-color: red;">
+
+        <mat-stepper labelPosition="bottom" #stepper>
+            <mat-step [stepControl]="firstStepForm">
+                <form [formGroup]="firstStepForm">
+                    <ng-template matStepLabel>First Step</ng-template>
+                    <div fxLayout="row wrap" fxLayoutAlign="space-evenly start">
+                        <div fxFlex="100">
+                            <h1 style="text-align: right;">Control No. xxxxx</h1>
+                        </div>
+                        <div fxFlex="100" style="border: 1px solid black;">
+                            <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+                                <div fxFlex="50" fxFlex.sm="100">
+                                    <h1 style="text-align: center;">Reliability Test Request Form</h1>
+                                </div>
+                                <div fxFlex="50" fxFlex.sm="100">
+                                    <h1 style="text-align: center;">Revision No.</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div fxFlex="40" fxFlex.sm="100" style="margin-top: 10px;">
+                            <label>Request status: </label>
+                            <mat-radio-group>
+                                <mat-radio-button value="auto">Normal</mat-radio-button>
+                                <mat-radio-button value="always">Urgent</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Department/Area</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Request Date</mat-label>
+                            <input matInput [matDatepicker]="picker1">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Concern Shipment Date</mat-label>
+                            <input matInput [matDatepicker]="picker2">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Report Require Date</mat-label>
+                            <input matInput [matDatepicker]="picker3">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Sample send to QE within date</mat-label>
+                            <input matInput [matDatepicker]="picker4">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-datepicker #picker4></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Model No.</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Lot no.</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Type</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Customer</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+                            <mat-label>Sample Description</mat-label>
+                            <textarea matInput rows="5"></textarea>
+                        </mat-form-field>
+                        <div fxFlex="40">
+                            <mat-list>
+                                <div mat-subheader>
+                                    Files
+                                    <button mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn" style="margin-left: 10px;" (click)="fileUpload.click()">Choose
+                                        file...</button>
+                                    <input hidden type="file" #fileUpload>
+                                </div>
+                                <mat-list-item *ngFor="let folder of folders">
+                                    <mat-icon mat-list-icon>folder</mat-icon>
+                                    <div mat-line>{{folder.name}} {{folder.size }}Mb</div>
+                                    <div mat-line> {{folder.updated | date}}</div>
+                                    <button mat-icon-button color="primary">
+                                        <span  class="material-icons-outlined">
+                                            pageview
+                                            </span>
+                                    </button>
+                                    <button mat-icon-button color="warn">
+                                        <span  class="material-icons-outlined">
+                                            close
+                                            </span>
+                                    </button>
+
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+
+                    </div>
+                    <mat-divider></mat-divider>
+
+                    <div fxLayout="row wrap" fxLayoutAlign="center stretch">
+                        <button fxFlex="100" mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="firstStepForm">
+                <form [formGroup]="firstStepForm">
+                    <ng-template matStepLabel>Test Purpose</ng-template>
+                    <div fxLayout="row wrap" fxLayoutAlign="space-evenly start" style="margin-top: 40px;">
+                        <div fxFlex="50">
+                            <div fxLayout="column wrap" fxLayoutAlign="start start">
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+
+                            </div>
+                        </div>
+                        <div fxFlex="50">
+                            <div fxLayout="column wrap" fxLayoutAlign="start start">
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Optical characteristic measurement for Sample product</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+
+                    <div fxLayout="row wrap" fxLayoutAlign="center stretch">
+                        <button fxFlex="100" mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="firstStepForm">
+                <form [formGroup]="firstStepForm">
+                    <ng-template matStepLabel>Testing Type</ng-template>
+                    <div fxLayout="row wrap" fxLayoutAlign="space-evenly start" style="margin-top: 40px;">
+                        <div fxFlex="20">
+                            <div fxLayout="column wrap" fxLayoutAlign="start start">
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox color="primary">Low Temperature</mat-checkbox>
+
+                            </div>
+                        </div>
+                        <div fxFlex="20">
+                            <div fxLayout="column wrap" fxLayoutAlign="start start">
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                            </div>
+                        </div>
+                        <div fxFlex="20">
+                            <div fxLayout="column wrap" fxLayoutAlign="start start">
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                            </div>
+                        </div>
+                        <div fxFlex="20">
+                            <div fxLayout="column wrap" fxLayoutAlign="start start">
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                            </div>
+                        </div>
+                        <div fxFlex="20">
+                            <div fxLayout="column wrap" fxLayoutAlign="start start">
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                                <mat-checkbox fxFlex="100" color="primary">Low Temperature</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+
+                    <div fxLayout="row wrap" fxLayoutAlign="center stretch">
+                        <button fxFlex="100" mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <mat-step [stepControl]="firstStepForm">
+                <form [formGroup]="firstStepForm">
+                    <ng-template matStepLabel>Testing Condition/Description</ng-template>
+                    <div fxLayout="row wrap" fxLayoutAlign="space-evenly start" style="margin-top: 40px;">
+                        <mat-form-field appearance="legacy" fxFlex="25" fxFlex.sm="100">
+                            <mat-label>Item</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+                        <mat-form-field appearance="legacy" fxFlex="25" fxFlex.sm="100">
+                            <mat-label>Testing Condition/Procedure</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+                        <mat-form-field appearance="legacy" fxFlex="25" fxFlex.sm="100">
+                            <mat-label>Temperature</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+                        <mat-form-field appearance="legacy" fxFlex="25" fxFlex.sm="100">
+                            <mat-label>Operate</mat-label>
+                            <input matInput placeholder="Last name, First name" formControlName="controlNo">
+                        </mat-form-field>
+
+
+
+
+                    </div>
+                    <mat-divider></mat-divider>
+
+                    <div fxLayout="row wrap" fxLayoutAlign="center stretch">
+                        <button fxFlex="100" mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+
+
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                <p>You are now done.</p>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                </div>
+            </mat-step>
+        </mat-stepper>
+
+    </div>
+</div>

@@ -1,0 +1,62 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+export interface Section {
+  name: string;
+  updated: Date;
+  size: number
+}
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+})
+export class HomeComponent implements OnInit {
+
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+
+  firstStepForm = new FormGroup({
+    controlNo: new FormControl('', Validators.required),
+  })
+
+
+
+
+
+  folders: Section[] = [
+    {
+      name: 'Photos',
+      updated: new Date('1/1/16'),
+      size: 1000
+    },
+    {
+      name: 'Recipes',
+      updated: new Date('1/17/16'),
+      size: 1532
+
+    },
+    {
+      name: 'Work',
+      updated: new Date('1/28/16'),
+      size: 4562
+
+    },
+  ];
+
+
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  constructor(
+    private _formBuilder: FormBuilder
+  ) { }
+
+  ngOnInit(): void {
+  }
+  
+
+}
