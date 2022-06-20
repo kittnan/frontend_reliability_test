@@ -13,25 +13,24 @@
                 </span>
             </div>
         </div>
-        <div class="card-body" fxLayout="row wrap" fxLayoutAlign="center center">
+        <form [formGroup]="LoginForm" (submit)="onLogin()" class="card-body" fxLayout="row wrap" fxLayoutAlign="center center">
             <mat-form-field fxFlex="100" appearance="legacy">
                 <mat-label>Username</mat-label>
-                <input matInput placeholder="Placeholder">
-                <mat-hint>Hint</mat-hint>
+                <input matInput placeholder="" formControlName="username">
             </mat-form-field>
             <mat-form-field fxFlex="100" appearance="legacy">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" placeholder="Placeholder">
-                <mat-hint>Hint</mat-hint>
+                <input matInput type="password" placeholder="" formControlName="password">
             </mat-form-field>
 
-        </div>
-        <div class="card-footer" fxLayoutAlign="center center">
-            <button (click)="onLogin()" mat-raised-button fxFlex="50" color="warn" style="margin-top: 10px;">
-                <span class="material-icons-outlined">
-                    lock_open
-                </span>
-            </button>
-        </div>
+            <div class="card-footer" fxLayoutAlign="center center">
+                <button type="submit" mat-raised-button fxFlex="50" color="warn" style="margin-top: 10px;">
+                    <span class="material-icons-outlined">
+                        lock_open
+                    </span>
+                </button>
+            </div>
+        </form>
+
     </div>
 </div>

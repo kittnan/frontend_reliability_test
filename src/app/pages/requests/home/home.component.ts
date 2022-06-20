@@ -25,6 +25,17 @@ export class HomeComponent implements OnInit {
     controlNo: new FormControl('', Validators.required),
   })
 
+  Form = new FormGroup({
+    item: new FormControl('',Validators.required),
+    condition: new FormControl([],Validators.required),
+    operate: new FormControl('',Validators.required),
+    inspectionRequire: new FormControl({},Validators.required),
+    inspectionInterval: new FormControl([],Validators.required),
+    requestReport: new FormControl([],Validators.required),
+    sampleNo: new FormControl([],Validators.required),
+    qty: new FormControl(0,Validators.required),
+  })
+
 
 
 
