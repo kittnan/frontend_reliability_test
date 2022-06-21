@@ -1,0 +1,165 @@
+<form [formGroup]="requestForm">
+    <div fxLayout="row wrap" fxLayoutAlign="space-evenly center">
+        <div fxFlex="100">
+            <h1 style="text-align: right;">Control No. {{this.requestForm.value.controlNo}}</h1>
+        </div>
+        <div fxFlex="100" style="border: 1px solid black;">
+            <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+                <div fxFlex="50" fxFlex.sm="100">
+                    <h1 style="text-align: center;">Reliability Test Request Form</h1>
+                </div>
+            </div>
+        </div>
+        <div fxFlex="40" fxFlex.sm="100">
+            <label>Request status: </label>
+            <mat-radio-group formControlName="requestStatus">
+                <mat-radio-button value="normal">Normal</mat-radio-button>
+                <mat-radio-button value="urgent">Urgent</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>AMT/DST</mat-label>
+            <mat-select formControlName="corporate" name="corporate" (selectionChange)="onSelectCorporate()">
+                <mat-option *ngFor="let cor of corporate" [value]="cor.value">
+                    {{cor.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Model No.</mat-label>
+            <mat-select formControlName="modelNo" name="modelNo">
+                <ng-container *ngFor="let item of models; let i=index">
+                    <mat-option [value]="item.modelNo" (onSelectionChange)="onSelectModelNo(item); onSelectCorporate();">{{item.modelNo}}
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Model Name</mat-label>
+            <input formControlName="modelName" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Model Code</mat-label>
+            <input formControlName="modelCode" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Type</mat-label>
+            <input formControlName="type" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Customer</mat-label>
+            <input formControlName="customer" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Lot no.</mat-label>
+            <input formControlName="lotNo" matInput>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Department</mat-label>
+            <mat-select formControlName="department" name="department" (selectionChange)="onSelectCorporate()">
+                <mat-option value="it-sp">IT-SP</mat-option>
+                <mat-option value="it-sd">IT-SD</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Request Date</mat-label>
+            <input formControlName="requestDate" matInput [matDatepicker]="picker1">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Concern Shipment Date</mat-label>
+            <input formControlName="concernShipmentDate" matInput [matDatepicker]="picker2">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Input to production date</mat-label>
+            <input formControlName="inputToProductionDate" matInput [matDatepicker]="picker3">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Concern Customer Date</mat-label>
+            <input formControlName="concernCustomerDate" matInput [matDatepicker]="picker4">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <mat-datepicker #picker4></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+            <mat-label>Report Require Date</mat-label>
+            <input formControlName="reportRequireDate" matInput [matDatepicker]="picker5">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+            <mat-datepicker #picker5></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+            <mat-label>Sample send to QE within date</mat-label>
+            <input formControlName="sampleSentToQE_withinDate" matInput [matDatepicker]="picker6">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+            <mat-datepicker #picker6></mat-datepicker>
+        </mat-form-field>
+
+        <div fxFlex="40" fxFlex.sm="100">
+
+        </div>
+
+        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+            <mat-label>Sample Description</mat-label>
+            <textarea matInput rows="5" formControlName="sampleDescription"></textarea>
+        </mat-form-field>
+        <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start start">
+            <div mat-subheader>
+                Files
+                <button mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn" style="margin-left: 10px;" (click)="fileUpload.click()">Choose
+                        file...</button>
+                <input hidden type="file" #fileUpload>
+            </div>
+            <mat-list-item *ngFor="let folder of folders">
+                <mat-icon mat-list-icon>folder</mat-icon>
+                <div mat-line>{{folder.name}} {{folder.size }}Mb</div>
+                <div mat-line> {{folder.updated | date}}</div>
+                <button mat-icon-button color="primary">
+                        <span class="material-icons-outlined">
+                            pageview
+                        </span>
+                    </button>
+                <button mat-icon-button color="warn">
+                        <span class="material-icons-outlined">
+                            close
+                        </span>
+                    </button>
+
+            </mat-list-item>
+        </mat-list>
+
+        <div fxFlex="40" fxFlex.sm="100">
+
+        </div>
+
+    </div>
+    <mat-divider></mat-divider>
+
+    <div fxLayout="row wrap" fxLayoutAlign="center stretch">
+        <button fxFlex="100" mat-button matStepperNext (click)="onNext()">Next</button>
+    </div>
+</form>

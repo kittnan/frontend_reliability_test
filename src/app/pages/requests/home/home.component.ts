@@ -14,6 +14,7 @@ export interface Section {
 })
 export class HomeComponent implements OnInit {
 
+
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
@@ -62,11 +63,20 @@ export class HomeComponent implements OnInit {
 
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  request:any
+  testPurpose:any
   constructor(
     private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
+  }
+
+  submit(){
+    console.log(this.request);
+    console.log(this.testPurpose);
+    
   }
   
 
