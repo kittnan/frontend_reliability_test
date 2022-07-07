@@ -10,6 +10,7 @@
                 </div>
             </div>
         </div>
+
         <div fxFlex="40" fxFlex.sm="100">
             <label>Request status: </label>
             <mat-radio-group formControlName="requestStatus">
@@ -43,11 +44,6 @@
         </mat-form-field>
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
-            <mat-label>Model Code</mat-label>
-            <input formControlName="modelCode" matInput>
-        </mat-form-field>
-
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
             <mat-label>Type</mat-label>
             <input formControlName="type" matInput>
         </mat-form-field>
@@ -66,14 +62,13 @@
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
             <mat-label>Department</mat-label>
             <mat-select formControlName="department" name="department" (selectionChange)="onSelectCorporate()">
-                <mat-option value="it-sp">IT-SP</mat-option>
-                <mat-option value="it-sd">IT-SD</mat-option>
+                <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">{{department.name}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
             <mat-label>Request Date</mat-label>
-            <input formControlName="requestDate" matInput [matDatepicker]="picker1">
+            <input formControlName="requestDate" matInput [matDatepicker]="picker1" (click)="picker1.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
@@ -81,7 +76,7 @@
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
             <mat-label>Concern Shipment Date</mat-label>
-            <input formControlName="concernShipmentDate" matInput [matDatepicker]="picker2">
+            <input formControlName="concernShipmentDate" matInput [matDatepicker]="picker2" (click)="picker2.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
@@ -89,7 +84,7 @@
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
             <mat-label>Input to production date</mat-label>
-            <input formControlName="inputToProductionDate" matInput [matDatepicker]="picker3">
+            <input formControlName="inputToProductionDate" matInput [matDatepicker]="picker3" (click)="picker3.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
             <mat-datepicker #picker3></mat-datepicker>
@@ -97,7 +92,7 @@
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
             <mat-label>Concern Customer Date</mat-label>
-            <input formControlName="concernCustomerDate" matInput [matDatepicker]="picker4">
+            <input formControlName="concernCustomerDate" matInput [matDatepicker]="picker4" (click)="picker4.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
             <mat-datepicker #picker4></mat-datepicker>
@@ -105,7 +100,7 @@
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
             <mat-label>Report Require Date</mat-label>
-            <input formControlName="reportRequireDate" matInput [matDatepicker]="picker5">
+            <input formControlName="reportRequireDate" matInput [matDatepicker]="picker5" (click)="picker5.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
             <mat-datepicker #picker5></mat-datepicker>
@@ -113,15 +108,15 @@
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
             <mat-label>Sample send to QE within date</mat-label>
-            <input formControlName="sampleSentToQE_withinDate" matInput [matDatepicker]="picker6">
+            <input formControlName="sampleSentToQE_withinDate" matInput [matDatepicker]="picker6" (click)="picker6.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
             <mat-datepicker #picker6></mat-datepicker>
         </mat-form-field>
 
-        <div fxFlex="40" fxFlex.sm="100">
+        <!-- <div fxFlex="40" fxFlex.sm="100">
 
-        </div>
+        </div> -->
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
             <mat-label>Sample Description</mat-label>
@@ -131,7 +126,7 @@
             <div mat-subheader>
                 Files
                 <button mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn" style="margin-left: 10px;" (click)="fileUpload.click()">Choose
-                        file...</button>
+                    file...</button>
                 <input hidden type="file" #fileUpload>
             </div>
             <mat-list-item *ngFor="let folder of folders">
@@ -139,15 +134,15 @@
                 <div mat-line>{{folder.name}} {{folder.size }}Mb</div>
                 <div mat-line> {{folder.updated | date}}</div>
                 <button mat-icon-button color="primary">
-                        <span class="material-icons-outlined">
-                            pageview
-                        </span>
-                    </button>
+                    <span class="material-icons-outlined">
+                        pageview
+                    </span>
+                </button>
                 <button mat-icon-button color="warn">
-                        <span class="material-icons-outlined">
-                            close
-                        </span>
-                    </button>
+                    <span class="material-icons-outlined">
+                        close
+                    </span>
+                </button>
 
             </mat-list-item>
         </mat-list>

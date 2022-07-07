@@ -8,22 +8,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./requests.component.scss']
 })
 export class RequestsComponent implements OnInit {
-  mobileQuery: MediaQueryList;
   items: any[] = []
 
-  private _mobileQueryListener: () => void;
-
+  userLogin!:any;
   constructor(
-    changeDetectorRef: ChangeDetectorRef, 
-    media: MediaMatcher,
+    
     private router: Router
     ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+    
     this.items = [
       {
-        path:'',
+        path:'/request',
         icon:'home',
         title:'Home'
       },
@@ -32,16 +27,17 @@ export class RequestsComponent implements OnInit {
         icon:'feed',
         title:'request'
       }
-    ]
+    ],
+    this.userLogin = localStorage.getItem('name')
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
   ngOnInit(): void {
   }
 
   onLogout(){
+    localStorage.clear()
     this.router.navigate(['/'])
   }
 

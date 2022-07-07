@@ -1,0 +1,33 @@
+<div fxLayout="row wrap" fxLayoutAlign="center stretch">
+
+    <div fxFlex="80" style="margin-top: 5px;" class="page-box">
+        <span>MASTER-MANAGE PAGE</span>
+    </div>
+
+    <mat-form-field fxFlex="80" appearance="legacy" style="margin-top: 5px;" class="page-box">
+        <mat-label>Select Master</mat-label>
+        <mat-select [(ngModel)]="masterSelected">
+            <mat-option *ngFor="let master of masterList" [value]="master">
+                {{master |uppercase}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div *ngIf="masterSelected=='authorize'" fxFlex="40" style="margin-top: 20px;" class="page-box">
+        <app-authorize-master></app-authorize-master>
+    </div>
+    <div *ngIf="masterSelected=='model'" fxFlex="40" style="margin-top: 20px;" class="page-box">
+        <app-model-master></app-model-master>
+    </div>
+    <div *ngIf="masterSelected=='department'" fxFlex="40" style="margin-top: 20px;" class="page-box">
+        <app-department></app-department>
+    </div>
+    <div *ngIf="masterSelected=='testPurpose'" fxFlex="40" style="margin-top: 20px;" class="page-box">
+        <app-test-purpose-master></app-test-purpose-master>
+    </div>
+    <div *ngIf="masterSelected=='testingType'" fxFlex="40" style="margin-top: 20px;" class="page-box">
+        <app-testing-type-master></app-testing-type-master>
+    </div>
+    <div *ngIf="masterSelected=='interval'" fxFlex="25" style="margin-top: 20px;" class="page-box">
+        <app-interval-master></app-interval-master>
+    </div>
+</div>

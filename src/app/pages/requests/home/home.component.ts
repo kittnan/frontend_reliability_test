@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { HomeServiceService } from './home-service.service';
 export interface Section {
   name: string;
   updated: Date;
@@ -27,14 +28,14 @@ export class HomeComponent implements OnInit {
   })
 
   Form = new FormGroup({
-    item: new FormControl('',Validators.required),
-    condition: new FormControl([],Validators.required),
-    operate: new FormControl('',Validators.required),
-    inspectionRequire: new FormControl({},Validators.required),
-    inspectionInterval: new FormControl([],Validators.required),
-    requestReport: new FormControl([],Validators.required),
-    sampleNo: new FormControl([],Validators.required),
-    qty: new FormControl(0,Validators.required),
+    item: new FormControl('', Validators.required),
+    condition: new FormControl([], Validators.required),
+    operate: new FormControl('', Validators.required),
+    inspectionRequire: new FormControl({}, Validators.required),
+    inspectionInterval: new FormControl([], Validators.required),
+    requestReport: new FormControl([], Validators.required),
+    sampleNo: new FormControl([], Validators.required),
+    qty: new FormControl(0, Validators.required),
   })
 
 
@@ -64,20 +65,24 @@ export class HomeComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  request:any
-  testPurpose:any
+  request: any
+  testPurpose: any
+  testingType: any
+
   constructor(
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _home_service: HomeServiceService
   ) { }
 
   ngOnInit(): void {
+    this._home_service.setBehaviorMaster();
   }
 
-  submit(){
+  submit() {
     console.log(this.request);
     console.log(this.testPurpose);
-    
+
   }
-  
+
 
 }

@@ -1,0 +1,9 @@
+<div>
+    <h4>Department</h4>
+    <mat-form-field class="w-full" appearance="legacy">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="newMaster">
+    </mat-form-field>
+    <button *ngIf="!data" mat-raised-button class="w-full" color="primary" (click)="onSubmit();">Add</button>
+    <button *ngIf="data" mat-raised-button class="w-full" color="primary" (click)="onSave();">Save</button>
+</div>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RequestGuard } from './guards/request.guard';
 import { AdminModule } from './pages/admin/admin.module';
 import { ApproveModule } from './pages/approve/approve.module';
 import { LoginComponent } from './pages/login/login.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
     loadChildren: () =>   import('./pages/requests/requests.module').then(
       (m) => m.RequestsModule
     ),
+    canActivate: [RequestGuard]
   },
   {
     path: 'approve',

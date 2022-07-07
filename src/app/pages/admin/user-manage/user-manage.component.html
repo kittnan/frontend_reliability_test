@@ -1,0 +1,57 @@
+<!-- <div class="title-header" fxLayout="row wrap" fxLayoutAlign="start stretch">
+    <span class="title-header-text">user manage page</span>
+</div> -->
+<div fxLayout="row wrap" fxLayoutAlign="center stretch">
+    <div fxFlex="80" style="margin-top: 5px;" class="page-box">
+        <span>USER-MANAGE PAGE</span>
+    </div>
+    <div fxFlex="80" style="margin-top: 20px;" class="page-box">
+        <div class="w-full" fxLayoutAlign="end stretch">
+            <button mat-icon-button color="primary" (click)="openDialogAddUser();">
+                <span class="material-icons-outlined">
+                    person_add
+                </span>
+            </button>
+
+        </div>
+        <mat-form-field class="w-full" appearance="legacy">
+            <mat-label>Search</mat-label>
+            <input matInput #keySearch (input)="onUserFilter(keySearch.value)">
+        </mat-form-field>
+
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>EmployeeID</th>
+                    <th>Email</th>
+                    <th>Authorize</th>
+                    <th width="10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of userFiltered; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.employee_ID}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.authorize |uppercase}}</td>
+                    <td style="text-align: center;">
+                        <button mat-button [matMenuTriggerFor]="menu">
+                            <span class="material-icons-outlined">
+                                manage_accounts
+                            </span>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="onEdit(user,i);">Edit</button>
+                            <button mat-menu-item (click)="onDelete(user);">Delete</button>
+                        </mat-menu>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>

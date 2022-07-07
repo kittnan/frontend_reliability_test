@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { HomeServiceService } from '../home-service.service';
 import { Step1RequestService } from './step1-request.service';
 
 
@@ -11,9 +12,11 @@ export interface Section {
 export interface ModelNo {
   modelNo: string;
   modelName: string;
-  modelCode: string;
   type: string;
   customer: string;
+}
+export interface Department {
+  name: string;
 }
 @Component({
   selector: 'app-step1-request',
@@ -27,24 +30,23 @@ export class Step1RequestComponent implements OnInit {
 
 
   requestForm = new FormGroup({
-    controlNo: new FormControl(),
-    corporate: new FormControl(),
-    requestStatus: new FormControl(),
-    department: new FormControl(),
-    requestDate: new FormControl(),
-    concernShipmentDate: new FormControl(),
-    inputToProductionDate: new FormControl(),
-    concernCustomerDate: new FormControl(),
-    reportRequireDate: new FormControl(),
-    sampleSentToQE_withinDate: new FormControl(),
-    modelNo: new FormControl(),
-    modelName: new FormControl(),
-    modelCode: new FormControl(),
-    lotNo: new FormControl(),
-    type: new FormControl(),
-    customer: new FormControl(),
-    size: new FormControl(),
-    sampleDescription: new FormControl()
+    controlNo: new FormControl('', Validators.required),
+    corporate: new FormControl('', Validators.required),
+    requestStatus: new FormControl('', Validators.required),
+    department: new FormControl('', Validators.required),
+    requestDate: new FormControl('', Validators.required),
+    concernShipmentDate: new FormControl('', Validators.required),
+    inputToProductionDate: new FormControl('', Validators.required),
+    concernCustomerDate: new FormControl('', Validators.required),
+    reportRequireDate: new FormControl('', Validators.required),
+    sampleSentToQE_withinDate: new FormControl('', Validators.required),
+    modelNo: new FormControl('', Validators.required),
+    modelName: new FormControl('', Validators.required),
+    lotNo: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required),
+    customer: new FormControl('', Validators.required),
+    sampleDescription: new FormControl('', Validators.required),
+    files: new FormControl('')
   })
 
   corporate: any[] = [
@@ -78,47 +80,44 @@ export class Step1RequestComponent implements OnInit {
     },
   ];
 
-  models: ModelNo[] = [
-    {
-      modelNo: '1111',
-      modelCode: 'AAAA',
-      modelName: 'T-57632GD018HU-T-AIN',
-      customer: 'Denso',
-      type: '1.12'
-    }
-  ]
-
+  models: ModelNo[] = []
+  departments: Department[] = []
   constructor(
-    private _formBuilder: FormBuilder,
-    private step1: Step1RequestService
+    private step1: Step1RequestService,
+    private _homeService: HomeServiceService
   ) {
+
   }
 
   ngOnInit(): void {
+    this._homeService.getModelMaster().subscribe(res => {
+      this.models = res
+    })
+    this._homeService.getDepartmentMaster().subscribe(res => {
+      this.departments = res
+    })
   }
 
   onSelectCorporate() {
     if (this.requestForm.controls.corporate.valid && this.requestForm.controls.modelNo.valid) {
       const runNumber = this.step1.setControlNo(this.requestForm.value.corporate, this.requestForm.value.modelNo)
-      console.log(runNumber);
       this.requestForm.controls.controlNo.setValue(runNumber)
     }
   }
   onSelectModelNo(item: ModelNo) {
-    console.log(item);
     this.requestForm.patchValue({
       modelNo: item.modelNo,
       modelName: item.modelName,
-      modelCode: item.modelCode,
       type: item.type,
-      customer: item.customer
+      customer: item.customer,
     })
   }
 
   onNext() {
     console.log(this.requestForm.value);
     this.request = this.requestForm.value
-
     this.requestChange.emit(this.request)
+    this._homeService.setFormStep1(this.requestForm.value)
+
   }
 }

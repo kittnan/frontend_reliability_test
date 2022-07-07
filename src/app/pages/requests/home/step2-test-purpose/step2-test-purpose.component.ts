@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { HomeServiceService } from '../home-service.service';
 
 export interface TestPurpose {
   _id: string,
@@ -19,46 +20,54 @@ export interface TestPurpose {
 })
 export class Step2TestPurposeComponent implements OnInit {
 
-  @Input() testPurpose :any
+  @Input() testPurpose: any
   @Output() testPurposeChange = new EventEmitter<any>();
 
-  testPurposes: TestPurpose[] = [
-    {
-      _id: '1',
-      name: "Optical characteristic measurement for Sample product",
-      checked: false,
-      description: {
-        status: false,
-        value: ""
-      }
-    },
-    {
-      _id: '2',
-      name: "Evaluate New material CRR No: ",
-      checked: false,
-      description: {
-        status: true,
-        value: ""
-      }
-    },
-    {
-      _id: '3',
-      name: "Evaluate New material CRR No: ",
-      checked: false,
-      description: {
-        status: true,
-        value: ""
-      }
-    }
-  ]
+  // testPurposes: TestPurpose[] = [
+  //   {
+  //     _id: '1',
+  //     name: "Optical characteristic measurement for Sample product",
+  //     checked: false,
+  //     description: {
+  //       status: false,
+  //       value: ""
+  //     }
+  //   },
+  //   {
+  //     _id: '2',
+  //     name: "Evaluate New material CRR No: ",
+  //     checked: false,
+  //     description: {
+  //       status: true,
+  //       value: ""
+  //     }
+  //   },
+  //   {
+  //     _id: '3',
+  //     name: "Evaluate New material CRR No: ",
+  //     checked: false,
+  //     description: {
+  //       status: true,
+  //       value: ""
+  //     }
+  //   }
+  // ]
 
   testPurposeForm = new FormGroup({
     purpose: new FormControl(),
     description: new FormControl()
   })
-  constructor() { }
+
+  testPurposes: TestPurpose[] = []
+  constructor(
+    private _homeService: HomeServiceService
+  ) { }
 
   ngOnInit(): void {
+    this._homeService.getTestPurposeMaster().subscribe(res => {
+      console.log(res);
+      this.testPurposes = res
+    })
   }
 
   onCheckRadio(event: any, purpose: any) {
@@ -85,7 +94,10 @@ export class Step2TestPurposeComponent implements OnInit {
 
   onSave() {
     this.testPurpose = this.testPurposeForm.value
+    console.log(this.testPurpose);
     this.testPurposeChange.emit(this.testPurpose)
+
+    this._homeService.setFormStep2(this.testPurposeForm.value)
   }
 
 }

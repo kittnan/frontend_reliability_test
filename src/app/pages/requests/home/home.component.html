@@ -10,18 +10,18 @@
                 <ng-template matStepLabel>Test Purpose</ng-template>
                 <app-step2-test-purpose [(testPurpose)]="testPurpose"></app-step2-test-purpose>
             </mat-step>
-            <mat-step [stepControl]="firstStepForm">
+            <mat-step>
                 <ng-template matStepLabel>Testing Type</ng-template>
-                <app-step3-testing-type></app-step3-testing-type>
+                <app-step3-testing-type [(testingType)]="testingType"></app-step3-testing-type>
             </mat-step>
 
-            <mat-step [stepControl]="firstStepForm">
-                <ng-template matStepLabel>Testing Condition/Description</ng-template>
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
                 <app-step4-testing-condition></app-step4-testing-condition>
             </mat-step>
 
 
-            <mat-step>
+            <!-- <mat-step>
                 <ng-template matStepLabel>Done</ng-template>
                 <p>You are now done.</p>
                 <div>
@@ -30,7 +30,7 @@
                     <button mat-button (click)="stepper.reset()">Reset</button>
                     <button mat-button (click)="submit()">Save</button>
                 </div>
-            </mat-step>
+            </mat-step> -->
         </mat-stepper>
 
     </div>

@@ -1,0 +1,45 @@
+<ng-container *ngIf="_id; else elseTitle">
+    <h2 mat-dialog-title>Edit User : {{data.name}}</h2>
+</ng-container>
+<ng-template #elseTitle>
+    <h2 mat-dialog-title>New User</h2>
+</ng-template>
+
+<mat-dialog-content class="mat-typography" style="width: 1000px;">
+    <form [formGroup]="newUserForm" fxLayout="row wrap" fxLayoutAlign="start stretch">
+        <mat-form-field fxFlex="50" class="w-full" appearance="legacy">
+            <mat-label>Authorize</mat-label>
+            <mat-select formControlName="authorize">
+                <mat-option *ngFor="let auth of authorizes" [value]="auth.name">
+                    {{auth.name |uppercase}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="50" class="w-full" appearance="legacy">
+            <mat-label>EmployeeID </mat-label>
+            <input matInput formControlName="employee_ID" placeholder="THxxx/xx, OPxxx/xx">
+        </mat-form-field>
+        <mat-form-field fxFlex="50" class="w-full" appearance="legacy">
+            <mat-label>Name </mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field fxFlex="50" class="w-full" appearance="legacy">
+            <mat-label>Password </mat-label>
+            <input type="password" matInput formControlName="password">
+        </mat-form-field>
+        <mat-form-field fxFlex="50" class="w-full" appearance="legacy">
+            <mat-label>Email </mat-label>
+            <input type="email" matInput formControlName="email" placeholder="xxx@kyocera.co.th">
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <ng-container *ngIf="_id; else elseButton">
+        <button mat-button cdkFocusInitial (click)="onSaveUser();">Save</button>
+    </ng-container>
+    <ng-template #elseButton>
+        <button mat-button cdkFocusInitial (click)="onAddUser();">Add</button>
+    </ng-template>
+
+</mat-dialog-actions>

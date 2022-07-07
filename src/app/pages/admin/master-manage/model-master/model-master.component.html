@@ -1,0 +1,50 @@
+<div fxLayout="row wrap" fxLayoutAlign="start stretch">
+    <div fxFlex="100" fxLayoutAlign="end stretch">
+        <button mat-icon-button color="primary" (click)="openDialog();">
+            <span class="material-icons-outlined">
+                add
+            </span>
+        </button>
+
+    </div>
+    <mat-form-field fxFlex="100" appearance="legacy">
+        <mat-label>Search</mat-label>
+        <input matInput #keySearch (input)="onUserFilter(keySearch.value)">
+    </mat-form-field>
+
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch">
+        <table class="table" fxFlex="100">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>modelName</th>
+                    <th>modelNo</th>
+                    <th>type</th>
+                    <th>customer</th>
+                    <th width="10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let master of filteredMaster; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{master.modelName}}</td>
+                    <td>{{master.modelNo}}</td>
+                    <td>{{master.type}}</td>
+                    <td>{{master.customer}}</td>
+                    <td style="text-align: center;">
+                        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="onEdit(master);">Edit</button>
+                            <button mat-menu-item (click)="onDelete(master);">Delete</button>
+                        </mat-menu>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+</div>

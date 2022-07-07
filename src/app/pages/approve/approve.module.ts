@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApproveManageComponent } from './approve-manage/approve-manage.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ApproveManageComponent } from './approve-manage/approve-manage.componen
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class ApproveModule { }

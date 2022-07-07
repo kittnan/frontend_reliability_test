@@ -1,0 +1,60 @@
+<div [formGroup]="TestingTypeForm">
+    <h4>Testing Type</h4>
+    <mat-dialog-content class="mat-typography">
+        <mat-form-field class="w-full" appearance="legacy">
+            <mat-label>Group</mat-label>
+            <input matInput formControlName="group">
+        </mat-form-field>
+
+        <div class="list-content" formArrayName="list" *ngFor="let item of getList(); let i = index;">
+            <div [formGroupName]="i" class="group-list" style="padding: 20px;">
+
+                <mat-form-field class="w-full" appearance="legacy">
+                    <mat-label>List Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Low Temperature">
+                    <span matSuffix (click)="deleteList(i)" class="material-icons-outlined btn-del-list-item">
+                        delete
+                    </span>
+                </mat-form-field>
+                <div formGroupName="description">
+                    <mat-slide-toggle formControlName="status">description status</mat-slide-toggle>
+                </div>
+                <div formArrayName="listItem" *ngFor="let item2 of getListItem(i).controls; let i2 = index;">
+                    <div [formGroupName]="i2">
+                        <mat-form-field class="w-full" appearance="legacy">
+                            <mat-label>List item</mat-label>
+                            <input matInput formControlName="name" placeholder="105±2°C">
+                            <span matSuffix (click)="deleteListItem(i,i2)" class="material-icons-outlined btn-del-list-item">
+                                delete
+                            </span>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <button mat-raised-button class="w-full" style="margin: 10px 0;" (click)="onAddListItem(i);">
+                    Item
+                    <span class="material-icons-outlined btn-green">
+                        add
+                    </span>
+                </button>
+
+            </div>
+            <hr>
+        </div>
+        <button mat-raised-button class="btn-add-list" color="primary" (click)="onAddList();">
+            List
+            <span class="material-icons-outlined btn-green">
+                add
+            </span>
+        </button>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <ng-container *ngIf="data; else elseTemplate">
+            <button mat-button cdkFocusInitial (click)="save()">Save</button>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <button mat-button cdkFocusInitial (click)="submit()">Add</button>
+        </ng-template>
+
+    </mat-dialog-actions>

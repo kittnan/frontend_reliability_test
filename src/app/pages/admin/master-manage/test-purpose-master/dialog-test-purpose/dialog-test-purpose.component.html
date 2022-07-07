@@ -1,0 +1,10 @@
+<div>
+    <h4>Test Purpose</h4>
+    <mat-form-field class="w-full" appearance="legacy">
+        <mat-label>Name</mat-label>
+        <input matInput [formControl]="name">
+    </mat-form-field>
+    <mat-slide-toggle [formControl]="description">Description</mat-slide-toggle>
+    <button *ngIf="!data" [disabled]="name.invalid || description.invalid" mat-raised-button class="w-full" color="primary" (click)="onSubmit();">Add</button>
+    <button *ngIf="data" [disabled]="name.invalid || description.invalid" mat-raised-button class="w-full" color="primary" (click)="onSave();">Save</button>
+</div>
