@@ -11,7 +11,7 @@
                 </span>
                
         </button>
-        <span>{{userLogin}}</span>
+        <span class="nav-login">{{userLogin}}</span>
         <button (click)="onLogout()" mat-icon-button class="example-icon" style="margin-left: 5px;" aria-label="Example icon-button with share icon">
             <span class="material-icons-outlined">
                 logout
@@ -23,11 +23,11 @@
         <mat-sidenav #snav mode="over" opened="false">
             <mat-nav-list>
                 <ng-container *ngFor="let item of items; let i=index">
-                    <a mat-list-item routerLinkActive="active" [routerLink]="item.path">
+                    <a mat-list-item routerLinkActive="active" [routerLink]="item.path" (click)="snav.toggle()">
                         <span class="material-icons-outlined">
                             {{item.icon}}
                         </span>
-                        <span>
+                        <span class="side-title">
                             {{item.title}}
                         </span>
                     </a>

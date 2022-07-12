@@ -38,8 +38,6 @@ export interface DialogData {
 
 export class Step3TestingTypeComponent implements OnInit {
 
-  @Input() testingType: any
-  @Output() testingTypeChange = new EventEmitter<any>()
 
 
   testType: any;
@@ -60,16 +58,8 @@ export class Step3TestingTypeComponent implements OnInit {
     inspectionInterval: new FormControl([], Validators.required),
     requestReport: new FormControl([], Validators.required),
   })
-
-
-  // timeInitial = new FormControl('',Validators.required);
   timeInitialList:any[] =[]
-
-  // requestReport = new FormControl('',Validators.required);
-  requestReportList = ['Initial', '100hr', '200hr']
-
   tableDataSource: any[] = []
-
   testingTypeMenu: TestingTypeForm[] = []
   constructor(
     private _loading: NgxUiLoaderService,
@@ -154,12 +144,11 @@ export class Step3TestingTypeComponent implements OnInit {
     setTimeout(() => {
       this._loading.stopAll()
       Swal.fire('Success', '', 'success')
-    }, 500);
+    }, 200);
   }
 
   onNext() {
-    this.testingType = this.tableDataSource
-    this.testingTypeChange.emit(this.testingType)
+   
     this._homeService.setFormStep3(this.tableDataSource)
   }
 

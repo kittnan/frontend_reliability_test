@@ -1,36 +1,23 @@
 <div fxLayout="row wrap" fxLayoutAlign="center start">
     <div fxFlex="80" style="background-color: red;">
-
         <mat-stepper labelPosition="bottom" #stepper>
             <mat-step>
                 <ng-template matStepLabel>First Step</ng-template>
-                <app-step1-request [(request)]="request"></app-step1-request>
+                <app-step1-request></app-step1-request>
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Test Purpose</ng-template>
-                <app-step2-test-purpose [(testPurpose)]="testPurpose"></app-step2-test-purpose>
+                <app-step2-test-purpose></app-step2-test-purpose>
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Testing Type</ng-template>
-                <app-step3-testing-type [(testingType)]="testingType"></app-step3-testing-type>
+                <app-step3-testing-type></app-step3-testing-type>
             </mat-step>
 
             <mat-step>
                 <ng-template matStepLabel>Done</ng-template>
                 <app-step4-testing-condition></app-step4-testing-condition>
             </mat-step>
-
-
-            <!-- <mat-step>
-                <ng-template matStepLabel>Done</ng-template>
-                <p>You are now done.</p>
-                <div>
-                    {{request |json}}
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
-                    <button mat-button (click)="submit()">Save</button>
-                </div>
-            </mat-step> -->
         </mat-stepper>
 
     </div>

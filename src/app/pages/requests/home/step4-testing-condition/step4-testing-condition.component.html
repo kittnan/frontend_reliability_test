@@ -24,7 +24,7 @@
         </tr>
         <tr>
             <td style="text-align: center; padding: 20px">
-                Date: 2202a/123/2
+                {{dateRequest|date}}
             </td>
             <td style="text-align: center;">
                 Date
@@ -41,7 +41,7 @@
     </table>
 </div>
 <mat-divider></mat-divider>
-
 <div fxLayout="row wrap" fxLayoutAlign="center stretch">
-    <button fxFlex="100" mat-button (click)="onSubmit();">Submit</button>
+    <button fxFlex="100" mat-raised-button matStepperNext color="primary" (click)="onSubmit();">Submit</button>
+    <!-- <button fxFlex="100" mat-raised-button matStepperNext color="primary" [disabled]="validButtonSubmit()" (click)="onSubmit();">Submit</button> -->
 </div>

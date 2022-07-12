@@ -49,6 +49,22 @@ export class HomeServiceService {
   setFormStep4(newValue: any) {
     this.formStep4.next(newValue)
   }
+
+  getFormStep1(){
+    return this._formStep1
+  }
+
+  getFormStep2(){
+    return this._formStep2
+  }
+
+  getFormStep3(){
+    return this._formStep3
+  }
+
+  getFormStep4(){
+    return this._formStep4
+  }
   getFormAll() {
     const form = {
       step1: this.formStep1.value,

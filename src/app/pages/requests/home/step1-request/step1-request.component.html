@@ -62,7 +62,8 @@
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
             <mat-label>Department</mat-label>
             <mat-select formControlName="department" name="department" (selectionChange)="onSelectCorporate()">
-                <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">{{department.name}}</mat-option>
+                <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">
+                    {{department.name}}</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -114,31 +115,28 @@
             <mat-datepicker #picker6></mat-datepicker>
         </mat-form-field>
 
-        <!-- <div fxFlex="40" fxFlex.sm="100">
-
-        </div> -->
 
         <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
             <mat-label>Sample Description</mat-label>
             <textarea matInput rows="5" formControlName="sampleDescription"></textarea>
         </mat-form-field>
-        <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start start">
-            <div mat-subheader>
+        <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+            <div mat-subheader style="padding-left: 0;">
                 Files
                 <button mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn" style="margin-left: 10px;" (click)="fileUpload.click()">Choose
                     file...</button>
-                <input hidden type="file" #fileUpload>
+                <input hidden type="file" #fileUpload (change)="onUploadFile($event);">
             </div>
-            <mat-list-item *ngFor="let folder of folders">
+            <mat-list-item *ngFor="let file of files; let i=index">
                 <mat-icon mat-list-icon>folder</mat-icon>
-                <div mat-line>{{folder.name}} {{folder.size }}Mb</div>
-                <div mat-line> {{folder.updated | date}}</div>
-                <button mat-icon-button color="primary">
+                <div mat-line>{{file.name}} {{file.size |fileSize }}</div>
+                <div mat-line> {{file.updated | date}}</div>
+                <button mat-icon-button color="primary" (click)="onClickViewFile(file);">
                     <span class="material-icons-outlined">
                         pageview
                     </span>
                 </button>
-                <button mat-icon-button color="warn">
+                <button mat-icon-button color="warn" (click)="onClickDelete(file);">
                     <span class="material-icons-outlined">
                         close
                     </span>
@@ -148,13 +146,13 @@
         </mat-list>
 
         <div fxFlex="40" fxFlex.sm="100">
-
         </div>
 
     </div>
     <mat-divider></mat-divider>
 
     <div fxLayout="row wrap" fxLayoutAlign="center stretch">
-        <button fxFlex="100" mat-button matStepperNext (click)="onNext()">Next</button>
+        <button fxFlex="100" mat-raised-button matStepperNext color="primary" (click)="onNext()">Next</button>
+        <!-- <button fxFlex="100" mat-raised-button matStepperNext color="primary" [disabled]="requestForm.invalid" (click)="onNext()">Next</button> -->
     </div>
 </form>

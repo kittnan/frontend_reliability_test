@@ -54,7 +54,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig ={
     AppComponent,
     LoginComponent,
     NotFoundComponent,
-    FooterComponent
+    FooterComponent,
+    
   ],
   imports: [
     AppRoutingModule,

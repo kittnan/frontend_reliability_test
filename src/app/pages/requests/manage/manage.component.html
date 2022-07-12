@@ -1,0 +1,50 @@
+<div fxLayout="row wrap" fxLayoutAlign="center start" style="margin-top: 20px;">
+    <div fxFlex="80">
+        <div fxLayoutAlign="start stretch" fxLayout="row wrap">
+            <mat-form-field fxFlex="50" appearance="legacy">
+                <mat-label>Status</mat-label>
+                <mat-select value="ongoing">
+                    <mat-option *ngFor="let st of status" [value]="st">
+                        {{st|uppercase}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="center start">
+    <div fxFlex="50">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>controlNo</th>
+                    <th>lotNo</th>
+                    <th>modelNo</th>
+                    <th>status</th>
+                    <th width="10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of requests; let i=index">
+                    <td>{{item.step1.controlNo}}</td>
+                    <td>{{item.step1.lotNo}}</td>
+                    <td>{{item.step1.modelNo}}</td>
+                    <td>{{item.status}}</td>
+                    <td>
+                        <button mat-icon-button color="primary" (click)="onClickView(item)">
+                            <span class="material-icons-outlined">
+                                zoom_in
+                            </span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="center start">
+    <div fxFlex="80">
+    </div>
+</div>

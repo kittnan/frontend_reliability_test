@@ -12,6 +12,10 @@ import { Step2TestPurposeComponent } from './home/step2-test-purpose/step2-test-
 import {  Step3TestingTypeComponent } from './home/step3-testing-type/step3-testing-type.component';
 import { Step4TestingConditionComponent } from './home/step4-testing-condition/step4-testing-condition.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ManageComponent } from './manage/manage.component';
+import { SharedModule } from '../shared/shared.module';
+import { DialogComponent } from './manage/dialog/dialog.component';
+import { PipeModule } from 'src/app/pipe/pipe.module';
 
 
 @NgModule({
@@ -22,6 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     Step2TestPurposeComponent,
     Step3TestingTypeComponent,
     Step4TestingConditionComponent,
+    ManageComponent,
+    DialogComponent,
     
   ],
   imports: [
@@ -31,9 +37,12 @@ import { HttpClientModule } from '@angular/common/http';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule,
+    PipeModule
+  ],
+  exports:[
     
-   
   ]
 })
 export class RequestsModule { }

@@ -19,13 +19,13 @@ export class RequestsComponent implements OnInit {
     this.items = [
       {
         path:'/request',
-        icon:'home',
-        title:'Home'
+        icon:'post_add',
+        title:'request'
       },
       {
-        path:'',
+        path:'/request/manage',
         icon:'feed',
-        title:'request'
+        title:'manage'
       }
     ],
     this.userLogin = localStorage.getItem('name')

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HomeServiceService } from '../home-service.service';
 
 export interface TestPurpose {
@@ -20,41 +20,9 @@ export interface TestPurpose {
 })
 export class Step2TestPurposeComponent implements OnInit {
 
-  @Input() testPurpose: any
-  @Output() testPurposeChange = new EventEmitter<any>();
-
-  // testPurposes: TestPurpose[] = [
-  //   {
-  //     _id: '1',
-  //     name: "Optical characteristic measurement for Sample product",
-  //     checked: false,
-  //     description: {
-  //       status: false,
-  //       value: ""
-  //     }
-  //   },
-  //   {
-  //     _id: '2',
-  //     name: "Evaluate New material CRR No: ",
-  //     checked: false,
-  //     description: {
-  //       status: true,
-  //       value: ""
-  //     }
-  //   },
-  //   {
-  //     _id: '3',
-  //     name: "Evaluate New material CRR No: ",
-  //     checked: false,
-  //     description: {
-  //       status: true,
-  //       value: ""
-  //     }
-  //   }
-  // ]
 
   testPurposeForm = new FormGroup({
-    purpose: new FormControl(),
+    purpose: new FormControl('',Validators.required),
     description: new FormControl()
   })
 
@@ -82,21 +50,26 @@ export class Step2TestPurposeComponent implements OnInit {
     })
     purpose.checked = true
     this.testPurposeForm.patchValue({
-      purpose: purpose.name
+      purpose: purpose.name,
+      description:{
+        status: true,
+        value:''
+      }
     })
   }
   onInputDescription(event: any) {
     const value = event.target.value
     this.testPurposeForm.patchValue({
-      description: value
+      description: {
+        status: true,
+        value:value
+      }
     })
   }
 
   onSave() {
-    this.testPurpose = this.testPurposeForm.value
-    console.log(this.testPurpose);
-    this.testPurposeChange.emit(this.testPurpose)
-
+    console.log(this.testPurposeForm.value);
+    
     this._homeService.setFormStep2(this.testPurposeForm.value)
   }
 
