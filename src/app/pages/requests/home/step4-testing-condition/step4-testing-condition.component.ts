@@ -25,7 +25,7 @@ export class Step4TestingConditionComponent implements OnInit {
         private _request: RequestHttpService,
         private _files: FilesHttpService,
         private _load: NgxUiLoaderService,
-        private _toast : ToastService
+        private _toast: ToastService
     ) { }
 
     ngOnInit(): void {
@@ -60,23 +60,44 @@ export class Step4TestingConditionComponent implements OnInit {
         let result = this._homeService.getFormAll()
         result.step4 = step4
         const status = 'request';
-        const resultUploadFile = await this.uploadFile(result.step1.files)
-        result.step1.files = resultUploadFile
-        const body = {
-            ...result,
-            status:status
-        }
-        console.log(body);
-        
-        this._request.insertRequest_form(body).subscribe(res => {
-            if (res.length > 0) {
-                setTimeout(() => {
-                    this._load.stopAll()
-                    this._toast.success();
-                    location.href = '/request'
-                }, 500);
+
+        if (result.step1.files.length > 0) {
+            const resultUploadFile = await this.uploadFile(result.step1.files)
+            result.step1.files = resultUploadFile
+            const body = {
+                ...result,
+                status: status
             }
-        })
+            console.log(body);
+
+            this._request.insertRequest_form(body).subscribe(res => {
+                if (res.length > 0) {
+                    setTimeout(() => {
+                        this._load.stopAll()
+                        this._toast.success();
+                        location.href = '/request'
+                    }, 500);
+                }
+            })
+        } else {
+            const body = {
+                ...result,
+                status: status
+            }
+            console.log(body);
+
+            this._request.insertRequest_form(body).subscribe(res => {
+                if (res.length > 0) {
+                    setTimeout(() => {
+                        this._load.stopAll()
+                        this._toast.success();
+                        location.href = '/request'
+                    }, 500);
+                }
+            })
+        }
+
+
     }
 
     uploadFile(files: FileList) {

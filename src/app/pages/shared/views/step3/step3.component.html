@@ -1,1 +1,57 @@
-<p>step3 works!</p>
+<div fxLayoutAlign="center stretch" fxLayout="row wrap">
+
+
+    <table fxFlex="95" class="table" style="margin: 20px 0;">
+        <thead>
+            <tr>
+                <th rowspan=2>Item</th>
+                <th rowspan=2>Testing Condition/Procedure</th>
+                <th rowspan=2>Operate / No operate</th>
+                <th>
+                    Inspection Require / Specification
+                </th>
+                <th rowspan=2>Inspection: Interval</th>
+                <th rowspan=2>Request Report with Interval</th>
+                <th rowspan=2>Sample No.</th>
+                <th rowspan=2>Q'ty (pcs.)</th>
+            </tr>
+            <tr>
+                <th>
+                    Normal Inspection | Special Inspection
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of step3; let i=index">
+
+                <td>
+                    {{item.itemNo}}
+                </td>
+                <td>
+                    {{item.testingList.name}} : {{item.testingCondition}}
+                </td>
+                <td>
+                    {{item.operate}}
+                </td>
+                <td style="text-align: left;">
+                    {{item.inspection}} : <br>
+                    <pre>{{item.inspectionDescription}}</pre>
+                </td>
+                <td>
+                    {{showSelectReportList(item.inspectionInterval)}}
+                </td>
+                <td>
+                    {{showSelectReportList(item.requestReport)}}
+
+                </td>
+                <td>
+                    {{item.sampleNo}}
+                </td>
+                <td>
+                    {{item.qty}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

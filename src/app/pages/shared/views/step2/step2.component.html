@@ -1,34 +1,15 @@
-<ng-container *ngIf="disable; else elseTemplate">
-    <div fxLayout="row wrap" fxLayoutAlign="center start" style="margin-top: 40px;">
-        <div fxFlex="80" *ngFor="let item of testPurposes" fxLayoutAlign="start center">
+<div fxLayout="row wrap" fxLayoutAlign="space-around start" style="margin-top: 40px;">
+    <div fxFlex="95" fxFlex.sm="100" *ngFor="let item of testPurposes" fxLayoutAlign="start center">
 
-            <mat-radio-group [(ngModel)]="step2.purpose" name="testPurposes">
-                <mat-radio-button [disabled]="true" [value]="item.name" [ngClass]="{mb10: item['description'].status==false}" (change)="onCheckRadio($event,item)" fxLayoutAlign="start center" style="margin-right: 10px;">
-                    {{item.name}}
-                </mat-radio-button>
-            </mat-radio-group>
+        <mat-radio-group [(ngModel)]="step2.purpose" name="testPurposes">
+            <mat-radio-button [disabled]="true" [value]="item.name" [ngClass]="{mb10: item['description'].status==false}" (change)="onCheckRadio($event,item)" fxLayoutAlign="start center" style="margin-right: 10px;">
+                {{item.name}}
+            </mat-radio-button>
+        </mat-radio-group>
 
-            <mat-form-field *ngIf="item['description'].status" fxFlex="auto" class="full-width" appearance="legacy">
-                <mat-label>description </mat-label>
-                <input [disabled]="true" [value]="item['description'].value" [id]="item._id" (change)="onInputDescription($event)" matInput class="full-width">
-            </mat-form-field>
-        </div>
+        <mat-form-field *ngIf="item['description'].status" fxFlex="auto" class="full-width" appearance="legacy">
+            <mat-label>description </mat-label>
+            <input [disabled]="true" [value]="item['description'].value" [id]="item._id" (change)="onInputDescription($event)" matInput class="full-width">
+        </mat-form-field>
     </div>
-</ng-container>
-<ng-template #elseTemplate>
-    <div fxLayout="row wrap" fxLayoutAlign="center start" style="margin-top: 40px;">
-        <div fxFlex="80" *ngFor="let item of testPurposes" fxLayoutAlign="start center">
-
-            <mat-radio-group [(ngModel)]="step2.purpose" name="testPurposes">
-                <mat-radio-button [value]="item.name" [ngClass]="{mb10: item['description'].status==false}" (change)="onCheckRadio($event,item)" fxLayoutAlign="start center" style="margin-right: 10px;">
-                    {{item.name}}
-                </mat-radio-button>
-            </mat-radio-group>
-
-            <mat-form-field *ngIf="item['description'].status" fxFlex="auto" class="full-width" appearance="legacy">
-                <mat-label>description </mat-label>
-                <input [disabled]="!item.checked" [value]="item['description'].value" [id]="item._id" (change)="onInputDescription($event)" matInput class="full-width">
-            </mat-form-field>
-        </div>
-    </div>
-</ng-template>
+</div>

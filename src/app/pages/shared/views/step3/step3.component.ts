@@ -34,6 +34,18 @@ export class Step3Component implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.step3);
+    
+  }
+
+
+  showSelectInterval(item:any){
+    const temp = item
+    return temp?.map((t:any)=>t.name)
+  }
+  showSelectReportList(item:any){
+    const temp = item
+    return temp?.map((t:any)=>t.name)
   }
 
 }

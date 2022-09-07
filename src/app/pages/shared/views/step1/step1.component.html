@@ -1,16 +1,16 @@
-<div *ngIf="step1" fxLayout="row wrap" fxLayoutAlign="space-evenly center">
+<div *ngIf="step1" fxLayout="row wrap" fxLayoutAlign="space-around center">
     <div fxFlex="100">
         <h1 style="text-align: right;">Control No. {{step1.controlNo}}</h1>
     </div>
     <div fxFlex="100" style="border: 1px solid black;">
         <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-            <div fxFlex="50" fxFlex.sm="100">
+            <div fxFlex="50">
                 <h1 style="text-align: center;">Reliability Test Request Form</h1>
             </div>
         </div>
     </div>
 
-    <div fxFlex="40" fxFlex.sm="100" style="margin-top: 20px;">
+    <div fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
         <label>Request status: </label>
         <mat-radio-group [disabled]="disable" [(ngModel)]="step1.requestStatus">
             <mat-radio-button value="normal" style="margin-right: 10px;">Normal</mat-radio-button>
@@ -18,7 +18,7 @@
         </mat-radio-group>
     </div>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" style="margin-top: 20px;">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
         <mat-label>AMT/DST</mat-label>
         <mat-select [disabled]="disable" [(ngModel)]="step1.corporate" name="corporate">
             <mat-option *ngFor="let cor of corporate" [value]="cor.value">
@@ -27,7 +27,7 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100">
         <mat-label>Model No.</mat-label>
         <mat-select [disabled]="disable" [(ngModel)]="step1.modelNo" name="modelNo">
             <ng-container *ngFor="let item of models; let i=index">
@@ -37,28 +37,28 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100">
         <mat-label>Model Name</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.modelName" matInput>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100">
         <mat-label>Type</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.type" matInput>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100">
         <mat-label>Customer</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.customer" matInput>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100">
         <mat-label>Lot no.</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.lotNo" matInput>
     </mat-form-field>
 
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100">
         <mat-label>Department</mat-label>
         <mat-select [disabled]="disable" [(ngModel)]="step1.department" name="department">
             <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">
@@ -66,7 +66,7 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100">
         <mat-label>Request Date</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.requestDate" matInput [matDatepicker]="picker1" (click)="picker1.open()">
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -74,7 +74,7 @@
         <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100">
         <mat-label>Concern Shipment Date</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.concernShipmentDate" matInput [matDatepicker]="picker2" (click)="picker2.open()">
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -82,7 +82,7 @@
         <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
         <mat-label>Input to production date</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.inputToProductionDate" matInput [matDatepicker]="picker3" (click)="picker3.open()">
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -90,7 +90,7 @@
         <mat-datepicker #picker3></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
         <mat-label>Concern Customer Date</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.concernCustomerDate" matInput [matDatepicker]="picker4" (click)="picker4.open()">
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -98,7 +98,7 @@
         <mat-datepicker #picker4></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
         <mat-label>Report Require Date</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.reportRequireDate" matInput [matDatepicker]="picker5" (click)="picker5.open()">
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -106,7 +106,7 @@
         <mat-datepicker #picker5></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
         <mat-label>Sample send to QE within date</mat-label>
         <input [disabled]="disable" [(ngModel)]="step1.sampleSentToQE_withinDate" matInput [matDatepicker]="picker6" (click)="picker6.open()">
         <mat-hint>MM/DD/YYYY</mat-hint>
@@ -115,11 +115,12 @@
     </mat-form-field>
 
 
-    <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+    <mat-form-field appearance="legacy" fxFlex="45" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
         <mat-label>Sample Description</mat-label>
         <textarea matInput rows="5" [disabled]="disable" [(ngModel)]="step1.sampleDescription"></textarea>
     </mat-form-field>
-    <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+
+    <mat-list fxFlex="45" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 10px;">
         <div mat-subheader style="padding-left: 0;">
             Files
 
@@ -137,7 +138,7 @@
         </mat-list-item>
     </mat-list>
 
-    <div fxFlex="40" fxFlex.sm="100">
+    <div fxFlex="45" fxFlex.sm="100">
     </div>
 
 </div>
