@@ -11,7 +11,8 @@
         </div>
     </div>
 
-    <div fxLayout="row wrap" fxLayoutAlign="center stretch">
-        <button fxFlex="100" mat-raised-button matStepperNext color="primary" [disabled]="testPurposeForm.invalid" (click)="onSave()">Next</button>
+    <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+        <button fxFlex="30" mat-raised-button matStepperPrevious color="accent">Back</button>
+        <button fxFlex="30" mat-raised-button color="primary" (click)="onSave()">Next</button>
     </div>
 </form>

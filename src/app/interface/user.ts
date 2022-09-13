@@ -5,7 +5,9 @@ export interface UserForm {
     password: string,
     name: string,
     email: string,
-    authorize: string,
+    department: string,
+    section: string,
+    authorize: Array<any>,
     createdBy: string,
     createdAt: Date,
     updatedAt: Date

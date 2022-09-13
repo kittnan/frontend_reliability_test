@@ -23,6 +23,8 @@ export class DialogAddUserComponent implements OnInit {
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.email, Validators.required]),
     authorize: new FormControl('', Validators.required),
+    department: new FormControl('', Validators.required),
+    section: new FormControl('', Validators.required),
     createdBy: new FormControl('system', Validators.required),
   })
 
@@ -51,7 +53,9 @@ export class DialogAddUserComponent implements OnInit {
         password: this.data.password,
         name: this.data.name,
         email: this.data.email,
-        authorize: this.data.authorize,
+        department: this.data.department,
+        section: this.data.section,
+        authorize: this.data.authorize[0],
         createdBy: this.data.createdBy,
       })
       this._id = this.data._id
@@ -59,11 +63,16 @@ export class DialogAddUserComponent implements OnInit {
   }
   onAddUser() {
     if (this.newUserForm.valid) {
+      const authorize = [this.newUserForm.value.authorize]
       this.newUserForm.patchValue({
         username: this.newUserForm.value.employee_ID,
         createdBy: localStorage.getItem('name')
       })
-      this._user_api.insertUser(this.newUserForm.value).subscribe(res => {
+      const body = {
+        ...this.newUserForm.value,
+        authorize:authorize
+      }
+      this._user_api.insertUser(body).subscribe(res => {
         if (res.length > 0) {
           this._toast.success()
           this.dialogRef.close(true)
@@ -73,9 +82,14 @@ export class DialogAddUserComponent implements OnInit {
   }
   onSaveUser() {
     if (this.newUserForm.valid) {
+      const authorize = [this.newUserForm.value.authorize]
       this.newUserForm.patchValue({
         createdBy: localStorage.getItem('name')
       })
+      const body = {
+        ...this.newUserForm.value,
+        authorize:authorize
+      }
       this._user_api.updateUser(this._id, this.newUserForm.value).subscribe(res => {
         if (res.modifiedCount > 0) {
           this._toast.success()

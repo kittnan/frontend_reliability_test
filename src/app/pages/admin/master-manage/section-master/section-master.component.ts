@@ -3,15 +3,14 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
-import { DialogDepartmentComponent } from './dialog-department/dialog-department.component';
+import { DialogSectionComponent } from './dialog-section/dialog-section.component';
 
 @Component({
-  selector: 'app-department',
-  templateUrl: './department.component.html',
-  styleUrls: ['./department.component.scss']
+  selector: 'app-section-master',
+  templateUrl: './section-master.component.html',
+  styleUrls: ['./section-master.component.scss']
 })
-export class DepartmentComponent implements OnInit {
-
+export class SectionMasterComponent implements OnInit {
 
   filteredMaster: any
   masters: any
@@ -26,7 +25,7 @@ export class DepartmentComponent implements OnInit {
   }
 
   getMaster() {
-    this._master_service.getDepartmentMaster().subscribe(res => {
+    this._master_service.getSectionMaster().subscribe(res => {
       this.masters = res;
       this.filteredMaster = res;
     })
@@ -43,7 +42,7 @@ export class DepartmentComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef: MatDialogRef<any> = this.dialog.open(DialogDepartmentComponent);
+    const dialogRef: MatDialogRef<any> = this.dialog.open(DialogSectionComponent);
     dialogRef.afterClosed().subscribe(res => {
       if (res.length > 0) {
         this.getMaster();
@@ -51,7 +50,7 @@ export class DepartmentComponent implements OnInit {
     })
   }
   onEdit(item: any) {
-    const dialogRef: MatDialogRef<any> = this.dialog.open(DialogDepartmentComponent, {
+    const dialogRef: MatDialogRef<any> = this.dialog.open(DialogSectionComponent, {
       data: item
     });
     dialogRef.afterClosed().subscribe(res => {
@@ -67,7 +66,7 @@ export class DepartmentComponent implements OnInit {
       showCancelButton: true
     }).then(result => {
       if (result.isConfirmed) {
-        this._master_service.deleteDepartmentMaster(item._id).subscribe(res => {
+        this._master_service.deleteSectionMaster(item._id).subscribe(res => {
           if (res.deletedCount > 0) {
             this._toast_service.success();
             this.getMaster();

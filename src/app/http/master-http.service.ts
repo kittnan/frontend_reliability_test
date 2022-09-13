@@ -16,7 +16,15 @@ export class MasterHttpService {
   getAuthorizeMaster(): Observable<any> {
     return this.http.get(`${this.URL}/authorize_master/`)
   }
-
+  insertAuthorizeMaster(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/authorize_master/insert`, data)
+  }
+  updateAuthorizeMaster(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/authorize_master/update/${id}`, data)
+  }
+  deleteAuthorizeMaster(id: any): Observable<any> {
+    return this.http.delete(`${this.URL}/authorize_master/delete/${id}`)
+  }
 
   getDepartmentMaster(): Observable<any> {
     return this.http.get(`${this.URL}/department_master/`)
@@ -29,6 +37,19 @@ export class MasterHttpService {
   }
   deleteDepartmentMaster(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/department_master/delete/${id}`)
+  }
+
+  getSectionMaster(): Observable<any> {
+    return this.http.get(`${this.URL}/section_master/`)
+  }
+  insertSectionMaster(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/section_master/insert`, data)
+  }
+  updateSectionMaster(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/section_master/update/${id}`, data)
+  }
+  deleteSectionMaster(id: any): Observable<any> {
+    return this.http.delete(`${this.URL}/section_master/delete/${id}`)
   }
 
   getModelMaster(): Observable<any> {

@@ -1,5 +1,5 @@
 <div fxLayout="row wrap" fxLayoutAlign="space-evenly start" style="margin-top: 40px;">
-    <table fxFlex="50">
+    <table fxFlex.lg="60" fxFlex.md="80" fxFlex.sm="100">
         <tr>
             <td style="text-align: center; padding: 20px;">
                 Request By
@@ -9,16 +9,22 @@
             </td>
         </tr>
         <tr>
-            <td style=" padding: 50px;">
-                <mat-form-field appearance="legacy" class="w-full">
-                    <mat-label></mat-label>
-                    <input matInput [formControl]="userRequest">
-                </mat-form-field>
+            <td style=" padding: 50px; text-align: center;">
+                {{userLogin?.name}}
             </td>
-            <td style=" padding: 50px;">
-                <mat-form-field appearance="legacy" class="w-full">
+            <td style=" padding: 50px; text-align: center;">
+                <!-- <mat-form-field appearance="legacy" class="w-full">
                     <mat-label></mat-label>
                     <input disabled matInput>
+                </mat-form-field> -->
+
+                <mat-form-field appearance="legacy">
+                    <mat-label></mat-label>
+                    <mat-select [formControl]="userApprove">
+                        <mat-option *ngFor="let item of userApproveList; let i=index" [value]="item">
+                            {{item.name|uppercase}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </td>
         </tr>
@@ -41,7 +47,8 @@
     </table>
 </div>
 <mat-divider></mat-divider>
-<div fxLayout="row wrap" fxLayoutAlign="center stretch">
-    <button fxFlex="100" mat-raised-button matStepperNext color="primary" (click)="onSubmit();">Submit</button>
+<div fxLayout="row wrap" fxLayoutAlign="space-around stretch" style="margin-top: 10px;">
+    <button fxFlex="30" mat-raised-button matStepperPrevious color="accent">Back</button>
+    <button fxFlex="30" mat-raised-button matStepperNext color="primary" [disabled]="userApprove.invalid" (click)="onSubmit();">Submit</button>
     <!-- <button fxFlex="100" mat-raised-button matStepperNext color="primary" [disabled]="validButtonSubmit()" (click)="onSubmit();">Submit</button> -->
 </div>

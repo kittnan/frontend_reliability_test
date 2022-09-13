@@ -10,13 +10,15 @@ export class FilesHttpService {
 
 
 
-  URL = environment.API
+  private URL = environment.API
   constructor(
     private http: HttpClient
   ) { }
 
-  uploadFile(formData: FormData): Observable<any> {
+  uploadFile(formData: any): Observable<any> {
     return this.http.post(`${this.URL}/files/upload`, formData)
   }
+
+
 
 }

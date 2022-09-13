@@ -24,7 +24,8 @@ export class Step1RequestService {
           const newCorporate = corporate.toUpperCase()
           const date = new Date();
           const year = date.getFullYear().toString()[2] + date.getFullYear().toString()[3];
-          const month = date.getMonth().toString().length == 1 ? `0${date.getMonth().toString()}` : date.getMonth().toString();
+          const m = date.getMonth() + 1;
+          const month = m.toString().length == 1 ? `0${m.toString()}` : m.toString();
           let no = (res[0].document + 1).toString();
           no = no.length == 1 ? '00' + no : no;
           no = no.length == 2 ? '0' + no : no;
@@ -35,7 +36,8 @@ export class Step1RequestService {
           const newCorporate = corporate.toUpperCase()
           const date = new Date();
           const year = date.getFullYear().toString()[2] + date.getFullYear().toString()[3];
-          const month = date.getMonth().toString().length == 1 ? `0${date.getMonth().toString()}` : date.getMonth().toString();
+          const m = date.getMonth()+1;
+          const month = m.toString().length == 1 ? `0${m.toString()}` : m.toString();
           const no = '001';
           const number = `00${modelNo}`;
           resolve(`${newCorporate}-${year}-${month}-${no}-${number}`)

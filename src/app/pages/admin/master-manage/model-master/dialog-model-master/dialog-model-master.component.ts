@@ -43,7 +43,9 @@ export class DialogModelMasterComponent implements OnInit {
 
 
   onSubmit() {
-    this._master_service.insertModelMaster(this.modelGroup.value).subscribe(res => {
+    const body = this.modelGroup.value;
+    delete body._id
+    this._master_service.insertModelMaster(body).subscribe(res => {
       if (res.length > 0) {
         this.dialogRef.close(res)
         this._toast_service.success();

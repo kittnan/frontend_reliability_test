@@ -45,13 +45,18 @@ export class UserManageComponent implements OnInit {
   }
 
   onUserFilter(key: any) {
+    console.log(key);
+    
     if (key != '') {
-      let filtered: any = this.users.filter((user: any) =>
+      let filtered: any = this.users.filter((user: UserForm) =>
         user.employee_ID.toLowerCase().includes(key.toLowerCase()) ||
         user.username.toLowerCase().includes(key.toLowerCase()) ||
         user.name.toLowerCase().includes(key.toLowerCase()) ||
         user.email.toLowerCase().includes(key.toLowerCase()) ||
-        user.authorize.toLowerCase().includes(key.toLowerCase())
+        user.authorize.find((auth:any)=> auth.toLowerCase().includes(key.toLowerCase())) ||
+        user.department.toLowerCase().includes(key.toLowerCase())||
+        user.section.toLowerCase().includes(key.toLowerCase())
+
       )
       this.userFiltered = filtered
     } else {

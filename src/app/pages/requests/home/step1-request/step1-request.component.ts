@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CdkStepper } from '@angular/cdk/stepper';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 import { HomeServiceService } from '../home-service.service';
 import { Step1RequestService } from './step1-request.service';
-
 
 export interface FilesForm {
   name: string;
@@ -24,30 +25,32 @@ export interface Department {
 @Component({
   selector: 'app-step1-request',
   templateUrl: './step1-request.component.html',
-  styleUrls: ['./step1-request.component.scss']
+  styleUrls: ['./step1-request.component.scss'],
 })
 export class Step1RequestComponent implements OnInit {
 
+  @ViewChild('fileUpload')
+  fileUpload!: ElementRef
 
-
+  nextStepButton!: HTMLButtonElement
   requestForm = new FormGroup({
     controlNo: new FormControl('', Validators.required),
     corporate: new FormControl('', Validators.required),
     requestStatus: new FormControl('', Validators.required),
     department: new FormControl('', Validators.required),
     requestDate: new FormControl('', Validators.required),
-    concernShipmentDate: new FormControl('', Validators.required),
-    inputToProductionDate: new FormControl('', Validators.required),
-    concernCustomerDate: new FormControl('', Validators.required),
-    reportRequireDate: new FormControl('', Validators.required),
-    sampleSentToQE_withinDate: new FormControl('', Validators.required),
+    concernShipmentDate: new FormControl(''),
+    inputToProductionDate: new FormControl(''),
+    concernCustomerDate: new FormControl(''),
+    reportRequireDate: new FormControl(''),
+    sampleSentToQE_withinDate: new FormControl(''),
     modelNo: new FormControl('', Validators.required),
     modelName: new FormControl('', Validators.required),
     lotNo: new FormControl('', Validators.required),
     type: new FormControl('', Validators.required),
     customer: new FormControl('', Validators.required),
-    sampleDescription: new FormControl('', Validators.required),
-    files: new FormControl()
+    sampleDescription: new FormControl(''),
+    files: new FormControl(<any>[], Validators.required)
   })
 
   corporate: any[] = [
@@ -69,6 +72,7 @@ export class Step1RequestComponent implements OnInit {
     private _homeService: HomeServiceService,
     private _toast_service: ToastService,
     private _loading: NgxUiLoaderService,
+    private _stepper: CdkStepper
 
   ) {
 
@@ -99,17 +103,37 @@ export class Step1RequestComponent implements OnInit {
   }
 
   onUploadFile(e: any) {
-    const filesInput: FileList = e.target.files
+    const filesInput: any = this.fileUpload.nativeElement.files;
+    // console.log(filesInput);
+    // console.log(e.target.files);
+
     if (filesInput.length > 0) {
-      if (filesInput[0].size <= 20000000) {
-        let file: File = e.target.files[0];
-        this.files.push(file)
-      } else {
-        this._toast_service.danger('File is maximum limit 20Mb')
+      let overSize = []
+      for (let index = 0; index < filesInput.length; index++) {
+        if (filesInput[index].size <= 200000) {
+          this.files.push(filesInput[index]);
+          this.requestForm.patchValue({
+            files: this.files
+          })
+        } else {
+          overSize.push(filesInput[index]);
+        }
+
+        if (index + 1 === filesInput.length) {
+          if (overSize.length > 0) {
+            let text = overSize.reduce((prev, now) => {
+              return prev += `${now.name} `
+            }, '')
+            Swal.fire(`Files ${text} is maximum limit 20Mb`,'','warning')
+            this.fileUpload.nativeElement.value = ""
+          } else {
+            this.fileUpload.nativeElement.value = ""
+          }
+        }
       }
-
+    } else {
+      this.fileUpload.nativeElement.value = ""
     }
-
   }
   onClickViewFile(file: File) {
     const fileTypes = ['image/gif', 'image/jpeg', 'image/png']
@@ -122,7 +146,7 @@ export class Step1RequestComponent implements OnInit {
 
   }
 
-  onClickDelete(file: File) {
+  onClickDeleteFile(file: File) {
     Swal.fire({
       title: `Do you want to delete ${file.name}?`,
       icon: 'question',
@@ -130,7 +154,10 @@ export class Step1RequestComponent implements OnInit {
     }).then(ans => {
       if (ans.isConfirmed) {
         this._loading.start()
-        this.files = this.files.filter((f: any) => f != file)
+        this.files = this.files.filter((f: any) => f != file);
+        this.requestForm.patchValue({
+          files: this.files
+        })
         setTimeout(() => {
           this._loading.stopAll()
           Swal.fire('Success', '', 'success')
@@ -140,11 +167,24 @@ export class Step1RequestComponent implements OnInit {
   }
 
   onNext() {
-    this.requestForm.patchValue({
-      files: this.files
-    })
+    // this._stepper.next();
 
-    this._homeService.setFormStep1(this.requestForm.value)
+    this._loading.start()
+    if (this.requestForm.valid) {
+      this.requestForm.patchValue({
+        files: this.files
+      })
+      this._homeService.setFormStep1(this.requestForm.value)
+      setTimeout(() => {
+        this._loading.stopAll();
+        this._stepper.next();
+      }, 500);
+    } else {
+      setTimeout(() => {
+        this._loading.stopAll();
+        Swal.fire('Step 1 not valid !!', '', 'warning');
+      }, 500);
 
+    }
   }
 }

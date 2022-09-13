@@ -1,5 +1,8 @@
+import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import Swal from 'sweetalert2';
 import { HomeServiceService } from '../home-service.service';
 
 export interface TestPurpose {
@@ -28,7 +31,9 @@ export class Step2TestPurposeComponent implements OnInit {
 
   testPurposes: TestPurpose[] = []
   constructor(
-    private _homeService: HomeServiceService
+    private _homeService: HomeServiceService,
+    private _stepper: CdkStepper,
+    private _loading: NgxUiLoaderService,
   ) { }
 
   ngOnInit(): void {
@@ -69,8 +74,19 @@ export class Step2TestPurposeComponent implements OnInit {
 
   onSave() {
     console.log(this.testPurposeForm.value);
-    
-    this._homeService.setFormStep2(this.testPurposeForm.value)
+    this._loading.start()
+    if(this.testPurposeForm.valid){
+      this._homeService.setFormStep2(this.testPurposeForm.value)
+      setTimeout(() => {
+        this._loading.stopAll();
+        this._stepper.next();
+      }, 500);
+    }else{
+      setTimeout(() => {
+        this._loading.stopAll();
+        Swal.fire('Form not valid!!','','warning');
+      }, 500);
+    }
   }
 
 }

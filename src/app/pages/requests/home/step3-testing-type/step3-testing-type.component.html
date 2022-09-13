@@ -1,91 +1,132 @@
 <div [formGroup]="newItemForm" fxLayout="row wrap" fxLayoutAlign="start stretch" style="margin-top: 40px;">
-    <mat-form-field appearance="legacy" fxFlex="33" fxFlex.sm="100">
-        <mat-label>Testing Type</mat-label>
-        <mat-select formControlName="testingType" (selectionChange)="onSelect('type');">
-            <mat-option *ngFor="let test of testingTypeMenu" [value]="test">
-                {{test.group}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="legacy" fxFlex="33" fxFlex.sm="100">
-        <mat-label>Testing List</mat-label>
-        <mat-select formControlName="testingList" (selectionChange)="onSelect('list')">
-            <mat-option *ngFor="let item of testListMenu" [value]="item">
-                {{item.name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <ng-container *ngIf="showDescription(); else elseTemplate">
-        <mat-form-field appearance="legacy" fxFlex="33" fxFlex.sm="100">
-            <mat-label>Other</mat-label>
-            <input matInput formControlName="testingCondition">
+    <div fxFlex="33.33" fxFlex.sm="100">
+        <mat-form-field appearance="legacy" fxFlex="100">
+            <mat-label>Testing Type</mat-label>
+            <mat-select formControlName="testingType" (selectionChange)="onSelect('type');">
+                <mat-option *ngFor="let test of testingTypeMenu" [value]="test">
+                    {{test.group}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
-    </ng-container>
-    <ng-template #elseTemplate>
-        <mat-form-field appearance="legacy" fxFlex="33" fxFlex.sm="100">
-            <mat-label>Testing Condition</mat-label>
-            <mat-select formControlName="testingCondition">
-                <mat-option *ngFor="let item of testConditionMenu" [value]="item.name">
+
+    </div>
+    <div fxFlex="33.33" fxFlex.sm="100">
+        <mat-form-field appearance="legacy" fxFlex="100">
+            <mat-label>Testing List</mat-label>
+            <mat-select formControlName="testingList" (selectionChange)="onSelect('list')">
+                <mat-option *ngFor="let item of testListMenu" [value]="item">
                     {{item.name}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-    </ng-template>
+
+    </div>
+
+    <div fxFlex="33.33" fxFlex.sm="100">
+        <ng-container *ngIf="showDescription(); else elseTemplate">
+            <mat-form-field appearance="legacy" fxFlex="90">
+                <mat-label>Other</mat-label>
+                <input matInput formControlName="testingCondition">
+            </mat-form-field>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <mat-form-field appearance="legacy" fxFlex="90">
+                <mat-label>Testing Condition</mat-label>
+                <input type="text" placeholder="-20±2℃ , 93%RH" matInput formControlName="testingCondition" [matAutocomplete]="testingCondition">
+                <mat-autocomplete autoActiveFirstOption #testingCondition="matAutocomplete">
+                    <mat-option *ngFor="let option of testingConditionFilter | async" [value]="option.name">
+                        {{option.name}}
+                    </mat-option>
+                </mat-autocomplete>
+
+            </mat-form-field>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="symbolCondition('±')">
+                    <span>±</span>
+                </button>
+                <button mat-menu-item (click)="symbolCondition('℃')">
+                    <span>℃</span>
+                </button>
+            </mat-menu>
+        </ng-template>
+    </div>
+
 
 
     <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start stretch">
+        <div fxFlex="33.33" fxFlex.sm="100">
+            <mat-form-field appearance="legacy" fxFlex="100">
+                <mat-label>Operate / No operate</mat-label>
+                <mat-select formControlName="operate">
+                    <mat-option *ngFor="let item of operateMenu" [value]="item">
+                        {{item}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="legacy" fxFlex="25" fxFlex.sm="100">
-            <mat-label>Operate / No operate</mat-label>
-            <mat-select formControlName="operate">
-                <mat-option *ngFor="let item of operateMenu" [value]="item">
-                    {{item}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div fxFlex="33.33" fxFlex.sm="100">
+            <mat-form-field appearance="legacy" fxFlex="100">
+                <mat-label>Inspection Require/Specification</mat-label>
+                <mat-select formControlName="inspection">
+                    <mat-option *ngFor="let item of inspectionMenu" [value]="item">
+                        {{item}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="legacy" fxFlex="25" fxFlex.sm="100">
-            <mat-label>Inspection Require/Specification</mat-label>
-            <mat-select formControlName="inspection">
-                <mat-option *ngFor="let item of inspectionMenu" [value]="item">
-                    {{item}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="50" fxFlex.sm="100" appearance="legacy">
-            <mat-label>Description</mat-label>
-            <textarea matInput formControlName="inspectionDescription" rows="3"></textarea>
-        </mat-form-field>
+        <div fxFlex="33.33" fxFlex.sm="100">
+            <mat-form-field fxFlex="100" appearance="legacy">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="inspectionDescription" rows="4"></textarea>
+            </mat-form-field>
+        </div>
 
     </div>
 
 
 
-
-    <mat-form-field fxFlex="50" appearance="legacy">
-        <mat-label>Inspection: Interval</mat-label>
-        <mat-select formControlName="inspectionInterval" multiple>
-            <mat-select-trigger>
-                <!-- {{newItemForm.value.inspectionInterval? newItemForm.value.inspectionInterval : ''}}  -->
-                {{showSelectInterval(newItemForm.value.inspectionInterval)}}
-            </mat-select-trigger>
-            <mat-option *ngFor="let time of timeInitialList" [value]="time">{{time.name}}</mat-option>
-        </mat-select>
+    <mat-form-field fxFlex="50" fxFlex.sm="100" appearance="legacy">
+        <mat-label>Inspection: Interval(hr)</mat-label>
+        <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip *ngFor="let time of inspectionTime" (removed)="onRemoveInspecTime(time)">
+                {{time}}
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip>
+            <input placeholder="Time..." #inspecTimeInput [formControl]="inspectionIntervalCtr" [matAutocomplete]="itemInspectionInterval" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="onAddInspecTime($event)">
+        </mat-chip-list>
+        <mat-autocomplete #itemInspectionInterval="matAutocomplete" (optionSelected)="onSelectedInspecTime($event)">
+            <mat-option *ngFor="let time of inspectionIntervalFilter | async" [value]="time.name">
+                {{time.name}}
+            </mat-option>
+        </mat-autocomplete>
 
     </mat-form-field>
 
+
+
     <mat-form-field fxFlex="50" appearance="legacy">
-        <mat-label>Request Report with Interval</mat-label>
-        <mat-select formControlName="requestReport" multiple>
-            <mat-select-trigger>
-                <!-- {{newItemForm.value.requestReport? newItemForm.value.requestReport : ''}} -->
-                {{showSelectReportList(newItemForm.value.requestReport)}}
-            </mat-select-trigger>
-            <mat-option *ngFor="let time of timeInitialList" [value]="time">{{time.name}}</mat-option>
-        </mat-select>
+        <mat-label>Request Report with Interval(hr)</mat-label>
+        <mat-chip-list #reportTimeList aria-label="Fruit selection">
+            <mat-chip *ngFor="let time of reportTime" (removed)="onRemoveReportTime(time)">
+                {{time}}
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip>
+            <input placeholder="Time..." #reportTimeInput [formControl]="reportTimeCtr" [matAutocomplete]="itemReportTime" [matChipInputFor]="reportTimeList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="onAddReportTime($event)">
+        </mat-chip-list>
+        <mat-autocomplete #itemReportTime="matAutocomplete" (optionSelected)="onSelectedReportTime($event)">
+            <mat-option *ngFor="let time of reportTimeFilter | async" [value]="time.name">
+                {{time.name}}
+            </mat-option>
+        </mat-autocomplete>
     </mat-form-field>
 
 
@@ -104,78 +145,83 @@
 
 
     <button fxFlex="100" [disabled]="validAddBtn()" (click)="onClickAddNewItem();" mat-raised-button color="primary">ADD</button>
-    <table class="table" style="margin-top: 20px;">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Item</th>
-                <th>Testing Condition/Procedure</th>
-                <th>Operate / No operate</th>
-                <th width="30%">
-                    <tr style="width: 100%;">
-                        <th colspan="2">
-                            Inspection Require / Specification
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            Normal Inspection
-                        </th>
-                        <th>
-                            Special Inspection
-                        </th>
-                    </tr>
-                </th>
-                <th>Inspection: Interval</th>
-                <th>Request Report with Interval</th>
-                <th>Sample No.</th>
-                <th>Q'ty (pcs.)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of tableDataSource; let i=index">
-                <td>
-                    <button mat-icon-button color="warn" (click)="onClickDelete(item,i);">
-                        <span class="material-icons-outlined">
-                            delete
+    <div fxFlex="100" style="overflow-x: auto;">
+        <table class="table" style="margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Item</th>
+                    <th nowrap>Testing Condition/Procedure</th>
+                    <th nowrap>Operate / No operate</th>
+                    <th width="30%" nowrap>
+                        <tr style="width: 100%;">
+                            <th colspan="2">
+                                Inspection Require / Specification
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                Normal Inspection
+                            </th>
+                            <th>
+                                Special Inspection
+                            </th>
+                        </tr>
+                    </th>
+                    <th nowrap>Inspection: Interval</th>
+                    <th nowrap>Request Report with Interval</th>
+                    <th nowrap>Sample No.</th>
+                    <th nowrap>Q'ty (pcs.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of tableDataSource; let i=index">
+                    <td>
+                        <button mat-icon-button color="warn" (click)="onClickDelete(item,i);">
+                            <span class="material-icons-outlined">
+                                delete
                             </span>
-                      </button>
-                </td>
-                <td>
-                    {{item.itemNo}}
-                </td>
-                <td>
-                    {{item.testingList.name}} : {{item.testingCondition}}
-                </td>
-                <td>
-                    {{item.operate}}
-                </td>
-                <td>
-                    {{item.inspection}} : <br>
-                    <pre>{{item.inspectionDescription}}</pre>
-                </td>
-                <td>
-                    {{showSelectReportList(item.inspectionInterval)}}
-                </td>
-                <td>
-                    {{showSelectReportList(item.requestReport)}}
+                        </button>
+                    </td>
+                    <td>
+                        {{item.itemNo}}
+                    </td>
+                    <td>
+                        {{item.testingList.name}} : {{item.testingCondition}}
+                    </td>
+                    <td>
+                        {{item.operate}}
+                    </td>
+                    <td>
+                        {{item.inspection}} : <br>
+                        <pre>{{item.inspectionDescription}}</pre>
+                    </td>
+                    <td>
+                        {{item.inspectionInterval}}
+                        <!-- {{showSelectReportList(item.inspectionInterval)}} -->
+                    </td>
+                    <td>
+                        {{item.requestReport}}
+                        <!-- {{showSelectReportList(item.requestReport)}} -->
 
-                </td>
-                <td>
-                    {{item.sampleNo}}
-                </td>
-                <td>
-                    {{item.qty}}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                    <td>
+                        {{item.sampleNo}}
+                    </td>
+                    <td>
+                        {{item.qty}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
 </div>
 <mat-divider></mat-divider>
 
 
-<div fxLayout="row wrap" fxLayoutAlign="center stretch" style="margin-top: 50px;">
-    <button fxFlex="100" mat-raised-button matStepperNext color="primary" [disabled]="tableDataSource.length==0" (click)="onNext();">Next</button>
+<div fxLayout="row wrap" fxLayoutAlign="space-around stretch" style="margin-top: 50px;">
+    <button fxFlex="30" mat-raised-button matStepperPrevious color="accent">Back</button>
+    <button fxFlex="30" mat-raised-button color="primary" (click)="onNext();">Next</button>
 </div>

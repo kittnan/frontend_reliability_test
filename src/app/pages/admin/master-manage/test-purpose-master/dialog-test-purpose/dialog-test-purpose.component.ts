@@ -45,9 +45,6 @@ export class DialogTestPurposeComponent implements OnInit {
         status: this.description.value
       }
     })
-    console.log(this.TestPurposeForm.value);
-    
-
     this._master_service.insertTestPurposeMaster(this.TestPurposeForm.value).subscribe(res => {
       if (res.length > 0) {
         this.dialogRef.close(res)
@@ -64,9 +61,11 @@ export class DialogTestPurposeComponent implements OnInit {
         status: this.description.value
       }
     })
-
-    this.data = { ...this.TestPurposeForm.value }
-    this._master_service.updateTestPurposeMaster(this.data._id, this.data).subscribe(res => {
+    const body = {
+      ...this.TestPurposeForm.value,
+      _id:this.data._id
+    }
+    this._master_service.updateTestPurposeMaster(body._id, body).subscribe(res => {
       if (res.modifiedCount > 0) {
         this.dialogRef.close(res)
         this._toast_service.success();

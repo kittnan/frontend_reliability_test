@@ -13,7 +13,7 @@ export class RequestHttpService {
   ) { }
 
   // TODO request http
-  getRequest_formById(id:string): Observable<any> {
+  getRequest_formById(id: string): Observable<any> {
     return this.http.get(`${this.URL}/request_form/id/${id}`)
   }
   getRequest_form(): Observable<any> {
@@ -31,4 +31,5 @@ export class RequestHttpService {
   countRequest_form(data: any): Observable<any> {
     return this.http.post(`${this.URL}/request_form/count`, data)
   }
+
 }

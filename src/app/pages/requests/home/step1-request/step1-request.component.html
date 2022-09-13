@@ -123,9 +123,9 @@
         <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
             <div mat-subheader style="padding-left: 0;">
                 Files
-                <button mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn" style="margin-left: 10px;" (click)="fileUpload.click()">Choose
+                <button mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn" [ngClass]="{'primary': requestForm.controls.files.valid}" style="margin-left: 10px;" (click)="fileUpload.click()">Choose
                     file...</button>
-                <input hidden type="file" #fileUpload (change)="onUploadFile($event);">
+                <input hidden type="file" #fileUpload multiple (change)="onUploadFile($event);">
             </div>
             <mat-list-item *ngFor="let file of files; let i=index">
                 <mat-icon mat-list-icon>folder</mat-icon>
@@ -136,7 +136,7 @@
                         pageview
                     </span>
                 </button>
-                <button mat-icon-button color="warn" (click)="onClickDelete(file);">
+                <button mat-icon-button color="warn" (click)="onClickDeleteFile(file);">
                     <span class="material-icons-outlined">
                         close
                     </span>
@@ -152,7 +152,6 @@
     <mat-divider></mat-divider>
 
     <div fxLayout="row wrap" fxLayoutAlign="center stretch">
-        <button fxFlex="100" mat-raised-button matStepperNext color="primary" (click)="onNext()">Next</button>
-        <!-- <button fxFlex="100" mat-raised-button matStepperNext color="primary" [disabled]="requestForm.invalid" (click)="onNext()">Next</button> -->
+        <button fxFlex="100" mat-raised-button color="primary" (click)="onNext()">Next</button>
     </div>
 </form>

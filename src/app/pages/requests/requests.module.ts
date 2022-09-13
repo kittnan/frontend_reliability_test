@@ -9,8 +9,8 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Step1RequestComponent } from './home/step1-request/step1-request.component';
 import { Step2TestPurposeComponent } from './home/step2-test-purpose/step2-test-purpose.component';
-import {  Step3TestingTypeComponent } from './home/step3-testing-type/step3-testing-type.component';
-import { Step4TestingConditionComponent } from './home/step4-testing-condition/step4-testing-condition.component';
+import { Step3TestingTypeComponent } from './home/step3-testing-type/step3-testing-type.component';
+import { Step4DoneComponent } from './home/step4-done/step4-done.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ManageComponent } from './manage/manage.component';
 import { SharedModule } from '../shared/shared.module';
@@ -25,10 +25,10 @@ import { PipeModule } from 'src/app/pipe/pipe.module';
     Step1RequestComponent,
     Step2TestPurposeComponent,
     Step3TestingTypeComponent,
-    Step4TestingConditionComponent,
+    Step4DoneComponent,
     ManageComponent,
     DialogComponent,
-    
+
   ],
   imports: [
     CommonModule,
@@ -41,8 +41,8 @@ import { PipeModule } from 'src/app/pipe/pipe.module';
     SharedModule,
     PipeModule
   ],
-  exports:[
-    
+  exports: [
+
   ]
 })
 export class RequestsModule { }

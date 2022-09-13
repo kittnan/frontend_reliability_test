@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MasterManageComponent implements OnInit {
 
-  masterList:any[] = ['authorize','interval','department','model','testPurpose','testingType']
+  masterList:any[] = ['department','section','authorize','interval','model','testPurpose','testingType']
   masterSelected:any;
   constructor() { }
 

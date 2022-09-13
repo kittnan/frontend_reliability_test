@@ -35,10 +35,7 @@ export class TestPurposeMasterComponent implements OnInit {
   onUserFilter(key: any) {
     if (key != '') {
       this.filteredMaster = this.masters.filter((master: any) =>
-        master.modelName.toLowerCase().includes(key.toLowerCase()) ||
-        master.modelNo.toLowerCase().includes(key.toLowerCase()) ||
-        master.type.toLowerCase().includes(key.toLowerCase()) ||
-        master.customer.toLowerCase().includes(key.toLowerCase()) 
+        master.name.toLowerCase().includes(key.toLowerCase())
       )
     } else {
       this.filteredMaster = this.masters

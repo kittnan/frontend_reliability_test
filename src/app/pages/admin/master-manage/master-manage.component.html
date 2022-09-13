@@ -12,14 +12,17 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
+    <div *ngIf="masterSelected=='department'" fxFlex="40" style="margin-top: 20px;" class="page-box">
+        <app-department></app-department>
+    </div>
+    <div *ngIf="masterSelected=='section'" fxFlex="40" style="margin-top: 20px;" class="page-box">
+        <app-section-master></app-section-master>
+    </div>
     <div *ngIf="masterSelected=='authorize'" fxFlex="40" style="margin-top: 20px;" class="page-box">
         <app-authorize-master></app-authorize-master>
     </div>
     <div *ngIf="masterSelected=='model'" fxFlex="40" style="margin-top: 20px;" class="page-box">
         <app-model-master></app-model-master>
-    </div>
-    <div *ngIf="masterSelected=='department'" fxFlex="40" style="margin-top: 20px;" class="page-box">
-        <app-department></app-department>
     </div>
     <div *ngIf="masterSelected=='testPurpose'" fxFlex="40" style="margin-top: 20px;" class="page-box">
         <app-test-purpose-master></app-test-purpose-master>

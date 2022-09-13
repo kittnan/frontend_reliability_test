@@ -1,19 +1,21 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 16px;
-    text-align: start;
-    border: 1px solid black;
-}
-
-table>tbody>tr {
-    border: 1px solid black;
-}
-
-th {
-    text-align: start;
-}
-
-td {
-    vertical-align: text-top;
+// table {
+//     width: 100%;
+//     border-collapse: collapse;
+//     font-size: 16px;
+//     text-align: start;
+//     border: 1px solid black;
+// }
+// table>tbody>tr {
+//     border: 1px solid black;
+// }
+// th {
+//     text-align: start;
+// }
+// td {
+//     vertical-align: text-top;
+// }
+.box-content {
+    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 20px;
 }
