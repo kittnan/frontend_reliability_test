@@ -14,7 +14,6 @@ import { Step4DoneComponent } from './home/step4-done/step4-done.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ManageComponent } from './manage/manage.component';
 import { SharedModule } from '../shared/shared.module';
-import { DialogComponent } from './manage/dialog/dialog.component';
 import { PipeModule } from 'src/app/pipe/pipe.module';
 
 
@@ -27,7 +26,6 @@ import { PipeModule } from 'src/app/pipe/pipe.module';
     Step3TestingTypeComponent,
     Step4DoneComponent,
     ManageComponent,
-    DialogComponent,
 
   ],
   imports: [

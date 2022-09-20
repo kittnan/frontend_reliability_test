@@ -16,6 +16,7 @@ import {
   NgxUiLoaderConfig
 } from "ngx-ui-loader";
 import { HttpClientModule } from '@angular/common/http';
+import { QeWindowPersonComponent } from './pages/qe-window-person/qe-window-person.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig ={
@@ -55,6 +56,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig ={
     LoginComponent,
     NotFoundComponent,
     FooterComponent,
+    QeWindowPersonComponent,
     
   ],
   imports: [

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { SharedComponent } from './shared.component';
 import { ViewsComponent } from './views/views.component';
@@ -12,6 +12,7 @@ import { PipeModule } from 'src/app/pipe/pipe.module';
 import { Step2Component } from './views/step2/step2.component';
 import { Step3Component } from './views/step3/step3.component';
 import { Step4Component } from './views/step4/step4.component';
+import { DialogViewComponent } from './dialog-view/dialog-view.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { Step4Component } from './views/step4/step4.component';
     Step2Component,
     Step3Component,
     Step4Component,
+    DialogViewComponent
     
   ],
   imports: [
@@ -33,6 +35,7 @@ import { Step4Component } from './views/step4/step4.component';
     HttpClientModule,
     PipeModule
   ],
+  providers:[DatePipe],
   exports:[
     ViewsComponent
   ]

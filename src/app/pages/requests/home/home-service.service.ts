@@ -51,19 +51,19 @@ export class HomeServiceService {
   }
 
   getFormStep1(){
-    return this._formStep1
+    return this.formStep1.value
   }
 
   getFormStep2(){
-    return this._formStep2
+    return this.formStep2.value
   }
 
   getFormStep3(){
-    return this._formStep3
+    return this.formStep3.value
   }
 
   getFormStep4(){
-    return this._formStep4
+    return this.formStep4.value
   }
   getFormAll() {
     const form = {

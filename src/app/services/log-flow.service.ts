@@ -6,22 +6,13 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class FilesHttpService {
-
-
-
+export class LogFlowService {
   private URL = environment.API
   constructor(
     private http: HttpClient
   ) { }
 
-  uploadFile(formData: any): Observable<any> {
-    return this.http.post(`${this.URL}/files/upload`, formData)
+  insertLogFlow(data: any) {
+    return this.http.post(`${this.URL}/log_flow/insert`, data)
   }
-  deleteFile(data: any): Observable<any> {
-    return this.http.post(`${this.URL}/files/delete`,  data)
-  }
-
-
-
 }

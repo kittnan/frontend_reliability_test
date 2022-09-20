@@ -28,7 +28,7 @@ export class LoginService {
         localStorage.setItem('name', user.name);
         this._toast.success();
         setTimeout(() => {
-          this.going()
+          this.going(localStorage.getItem('authorize'))
         }, 2000);
       } else {
         this._toast.danger('login failed!!')
@@ -40,16 +40,19 @@ export class LoginService {
     return this.http.post(`${this.URL}/user/login`, data)
   }
 
-  private going() {
+   going(auth:any) {
     if (localStorage.getItem('token')) {
-      if (localStorage.getItem('authorize') == 'admin') {
+      if (auth == 'admin') {
         this.router.navigate(['/admin'])
       }
-      if (localStorage.getItem('authorize') == 'request') {
+      if (auth == 'request') {
         this.router.navigate(['/request'])
       }
-      if (localStorage.getItem('authorize') == 'approve') {
+      if (auth == 'request_approve') {
         this.router.navigate(['/approve'])
+      }
+      if (auth == 'qe_window_person') {
+        this.router.navigate(['/qe-window-person'])
       }
     }
   }
@@ -57,5 +60,9 @@ export class LoginService {
   private setToken() {
     const token = uuidv4()
     localStorage.setItem('token', token)
+  }
+
+  getProFileById(id:string){
+    return this.http.get(`${this.URL}/user/id/${id}`,)
   }
 }

@@ -127,6 +127,22 @@
                     file...</button>
                 <input hidden type="file" #fileUpload multiple (change)="onUploadFile($event);">
             </div>
+            <mat-list-item *ngFor="let file of files_old; let i=index">
+                <mat-icon *ngIf="file.status" mat-list-icon>folder</mat-icon>
+                <div *ngIf="file.status" mat-line>{{file.name}} {{file.size |fileSize }}</div>
+                <div *ngIf="file.status" mat-line> {{file.updated | date}}</div>
+                <button *ngIf="file.status" mat-icon-button color="primary" (click)="onClickViewFile(file);">
+                    <span class="material-icons-outlined">
+                        pageview
+                    </span>
+                </button>
+                <button *ngIf="file.status" mat-icon-button color="warn" (click)="onClickDeleteFile_old(file);">
+                    <span class="material-icons-outlined">
+                        close
+                    </span>
+                </button>
+
+            </mat-list-item>
             <mat-list-item *ngFor="let file of files; let i=index">
                 <mat-icon mat-list-icon>folder</mat-icon>
                 <div mat-line>{{file.name}} {{file.size |fileSize }}</div>
@@ -151,7 +167,8 @@
     </div>
     <mat-divider></mat-divider>
 
-    <div fxLayout="row wrap" fxLayoutAlign="center stretch">
-        <button fxFlex="100" mat-raised-button color="primary" (click)="onNext()">Next</button>
+    <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+        <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">Back</button>
+        <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">Next</button>
     </div>
 </form>

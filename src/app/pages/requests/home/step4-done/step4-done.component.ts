@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { FilesHttpService } from 'src/app/http/files-http.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { UserForm } from 'src/app/interface/user';
+import { LogFlowService } from 'src/app/services/log-flow.service';
+import { ShareFunctionService } from 'src/app/services/share-function.service';
 import { ToastService } from 'src/app/services/toast.service';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 import { HomeServiceService } from '../home-service.service';
 
 @Component({
@@ -27,6 +29,9 @@ export class Step4DoneComponent implements OnInit {
 
     userLogin!: any;
     userApproveList!: any;
+    config_auth = 'request_approve'
+    edit_status: boolean = false;
+    id_request: any;
     constructor(
         private _homeService: HomeServiceService,
         private _request: RequestHttpService,
@@ -34,7 +39,9 @@ export class Step4DoneComponent implements OnInit {
         private _load: NgxUiLoaderService,
         private _toast: ToastService,
         private _user: UserHttpService,
-        private $router: Router
+        private $router: Router,
+        private route: ActivatedRoute,
+        private $share: ShareFunctionService
     ) { }
 
 
@@ -47,50 +54,138 @@ export class Step4DoneComponent implements OnInit {
         if (_id) {
             this.userLogin = await this._user.getUserById(_id).toPromise();
             this.userRequest.setValue(this.userLogin)
-            this.userApproveList = await this._user.getUserBySection(this.userLogin.section).toPromise()
+            const temp = await this._user.getUserBySection(this.userLogin.section).toPromise()
+            this.userApproveList = await this.filterRequestApprove(temp)
         }
+
+        this.route.queryParams.subscribe(async params => {
+            if (params['id']) {
+                this.id_request = params['id'];
+                this.edit_status = true;
+            }
+        })
+    }
+    filterRequestApprove(userList: any) {
+        return new Promise(resolve => {
+            resolve(
+                userList.filter((user: any) =>
+                    user.authorize.find((auth: any) => auth === this.config_auth)
+                )
+
+            )
+        })
     }
 
     async onSubmit() {
+
+        Swal.fire({
+            title: 'Do you want to request ?',
+            icon: 'question',
+            showCancelButton: true,
+            input: 'textarea',
+        }).then((value: SweetAlertResult) => {
+            if (value.isConfirmed) {
+                this.onConfirm(value.value)
+            }
+        })
+
+    }
+    async onConfirm(confirmValue: string) {
+
+        if (this.edit_status) {
+            this.editData(confirmValue);
+        } else {
+            this.create(confirmValue);
+        }
+
+    }
+
+    private async editData(confirmValue: any) {
         try {
             this._load.start();
             const step4 = await this.setStep4();
-            console.log(step4);
-            
             let stepAll: any = this._homeService.getFormAll();
             stepAll = {
                 ...stepAll,
                 step4: step4,
                 status: 'request'
             }
-            const fileFormData = await this.addFileToFormData(stepAll.step1.files);
-            stepAll.step1.files = await this._files.uploadFile(fileFormData).toPromise();
+            if (stepAll.step1.files.length > 0) {
+                const fileFormData = await this.addFileToFormData(stepAll.step1.files);
+                stepAll.step1.files = await this._files.uploadFile(fileFormData).toPromise();
+                if (stepAll.step1.files_old.length > 0) {
+                    const resDeleteFile = await this._files.deleteFile(this.step1.files_old).toPromise();
+                    stepAll.step1.files = stepAll.step1.files.concat(resDeleteFile)
+                    this.updateData(stepAll, confirmValue)
+                } else {
+                    this.updateData(stepAll, confirmValue)
+
+                }
+            } else {
+                this.updateData(stepAll, confirmValue)
+            }
+   
+        } catch (error) {
+
+        }
+    }
+    async updateData(stepAll: any, confirmValue: any) {
+        const updated = await this.updateRequest(stepAll);
+        if (updated) {
+            (await this.$share.insertLogFlow('request', stepAll.step1.controlNo, confirmValue, this.userLogin)).toPromise()
+            this._load.stopAll();
+            Swal.fire('Request form send to approver success!!', '', 'success');
+            setTimeout(() => {
+                this.$router.navigate(['/request/manage'])
+            }, 1000);
+        }
+    }
+
+    private async create(confirmValue: any) {
+        try {
+            this._load.start();
+            const step4 = await this.setStep4();
+            let stepAll: any = this._homeService.getFormAll();
+            stepAll = {
+                ...stepAll,
+                step4: step4,
+                status: 'request'
+            }
+            if (stepAll.step1.files.length > 0) {
+                const fileFormData = await this.addFileToFormData(stepAll.step1.files);
+                stepAll.step1.files = await this._files.uploadFile(fileFormData).toPromise();
+                if (stepAll.step1.files_old.length > 0) {
+                    const resDeleteFile = await this._files.deleteFile(this.step1.files_old).toPromise();
+                    stepAll.step1.files = stepAll.step1.files.concat(resDeleteFile)
+                }
+            }
             const created = await this.createRequest(stepAll);
-            if (created[0].step1.controlNo === stepAll.step1.controlNo) {
-                Swal.fire(`Duplicate control no. Now changed to ${created[0].controlNo}!!`, '', 'warning');
+            if (created && created.msg) {
+                Swal.fire(created.msg, '', 'warning');
                 Swal.fire('Request form send to approver success!!', '', 'success');
-                setTimeout(() => {
-                    this._load.stopAll();
-                    this.$router.navigate(['/request/manage'])
-                }, 1000);
             } else {
                 Swal.fire('Request form send to approver success!!', '', 'success');
-                setTimeout(() => {
-                    this._load.stopAll();
-                    this.$router.navigate(['/request/manage'])
-                }, 1000);
             }
+            (await this.$share.insertLogFlow('request', stepAll.step1.controlNo, confirmValue, this.userLogin)).toPromise();
+            setTimeout(() => {
+                this._load.stopAll();
+                this.$router.navigate(['/request/manage'])
+            }, 1000);
 
         } catch (error) {
             this._load.stopAll();
         } finally {
             this._load.stopAll();
+
         }
-
-
     }
+
     async createRequest(body: any) {
         return await this._request.insertRequest_form(body).toPromise()
+    }
+
+    async updateRequest(body: any) {
+        return await this._request.updateRequest_form(this.id_request, body).toPromise();
     }
 
     addFileToFormData(files: any) {
@@ -111,22 +206,21 @@ export class Step4DoneComponent implements OnInit {
 
     setStep4() {
         return new Promise(resolve => {
-            console.log(this.userLogin);
-            console.log(this.userApprove);
-            
+            let arr = []
+            arr.push({
+                access: 'request',
+                name: this.userLogin,
+                status: true,
+                time: new Date()
+            })
+            arr.push({
+                access: 'request_approve',
+                name: this.userApprove.value,
+                status: false,
+                time: null
+            })
             resolve(
-                {
-                    userRequest: {
-                        name: this.userLogin,
-                        status: true,
-                        time: new Date()
-                    },
-                    userApprove: {
-                        name: this.userApprove.value,
-                        status: false,
-                        time: null
-                    }
-                }
+                arr
             )
         })
     }
@@ -136,7 +230,7 @@ export class Step4DoneComponent implements OnInit {
         return new Promise(resolve => {
             let formData = new FormData();
             for (let index = 0; index < files.length; index++) {
-                formData.append('File', files[index], files[index].name)
+                formData.append('Files', files[index], files[index].name)
                 if (index + 1 == files.length) {
                     this._files.uploadFile(formData).subscribe(res => {
                         console.log(res);

@@ -24,11 +24,15 @@ export class AuthService {
     return false
   }
   getAuthorizeApprove() {
-    if (localStorage.getItem('authorize') == 'approve') return true
+    if (localStorage.getItem('authorize') == 'request_approve') return true
     return false
   }
   getAuthorizeAdmin() {
     if (localStorage.getItem('authorize') == 'admin') return true
+    return false
+  }
+  getAuthorizeQeWindowPerson() {
+    if (localStorage.getItem('authorize') == 'qe_window_person') return true
     return false
   }
 

@@ -5,7 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import { DialogComponent } from './dialog/dialog.component';
+import { LoginService } from 'src/app/services/login.service';
+import { environment } from 'src/environments/environment';
+import { DialogViewComponent } from '../../shared/dialog-view/dialog-view.component';
 
 
 
@@ -15,12 +17,13 @@ import { DialogComponent } from './dialog/dialog.component';
   styleUrls: ['./manage.component.scss']
 })
 export class ManageComponent implements OnInit {
-
+  userLogin: any;
+  authorize: any;
   status: any[] = [
-    'ongoing', 'finish'
+    'ongoing', 'finish', 'all'
   ]
   selected_status = 'ongoing'
-  requests: any[] = []
+  requests: any = []
 
   displayedColumns: string[] = ['controlNo', 'lotNo', 'modelNo', 'status', 'btn'];
   pageSizeOptions!: number[];
@@ -30,41 +33,66 @@ export class ManageComponent implements OnInit {
   constructor(
     private _request: RequestHttpService,
     private router: Router,
-    private dialog: MatDialog
+    private _login: LoginService,
+    private dialog: MatDialog,
   ) {
   }
 
   async ngOnInit(): Promise<void> {
+    const id: any = localStorage.getItem('_id')
+    this.userLogin = await this._login.getProFileById(id).toPromise();
+    this.authorize = localStorage.getItem('authorize');
 
-    this.requests = await this._request.getRequest_form().toPromise();
-    this.dataSource = new MatTableDataSource(this.requests);
-    console.log(this.dataSource);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.pageSizeOptions = [5, 10, 25, 100];
+    this.onSelectStatus()
+  }
+
+  getRequestCondition(_id: string, status: any[]) {
+    return this._request.getByCondition({ _id: _id, status: status }).toPromise()
+  }
+  dataAccess(records: any, profile: any) {
+    return new Promise((resolve => {
+      resolve(
+        records.filter((record: any) => record.step4 && record.step4.userRequest.name._id === profile._id)
+      )
+    }))
   }
 
 
   onClickView(item: any) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      data: item,
-      width: '90%',
-      height: '90%'
-    })
+    if (item.status === 'reject_request') {
+      this.router.navigate(['request/home/'], {
+        queryParams: {
+          id: item._id
+        }
+      })
+    } else {
+      const dialogRef = this.dialog.open(DialogViewComponent, {
+        data: item,
+        width: '90%',
+        height: '90%'
+      })
+    }
   }
-  onSelectStatus() {
-    if(this.selected_status ==='ongoing'){
-      this.dataSource = new MatTableDataSource(this.requests.filter((r:any)=> r.status === "request"))
+  async onSelectStatus() {
+    let request
+    if (this.selected_status === 'ongoing') {
+      request = await this.getRequestCondition(this.userLogin._id, ['finish', 'cancel']);
     }
-    if(this.selected_status ==='finish'){
-      this.dataSource = new MatTableDataSource(this.requests.filter((r:any)=> r.status === "approved"))
+    if (this.selected_status === 'finish') {
+      request = await this.getRequestCondition(this.userLogin._id, environment.requestStatusFinish);
     }
+    if (this.selected_status === 'all') {
+      request = await this.getRequestCondition(this.userLogin._id, ['']);
+    }
+    this.dataSource = new MatTableDataSource(request);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.pageSizeOptions = [5, 10, 25, 100];
+
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-    console.log(this.dataSource);
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

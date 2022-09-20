@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit {
       {
         path:'/admin',
         icon:'manage_accounts',
-        title:'Manage'
+        title:'Users Manage'
       },
       {
         path:'/admin/master-manage',

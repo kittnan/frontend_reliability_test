@@ -4,6 +4,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { map, Observable, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -60,7 +61,7 @@ export class Step3TestingTypeComponent implements OnInit {
     inspection: new FormControl(null, Validators.required),
     inspectionDescription: new FormControl(null, Validators.required),
     sampleNo: new FormControl(null, Validators.required),
-    qty: new FormControl(0, [Validators.required,Validators.min(1)]),
+    qty: new FormControl(0, [Validators.required, Validators.min(1)]),
     inspectionInterval: new FormControl(<any>[], Validators.required),
     requestReport: new FormControl(<any>[], Validators.required),
   })
@@ -83,7 +84,8 @@ export class Step3TestingTypeComponent implements OnInit {
   constructor(
     private _loading: NgxUiLoaderService,
     private _homeService: HomeServiceService,
-    private _stepper: CdkStepper
+    private _stepper: CdkStepper,
+    private route: ActivatedRoute
   ) {
     this.testingConditionFilter = this.newItemForm.controls.testingCondition.valueChanges.pipe(
       startWith(''),
@@ -97,6 +99,8 @@ export class Step3TestingTypeComponent implements OnInit {
     this._homeService.getTestingTypeMaster().subscribe(res => this.testingTypeMenu = res)
     this._homeService.getIntervalMaster().subscribe(res => this.timeInitialList = res)
     this._homeService.getIntervalMaster().subscribe(res => this.timeReportList = res)
+    this.newItemForm.controls.inspectionInterval.setValue(this.inspectionTime)
+    this.newItemForm.controls.requestReport.setValue(this.reportTime)
 
     setTimeout(() => {
       this.inspectionIntervalFilter = this.inspectionIntervalCtr.valueChanges.pipe(
@@ -108,6 +112,13 @@ export class Step3TestingTypeComponent implements OnInit {
         map(value => this._filterReportTime(value || ''))
       )
     }, 1000);
+    this.route.queryParams.subscribe(async params => {
+      const id = params['id']
+      if (id) {
+        this.tableDataSource = this._homeService.getFormStep3();
+      }
+    })
+
   }
 
 
@@ -278,15 +289,15 @@ export class Step3TestingTypeComponent implements OnInit {
 
   onNext() {
     this._loading.start();
-    if(this.tableDataSource.length>0){
+    if (this.tableDataSource.length > 0) {
       this._homeService.setFormStep3(this.tableDataSource)
       setTimeout(() => {
-          this._loading.stopAll();
-          this._stepper.next();
+        this._loading.stopAll();
+        this._stepper.next();
       }, 500);
-    }else{
+    } else {
       this._loading.stopAll();
-      Swal.fire('Form not valid!!','','warning');
+      Swal.fire('Form not valid!!', '', 'warning');
     }
   }
 

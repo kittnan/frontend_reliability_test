@@ -1,7 +1,7 @@
 <form>
     <div fxLayout="row wrap" fxLayoutAlign="start start" style="margin-top: 40px;">
         <div fxFlex="100" *ngFor="let purpose of testPurposes">
-            <mat-radio-button [value]="purpose.name" [ngClass]="{mb10: purpose['description'].status==false}" (change)="onCheckRadio($event,purpose)" fxLayoutAlign="start center" style="margin-right: 10px;">
+            <mat-radio-button [value]="purpose.name" [checked]="purpose.checked" [ngClass]="{mb10: purpose['description'].status==false}" (change)="onCheckRadio($event,purpose)" fxLayoutAlign="start center" style="margin-right: 10px;">
                 {{purpose.name}}
             </mat-radio-button>
             <mat-form-field *ngIf="purpose['description'].status" fxFlex="auto" class="full-width" appearance="legacy">

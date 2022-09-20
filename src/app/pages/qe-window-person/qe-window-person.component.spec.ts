@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogComponent } from './dialog.component';
+import { QeWindowPersonComponent } from './qe-window-person.component';
 
-describe('DialogComponent', () => {
-  let component: DialogComponent;
-  let fixture: ComponentFixture<DialogComponent>;
+describe('QeWindowPersonComponent', () => {
+  let component: QeWindowPersonComponent;
+  let fixture: ComponentFixture<QeWindowPersonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogComponent ]
+      declarations: [ QeWindowPersonComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DialogComponent);
+    fixture = TestBed.createComponent(QeWindowPersonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

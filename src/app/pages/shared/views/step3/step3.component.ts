@@ -41,11 +41,11 @@ export class Step3Component implements OnInit {
 
   showSelectInterval(item:any){
     const temp = item
-    return temp?.map((t:any)=>t.name)
+    return temp?.map((t:any)=>t)
   }
   showSelectReportList(item:any){
     const temp = item
-    return temp?.map((t:any)=>t.name)
+    return temp?.map((t:any)=>t)
   }
 
 }

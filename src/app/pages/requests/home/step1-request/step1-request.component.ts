@@ -2,9 +2,11 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { FilesHttpService } from 'src/app/http/files-http.service';
 import { ToastService } from 'src/app/services/toast.service';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 import { HomeServiceService } from '../home-service.service';
 import { Step1RequestService } from './step1-request.service';
 
@@ -50,7 +52,8 @@ export class Step1RequestComponent implements OnInit {
     type: new FormControl('', Validators.required),
     customer: new FormControl('', Validators.required),
     sampleDescription: new FormControl(''),
-    files: new FormControl(<any>[], Validators.required)
+    files: new FormControl(<any>[], Validators.required),
+    files_old: new FormControl()
   })
 
   corporate: any[] = [
@@ -65,25 +68,44 @@ export class Step1RequestComponent implements OnInit {
   ]
 
   files: any[] = []
+  files_old: any[] = []
   models: ModelNo[] = []
   departments: Department[] = []
   constructor(
     private step1: Step1RequestService,
-    private _homeService: HomeServiceService,
+    private _home_service: HomeServiceService,
     private _toast_service: ToastService,
+    private _file_service: FilesHttpService,
     private _loading: NgxUiLoaderService,
-    private _stepper: CdkStepper
+    private _stepper: CdkStepper,
+    private route: ActivatedRoute,
+    private router: Router,
 
   ) {
 
   }
 
   ngOnInit(): void {
-    this._homeService.getModelMaster().subscribe(res => {
+    this._home_service.getModelMaster().subscribe(res => {
       this.models = res
     })
-    this._homeService.getDepartmentMaster().subscribe(res => {
+    this._home_service.getDepartmentMaster().subscribe(res => {
       this.departments = res
+    })
+    this.route.queryParams.subscribe(async params => {
+      const foo = this._home_service.getFormStep1()
+      this.requestForm.patchValue({
+        ...foo
+      })
+      console.log(this.requestForm.value);
+
+      this.files_old = this.requestForm.value.files.map((f: any) => {
+        return {
+          ...f,
+          status: true
+        }
+      })
+
     })
   }
 
@@ -104,8 +126,6 @@ export class Step1RequestComponent implements OnInit {
 
   onUploadFile(e: any) {
     const filesInput: any = this.fileUpload.nativeElement.files;
-    // console.log(filesInput);
-    // console.log(e.target.files);
 
     if (filesInput.length > 0) {
       let overSize = []
@@ -124,7 +144,7 @@ export class Step1RequestComponent implements OnInit {
             let text = overSize.reduce((prev, now) => {
               return prev += `${now.name} `
             }, '')
-            Swal.fire(`Files ${text} is maximum limit 20Mb`,'','warning')
+            Swal.fire(`Files ${text} is maximum limit 20Mb`, '', 'warning')
             this.fileUpload.nativeElement.value = ""
           } else {
             this.fileUpload.nativeElement.value = ""
@@ -135,11 +155,16 @@ export class Step1RequestComponent implements OnInit {
       this.fileUpload.nativeElement.value = ""
     }
   }
-  onClickViewFile(file: File) {
+  onClickViewFile(file: any) {
     const fileTypes = ['image/gif', 'image/jpeg', 'image/png']
-    if (fileTypes.find(t => t == file.type)) {
+    if (file.type && fileTypes.find(t => t == file.type)) {
       const objUrl = URL.createObjectURL(file)
       window.open(objUrl, '_blank')
+    } else {
+      let elem = document.createElement("a");
+      elem.href = file.path;
+      elem.target = '_blank'
+      elem.click();
     }
     // const objUrl = URL.createObjectURL(file)
     // window.open(objUrl,'_blank')
@@ -166,16 +191,31 @@ export class Step1RequestComponent implements OnInit {
     })
   }
 
+  onClickDeleteFile_old(file: any) {
+    Swal.fire({
+      title: `Do you want to delete ${file.name} ?`,
+      icon: 'question',
+      showCancelButton: true
+    }).then(async (value: SweetAlertResult) => {
+      if (value.isConfirmed) {
+        file.status = false;
+      }
+    })
+  }
+
   onNext() {
     // this._stepper.next();
 
     this._loading.start()
     if (this.requestForm.valid) {
       this.requestForm.patchValue({
-        files: this.files
+        files: this.files,
+        files_old: this.files_old || []
       })
-      this._homeService.setFormStep1(this.requestForm.value)
+      this._home_service.setFormStep1(this.requestForm.value)
       setTimeout(() => {
+        console.log(this.requestForm.value);
+        
         this._loading.stopAll();
         this._stepper.next();
       }, 500);
@@ -186,5 +226,8 @@ export class Step1RequestComponent implements OnInit {
       }, 500);
 
     }
+  }
+  onBack() {
+    this.router.navigate(['/request/manage']);
   }
 }

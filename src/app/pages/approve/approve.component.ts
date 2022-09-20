@@ -7,36 +7,32 @@ import { Router } from '@angular/router';
   styleUrls: ['./approve.component.scss']
 })
 export class ApproveComponent implements OnInit {
-  mobileQuery: MediaQueryList;
-  items: any[] = []
 
-  private _mobileQueryListener: () => void;
+  items: any[] = []
+  userLogin!: any;
+
 
   constructor(
-    changeDetectorRef: ChangeDetectorRef,
-     media: MediaMatcher,
-     private router: Router
-     ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+    private router: Router
+  ) {
     this.items = [
       {
-        path:'',
-        icon:'home',
-        title:'manage',
+        path: '',
+        icon: 'home',
+        title: 'manage',
       },
-     
+      this.userLogin = localStorage.getItem('name')
+
     ]
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
   ngOnInit(): void {
   }
 
-  onLogout(){
+  onLogout() {
+    localStorage.clear()
     this.router.navigate(['/'])
   }
 

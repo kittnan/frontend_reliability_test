@@ -31,5 +31,8 @@ export class RequestHttpService {
   countRequest_form(data: any): Observable<any> {
     return this.http.post(`${this.URL}/request_form/count`, data)
   }
+  getByCondition(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/request_form/getByCondition`, data)
+  }
 
 }

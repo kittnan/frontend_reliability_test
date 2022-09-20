@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from './guards/admin.guard';
+import { ApproveGuard } from './guards/approve.guard';
+import { QeWindowPersonGuard } from './guards/qe-window-person.guard';
 import { RequestGuard } from './guards/request.guard';
 import { AdminModule } from './pages/admin/admin.module';
 import { ApproveModule } from './pages/approve/approve.module';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { QeWindowPersonModule } from './pages/qe-window-person/qe-window-person.module';
 
 const routes: Routes = [
   {
@@ -25,11 +29,18 @@ const routes: Routes = [
   },
   {
     path: 'approve',
-    loadChildren: () => ApproveModule
+    loadChildren: () => ApproveModule,
+    canActivate: [ApproveGuard]
   }, 
   {
     path: 'admin',
-    loadChildren: () => AdminModule
+    loadChildren: () => AdminModule,
+    canActivate: [AdminGuard]
+  }, 
+  {
+    path: 'qe-window-person',
+    loadChildren: () => QeWindowPersonModule,
+    canActivate: [QeWindowPersonGuard]
   }, 
   {
     path: '**',

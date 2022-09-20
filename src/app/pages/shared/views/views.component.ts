@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { HomeServiceService } from '../../requests/home/home-service.service';
 
 
@@ -9,7 +11,8 @@ import { HomeServiceService } from '../../requests/home/home-service.service';
 })
 export class ViewsComponent implements OnInit {
 
-  @Input() form: any
+  @Input() formInput: any
+  form: any;
   step1: any
   step2: any
   step3: any
@@ -18,11 +21,15 @@ export class ViewsComponent implements OnInit {
 
   constructor(
     private _homeService: HomeServiceService,
+    private _loading: NgxUiLoaderService
 
   ) { }
 
   ngOnInit(): void {
- 
+    console.log(this.formInput);
+
+
+    this.form = this.formInput;
 
     if (this.form) {
       this.step1 = this.form.step1
@@ -34,8 +41,12 @@ export class ViewsComponent implements OnInit {
     console.log(this.form);
 
   }
-
-  onClick(){
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this._loading.stopAll();
+    }, 500);
+  }
+  onClick() {
     this.form = {
       step1: this.step1,
       step2: this.step2,

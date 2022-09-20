@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class RequestsComponent implements OnInit {
   items: any[] = []
-
   userLogin!:any;
   constructor(
     
@@ -18,14 +17,14 @@ export class RequestsComponent implements OnInit {
     
     this.items = [
       {
-        path:'/request',
+        path:'/request/home',
         icon:'post_add',
-        title:'request'
+        title:'new request'
       },
       {
         path:'/request/manage',
         icon:'feed',
-        title:'manage'
+        title:'request manage'
       }
     ],
     this.userLogin = localStorage.getItem('name')

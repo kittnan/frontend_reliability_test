@@ -19,6 +19,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('_id')){
+        this._login.going(localStorage.getItem('authorize'))
+    }
   }
 
   onLogin() {

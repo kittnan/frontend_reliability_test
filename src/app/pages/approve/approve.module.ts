@@ -8,12 +8,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApproveManageComponent } from './approve-manage/approve-manage.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '../shared/shared.module';
+import { ApproveRequestComponent } from './approve-request/approve-request.component';
 
 
 @NgModule({
   declarations: [
     ApproveComponent,
-    ApproveManageComponent
+    ApproveManageComponent,
+    ApproveRequestComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ]
 })
 export class ApproveModule { }

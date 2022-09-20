@@ -1,6 +1,7 @@
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import Swal from 'sweetalert2';
 import { HomeServiceService } from '../home-service.service';
@@ -25,7 +26,7 @@ export class Step2TestPurposeComponent implements OnInit {
 
 
   testPurposeForm = new FormGroup({
-    purpose: new FormControl('',Validators.required),
+    purpose: new FormControl('', Validators.required),
     description: new FormControl()
   })
 
@@ -34,12 +35,37 @@ export class Step2TestPurposeComponent implements OnInit {
     private _homeService: HomeServiceService,
     private _stepper: CdkStepper,
     private _loading: NgxUiLoaderService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this._homeService.getTestPurposeMaster().subscribe(res => {
-      console.log(res);
-      this.testPurposes = res
+    this.route.queryParams.subscribe(async params => {
+      const id = params['id']
+      if (id) {
+        const step2: any = this._homeService.getFormStep2()
+        this._homeService.getTestPurposeMaster().subscribe(res => {
+          if (res) {
+            this.testPurposes = res;
+            this.testPurposes = this.testPurposes.map((t: any) => {
+              if (t.name == step2.purpose) {
+                this.testPurposeForm.patchValue({
+                  ...step2
+                })
+                t.checked = true;
+                t.description = step2.description
+                return t
+              } else {
+                return t
+              }
+            })
+          }
+        })
+      } else {
+        this._homeService.getTestPurposeMaster().subscribe(res => {
+          this.testPurposes = res
+          
+        })
+      }
     })
   }
 
@@ -56,9 +82,9 @@ export class Step2TestPurposeComponent implements OnInit {
     purpose.checked = true
     this.testPurposeForm.patchValue({
       purpose: purpose.name,
-      description:{
+      description: {
         status: true,
-        value:''
+        value: ''
       }
     })
   }
@@ -67,7 +93,7 @@ export class Step2TestPurposeComponent implements OnInit {
     this.testPurposeForm.patchValue({
       description: {
         status: true,
-        value:value
+        value: value
       }
     })
   }
@@ -75,16 +101,16 @@ export class Step2TestPurposeComponent implements OnInit {
   onSave() {
     console.log(this.testPurposeForm.value);
     this._loading.start()
-    if(this.testPurposeForm.valid){
+    if (this.testPurposeForm.valid) {
       this._homeService.setFormStep2(this.testPurposeForm.value)
       setTimeout(() => {
         this._loading.stopAll();
         this._stepper.next();
       }, 500);
-    }else{
+    } else {
       setTimeout(() => {
         this._loading.stopAll();
-        Swal.fire('Form not valid!!','','warning');
+        Swal.fire('Form not valid!!', '', 'warning');
       }, 500);
     }
   }

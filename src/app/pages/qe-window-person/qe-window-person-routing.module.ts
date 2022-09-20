@@ -1,21 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { ManageComponent } from './manage/manage.component';
-import { RequestsComponent } from './requests.component';
+import { QeApproveManageComponent } from './qe-approve-manage/qe-approve-manage.component';
+import { QeWindowPersonComponent } from './qe-window-person.component';
+
 
 const routes: Routes = [
   {
     path:'',
-    component: RequestsComponent,
+    component: QeWindowPersonComponent,
     children:[
       {
-        path:'home',
-        component:HomeComponent
-      },
-      {
         path:'manage',
-        component:ManageComponent
+        component:QeApproveManageComponent
       },
       {
         path:'',
@@ -30,4 +26,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RequestsRoutingModule { }
+export class QeWindowPersonRoutingModule { }
