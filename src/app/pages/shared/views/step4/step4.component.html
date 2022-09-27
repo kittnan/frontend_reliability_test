@@ -1,37 +1,25 @@
 <div fxLayout="row wrap" fxLayoutAlign="space-evenly start" style="margin-top: 40px;">
-    <table fxFlex="50">
+    <table fxFlex="95">
         <tr>
-            <td style="text-align: center; padding: 20px;">
-                Request By
-            </td>
-            <td style="text-align: center;">
-                Approve By
+            <td *ngFor="let title of table_title; let i=index" class="table-title">
+                {{title.name|uppercase}}
             </td>
         </tr>
         <tr>
-            <td style=" padding: 40px;text-align: center;">
-                {{showUserRequest('name')}}
-            </td>
-            <td style=" padding: 40px;text-align: center">
-                {{showUserApprove('name')}}
+            <td *ngFor="let title of table_title; let i=index" class="table-name">
+                {{show(title,'name')}}
             </td>
         </tr>
         <tr>
-            <td style="text-align: center; padding: 10px">
-                {{showUserRequest('time') |date:'medium'}}
-            </td>
-            <td style="text-align: center;">
-                {{showUserApprove('time')|date:'medium' }}
+            <td *ngFor="let title of table_title; let i=index" class="table-time">
+                {{show(title,'time')|date:'medium' }}
             </td>
         </tr>
         <tr>
-            <td style="text-align: center; padding: 20px">
-                Staff or Upper Level
-            </td>
-            <td style="text-align: center;">
-                Engineer or Upper Level
+            <td *ngFor="let title of table_title; let i=index" class="table-footer">
+                {{title.footer |uppercase}}
             </td>
         </tr>
     </table>
+
 </div>
-<mat-divider></mat-divider>

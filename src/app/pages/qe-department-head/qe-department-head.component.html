@@ -1,0 +1,44 @@
+<div class="example-container">
+    <mat-toolbar color="primary" class="example-toolbar">
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h1 class="example-app-name">Reliability Test</h1>
+        <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+            <span class="material-icons-outlined">
+                account_circle
+                </span>
+               
+        </button>
+        <span class="nav-login">{{userLogin}}</span>
+        <button (click)="onLogout()" mat-icon-button class="example-icon" style="margin-left: 5px;" aria-label="Example icon-button with share icon">
+            <span class="material-icons-outlined">
+                logout
+                </span>
+        </button>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav #snav mode="over" opened="false">
+            <mat-nav-list>
+                <ng-container *ngFor="let item of items; let i=index">
+                    <a mat-list-item routerLinkActive="active" [routerLink]="item.path" (click)="snav.toggle()">
+                        <span class="material-icons-outlined">
+                            {{item.icon}}
+                        </span>
+                        <span class="side-title">
+                            {{item.title}}
+                        </span>
+                    </a>
+
+                </ng-container>
+
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

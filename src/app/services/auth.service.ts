@@ -35,6 +35,18 @@ export class AuthService {
     if (localStorage.getItem('authorize') == 'qe_window_person') return true
     return false
   }
+  getAuthorizeQeEngineer() {
+    if (localStorage.getItem('authorize') == 'qe_engineer') return true
+    return false
+  }
+  getAuthorizeQeSectionHead() {
+    if (localStorage.getItem('authorize') == 'qe_section_head') return true
+    return false
+  }
+  getAuthorizeQeDepartmentHead() {
+    if (localStorage.getItem('authorize') == 'qe_department_head') return true
+    return false
+  }
 
   async getUserLogin() {
     const _id: any = localStorage.getItem('_id')

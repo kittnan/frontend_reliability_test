@@ -7,3 +7,27 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
+
+.table-title {
+    padding: 10px;
+    text-align: center;
+    background-color: rgb(212, 212, 212);
+    font-weight: 600;
+}
+
+.table-name {
+    padding: 30px;
+    text-align: center;
+}
+
+.table-time {
+    padding: 5px;
+    text-align: center;
+}
+
+.table-footer {
+    padding: 5px;
+    text-align: center;
+    background-color: rgb(212, 212, 212);
+    font-weight: 300;
+}

@@ -13,6 +13,10 @@ import { Step2Component } from './views/step2/step2.component';
 import { Step3Component } from './views/step3/step3.component';
 import { Step4Component } from './views/step4/step4.component';
 import { DialogViewComponent } from './dialog-view/dialog-view.component';
+import { Step4TwoComponent } from './views/step4-two/step4-two.component';
+import { TableRequestComponent } from './table-request/table-request.component';
+import { FormRequestComponent } from './form-request/form-request.component';
+import { FilesReportComponent } from './files-report/files-report.component';
 
 
 @NgModule({
@@ -23,7 +27,11 @@ import { DialogViewComponent } from './dialog-view/dialog-view.component';
     Step2Component,
     Step3Component,
     Step4Component,
-    DialogViewComponent
+    DialogViewComponent,
+    Step4TwoComponent,
+    TableRequestComponent,
+    FormRequestComponent,
+    FilesReportComponent
     
   ],
   imports: [
@@ -37,7 +45,9 @@ import { DialogViewComponent } from './dialog-view/dialog-view.component';
   ],
   providers:[DatePipe],
   exports:[
-    ViewsComponent
+    ViewsComponent,
+    TableRequestComponent,
+    FilesReportComponent
   ]
 })
 export class SharedModule { }

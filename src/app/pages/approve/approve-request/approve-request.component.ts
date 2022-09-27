@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
@@ -17,6 +18,10 @@ export class ApproveRequestComponent implements OnInit {
 
   request: any;
   userLogin: any;
+  userApprove = new FormControl('', Validators.required)
+  config_auth = 'qe_window_person'
+  userApproveList: any = [];
+  dateNow!: Date
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -29,6 +34,7 @@ export class ApproveRequestComponent implements OnInit {
   ) {
     const id: any = localStorage.getItem('_id')
     this._user.getUserById(id).subscribe(res => this.userLogin = res)
+    this.dateNow = new Date()
   }
 
   ngOnInit(): void {
@@ -36,13 +42,30 @@ export class ApproveRequestComponent implements OnInit {
       console.log(params['id']);
       const id = params['id']
       this.request = await this._request.getRequest_formById(id).toPromise()
-      console.log(this.request);
+      const findRequestApprove = this.request.step4.find((r: any) => r.access == 'request_approve')
+      if (findRequestApprove) findRequestApprove.time = new Date();
+      this.getUserApprove()
     })
 
     // if (localStorage.getItem('request_id')) {
     //   const id: any = localStorage.getItem('request_id')
     //   this.request = this._request.getRequest_formById(id).toPromise()
     // }
+  }
+  async getUserApprove() {
+    const temp = await this._user.getUserBySection(this.userLogin.section).toPromise();
+    this.userApproveList = await this.filterRequestApprove(temp)
+
+  }
+  filterRequestApprove(userList: any) {
+    return new Promise(resolve => {
+      resolve(
+        userList.filter((user: any) =>
+          user.authorize.find((auth: any) => auth === this.config_auth)
+        )
+
+      )
+    })
   }
   ngAfterViewInit(): void {
     this._loading.stopAll();
@@ -59,16 +82,7 @@ export class ApproveRequestComponent implements OnInit {
       input: 'textarea',
     }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        let ourAccess = this.request.step4.find((a: any) => a.name._id === this.userLogin._id)
-        if (ourAccess) {
-          this.rejectRequest(ourAccess, value.value)
-
-        } else {
-          Swal.fire(`Do not access !!!`, '', 'warning');
-          setTimeout(() => {
-            this.router.navigate(['/approve'])
-          }, 500);
-        }
+        this.rejectRequest(value.value)
       }
     })
   }
@@ -81,36 +95,32 @@ export class ApproveRequestComponent implements OnInit {
       input: 'textarea',
     }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        let ourAccess = this.request.step4.find((a: any) => a.name._id === this.userLogin._id)
-        if (ourAccess) {
-          this.updateRequest(ourAccess, value.value)
-        } else {
-          Swal.fire(`Do not access !!!`, '', 'warning');
-          setTimeout(() => {
-            this.router.navigate(['/approve'])
-          }, 500);
-        }
-
+        this.updateRequest(value.value)
       }
     })
 
   }
 
-  async rejectRequest(ourAccess: any, confirmValue: any) {
-    ourAccess.time = null
-    ourAccess.status = true;
+  async rejectRequest(confirmValue: any) {
     this.request.status = 'reject_request';
     await this._request.updateRequest_form(this.request._id, this.request).toPromise();
-    await (await this.$share.insertLogFlow('request_approve', this.request.step1.controlNo, confirmValue, this.userLogin)).toPromise()
+    await (await this.$share.insertLogFlow('reject_request', this.request.step1.controlNo, confirmValue, this.userLogin)).toPromise()
     this._toast.success();
     setTimeout(() => {
       this.router.navigate(['/approve']);
     }, 500);
   }
-  async updateRequest(ourAccess: any, confirmValue: any) {
-    ourAccess.time = new Date();
-    ourAccess.status = true;
-    this.request.status = 'request_approved';
+  async updateRequest(confirmValue: any) {
+    this.request.status = 'request_approve';
+    this.request.step4.push({
+      access: 'qe_window_person',
+      name: this.userApprove.value,
+      status: false,
+      time: null
+    })
+    const resultFind :any= await this.findMe(this.request.step4)
+    resultFind.status = true;
+    resultFind.time = new Date();
     await this._request.updateRequest_form(this.request._id, this.request).toPromise();
     await (await this.$share.insertLogFlow('request_approve', this.request.step1.controlNo, confirmValue, this.userLogin)).toPromise();
     this._toast.success();
@@ -119,6 +129,18 @@ export class ApproveRequestComponent implements OnInit {
     }, 500);
   }
 
+  findMe(step4:any){
+    return new Promise((resolve,reject)=>{
+      const resultFind = step4.find((u:any)=> u.access =='request_approve')
+      if(resultFind){
+        resolve(resultFind)
+      }else{
+        reject('you not access')
+      }
+    })
+  }
+
+  
 
 
 }

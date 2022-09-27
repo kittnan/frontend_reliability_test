@@ -54,6 +54,15 @@ export class LoginService {
       if (auth == 'qe_window_person') {
         this.router.navigate(['/qe-window-person'])
       }
+      if (auth == 'qe_engineer') {
+        this.router.navigate(['/qe-engineer'])
+      }
+      if (auth == 'qe_section_head') {
+        this.router.navigate(['/qe-section-head'])
+      }
+      if (auth == 'qe_department_head') {
+        this.router.navigate(['/qe-department-head'])
+      }
     }
   }
 

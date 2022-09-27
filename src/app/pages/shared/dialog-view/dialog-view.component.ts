@@ -15,7 +15,8 @@ export class DialogViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    console.log(this.data);
+    
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
