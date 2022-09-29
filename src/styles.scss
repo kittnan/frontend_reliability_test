@@ -26,7 +26,7 @@ body {
     padding: 10px;
 }
 
-.example-container {
+.container {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -78,4 +78,16 @@ h1.example-app-name {
     text-transform: uppercase;
     font-weight: 600;
     font-size: smaller;
+}
+
+.btn-back {
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.btn-next {
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
 }

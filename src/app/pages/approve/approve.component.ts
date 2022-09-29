@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./approve.component.scss']
 })
 export class ApproveComponent implements OnInit {
-
+  sideNav: Boolean = false;
   items: any[] = []
   userLogin!: any;
 

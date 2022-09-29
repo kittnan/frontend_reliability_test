@@ -1,0 +1,16 @@
+<mat-sidenav *ngIf="sideNav" #sideNav mode="over" [opened]="foo">
+    <mat-nav-list>
+        <ng-container *ngFor="let item of items; let i=index">
+            <a mat-list-item routerLinkActive="active" [routerLink]="item.path" (click)="onClickLink()">
+                <span class="material-icons-outlined">
+                    {{item.icon}}
+                </span>
+                <span class="side-title">
+                    {{item.title}}
+                </span>
+            </a>
+
+        </ng-container>
+
+    </mat-nav-list>
+</mat-sidenav>

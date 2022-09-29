@@ -1,7 +1,7 @@
 <form [formGroup]="requestForm">
     <div fxLayout="row wrap" fxLayoutAlign="space-evenly center">
         <div fxFlex="100">
-            <h1 style="text-align: right;">Control No. {{this.requestForm.value.controlNo}}</h1>
+            <h1 style="text-align: right;">CONTROL NO.{{this.requestForm.value.controlNo}}</h1>
         </div>
         <div fxFlex="100" style="border: 1px solid black;">
             <div fxLayout="row wrap" fxLayoutAlign="space-between start">
@@ -19,7 +19,7 @@
             </mat-radio-group>
         </div>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>AMT/DST</mat-label>
             <mat-select formControlName="corporate" name="corporate" (selectionChange)="onSelectCorporate()">
                 <mat-option *ngFor="let cor of corporate" [value]="cor.value">
@@ -28,7 +28,7 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Model No.</mat-label>
             <mat-select formControlName="modelNo" name="modelNo">
                 <ng-container *ngFor="let item of models; let i=index">
@@ -38,28 +38,28 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Model Name</mat-label>
             <input formControlName="modelName" matInput>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Type</mat-label>
             <input formControlName="type" matInput>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Customer</mat-label>
             <input formControlName="customer" matInput>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Lot no.</mat-label>
             <input formControlName="lotNo" matInput>
         </mat-form-field>
 
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Department</mat-label>
             <mat-select formControlName="department" name="department" (selectionChange)="onSelectCorporate()">
                 <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">
@@ -67,7 +67,7 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Request Date</mat-label>
             <input formControlName="requestDate" matInput [matDatepicker]="picker1" (click)="picker1.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -75,7 +75,7 @@
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Concern Shipment Date</mat-label>
             <input formControlName="concernShipmentDate" matInput [matDatepicker]="picker2" (click)="picker2.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -83,7 +83,7 @@
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Input to production date</mat-label>
             <input formControlName="inputToProductionDate" matInput [matDatepicker]="picker3" (click)="picker3.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -91,7 +91,7 @@
             <mat-datepicker #picker3></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Concern Customer Date</mat-label>
             <input formControlName="concernCustomerDate" matInput [matDatepicker]="picker4" (click)="picker4.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -99,7 +99,7 @@
             <mat-datepicker #picker4></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Report Require Date</mat-label>
             <input formControlName="reportRequireDate" matInput [matDatepicker]="picker5" (click)="picker5.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -107,7 +107,7 @@
             <mat-datepicker #picker5></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
             <mat-label>Sample send to QE within date</mat-label>
             <input formControlName="sampleSentToQE_withinDate" matInput [matDatepicker]="picker6" (click)="picker6.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -116,7 +116,7 @@
         </mat-form-field>
 
 
-        <mat-form-field appearance="legacy" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
             <mat-label>Sample Description</mat-label>
             <textarea matInput rows="5" formControlName="sampleDescription"></textarea>
         </mat-form-field>
@@ -165,10 +165,25 @@
         </div>
 
     </div>
-    <mat-divider></mat-divider>
+    <!-- <mat-divider></mat-divider> -->
 
     <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
-        <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">Back</button>
-        <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">Next</button>
+        <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">
+            <span class="material-icons-outlined">
+                keyboard_double_arrow_left
+            </span>
+            <span class="btn-back">
+                Back
+            </span>
+        </button>
+        <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+
+            <span class="material-icons-outlined">
+                keyboard_double_arrow_right
+            </span>
+            <span class="btn-next">
+                Next
+            </span>
+        </button>
     </div>
 </form>

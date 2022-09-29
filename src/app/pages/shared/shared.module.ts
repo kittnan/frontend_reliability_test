@@ -17,6 +17,9 @@ import { Step4TwoComponent } from './views/step4-two/step4-two.component';
 import { TableRequestComponent } from './table-request/table-request.component';
 import { FormRequestComponent } from './form-request/form-request.component';
 import { FilesReportComponent } from './files-report/files-report.component';
+import { HeaderNavComponent } from './header-nav/header-nav.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -31,7 +34,9 @@ import { FilesReportComponent } from './files-report/files-report.component';
     Step4TwoComponent,
     TableRequestComponent,
     FormRequestComponent,
-    FilesReportComponent
+    FilesReportComponent,
+    HeaderNavComponent,
+    SideNavComponent
     
   ],
   imports: [
@@ -41,13 +46,16 @@ import { FilesReportComponent } from './files-report/files-report.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    PipeModule
+    PipeModule,
+    RouterModule
   ],
   providers:[DatePipe],
   exports:[
     ViewsComponent,
     TableRequestComponent,
-    FilesReportComponent
+    FilesReportComponent,
+    HeaderNavComponent,
+    SideNavComponent
   ]
 })
 export class SharedModule { }

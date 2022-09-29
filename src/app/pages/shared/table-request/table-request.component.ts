@@ -78,7 +78,9 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-
+    console.log(this.authorize
+      );
+    
     if (item.status === 'close_job') return true
     if (this.authorize === 'request') {
       if (
@@ -123,7 +125,17 @@ export class TableRequestComponent implements OnInit {
   }
 
   foo(item: any, access: any) {
-    if (item.step4.find((s: any) => s.access === access && s.name._id === this.userLogin._id)) return true
+    console.log(access);
+    
+    const goo = item.step4.find((s: any) => {
+      console.log(s.access,access);
+      console.log(s.name._id,this.userLogin._id);
+      
+      // s.access === access && s.name._id === this.userLogin._id
+    });
+    console.log(goo);
+    
+    if (goo) return true
     return false
   }
 

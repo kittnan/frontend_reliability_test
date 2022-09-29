@@ -14,11 +14,11 @@
             </div>
         </div>
         <form [formGroup]="LoginForm" (submit)="onLogin()" class="card-body" fxLayout="row wrap" fxLayoutAlign="center center">
-            <mat-form-field fxFlex="100" appearance="legacy">
+            <mat-form-field fxFlex="100" appearance="fill">
                 <mat-label>Username</mat-label>
                 <input matInput placeholder="" formControlName="username">
             </mat-form-field>
-            <mat-form-field fxFlex="100" appearance="legacy">
+            <mat-form-field fxFlex="100" appearance="fill">
                 <mat-label>Password</mat-label>
                 <input matInput type="password" placeholder="" formControlName="password">
             </mat-form-field>
@@ -28,6 +28,7 @@
                     <span class="material-icons-outlined">
                         lock_open
                     </span>
+                    
                 </button>
             </div>
         </form>

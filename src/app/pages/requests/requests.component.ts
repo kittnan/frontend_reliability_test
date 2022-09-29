@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 export class RequestsComponent implements OnInit {
   items: any[] = []
   userLogin!:any;
+  
+  panelOpenState = false;
   constructor(
     
     private router: Router
