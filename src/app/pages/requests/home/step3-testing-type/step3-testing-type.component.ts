@@ -252,7 +252,6 @@ export class Step3TestingTypeComponent implements OnInit {
 
 
   onClickAddNewItem() {
-    console.clear()
     console.log(this.newItemForm.value);
     this.newItemForm.patchValue({
       itemNo: this.tableDataSource.length + 1

@@ -1,0 +1,12 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+        autorenew
+    </span>
+    <mat-form-field fxFlex="90" appearance="fill">
+        <mat-label>Cycle</mat-label>
+        <input matInput [(ngModel)]="cycle" (ngModelChange)="emitForm()">
+        <span matSuffix>
+            Round
+        </span>
+    </mat-form-field>
+</div>

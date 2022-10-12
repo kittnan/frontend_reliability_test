@@ -1,0 +1,19 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+        {{icon}}
+    </span>
+    <mat-form-field fxFlex="45" appearance="fill">
+        <mat-label>Temp</mat-label>
+        <input matInput [(ngModel)]="form.temp" (ngModelChange)="emitForm()">
+        <span matSuffix>
+            ±
+        </span>
+    </mat-form-field>
+    <mat-form-field fxFlex="45" appearance="fill">
+        <mat-label>Temp</mat-label>
+        <input matInput [(ngModel)]="form.tempVar" (ngModelChange)="emitForm()">
+        <span matSuffix>
+            ℃
+        </span>
+    </mat-form-field>
+</div>

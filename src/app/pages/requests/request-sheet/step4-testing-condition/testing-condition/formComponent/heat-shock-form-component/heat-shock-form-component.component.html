@@ -1,0 +1,31 @@
+<div fxFlex="90" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+    <div fxFlex="100">
+        <app-temp-form fxFlex="50" [icon]="'thermostat'" (formInputChange)="onEmit()" [(formInput)]="form.tempHigh">
+        </app-temp-form>
+        <app-temp-form fxFlex="50" [icon]="'ac_unit'" (formInputChange)="onEmit()" [(formInput)]="form.tempLow">
+        </app-temp-form>
+    </div>
+
+    <div fxFlex="100">
+        <app-time-form fxFlex="50" (formInputChange)="onEmit()" [(formInput)]="form.time"></app-time-form>
+        <app-cycle-form fxFlex="50" (formInputChange)="onEmit()" [(formInput)]="form.cycle"></app-cycle-form>
+    </div>
+
+    <div fxFlex="100">
+        <span class="material-icons-outlined">
+            timer
+        </span>
+        <mat-form-field fxFlex="45" appearance="fill">
+            <mat-label>Time Total</mat-label>
+            <input matInput [(ngModel)]="form.timeTotal" [readonly]="true">
+        </mat-form-field>
+    </div>
+</div>
+<div fxFlex="10" fxLayoutAlign="center stretch" fxLayout="row wrap" style="align-self:center;text-align: center;">
+    <div fxFlex="100">
+        <span class="material-icons-outlined cursor" style="font-size: 30px;" (click)="onDelete()">
+            delete
+        </span>
+    </div>
+</div>

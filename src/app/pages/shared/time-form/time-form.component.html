@@ -1,0 +1,12 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+        timer
+    </span>
+    <mat-form-field fxFlex="90" appearance="fill">
+        <mat-label>Time(hr)</mat-label>
+        <input matInput [(ngModel)]="time" (ngModelChange)="emitForm()">
+        <span matSuffix>
+            PerTime
+        </span>
+    </mat-form-field>
+</div>

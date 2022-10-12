@@ -1,0 +1,61 @@
+<div fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="box-input">
+
+    <div fxFlex="40" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <label for="" fxFlex="100">
+            High temperature
+        </label>
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>Temperature</mat-label>
+            <input matInput placeholder="60°±2C " [(ngModel)]="form.high" (change)="emitChange()">
+            <mat-icon matSuffix [matMenuTriggerFor]="menu1" style="cursor: pointer;">more_vert</mat-icon>
+        </mat-form-field>
+        <mat-menu #menu1="matMenu">
+            <button mat-menu-item *ngFor="let item of symbolList" (click)="symbolHigh(item)">{{item}}</button>
+        </mat-menu>
+    </div>
+
+    <div fxFlex="40" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <label for="" fxFlex="100">
+            Low temperature
+        </label>
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>Temperature</mat-label>
+            <input matInput placeholder="60°±2C " [(ngModel)]="form.low" (change)="emitChange()">
+            <mat-icon matSuffix [matMenuTriggerFor]="menu2" style="cursor: pointer;">more_vert</mat-icon>
+        </mat-form-field>
+        <mat-menu #menu2="matMenu">
+            <button mat-menu-item *ngFor="let item of symbolList" (click)="symbolLow(item)">{{item}}</button>
+        </mat-menu>
+    </div>
+
+    <div fxFlex="40" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <label for="" fxFlex="100">
+            Time Per Cycle
+        </label>
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>time (hr)</mat-label>
+            <input matInput placeholder="time" [(ngModel)]="form.timePerCycle" (change)="emitChange()">
+        </mat-form-field>
+    </div>
+
+    <div fxFlex="40" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <label for="" fxFlex="100">
+            Cycle
+        </label>
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>cycle</mat-label>
+            <input matInput [(ngModel)]="form.cycle" (change)="emitChange()">
+        </mat-form-field>
+    </div>
+
+    <div fxFlex="40" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <label for="" fxFlex="100">
+            Total Time Hour
+        </label>
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>time (hr)</mat-label>
+            <input matInput [readonly]="true" [(ngModel)]="form.total">
+        </mat-form-field>
+    </div>
+
+</div>

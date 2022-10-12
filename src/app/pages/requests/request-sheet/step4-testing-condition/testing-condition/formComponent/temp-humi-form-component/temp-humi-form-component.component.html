@@ -1,0 +1,9 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <app-temp-form fxFlex="70" [(formInput)]="temp" (formInputChange)="onEmit()"></app-temp-form>
+    <app-humidity-form fxFlex="30" [(formInput)]="humidity" (formInputChange)="onEmit()"></app-humidity-form>
+    <label class="title">
+        <span class="material-icons-outlined cursor" (click)="onDelete()" >
+            delete
+        </span>
+    </label>
+</div>

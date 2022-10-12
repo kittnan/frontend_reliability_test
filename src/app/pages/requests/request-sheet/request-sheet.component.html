@@ -1,0 +1,24 @@
+<div fxLayout="row wrap" fxLayoutAlign="center start">
+    <div fxFlex="80" class="box-step">
+        <mat-stepper labelPosition="end" #stepper>
+            <mat-step>
+                <ng-template matStepLabel>Sheet Detail</ng-template>
+                <app-step1-detail [(requestDetail)]="requestDetail"></app-step1-detail>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Test Purpose</ng-template>
+                <app-step2-testing-purpose [(testingPurpose)]="testingPurpose"></app-step2-testing-purpose>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Testing Type</ng-template>
+                <app-step3-testing-type-form [(testingType)]="testingType"></app-step3-testing-type-form>
+            </mat-step>
+
+            <mat-step>
+                <ng-template matStepLabel>Testing Condition</ng-template>
+                <app-step4-testing-condition></app-step4-testing-condition>
+            </mat-step>
+        </mat-stepper>
+        <!-- <button (click)="foo()">OOO</button> -->
+    </div>
+</div>

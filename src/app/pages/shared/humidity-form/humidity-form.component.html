@@ -1,0 +1,9 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>Humidity</mat-label>
+        <input matInput [(ngModel)]="form.humidity" (change)="emitForm()">
+        <span matSuffix>
+            %RH
+        </span>
+    </mat-form-field>
+</div>

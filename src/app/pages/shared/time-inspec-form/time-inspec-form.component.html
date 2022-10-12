@@ -1,0 +1,26 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+    <span class="material-icons-outlined">
+        schedule
+    </span>
+    <mat-form-field fxFlex="90" class="example-chip-list" appearance="fill">
+        <mat-label>{{title}}</mat-label>
+        <mat-chip-list #time aria-label="Time selection">
+            <mat-chip *ngFor="let time of times" (removed)="remove(time)">
+                {{time}}
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip>
+            <input placeholder="New time..." #timeInput [formControl]="timeCtr" [matAutocomplete]="timeAuto" [matChipInputFor]="time" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)">
+            <span matSuffix>
+                Hr
+            </span>
+        </mat-chip-list>
+        <mat-autocomplete #timeAuto="matAutocomplete" (optionSelected)="select($event)">
+            <mat-option *ngFor="let item of timeFiltered | async" [value]="item">
+                {{item}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>

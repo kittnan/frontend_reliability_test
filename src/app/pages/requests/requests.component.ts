@@ -27,6 +27,11 @@ export class RequestsComponent implements OnInit {
         path:'/request/manage',
         icon:'feed',
         title:'request manage'
+      },
+      {
+        path:'/request/request-sheet',
+        icon:'post_add',
+        title:'new request'
       }
     ],
     this.userLogin = localStorage.getItem('name')

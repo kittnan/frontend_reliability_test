@@ -1,0 +1,5 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <app-temp-form fxFlex="50" [icon]="'thermostat'" [(formInput)]="high" (formInputChange)="onEmit()"></app-temp-form>
+    <app-temp-form fxFlex="50" [icon]="'ac_unit'" [(formInput)]="low" (formInputChange)="onEmit()"></app-temp-form>
+
+</div>

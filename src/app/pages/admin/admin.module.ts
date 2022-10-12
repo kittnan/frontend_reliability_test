@@ -24,6 +24,8 @@ import { SectionMasterComponent } from './master-manage/section-master/section-m
 import { DialogSectionComponent } from './master-manage/section-master/dialog-section/dialog-section.component';
 import { DialogAuthorizeComponent } from './master-manage/authorize-master/dialog-authorize/dialog-authorize.component';
 import { AuthorizeMasterComponent } from './master-manage/authorize-master/authorize-master.component';
+import { TestingConditionMasterComponent } from './master-manage/testing-condition-master/testing-condition-master.component';
+import { DialogTestingConditionComponent } from './master-manage/testing-condition-master/dialog-testing-condition/dialog-testing-condition.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { AuthorizeMasterComponent } from './master-manage/authorize-master/autho
     SectionMasterComponent,
     DialogSectionComponent,
     DialogAuthorizeComponent,
-    AuthorizeMasterComponent
+    AuthorizeMasterComponent,
+    TestingConditionMasterComponent,
+    DialogTestingConditionComponent
   ],
   imports: [
     CommonModule,

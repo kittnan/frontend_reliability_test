@@ -20,6 +20,14 @@ import { FilesReportComponent } from './files-report/files-report.component';
 import { HeaderNavComponent } from './header-nav/header-nav.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { RouterModule } from '@angular/router';
+import { TempFormComponent } from './temp-form/temp-form.component';
+import { HumidityFormComponent } from './humidity-form/humidity-form.component';
+import { CycleFormComponent } from './cycle-form/cycle-form.component';
+import { TimeFormComponent } from './time-form/time-form.component';
+import { OperateFormComponent } from './operate-form/operate-form.component';
+import { TimeInspecFormComponent } from './time-inspec-form/time-inspec-form.component';
+import { SampleFormComponent } from './sample-form/sample-form.component';
+import { QtyFormComponent } from './qty-form/qty-form.component';
 
 
 @NgModule({
@@ -36,8 +44,16 @@ import { RouterModule } from '@angular/router';
     FormRequestComponent,
     FilesReportComponent,
     HeaderNavComponent,
-    SideNavComponent
-    
+    SideNavComponent,
+    TempFormComponent,
+    HumidityFormComponent,
+    CycleFormComponent,
+    TimeFormComponent,
+    OperateFormComponent,
+    TimeInspecFormComponent,
+    SampleFormComponent,
+    QtyFormComponent,
+
   ],
   imports: [
     CommonModule,
@@ -47,15 +63,23 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     HttpClientModule,
     PipeModule,
-    RouterModule
+    RouterModule,
   ],
-  providers:[DatePipe],
-  exports:[
+  providers: [DatePipe],
+  exports: [
     ViewsComponent,
     TableRequestComponent,
     FilesReportComponent,
     HeaderNavComponent,
-    SideNavComponent
+    SideNavComponent,
+    TempFormComponent,
+    HumidityFormComponent,
+    TimeFormComponent,
+    CycleFormComponent,
+    OperateFormComponent,
+    TimeInspecFormComponent,
+    SampleFormComponent,
+    QtyFormComponent
   ]
 })
 export class SharedModule { }

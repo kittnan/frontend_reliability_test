@@ -103,4 +103,17 @@ export class MasterHttpService {
   deleteIntervalMaster(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/interval_master/delete/${id}`)
   }
+
+  getTestingConditionMaster(): Observable<any> {
+    return this.http.get(`${this.URL}/testing_condition_master/`)
+  }
+  insertTestingConditionMaster(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/testing_condition_master/insert`, data)
+  }
+  updateTestingConditionMaster(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/testing_condition_master/update/${id}`, data)
+  }
+  deleteTestingConditionMaster(id: any): Observable<any> {
+    return this.http.delete(`${this.URL}/testing_condition_master/delete/${id}`)
+  }
 }

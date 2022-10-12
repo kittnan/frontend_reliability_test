@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageComponent } from './manage.component';
+import { FormVibrationComponent } from './form-vibration.component';
 
-describe('ManageComponent', () => {
-  let component: ManageComponent;
-  let fixture: ComponentFixture<ManageComponent>;
+describe('FormVibrationComponent', () => {
+  let component: FormVibrationComponent;
+  let fixture: ComponentFixture<FormVibrationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ManageComponent ]
+      declarations: [ FormVibrationComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ManageComponent);
+    fixture = TestBed.createComponent(FormVibrationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

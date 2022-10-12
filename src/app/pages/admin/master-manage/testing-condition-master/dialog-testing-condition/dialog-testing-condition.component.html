@@ -1,0 +1,31 @@
+<div fxLayoutAlign="center stretch" fxLayout="row wrap">
+    <h4 fxFlex="100">Testing Condition</h4>
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="testingCondition.name">
+    </mat-form-field>
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>List Name</mat-label>
+        <mat-chip-list #chipList>
+            <mat-chip *ngFor="let list of testingCondition.list" (removed)="remove(list)">
+                {{list.name}}
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip>
+            <input placeholder="New fruit..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+    </mat-form-field>
+    <ng-container *ngIf="data; else elseTemplate">
+        <button fxFlex="100" mat-raised-button color="primary" (click)="onSubmit()">
+            edit
+        </button>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <button fxFlex="100" mat-raised-button color="primary" (click)="onSubmit()">
+            add
+        </button>
+    </ng-template>
+
+
+</div>

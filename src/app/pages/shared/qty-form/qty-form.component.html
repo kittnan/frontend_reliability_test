@@ -1,0 +1,12 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+        pin
+        </span>
+    <mat-form-field fxFlex="90" appearance="fill">
+        <mat-label>Q'ty</mat-label>
+        <input matInput [(ngModel)]="data" (change)="emitForm()">
+        <span matSuffix>
+            pcs.
+        </span>
+    </mat-form-field>
+</div>

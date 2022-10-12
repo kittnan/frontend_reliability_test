@@ -46,7 +46,6 @@ export class Step4Component implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.clear()
     console.log(this.step4);
 
   }
