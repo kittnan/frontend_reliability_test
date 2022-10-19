@@ -37,30 +37,6 @@
     </mat-accordion>
 
 
-    <!-- <div class="content-condition" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
-        *ngFor="let con of conditions; let i=index">
-        <div fxFlex="15" class="title">
-            <span>
-                {{con.name}}
-            </span>
-        </div>
-        <app-temp-form-component (deleteChange)="onDelete(i)" [icon]="'thermostat'" [(data)]="con.data" fxFlex="85"
-            *ngIf="con.key===1"></app-temp-form-component>
-        <app-temp-humi-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="85" *ngIf="con.key===2">
-        </app-temp-humi-form-component>
-
-        <app-temp-humi-vibration-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="85"
-            *ngIf="con.key===3">
-        </app-temp-humi-vibration-form-component>
-        <app-temp-form-component (deleteChange)="onDelete(i)" [icon]="'ac_unit'" [(data)]="con.data" fxFlex="85"
-            *ngIf="con.key===4">
-        </app-temp-form-component>
-        <app-high-low-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="85" *ngIf="con.key===5">
-        </app-high-low-form-component>
-        <app-heat-shock-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="85" *ngIf="con.key===6">
-        </app-heat-shock-form-component>
-    </div> -->
-
     <mat-form-field appearance="fill" fxFlex="100">
         <mat-label>Select Condition</mat-label>
         <mat-select [(ngModel)]="selected" (ngModelChange)="onSelected()">

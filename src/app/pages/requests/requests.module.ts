@@ -23,12 +23,7 @@ import { Step1DetailComponent } from './request-sheet/step1-detail/step1-detail.
 import { Step2TestingPurposeComponent } from './request-sheet/step2-testing-purpose/step2-testing-purpose.component';
 import { Step3TestingTypeFormComponent } from './request-sheet/step3-testing-type-form/step3-testing-type-form.component';
 import { Step4TestingConditionComponent } from './request-sheet/step4-testing-condition/step4-testing-condition.component';
-import { TestingConditionFormComponent } from './request-sheet/step4-testing-condition/testing-condition-form/testing-condition-form.component';
 import { TestingConditionTableComponent } from './request-sheet/step4-testing-condition/testing-condition-table/testing-condition-table.component';
-import { DialogConditionComponent } from './request-sheet/step4-testing-condition/testing-condition-form/dialog-condition/dialog-condition.component';
-import { FormTempComponent } from './request-sheet/step4-testing-condition/testing-condition-form/form-temp/form-temp.component';
-import { FormHeatShockComponent } from './request-sheet/step4-testing-condition/testing-condition-form/form-heat-shock/form-heat-shock.component';
-import { FormVibrationComponent } from './request-sheet/step4-testing-condition/testing-condition-form/form-vibration/form-vibration.component';
 import { TestingConditionComponent } from './request-sheet/step4-testing-condition/testing-condition/testing-condition.component';
 import { TempFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/temp-form-component/temp-form-component.component';
 import { TempHumiFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/temp-humi-form-component/temp-humi-form-component.component';
@@ -51,12 +46,7 @@ import { HighLowFormComponentComponent } from './request-sheet/step4-testing-con
     Step2TestingPurposeComponent,
     Step3TestingTypeFormComponent,
     Step4TestingConditionComponent,
-    TestingConditionFormComponent,
     TestingConditionTableComponent,
-    DialogConditionComponent,
-    FormTempComponent,
-    FormHeatShockComponent,
-    FormVibrationComponent,
     TestingConditionComponent,
     TempFormComponentComponent,
     TempHumiFormComponentComponent,
