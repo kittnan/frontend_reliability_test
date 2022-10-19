@@ -12,7 +12,9 @@ export class HeatShockFormComponentComponent implements OnInit {
     tempLow: null,
     cycle: null,
     time: null,
-    timeTotal: null
+    timeTotal: null,
+    inspection:null,
+    report:null
   }
 
   @Input() data: any;
@@ -23,7 +25,7 @@ export class HeatShockFormComponentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onEmit() {
+  emit() {
     
     setTimeout(() => {
       this.form.timeTotal = Number(this.form.time) * Number(this.form.cycle);

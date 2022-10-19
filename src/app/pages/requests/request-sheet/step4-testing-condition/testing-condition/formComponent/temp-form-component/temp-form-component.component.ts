@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TempFormService } from './temp-form.service';
 
-
+interface TESTFORM {
+  foo: string | null,
+  doo: string | null
+}
 @Component({
   selector: 'app-temp-form-component',
   templateUrl: './temp-form-component.component.html',
@@ -12,41 +14,32 @@ export class TempFormComponentComponent implements OnInit {
 
 
   @Input() icon = 'thermostat'
-
-  @Input() temp: any
-  @Output() tempChange = new EventEmitter();
-
-
+  @Input() data: any
+  @Output() dataChange = new EventEmitter();
   @Output() deleteChange = new EventEmitter();
 
-  @Input() form: any = {
-    times: [],
-    temp: 0,
+  form: any = {
+    tempHigh: 0,
     operate: '',
-    timeInspec:[],
-    timeReport:[]
+    timeInspec: [],
+    timeReport: [],
+    sampleNo: '',
+    qty: 0
   }
-  @Output() formChange = new EventEmitter();
+
+  test: TESTFORM = {
+    doo: 'asd',
+    foo: null
+  }
   constructor(
-    private $tempForm: TempFormService
   ) { }
 
   ngOnInit(): void {
 
   }
-  setTemp() {
-    setTimeout(() => {
-      // this.$tempForm.setTempForm(this.temp);
-      const data = {
-        temp: this.temp,
-      }
-      this.tempChange.emit(data)
-    }, 200);
-  }
-
   emit() {
     setTimeout(() => {
-      this.formChange.emit(this.form)
+      this.dataChange.emit(this.form)
     }, 200);
   }
 

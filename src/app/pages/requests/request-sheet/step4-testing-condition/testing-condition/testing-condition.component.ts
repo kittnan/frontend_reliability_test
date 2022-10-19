@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { TempFormService } from './formComponent/temp-form-component/temp-form.service';
+import {MatAccordion} from '@angular/material/expansion';
 
 interface ConditionListForm {
   name: string,
@@ -12,7 +13,7 @@ interface ConditionListForm {
   styleUrls: ['./testing-condition.component.scss']
 })
 export class TestingConditionComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
   conditionList: ConditionListForm[] = [
     {
       name: 'High Temperature',
@@ -40,7 +41,7 @@ export class TestingConditionComponent implements OnInit {
     },
 
   ]
-  selected: any;
+  selected: any = 0;
   conditions: any[] = [];
   constructor(
     private $tempForm: TempFormService
@@ -51,7 +52,10 @@ export class TestingConditionComponent implements OnInit {
 
   onSelected() {
     this.conditions.push({ ...this.selected, data: null })
-    this.selected = null;
+    setTimeout(() => {
+      this.selected = 0;
+    }, 100);
+    
   }
 
   foo() {
@@ -60,6 +64,7 @@ export class TestingConditionComponent implements OnInit {
     // console.log(dood);
 
   }
+
 
   onDelete(item: any) {
     Swal.fire({

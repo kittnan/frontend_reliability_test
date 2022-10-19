@@ -28,6 +28,8 @@ import { OperateFormComponent } from './operate-form/operate-form.component';
 import { TimeInspecFormComponent } from './time-inspec-form/time-inspec-form.component';
 import { SampleFormComponent } from './sample-form/sample-form.component';
 import { QtyFormComponent } from './qty-form/qty-form.component';
+import { FrequencyFormComponent } from './frequency-form/frequency-form.component';
+import { AccelerationFormComponent } from './acceleration-form/acceleration-form.component';
 
 
 @NgModule({
@@ -53,6 +55,8 @@ import { QtyFormComponent } from './qty-form/qty-form.component';
     TimeInspecFormComponent,
     SampleFormComponent,
     QtyFormComponent,
+    FrequencyFormComponent,
+    AccelerationFormComponent,
 
   ],
   imports: [
@@ -79,7 +83,9 @@ import { QtyFormComponent } from './qty-form/qty-form.component';
     OperateFormComponent,
     TimeInspecFormComponent,
     SampleFormComponent,
-    QtyFormComponent
+    QtyFormComponent,
+    FrequencyFormComponent,
+    AccelerationFormComponent
   ]
 })
 export class SharedModule { }

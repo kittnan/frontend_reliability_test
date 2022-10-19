@@ -7,8 +7,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class HighLowFormComponentComponent implements OnInit {
 
-  high: any;
-  low: any;
+  form:any = {
+    tempHigh:null,
+    tempLow:null,
+    inspection:null,
+    report:null
+  }
 
   @Input() data: any;
   @Output() dataChange = new EventEmitter();
@@ -19,17 +23,15 @@ export class HighLowFormComponentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onEmit() {
+  emit() {
     setTimeout(() => {
-      const data = {
-        high: this.high,
-        low: this.low
-      }
-      this.dataChange.emit(data)
+      this.dataChange.emit(this.form)
     }, 200);
   }
 
   onDelete() {
     this.deleteChange.emit();
   }
+
+
 }

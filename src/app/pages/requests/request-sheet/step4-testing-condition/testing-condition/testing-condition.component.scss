@@ -4,6 +4,8 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 700;
+    align-self: center;
+    text-align: center;
 }
 
 .c-red {
@@ -16,4 +18,27 @@
 
 .cursor:hover {
     color: red !important;
+}
+
+.content-condition {
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.example-action-buttons {
+    padding-bottom: 20px;
+}
+
+.example-headers-align {
+    margin-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.example-headers-align .mat-form-field+.mat-form-field {
+    margin-left: 8px;
 }

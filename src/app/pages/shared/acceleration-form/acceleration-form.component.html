@@ -1,12 +1,12 @@
 <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
     <span class="material-icons-outlined">
-        water_drop
+        view_in_ar
         </span>
     <mat-form-field fxFlex="90" appearance="fill">
-        <mat-label>Humidity</mat-label>
-        <input matInput [(ngModel)]="form.humidity" (change)="emitForm()">
+        <mat-label>Acceleration</mat-label>
+        <input matInput [(ngModel)]="acceleration" (ngModelChange)="emitForm()">
         <span matSuffix>
-            %RH
+            m/s2
         </span>
     </mat-form-field>
 </div>

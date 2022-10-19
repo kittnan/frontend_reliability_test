@@ -1,9 +1,23 @@
 <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-    <app-temp-form fxFlex="70" [(formInput)]="temp" (formInputChange)="onEmit()"></app-temp-form>
-    <app-humidity-form fxFlex="30" [(formInput)]="humidity" (formInputChange)="onEmit()"></app-humidity-form>
-    <label class="title">
-        <span class="material-icons-outlined cursor" (click)="onDelete()" >
+    <app-temp-form fxFlex="33" [icon]="'thermostat'" (formInputChange)="emit()" [(formInput)]="form.temp">
+    </app-temp-form>
+    <app-humidity-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.humidity"></app-humidity-form>
+
+    <app-operate-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.operate">
+    </app-operate-form>
+    <app-sample-form fxFlex="33" (formInputChange)="emit()"></app-sample-form>
+    <app-qty-form fxFlex="33" (formInputChange)="emit()"></app-qty-form>
+    <app-time-inspec-form fxFlex="33" [title]="'Inspection Time'" (formInputChange)="emit()" [(formInput)]="form.timeInspec">
+    </app-time-inspec-form>
+    <app-time-inspec-form fxFlex="33" [title]="'Report Time'" (formInputChange)="emit()" [(formInput)]="form.timeReport">
+    </app-time-inspec-form>
+
+
+</div>
+<!-- <div fxFlex="10" fxLayoutAlign="center stretch" fxLayout="row wrap" style="align-self:center;text-align: center;">
+    <div fxFlex="100">
+        <span class="material-icons-outlined cursor" style="font-size: 30px;" (click)="onDelete()">
             delete
         </span>
-    </label>
-</div>
+    </div>
+</div> -->

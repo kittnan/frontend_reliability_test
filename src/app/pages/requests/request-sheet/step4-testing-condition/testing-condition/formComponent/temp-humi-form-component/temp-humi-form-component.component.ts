@@ -7,28 +7,32 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class TempHumiFormComponentComponent implements OnInit {
 
-  temp: any;
-  humidity: any;
-
-  @Input() data: any;
+  @Input() icon = 'thermostat'
+  @Input() data: any
   @Output() dataChange = new EventEmitter();
   @Output() deleteChange = new EventEmitter();
 
-  constructor() { }
+  form: any = {
+    temp: 0,
+    operate: '',
+    timeInspec: [],
+    timeReport: [],
+    humidity: ''
+  }
+  constructor(
+  ) { }
 
   ngOnInit(): void {
+
   }
-  onEmit() {
+  emit() {
     setTimeout(() => {
-      const data = {
-        temp: this.temp,
-        humidity: this.humidity
-      }
-      this.dataChange.emit(data)
+      this.dataChange.emit(this.form)
     }, 200);
   }
-  
+
   onDelete() {
     this.deleteChange.emit();
   }
+
 }
