@@ -1,1 +1,49 @@
-<!-- <p>testing-condition-table works!</p> -->
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <table mat-table [dataSource]="data" class="mat-elevation-z8 demo-table">
+        <!-- Position Column -->
+        <ng-container matColumnDef="item">
+            <th mat-header-cell *matHeaderCellDef>Item</th>
+            <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="condition">
+            <th mat-header-cell *matHeaderCellDef> Testing Condition/Procedure </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataTable.name}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="operate">
+            <th mat-header-cell *matHeaderCellDef> Operate / No operate </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataTable.operate}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="inspection">
+            <th mat-header-cell *matHeaderCellDef> Inspection Require/Specification </th>
+            <td mat-cell [attr.rowspan]="data.length" *matCellDef="let element"> {{element.dataTable.inspection.detail}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="timeInspection">
+            <th mat-header-cell *matHeaderCellDef> Inspection: Interval </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataTable.timeInspection}} </td>
+        </ng-container>
+        <ng-container matColumnDef="timeReport">
+            <th mat-header-cell *matHeaderCellDef> Request Report with Interval </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataTable.timeReport}} </td>
+        </ng-container>
+        <ng-container matColumnDef="sampleNo">
+            <th mat-header-cell *matHeaderCellDef> Sample No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataTable.sampleNo}} </td>
+        </ng-container>
+        <ng-container matColumnDef="qty">
+            <th mat-header-cell *matHeaderCellDef> Q'ty (pcs.) </th>
+            <td mat-cell *matCellDef="let element"> {{element.dataTable.qty}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+</div>

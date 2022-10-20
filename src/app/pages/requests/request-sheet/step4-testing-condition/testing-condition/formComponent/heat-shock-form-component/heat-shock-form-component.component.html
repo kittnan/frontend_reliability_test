@@ -1,30 +1,17 @@
 <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
-    <app-temp-form fxFlex="33" [icon]="'ac_unit'" (formInputChange)="emit()" [(formInput)]="form.tempLow">
+    <app-temp-form fxFlex="33" [icon]="'thermostat'" [titleText]="'High Temp'" (formInputChange)="emit()" [(formInput)]="form.highTemp">
     </app-temp-form>
-    <app-temp-form fxFlex="33" [icon]="'thermostat'" (formInputChange)="emit()" [(formInput)]="form.tempHigh">
+    <app-temp-form fxFlex="33" [icon]="'ac_unit'" [titleText]="'Low Temp'" (formInputChange)="emit()" [(formInput)]="form.lowTemp">
     </app-temp-form>
-    <app-time-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.time"></app-time-form>
+    <app-time-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.timeCycle"></app-time-form>
     <app-cycle-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.cycle"></app-cycle-form>
-    <!-- <span class="material-icons-outlined">
-        timer
-    </span>
-    <mat-form-field fxFlex="45" appearance="fill">
-        <mat-label>Time Total</mat-label>
-        <input matInput [(ngModel)]="form.timeTotal" [readonly]="true">
-    </mat-form-field> -->
+
     <app-operate-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.operate"></app-operate-form>
     <app-sample-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.sampleNo"></app-sample-form>
     <app-qty-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.qty"></app-qty-form>
-    <app-time-inspec-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.timeInspection" [title]="'Inspection'">
+    <app-time-inspec-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.timeInspection" [title]="'Inspection Time'">
     </app-time-inspec-form>
-    <app-time-inspec-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.timeReport" [title]="'Report'">
+    <app-time-inspec-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.timeReport" [title]="'Report Time'">
     </app-time-inspec-form>
 </div>
-<!-- <div fxFlex="10" fxLayoutAlign="center stretch" fxLayout="row wrap" style="align-self:center;text-align: center;">
-    <div fxFlex="100">
-        <span class="material-icons-outlined cursor" style="font-size: 30px;" (click)="onDelete()">
-            delete
-        </span>
-    </div>
-</div> -->

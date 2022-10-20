@@ -10,16 +10,16 @@ import { Router } from '@angular/router';
 export class RequestsComponent implements OnInit {
   items: any[] = []
   userLogin!:any;
-  
+
   panelOpenState = false;
   constructor(
-    
+
     private router: Router
     ) {
-    
+
     this.items = [
       {
-        path:'/request/home',
+        path:'/request/request-sheet',
         icon:'post_add',
         title:'new request'
       },
@@ -28,11 +28,11 @@ export class RequestsComponent implements OnInit {
         icon:'feed',
         title:'request manage'
       },
-      {
-        path:'/request/request-sheet',
-        icon:'post_add',
-        title:'new request'
-      }
+      // {
+      //   path:'/request/home',
+      //   icon:'post_add',
+      //   title:'new request'
+      // }
     ],
     this.userLogin = localStorage.getItem('name')
   }

@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
 
-interface TESTFORM {
-  foo: string | null,
-  doo: string | null
-}
+
 @Component({
   selector: 'app-temp-form-component',
   templateUrl: './temp-form-component.component.html',
@@ -14,28 +12,24 @@ export class TempFormComponentComponent implements OnInit {
 
 
   @Input() icon = 'thermostat'
+  @Input() titleText = 'High Temp'
   @Input() data: any
   @Output() dataChange = new EventEmitter();
   @Output() deleteChange = new EventEmitter();
 
-  form: any = {
-    tempHigh: 0,
-    operate: '',
-    timeInspec: [],
-    timeReport: [],
-    sampleNo: '',
-    qty: 0
+  form: TestingConditionForm = {
+    highTemp:null,
+    operate:null,
+    sampleNo:null,
+    qty:null,
+    timeInspection:null,
+    timeReport:null,
   }
 
-  test: TESTFORM = {
-    doo: 'asd',
-    foo: null
-  }
   constructor(
   ) { }
 
   ngOnInit(): void {
-
   }
   emit() {
     setTimeout(() => {

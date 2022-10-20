@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 
 @Component({
@@ -8,6 +8,10 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 })
 export class TestingConditionTableComponent implements OnInit {
 
+  @Input() data: any
+  @Output() dataChange = new EventEmitter();
+
+  displayedColumns: string[] = ['item', 'condition', 'operate','inspection', 'timeInspection','timeReport','sampleNo','qty'];
 
   ngOnInit(): void {
   }

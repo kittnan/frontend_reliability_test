@@ -4,7 +4,10 @@
     </span>
     <mat-form-field fxFlex="90" appearance="fill">
         <mat-label>Operate</mat-label>
-        <mat-select [(ngModel)]="data" (ngModelChange)="emitForm()">
+        <mat-select [(ngModel)]="data" (ngModelChange)="emit()">
+            <mat-option value="">
+                -
+            </mat-option>
             <mat-option *ngFor="let item of items" [value]="item.value">
                 {{item.viewValue}}
             </mat-option>

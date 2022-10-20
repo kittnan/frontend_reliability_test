@@ -10,7 +10,7 @@ export class TimeInspecFormComponent implements OnInit {
   data: any
   @Input() formInput: any
   @Output() formInputChange = new EventEmitter();
-  
+
   @Input() title:any;
   constructor() { }
   ngOnInit(): void {
@@ -18,9 +18,9 @@ export class TimeInspecFormComponent implements OnInit {
 
   inputTime(){
     this.data = this.temp.split(',');
-    this.emitForm()
+    this.emit()
   }
-  emitForm() {
+  emit() {
     this.formInputChange.emit(this.data)
   }
 

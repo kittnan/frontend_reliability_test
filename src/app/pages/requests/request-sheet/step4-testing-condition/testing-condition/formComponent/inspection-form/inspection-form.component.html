@@ -1,0 +1,17 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+    <mat-form-field appearance="fill" fxFlex="50">
+        <mat-label>Inspection Require/Specification</mat-label>
+        <mat-select [(ngModel)]="inspection" (ngModelChange)="emit()">
+            <mat-option [value]="null">-</mat-option>
+            <mat-option *ngFor="let item of items" [value]="item.value">{{item.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="50">
+        <mat-label>Inspection Require/Specification Detail</mat-label>
+        <textarea [(ngModel)]="inspectionDetail" matInput [rows]="5" (change)="emit()"></textarea>
+    </mat-form-field>
+
+
+</div>

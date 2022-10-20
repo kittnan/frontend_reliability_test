@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
 
 @Component({
   selector: 'app-heat-shock-form-component',
@@ -7,15 +8,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class HeatShockFormComponentComponent implements OnInit {
 
-  form: any = {
-    tempHigh: null,
-    tempLow: null,
-    cycle: null,
-    time: null,
-    timeTotal: null,
-    inspection:null,
-    report:null
+  form:TestingConditionForm = {
+    highTemp:null,
+    lowTemp:null,
+    timeCycle:null,
+    operate:null,
+    sampleNo:null,
+    qty:null,
+    timeInspection:null,
+    timeReport:null
   }
+
 
   @Input() data: any;
   @Output() dataChange = new EventEmitter();
@@ -26,9 +29,8 @@ export class HeatShockFormComponentComponent implements OnInit {
   }
 
   emit() {
-    
+
     setTimeout(() => {
-      this.form.timeTotal = Number(this.form.time) * Number(this.form.cycle);
       this.dataChange.emit(this.form)
     }, 200);
   }

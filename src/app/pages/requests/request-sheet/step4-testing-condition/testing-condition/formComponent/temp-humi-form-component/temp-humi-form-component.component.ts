@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
 
 @Component({
   selector: 'app-temp-humi-form-component',
@@ -12,12 +13,14 @@ export class TempHumiFormComponentComponent implements OnInit {
   @Output() dataChange = new EventEmitter();
   @Output() deleteChange = new EventEmitter();
 
-  form: any = {
-    temp: 0,
-    operate: '',
-    timeInspec: [],
-    timeReport: [],
-    humidity: ''
+  form: TestingConditionForm = {
+    highTemp: null,
+    humidity: null,
+    operate: null,
+    sampleNo: null,
+    qty: null,
+    timeInspection: null,
+    timeReport: null,
   }
   constructor(
   ) { }

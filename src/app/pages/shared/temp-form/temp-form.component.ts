@@ -12,10 +12,11 @@ interface TempForm {
 export class TempFormComponent implements OnInit {
 
   form: TempForm = {
-    temp: 0,
-    tempVar: 0
+    temp: null,
+    tempVar: null
   }
   @Input() icon: any
+  @Input() titleText: any = 'High Temp'
   @Input() formInput: any
   @Output() formInputChange = new EventEmitter();
   constructor() { }

@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class OperateFormComponent implements OnInit {
 
-  data: any;
+  data: any = ''
   items: any = [
     {
       value: 'operate',
@@ -24,7 +24,7 @@ export class OperateFormComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  emitForm() {
+  emit() {
     this.formInputChange.emit(this.data)
   }
 

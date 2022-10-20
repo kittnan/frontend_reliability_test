@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
 
 @Component({
   selector: 'app-high-low-form-component',
@@ -7,11 +8,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class HighLowFormComponentComponent implements OnInit {
 
-  form:any = {
-    tempHigh:null,
-    tempLow:null,
-    inspection:null,
-    report:null
+  form:TestingConditionForm = {
+    highTemp:null,
+    lowTemp:null,
+    operate:null,
+    sampleNo:null,
+    qty:null,
+    timeInspection:null,
+    timeReport:null,
   }
 
   @Input() data: any;

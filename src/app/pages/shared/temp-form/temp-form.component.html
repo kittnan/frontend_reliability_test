@@ -3,14 +3,14 @@
         {{icon}}
     </span>
     <mat-form-field fxFlex="45" appearance="fill">
-        <mat-label>Temp</mat-label>
+        <mat-label>{{titleText}}</mat-label>
         <input matInput [(ngModel)]="form.temp" (ngModelChange)="emitForm()">
         <span matSuffix>
             ±
         </span>
     </mat-form-field>
     <mat-form-field fxFlex="45" appearance="fill">
-        <mat-label>Temp</mat-label>
+        <mat-label></mat-label>
         <input matInput [(ngModel)]="form.tempVar" (ngModelChange)="emitForm()">
         <span matSuffix>
             ℃

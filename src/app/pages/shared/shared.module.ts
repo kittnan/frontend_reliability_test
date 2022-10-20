@@ -30,6 +30,7 @@ import { SampleFormComponent } from './sample-form/sample-form.component';
 import { QtyFormComponent } from './qty-form/qty-form.component';
 import { FrequencyFormComponent } from './frequency-form/frequency-form.component';
 import { AccelerationFormComponent } from './acceleration-form/acceleration-form.component';
+import { DirectionFormComponent } from './direction-form/direction-form.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { AccelerationFormComponent } from './acceleration-form/acceleration-form
     QtyFormComponent,
     FrequencyFormComponent,
     AccelerationFormComponent,
+    DirectionFormComponent
 
   ],
   imports: [
@@ -85,7 +87,8 @@ import { AccelerationFormComponent } from './acceleration-form/acceleration-form
     SampleFormComponent,
     QtyFormComponent,
     FrequencyFormComponent,
-    AccelerationFormComponent
+    AccelerationFormComponent,
+    DirectionFormComponent
   ]
 })
 export class SharedModule { }

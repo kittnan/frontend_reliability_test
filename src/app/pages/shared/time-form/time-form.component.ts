@@ -14,6 +14,7 @@ export class TimeFormComponent implements OnInit {
   ngOnInit(): void {
   }
   emitForm() {
+    // const time_hour = Number(this.time)/60;
     this.formInputChange.emit(this.time)
   }
 

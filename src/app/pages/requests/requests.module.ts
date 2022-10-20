@@ -30,6 +30,7 @@ import { TempHumiFormComponentComponent } from './request-sheet/step4-testing-co
 import { TempHumiVibrationFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/temp-humi-vibration-form-component/temp-humi-vibration-form-component.component';
 import { HeatShockFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/heat-shock-form-component/heat-shock-form-component.component';
 import { HighLowFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/high-low-form-component/high-low-form-component.component';
+import { InspectionFormComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/inspection-form/inspection-form.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { HighLowFormComponentComponent } from './request-sheet/step4-testing-con
     TempHumiVibrationFormComponentComponent,
     HeatShockFormComponentComponent,
     HighLowFormComponentComponent,
+    InspectionFormComponent,
 
   ],
   imports: [
@@ -64,9 +66,13 @@ import { HighLowFormComponentComponent } from './request-sheet/step4-testing-con
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule,
-    PipeModule
+    PipeModule,
+
   ],
   exports: [
+
+  ],
+  providers:[
 
   ]
 })

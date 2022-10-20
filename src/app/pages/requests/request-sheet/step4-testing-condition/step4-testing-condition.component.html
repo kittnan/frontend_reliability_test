@@ -1,2 +1,2 @@
-<app-testing-condition></app-testing-condition>
-<app-testing-condition-table></app-testing-condition-table>
+<app-testing-condition [(conditionForm)]="conditionForm" (conditionFormChange)="onConditionForm()"></app-testing-condition>
+<app-testing-condition-table [(data)]="conditionForm"></app-testing-condition-table>
