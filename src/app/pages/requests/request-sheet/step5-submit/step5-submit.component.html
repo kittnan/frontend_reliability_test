@@ -1,0 +1,50 @@
+<div fxLayoutAlign="center stretch" fxLayout="row wrap">
+
+    <div fxFlex="100" fxLayoutAlign="center stretch">
+        <mat-form-field *ngIf="userLogin" appearance="fill" fxFlex="30" fxFlex.sm="100">
+            <mat-label>Requester Name</mat-label>
+            <input matInput [(ngModel)]="userLogin.name" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex="30" fxFlex.sm="100">
+            <mat-label>Requester Date</mat-label>
+            <input matInput [value]="date|date:'d/M/y'" [readonly]="true">
+        </mat-form-field>
+    </div>
+
+    <div fxFlex="100" fxLayoutAlign="center stretch">
+        <mat-form-field appearance="fill" fxFlex="30" fxFlex.sm="100">
+            <mat-label>User Approve</mat-label>
+            <mat-select [(ngModel)]="selected" [compareWith]="objectComparisonFunction">
+                <ng-container *ngFor="let user of userApprove; let i=index">
+                    <mat-option [value]="user">{{user.name}}
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+        <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">
+      <span class="material-icons-outlined">
+        keyboard_double_arrow_left
+      </span>
+      <span class="btn-back">
+        Back
+      </span>
+    </button>
+        <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+
+          <span class="material-icons-outlined">
+            done_all
+            </span>
+      <span class="btn-next">
+        Submit
+      </span>
+    </button>
+    </div>
+
+
+
+</div>

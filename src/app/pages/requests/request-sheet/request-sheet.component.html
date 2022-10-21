@@ -3,22 +3,28 @@
         <mat-stepper labelPosition="end" #stepper>
             <mat-step>
                 <ng-template matStepLabel>Sheet Detail</ng-template>
-                <app-step1-detail [(requestDetail)]="requestDetail"></app-step1-detail>
+                <app-step1-detail [(step1)]="step1"></app-step1-detail>
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Test Purpose</ng-template>
-                <app-step2-testing-purpose [(testingPurpose)]="testingPurpose"></app-step2-testing-purpose>
+                <app-step2-testing-purpose [(step2)]="step2"></app-step2-testing-purpose>
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Testing Type</ng-template>
-                <app-step3-testing-type-form [(testingType)]="testingType"></app-step3-testing-type-form>
+                <app-step3-testing-type-form [(step3)]="step3"></app-step3-testing-type-form>
             </mat-step>
 
             <mat-step>
                 <ng-template matStepLabel>Testing Condition</ng-template>
-                <app-step4-testing-condition></app-step4-testing-condition>
+                <app-step4-testing-condition [(step4)]="step4"></app-step4-testing-condition>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                <app-step5-submit [(step5)]="step5" (step5Change)="submit()"></app-step5-submit>
             </mat-step>
         </mat-stepper>
-        <!-- <button (click)="foo()">OOO</button> -->
     </div>
+    <!-- <div fxFlex="80" fxLayoutAlign="center stretch" fxLayout="row wrap" style="padding-bottom: 50px;">
+        <button fxFlex="30" mat-raised-button color="primary" (click)="submit">Submit</button>
+    </div> -->
 </div>

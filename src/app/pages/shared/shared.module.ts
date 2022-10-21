@@ -31,6 +31,7 @@ import { QtyFormComponent } from './qty-form/qty-form.component';
 import { FrequencyFormComponent } from './frequency-form/frequency-form.component';
 import { AccelerationFormComponent } from './acceleration-form/acceleration-form.component';
 import { DirectionFormComponent } from './direction-form/direction-form.component';
+import { ConditionTableComponent } from './condition-table/condition-table.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { DirectionFormComponent } from './direction-form/direction-form.componen
     QtyFormComponent,
     FrequencyFormComponent,
     AccelerationFormComponent,
-    DirectionFormComponent
+    DirectionFormComponent,
+    ConditionTableComponent
 
   ],
   imports: [
@@ -88,7 +90,8 @@ import { DirectionFormComponent } from './direction-form/direction-form.componen
     QtyFormComponent,
     FrequencyFormComponent,
     AccelerationFormComponent,
-    DirectionFormComponent
+    DirectionFormComponent,
+    ConditionTableComponent
   ]
 })
 export class SharedModule { }

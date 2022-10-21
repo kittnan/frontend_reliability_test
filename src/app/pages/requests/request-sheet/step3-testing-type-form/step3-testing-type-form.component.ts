@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MasterHttpService } from 'src/app/http/master-http.service';
-import { HomeServiceService } from '../../home/home-service.service';
 import { RequestSheetService } from '../request-sheet.service';
+import { SetSubjectService } from '../set-subject.service';
 
 @Component({
   selector: 'app-step3-testing-type-form',
@@ -13,15 +13,15 @@ import { RequestSheetService } from '../request-sheet.service';
 })
 export class Step3TestingTypeFormComponent implements OnInit {
 
- 
- 
-  @Input() testingType: any;
-  @Output() testingTypeChange = new EventEmitter();
+
+
+  @Input() step3: any;
+  @Output() step3Change = new EventEmitter();
   testingTypeMenu: any = []
 
   constructor(
     private _loading: NgxUiLoaderService,
-    private _homeService: HomeServiceService,
+    private _setSubject: SetSubjectService,
     private _stepper: CdkStepper,
     private route: ActivatedRoute,
     private _masterHttp: MasterHttpService,
@@ -34,8 +34,13 @@ export class Step3TestingTypeFormComponent implements OnInit {
     this.testingTypeMenu = resultMap;
   }
   onNext() {
-    this.testingTypeChange.emit(this.testingTypeMenu)
+    this._loading.start()
+    this.step3Change.emit(this.testingTypeMenu)
+    this._loading.stopAll();
     this._stepper.next();
+  }
+  onBack() {
+    this._stepper.previous()
   }
 
 }

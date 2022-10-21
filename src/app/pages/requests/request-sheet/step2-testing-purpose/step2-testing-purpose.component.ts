@@ -3,9 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import Swal from 'sweetalert2';
-import { HomeServiceService } from '../../home/home-service.service';
-import { TestPurpose } from '../../home/step2-test-purpose/step2-test-purpose.component';
+import { SetSubjectService } from '../set-subject.service';
 
 @Component({
   selector: 'app-step2-testing-purpose',
@@ -14,8 +12,8 @@ import { TestPurpose } from '../../home/step2-test-purpose/step2-test-purpose.co
 })
 export class Step2TestingPurposeComponent implements OnInit {
 
-  @Input() testingPurpose: any;
-  @Output() testingPurposeChange = new EventEmitter();
+  @Input() step2: any;
+  @Output() step2Change = new EventEmitter();
 
 
   testPurposeForm = new FormGroup({
@@ -23,9 +21,9 @@ export class Step2TestingPurposeComponent implements OnInit {
     description: new FormControl()
   })
 
-  testPurposes: TestPurpose[] = []
+  testPurposes: any = []
   constructor(
-    private _homeService: HomeServiceService,
+    private _homeService: SetSubjectService,
     private _stepper: CdkStepper,
     private _loading: NgxUiLoaderService,
     private route: ActivatedRoute
@@ -91,9 +89,9 @@ export class Step2TestingPurposeComponent implements OnInit {
     })
   }
 
-  onSave() {
+  onNext() {
     this._loading.start()
-    this.testingPurposeChange.emit(this.testPurposeForm.value)
+    this.step2Change.emit(this.testPurposeForm.value)
     this._loading.stopAll();
     this._stepper.next();
     // if (this.testPurposeForm.valid) {
@@ -110,5 +108,8 @@ export class Step2TestingPurposeComponent implements OnInit {
     // }
   }
 
+  onBack() {
+    this._stepper.previous()
+  }
 
 }

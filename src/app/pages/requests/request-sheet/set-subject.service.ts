@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { MasterHttpService } from 'src/app/http/master-http.service';
-
 @Injectable({
   providedIn: 'root'
 })
-export class HomeServiceService {
+export class SetSubjectService {
+
 
   private formStep1: BehaviorSubject<any> = new BehaviorSubject('');
   public _formStep1: Observable<any> = this.formStep1.asObservable();
@@ -116,4 +116,5 @@ export class HomeServiceService {
   getIntervalMaster() {
     return this._interval_master
   }
+
 }

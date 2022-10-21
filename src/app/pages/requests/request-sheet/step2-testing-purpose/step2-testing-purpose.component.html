@@ -11,6 +11,21 @@
 </div>
 
 <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
-    <button fxFlex="30" mat-raised-button matStepperPrevious color="accent">Back</button>
-    <button fxFlex="30" mat-raised-button color="primary" (click)="onSave()">Next</button>
+    <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">
+      <span class="material-icons-outlined">
+          keyboard_double_arrow_left
+      </span>
+      <span class="btn-back">
+          Back
+      </span>
+  </button>
+    <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+
+      <span class="material-icons-outlined">
+          keyboard_double_arrow_right
+      </span>
+      <span class="btn-next">
+          Next
+      </span>
+  </button>
 </div>

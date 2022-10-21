@@ -53,8 +53,10 @@ export class ApproveRequestComponent implements OnInit {
     // }
   }
   async getUserApprove() {
-    const temp = await this._user.getUserBySection(this.userLogin.section).toPromise();
-    this.userApproveList = await this.filterRequestApprove(temp)
+    const section: any = [JSON.stringify(this.userLogin.section)];
+    const level: any = [JSON.stringify(this.config_auth)]
+    this.userApproveList = await this._user.getUserBySection(section, level).toPromise();
+    // this.userApproveList = await this.filterRequestApprove(temp)
 
   }
   filterRequestApprove(userList: any) {
@@ -118,7 +120,7 @@ export class ApproveRequestComponent implements OnInit {
       status: false,
       time: null
     })
-    const resultFind :any= await this.findMe(this.request.step4)
+    const resultFind: any = await this.findMe(this.request.step4)
     resultFind.status = true;
     resultFind.time = new Date();
     await this._request.updateRequest_form(this.request._id, this.request).toPromise();
@@ -129,18 +131,18 @@ export class ApproveRequestComponent implements OnInit {
     }, 500);
   }
 
-  findMe(step4:any){
-    return new Promise((resolve,reject)=>{
-      const resultFind = step4.find((u:any)=> u.access =='request_approve')
-      if(resultFind){
+  findMe(step4: any) {
+    return new Promise((resolve, reject) => {
+      const resultFind = step4.find((u: any) => u.access == 'request_approve')
+      if (resultFind) {
         resolve(resultFind)
-      }else{
+      } else {
         reject('you not access')
       }
     })
   }
 
-  
+
 
 
 }

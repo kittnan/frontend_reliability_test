@@ -53,8 +53,12 @@ export class QeSectionHeadApproveComponent implements OnInit {
     // }
   }
   async getUserApprove() {
-    const temp = await this._user.getUserBySection(this.userLogin.section).toPromise();
-    this.userApproveList = await this.filterRequestApprove(temp)
+    const section: any = [JSON.stringify(this.userLogin.section)];
+    const level: any = [JSON.stringify(this.config_auth)]
+    this.userApproveList = await this._user.getUserBySection(section, level).toPromise();
+
+    // const temp = await this._user.getUserBySection(this.userLogin.section).toPromise();
+    // this.userApproveList = await this.filterRequestApprove(temp)
 
   }
   filterRequestApprove(userList: any) {

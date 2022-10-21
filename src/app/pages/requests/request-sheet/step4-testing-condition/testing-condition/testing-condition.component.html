@@ -1,5 +1,15 @@
 <div fxLayoutAlign="space-around stretch" fxLayout="row wrap">
-
+    <mat-form-field appearance="fill" fxFlex="100">
+        <mat-label>Select Condition</mat-label>
+        <mat-select [(ngModel)]="selected" (ngModelChange)="onSelected()">
+            <mat-option [value]="0">
+                -
+            </mat-option>
+            <mat-option *ngFor="let item of conditionList; let i=index" [value]="item">
+                {{i+1}}{{item.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
     <div class="example-action-buttons">
         <button mat-button (click)="allExpandStatus = true">Expand All</button>
         <button mat-button (click)="allExpandStatus = false">Collapse All</button>
@@ -40,19 +50,10 @@
     </mat-accordion>
 
 
-    <mat-form-field appearance="fill" fxFlex="100">
-        <mat-label>Select Condition</mat-label>
-        <mat-select [(ngModel)]="selected" (ngModelChange)="onSelected()">
-            <mat-option [value]="0">
-                -
-            </mat-option>
-            <mat-option *ngFor="let item of conditionList; let i=index" [value]="item">
-                {{i+1}}{{item.name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
 
-    <app-inspection-form fxFlex="100" [(inspection)]="inspection.name" [(inspectionDetail)]="inspection.detail"></app-inspection-form>
+
+    <app-inspection-form fxFlex="100" [(inspection)]="inspection.name" [(inspectionDetail)]="inspection.detail">
+    </app-inspection-form>
 
     <button fxFlex="100" mat-raised-button color="accent" (click)="onUpdateTable()">UPDATE TABLE</button>
 

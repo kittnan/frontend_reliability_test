@@ -119,7 +119,9 @@ export class TestingConditionComponent implements OnInit {
   sumString(condition: any) {
     const data: TestingConditionForm = condition.data
     let sumStr: string = ''
-    const direction = `${data.direction?.x},${data.direction?.y},${data.direction?.z}`
+    console.log(data);
+
+    const direction = data && data.direction? `${data.direction?.x},${data.direction?.y},${data.direction?.z}`:''
     if (condition && condition.key == 1) sumStr += `${condition.name} ${data.highTemp || ''}`
     if (condition && condition.key == 2) sumStr += `Damp proof test  ${data.highTemp || ''} ${data.humidity || ''}`
     if (condition && condition.key == 3) sumStr += `${condition.name}  ${data.highTemp || ''} ${data.humidity || ''} frequency: ${data.hz || ''}Hz Acceleration: ${data.acceleration || ''} Cycles: ${data.timeCycle}min(${data.cycle}) Direction: (${direction})`

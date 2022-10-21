@@ -1,27 +1,27 @@
-<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-    <table mat-table [dataSource]="data" class="mat-elevation-z8 demo-table">
-        <!-- Position Column -->
+<div fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <table *ngIf="data&& data.length>0" fxFlex="100" mat-table [dataSource]="data" class="mat-elevation-z8 demo-table">
         <ng-container matColumnDef="item">
             <th mat-header-cell *matHeaderCellDef>Item</th>
-            <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+            <td mat-cell *matCellDef="let element;let i =index"> {{i+1}} </td>
         </ng-container>
 
-        <!-- Name Column -->
         <ng-container matColumnDef="condition">
             <th mat-header-cell *matHeaderCellDef> Testing Condition/Procedure </th>
             <td mat-cell *matCellDef="let element"> {{element.dataTable.name}} </td>
         </ng-container>
 
-        <!-- Weight Column -->
         <ng-container matColumnDef="operate">
             <th mat-header-cell *matHeaderCellDef> Operate / No operate </th>
             <td mat-cell *matCellDef="let element"> {{element.dataTable.operate}} </td>
         </ng-container>
 
-        <!-- Symbol Column -->
         <ng-container matColumnDef="inspection">
-            <th mat-header-cell *matHeaderCellDef> Inspection Require/Specification </th>
-            <td mat-cell [attr.rowspan]="data.length" *matCellDef="let element"> {{element.dataTable.inspection.detail}} </td>
+            <th mat-header-cell *matHeaderCellDef> Inspection Require/Specification Type: {{data[0].dataTable.inspection.name}} </th>
+            <td mat-cell *matCellDef="let element;let i =index" [attr.rowspan]="getRowSpan('row', i)" [style.display]="getRowSpan('style', i) ? '' : 'none'">
+                <span style="white-space: pre-wrap;">
+          {{foo(element.dataTable.inspection.detail)}}
+        </span>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="timeInspection">

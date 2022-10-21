@@ -4,8 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import Swal, { SweetAlertResult } from 'sweetalert2';
-import { HomeServiceService } from '../../home/home-service.service';
-import { Step1RequestService } from '../../home/step1-request/step1-request.service';
+import { RequestSheetService } from '../request-sheet.service';
+import { SetSubjectService } from '../set-subject.service';
 export interface ModelNo {
   modelNo: string;
   modelName: string;
@@ -22,8 +22,8 @@ export interface Department {
 })
 export class Step1DetailComponent implements OnInit {
 
-  @Input() requestDetail: any;
-  @Output() requestDetailChange = new EventEmitter();
+  @Input() step1: any;
+  @Output() step1Change = new EventEmitter();
 
   @ViewChild('fileUpload')
   fileUpload!: ElementRef
@@ -66,8 +66,8 @@ export class Step1DetailComponent implements OnInit {
   models: ModelNo[] = []
   departments: Department[] = []
   constructor(
-    private step1: Step1RequestService,
-    private _home_service: HomeServiceService,
+    private _request: RequestSheetService,
+    private _setSubject: SetSubjectService,
     private _loading: NgxUiLoaderService,
     private _stepper: CdkStepper,
     private route: ActivatedRoute,
@@ -78,14 +78,14 @@ export class Step1DetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._home_service.getModelMaster().subscribe(res => {
+    this._setSubject.getModelMaster().subscribe(res => {
       this.models = res
     })
-    this._home_service.getDepartmentMaster().subscribe(res => {
+    this._setSubject.getDepartmentMaster().subscribe(res => {
       this.departments = res
     })
     this.route.queryParams.subscribe(async params => {
-      const foo = this._home_service.getFormStep1()
+      const foo = this._setSubject.getFormStep1()
       this.requestForm.patchValue({
         ...foo
       })
@@ -103,7 +103,7 @@ export class Step1DetailComponent implements OnInit {
 
   async onSelectCorporate() {
     if (this.requestForm.controls.corporate.valid && this.requestForm.controls.modelNo.valid) {
-      const runNumber: any = await this.step1.setControlNo(this.requestForm.value.corporate, this.requestForm.value.modelNo)
+      const runNumber: any = await this._request.setControlNo(this.requestForm.value.corporate, this.requestForm.value.modelNo)
       this.requestForm.controls.controlNo.setValue(runNumber)
     }
   }
@@ -203,7 +203,7 @@ export class Step1DetailComponent implements OnInit {
     })
     this._loading.stopAll();
     this._stepper.next();
-    this.requestDetailChange.emit(this.requestForm.value)
+    this.step1Change.emit(this.requestForm.value)
   }
   onBack() {
     this.router.navigate(['/request/manage']);

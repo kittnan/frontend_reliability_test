@@ -5,13 +5,13 @@ import { RequestsRoutingModule } from './requests-routing.module';
 import { RequestsComponent } from './requests.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HomeComponent } from './home/home.component';
+// import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Step1RequestComponent } from './home/step1-request/step1-request.component';
-import { Step2TestPurposeComponent } from './home/step2-test-purpose/step2-test-purpose.component';
-import { Step3TestingTypeComponent } from './home/step3-testing-type/step3-testing-type.component';
-import { Step4DoneComponent } from './home/step4-done/step4-done.component';
+// import { Step1RequestComponent } from './home/step1-request/step1-request.component';
+// import { Step2TestPurposeComponent } from './home/step2-test-purpose/step2-test-purpose.component';
+// import { Step3TestingTypeComponent } from './home/step3-testing-type/step3-testing-type.component';
+// import { Step4DoneComponent } from './home/step4-done/step4-done.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ManageComponent } from './manage/manage.component';
@@ -23,7 +23,6 @@ import { Step1DetailComponent } from './request-sheet/step1-detail/step1-detail.
 import { Step2TestingPurposeComponent } from './request-sheet/step2-testing-purpose/step2-testing-purpose.component';
 import { Step3TestingTypeFormComponent } from './request-sheet/step3-testing-type-form/step3-testing-type-form.component';
 import { Step4TestingConditionComponent } from './request-sheet/step4-testing-condition/step4-testing-condition.component';
-import { TestingConditionTableComponent } from './request-sheet/step4-testing-condition/testing-condition-table/testing-condition-table.component';
 import { TestingConditionComponent } from './request-sheet/step4-testing-condition/testing-condition/testing-condition.component';
 import { TempFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/temp-form-component/temp-form-component.component';
 import { TempHumiFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/temp-humi-form-component/temp-humi-form-component.component';
@@ -31,23 +30,23 @@ import { TempHumiVibrationFormComponentComponent } from './request-sheet/step4-t
 import { HeatShockFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/heat-shock-form-component/heat-shock-form-component.component';
 import { HighLowFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/high-low-form-component/high-low-form-component.component';
 import { InspectionFormComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/inspection-form/inspection-form.component';
+import { Step5SubmitComponent } from './request-sheet/step5-submit/step5-submit.component';
 
 
 @NgModule({
   declarations: [
     RequestsComponent,
-    HomeComponent,
-    Step1RequestComponent,
-    Step2TestPurposeComponent,
-    Step3TestingTypeComponent,
-    Step4DoneComponent,
+    // HomeComponent,
+    // Step1RequestComponent,
+    // Step2TestPurposeComponent,
+    // Step3TestingTypeComponent,
+    // Step4DoneComponent,
     ManageComponent,
     RequestSheetComponent,
     Step1DetailComponent,
     Step2TestingPurposeComponent,
     Step3TestingTypeFormComponent,
     Step4TestingConditionComponent,
-    TestingConditionTableComponent,
     TestingConditionComponent,
     TempFormComponentComponent,
     TempHumiFormComponentComponent,
@@ -55,6 +54,7 @@ import { InspectionFormComponent } from './request-sheet/step4-testing-condition
     HeatShockFormComponentComponent,
     HighLowFormComponentComponent,
     InspectionFormComponent,
+    Step5SubmitComponent,
 
   ],
   imports: [

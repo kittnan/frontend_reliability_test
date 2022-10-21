@@ -18,8 +18,8 @@ export class UserHttpService {
   getUser(): Observable<any> {
     return this.http.get(`${this.URL}/user`)
   }
-  getUserBySection(section:string): Observable<any> {
-    return this.http.get(`${this.URL}/user/section/${section}`)
+  getUserBySection(section:string,level:string): Observable<any> {
+    return this.http.get(`${this.URL}/user/section/${section}/${level}`)
   }
   insertUser(data: any): Observable<any> {
     return this.http.post(`${this.URL}/user/insert`, data)
