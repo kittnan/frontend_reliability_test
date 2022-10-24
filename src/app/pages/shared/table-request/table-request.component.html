@@ -24,17 +24,17 @@
 
             <ng-container matColumnDef="controlNo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> CONTROL NO. </th>
-                <td mat-cell *matCellDef="let row"> {{row.step1.controlNo}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.controlNo}} </td>
             </ng-container>
 
             <ng-container matColumnDef="lotNo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> LOT NO. </th>
-                <td mat-cell *matCellDef="let row"> {{row.step1.lotNo}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.lotNo}} </td>
             </ng-container>
 
             <ng-container matColumnDef="modelNo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> MODEL </th>
-                <td mat-cell *matCellDef="let row"> {{row.step1.modelNo}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.modelNo}} </td>
             </ng-container>
 
             <ng-container matColumnDef="status">
@@ -69,7 +69,7 @@
             </tr>
         </table>
 
-        <mat-paginator fxFlex="100" [pageSizeOptions]="pageSizeOptions" aria-label="Select page of users">
+        <mat-paginator fxFlex="100" (page)="doo()" [pageSizeOptions]="pageSizeOptions" aria-label="Select page of users">
         </mat-paginator>
     </div>
 </div>

@@ -12,6 +12,12 @@ export class TableRequestService {
     private _request: RequestHttpService
   ) { }
 
+
+  getRequestTableManage(params:any){
+    return this._request.getRequestTable(params).toPromise()
+  }
+
+
   async getRequest({ ...data }) {
     // console.log(data);
     const resultCondition: any = await this.setCondition(data['selected_status'])

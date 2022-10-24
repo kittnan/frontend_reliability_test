@@ -47,7 +47,7 @@ export class Step1DetailComponent implements OnInit {
     customer: new FormControl('', Validators.required),
     sampleDescription: new FormControl(''),
     files: new FormControl(<any>[], Validators.required),
-    files_old: new FormControl()
+    upload: new FormControl()
   })
 
   corporate: any[] = [
@@ -62,7 +62,8 @@ export class Step1DetailComponent implements OnInit {
   ]
 
   files: any[] = []
-  files_old: any[] = []
+  upload: any[] = []
+  fileProgress: boolean = false
   models: ModelNo[] = []
   departments: Department[] = []
   constructor(
@@ -91,7 +92,7 @@ export class Step1DetailComponent implements OnInit {
       })
       console.log(this.requestForm.value);
 
-      this.files_old = this.requestForm.value.files.map((f: any) => {
+      this.upload = this.requestForm.value.files.map((f: any) => {
         return {
           ...f,
           status: true
@@ -117,15 +118,15 @@ export class Step1DetailComponent implements OnInit {
   }
 
   onUploadFile(e: any) {
+    this.fileProgress = true;
     const filesInput: any = this.fileUpload.nativeElement.files;
-
     if (filesInput.length > 0) {
       let overSize = []
       for (let index = 0; index < filesInput.length; index++) {
         if (filesInput[index].size <= 200000) {
-          this.files.push(filesInput[index]);
+          this.upload.push(filesInput[index]);
           this.requestForm.patchValue({
-            files: this.files
+            upload: this.upload
           })
         } else {
           overSize.push(filesInput[index]);
@@ -146,6 +147,9 @@ export class Step1DetailComponent implements OnInit {
     } else {
       this.fileUpload.nativeElement.value = ""
     }
+    setTimeout(() => {
+      this.fileProgress = false
+    }, 1000);
   }
   onClickViewFile(file: any) {
     const fileTypes = ['image/gif', 'image/jpeg', 'image/png']
@@ -171,9 +175,9 @@ export class Step1DetailComponent implements OnInit {
     }).then(ans => {
       if (ans.isConfirmed) {
         this._loading.start()
-        this.files = this.files.filter((f: any) => f != file);
+        this.upload = this.upload.filter((f: any) => f != file);
         this.requestForm.patchValue({
-          files: this.files
+          upload: this.upload
         })
         setTimeout(() => {
           this._loading.stopAll()
@@ -195,18 +199,30 @@ export class Step1DetailComponent implements OnInit {
     })
   }
 
-  onNext() {
+  async onNext() {
     this._loading.start()
+    const formData = await this.appendFormData(this.upload)
     this.requestForm.patchValue({
       files: this.files,
-      files_old: this.files_old || []
+      upload: formData || []
     })
+
     this._loading.stopAll();
     this._stepper.next();
     this.step1Change.emit(this.requestForm.value)
   }
   onBack() {
     this.router.navigate(['/request/manage']);
+  }
+
+  appendFormData(files: any) {
+    return new Promise(resolve => {
+      let formData = new FormData;
+      for (let index = 0; index < files.length; index++) {
+        formData.append('Files', files[index], files[index].name)
+      }
+      resolve(formData)
+    })
   }
 
 }

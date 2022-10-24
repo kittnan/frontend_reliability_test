@@ -35,4 +35,9 @@ export class RequestHttpService {
     return this.http.post(`${this.URL}/request_form/getByCondition`, data)
   }
 
+  // ! new !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  getRequestTable(params:any): Observable<any> {
+    return this.http.get(`${this.URL}/request_form/tableManage/${params.userId}/${params.status}/${params.limit}/${params.skip}/${params.sort}/${params.count}`)
+  }
+
 }

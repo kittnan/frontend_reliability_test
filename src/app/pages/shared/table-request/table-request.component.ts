@@ -9,6 +9,15 @@ import { LoginService } from 'src/app/services/login.service';
 import { DialogViewComponent } from '../dialog-view/dialog-view.component';
 import { TableRequestService } from './table-request.service';
 
+
+interface ParamsForm {
+  userId: string,
+  status: string,
+  limit: string,
+  skip: string,
+  sort: string,
+  count: string
+}
 @Component({
   selector: 'app-table-request',
   templateUrl: './table-request.component.html',
@@ -29,6 +38,8 @@ export class TableRequestComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  params!: ParamsForm
+
   constructor(
     private _request: RequestHttpService,
     private router: Router,
@@ -43,20 +54,30 @@ export class TableRequestComponent implements OnInit {
     this.selected_status = 'ongoing';
 
     this.userLogin = await this._login.getProFileById(id).toPromise();
+    this.params = {
+      userId: this.userLogin._id,
+      status: '',
+      count: '0',
+      limit: '0',
+      skip: '0',
+      sort: '-1'
+
+    }
     this.onSelectStatus()
   }
-  async onSelectStatus() {
-    let request;
-    const resData = await this.$tableRequest.getRequest({
-      user: this.userLogin,
-      selected_status: this.selected_status,
 
-    })
+  async onSelectStatus() {
+    let status: any = []
+    if (this.selected_status == 'ongoing'){
+      status = ['request', 'request_approve'];
+      this.params.status  =JSON.stringify(status)
+    }
+
+    const resData = await this.$tableRequest.getRequestTableManage(this.params)
     const resultMap: any = await this.mapRows(resData)
     this.dataSource = new MatTableDataSource(resultMap);
     this.setOption();
   }
-
   private mapRows(data: any) {
     return new Promise(resolve => {
       const foo = data.map((d: any) => {
@@ -69,6 +90,8 @@ export class TableRequestComponent implements OnInit {
       resolve(foo)
     })
   }
+
+
 
   private rowText(item: any) {
     if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit'
@@ -125,18 +148,19 @@ export class TableRequestComponent implements OnInit {
   }
 
   foo(item: any, access: any) {
-    console.log(access);
+    // console.log(access);
 
-    const goo = item.step4.find((s: any) => {
-      console.log(s.access, access);
-      console.log(s.name._id, this.userLogin._id);
+    // const goo = item.step5.find((s: any) => {
+    //   console.log(s.access, access);
+    //   console.log(s.name._id, this.userLogin._id);
 
-      // s.access === access && s.name._id === this.userLogin._id
-    });
-    console.log(goo);
+    //   // s.access === access && s.name._id === this.userLogin._id
+    // });
+    // console.log(goo);
 
-    if (goo) return true
-    return false
+    // if (goo) return true
+    // return false
+    return true
   }
 
 
@@ -146,6 +170,8 @@ export class TableRequestComponent implements OnInit {
     this.pageSizeOptions = [5, 10, 25, 100];
   }
   onClickView(item: any) {
+    console.log(item);
+
     const dialogRef = this.dialog.open(DialogViewComponent, {
       data: item,
       width: '90%',
@@ -180,4 +206,13 @@ export class TableRequestComponent implements OnInit {
     })
   }
 
+
+
+  doo() {
+    console.log(this.paginator);
+    console.log(this.sort);
+    this.params.skip = (this.paginator.pageSize * this.paginator.pageIndex).toString()
+    this.params.limit = this.paginator.pageSize.toString()
+    this.onSelectStatus()
+  }
 }
