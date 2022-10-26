@@ -40,6 +40,10 @@ export class TableRequestComponent implements OnInit {
 
   params!: ParamsForm
 
+  ongoing: any = ['request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
+  closed: any = ['closed'];
+  all: any = []
+
   constructor(
     private _request: RequestHttpService,
     private router: Router,
@@ -68,23 +72,29 @@ export class TableRequestComponent implements OnInit {
 
   async onSelectStatus() {
     let status: any = []
-    if (this.selected_status == 'ongoing'){
-      status = ['request', 'request_approve'];
-      this.params.status  =JSON.stringify(status)
+    if (this.selected_status == 'ongoing') {
+      status = this.ongoing;
     }
+    if (this.selected_status == 'closed') {
+      status = this.closed;
+    }
+    if (this.selected_status == 'all') {
+      status = [...this.ongoing, ...this.closed];
+    }
+    this.params.status = JSON.stringify(status)
 
-    const resData = await this.$tableRequest.getRequestTableManage(this.params)
+    const resData = await this.$tableRequest.getTable(this.params)
     const resultMap: any = await this.mapRows(resData)
     this.dataSource = new MatTableDataSource(resultMap);
     this.setOption();
   }
   private mapRows(data: any) {
     return new Promise(resolve => {
-      const foo = data.map((d: any) => {
+      const foo = data.map((item: any) => {
         return {
-          ...d,
-          btn_status: this.rowStatus(d),
-          btn_text: this.rowText(d)
+          ...item,
+          btn_status: this.rowStatus(item),
+          btn_text: this.rowText(item)
         }
       })
       resolve(foo)
@@ -101,45 +111,44 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    console.log(this.authorize
-    );
+    console.log(this.authorize, item.status);
 
     if (item.status === 'close_job') return true
     if (this.authorize === 'request') {
       if (
-        this.foo(item, 'draft') ||
-        this.foo(item, 'reject_request')
+        this.validAuthorize(item, 'draft') ||
+        this.validAuthorize(item, 'reject_request')
       ) return false
       return true
     } else if (this.authorize === 'request_approve') {
       if (
-        this.foo(item, 'request') ||
-        this.foo(item, 'reject_request_approve')
+        this.validAuthorize(item, 'request') ||
+        this.validAuthorize(item, 'reject_request_approve')
       ) return false
       return true
     } else if (this.authorize === 'qe_window_person') {
       if (
-        this.foo(item, 'request_approve') ||
-        this.foo(item, 'reject_qe_window_person') ||
-        this.foo(item, 'qe_department_head') ||
-        this.foo(item, 'finish')
+        this.validAuthorize(item, 'request_approve') ||
+        this.validAuthorize(item, 'reject_qe_window_person') ||
+        this.validAuthorize(item, 'qe_department_head') ||
+        this.validAuthorize(item, 'finish')
       ) return false
       return true
     } else if (this.authorize === 'qe_engineer') {
       if (
-        this.foo(item, 'qe_window_person') ||
-        this.foo(item, 'reject_qe_engineer')
+        this.validAuthorize(item, 'qe_window_person') ||
+        this.validAuthorize(item, 'reject_qe_engineer')
       ) return false
       return true
     } else if (this.authorize === 'qe_section_head') {
       if (
-        this.foo(item, 'qe_engineer') ||
-        this.foo(item, 'reject_qe_engineer')
+        this.validAuthorize(item, 'qe_engineer') ||
+        this.validAuthorize(item, 'reject_qe_engineer')
       ) return false
       return true
     } else if (this.authorize === 'qe_department_head') {
       if (
-        this.foo(item, 'qe_section_head')
+        this.validAuthorize(item, 'qe_section_head')
       ) return false
       return true
     } else return true
@@ -147,27 +156,17 @@ export class TableRequestComponent implements OnInit {
 
   }
 
-  foo(item: any, access: any) {
-    // console.log(access);
+  validAuthorize(item: any, access: any) {
+    if (item.step5.find((i: any) => i.authorize == access)) return true
+    return false
 
-    // const goo = item.step5.find((s: any) => {
-    //   console.log(s.access, access);
-    //   console.log(s.name._id, this.userLogin._id);
-
-    //   // s.access === access && s.name._id === this.userLogin._id
-    // });
-    // console.log(goo);
-
-    // if (goo) return true
-    // return false
-    return true
   }
 
 
   private setOption() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.pageSizeOptions = [5, 10, 25, 100];
+    this.pageSizeOptions = [1, 5, 10, 25, 100];
   }
   onClickView(item: any) {
     console.log(item);
@@ -188,14 +187,16 @@ export class TableRequestComponent implements OnInit {
   }
 
   onEdit(item: any) {
-    if (item.status === 'reject_request') this.linkTo('/request/home', item._id);
+    console.log(item.status);
+
+    // if (item.status === 'reject_request') this.linkTo('/request/home', item._id);
     if (item.status === 'request') this.linkTo('/approve/approve-request', item._id);
-    if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
-    if (item.status === 'reject_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
-    if (item.status === 'qe_window_person') this.linkTo('/qe-engineer/approve-request', item._id);
-    if (item.status === 'qe_engineer') this.linkTo('/qe-section-head/approve-request', item._id);
-    if (item.status === 'qe_section_head') this.linkTo('/qe-department-head/approve-request', item._id);
-    if (item.status === 'qe_department_head') this.linkTo('/qe-window-person/report', item._id);
+    // if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
+    // if (item.status === 'reject_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
+    // if (item.status === 'qe_window_person') this.linkTo('/qe-engineer/approve-request', item._id);
+    // if (item.status === 'qe_engineer') this.linkTo('/qe-section-head/approve-request', item._id);
+    // if (item.status === 'qe_section_head') this.linkTo('/qe-department-head/approve-request', item._id);
+    // if (item.status === 'qe_department_head') this.linkTo('/qe-window-person/report', item._id);
   }
 
   linkTo(path: any, param: any) {

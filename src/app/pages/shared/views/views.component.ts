@@ -16,6 +16,7 @@ export class ViewsComponent implements OnInit {
   step2: any
   step3: any
   step4: any
+  step5: any
 
 
   constructor(
@@ -34,6 +35,7 @@ export class ViewsComponent implements OnInit {
       this.step2 = this.form.step2
       this.step3 = this.form.step3
       this.step4 = this.form.step4
+      this.step5 = this.form.step5
 
     }
     console.log(this.form);

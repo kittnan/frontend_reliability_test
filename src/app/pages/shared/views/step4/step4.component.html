@@ -1,25 +1,20 @@
-<div fxLayout="row wrap" fxLayoutAlign="space-evenly start" style="margin-top: 40px;">
-    <table fxFlex="95">
-        <tr>
-            <td *ngFor="let title of table_title; let i=index" class="table-title">
-                {{title.name|uppercase}}
-            </td>
-        </tr>
-        <tr>
-            <td *ngFor="let title of table_title; let i=index" class="table-name">
-                {{show(title,'name')}}
-            </td>
-        </tr>
-        <tr>
-            <td *ngFor="let title of table_title; let i=index" class="table-time">
-                {{show(title,'time')|date:'medium' }}
-            </td>
-        </tr>
-        <tr>
-            <td *ngFor="let title of table_title; let i=index" class="table-footer">
-                {{title.footer |uppercase}}
-            </td>
-        </tr>
-    </table>
+<div fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider>
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" style="margin-top: 20px;">
+
+        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+            <span class="box-title">
+        Testing Condition
+      </span>
+        </div>
+
+        <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+
+            <app-condition-table fxFlex="100" [(data)]="step4.data"></app-condition-table>
+        </div>
+
+    </div>
+
 
 </div>

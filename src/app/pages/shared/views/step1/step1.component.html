@@ -1,145 +1,123 @@
-<div *ngIf="step1" fxLayout="row wrap" fxLayoutAlign="space-around center">
-    <div fxFlex="100">
-        <h1 style="text-align: right;">Control No. {{step1.controlNo}}</h1>
-    </div>
-    <div fxFlex="100" style="border: 1px solid black;">
-        <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-            <div fxFlex="50">
-                <h1 style="text-align: center;">Reliability Test Request Form</h1>
-            </div>
+<div *ngIf="step1" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+    <h1 fxFlex="100" class="control-no">Control No. {{step1.controlNo}}</h1>
+    <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider>
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+            <span class="box-title">
+              Request Detail
+            </span>
         </div>
-    </div>
 
-    <div fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
-        <label>Request status: </label>
-        <mat-radio-group [disabled]="disable" [(ngModel)]="step1.requestStatus">
-            <mat-radio-button value="normal" style="margin-right: 10px;">Normal</mat-radio-button>
-            <mat-radio-button value="urgent">Urgent</mat-radio-button>
-        </mat-radio-group>
-    </div>
+        <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
-        <mat-label>AMT/DST</mat-label>
-        <mat-select [disabled]="disable" [(ngModel)]="step1.corporate" name="corporate">
-            <mat-option *ngFor="let cor of corporate" [value]="cor.value">
-                {{cor.name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+                <mat-label>Request status:</mat-label>
+                <input [readonly]="true" [value]="step1.requestStatus |uppercase" matInput>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100">
-        <mat-label>Model No.</mat-label>
-        <mat-select [disabled]="disable" [(ngModel)]="step1.modelNo" name="modelNo">
-            <ng-container *ngFor="let item of models; let i=index">
-                <mat-option [value]="item.modelNo">{{item.modelNo}}
-                </mat-option>
-            </ng-container>
-        </mat-select>
-    </mat-form-field>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100">
-        <mat-label>Model Name</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.modelName" matInput>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+                <mat-label>AMT/DST</mat-label>
+                <input [readonly]="true" [value]="step1.corporate |uppercase" matInput>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100">
-        <mat-label>Type</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.type" matInput>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100">
+                <mat-label>Model No.</mat-label>
+                <input [readonly]="true" [value]="step1.modelNo" matInput>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100">
-        <mat-label>Customer</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.customer" matInput>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100">
+                <mat-label>Model Name</mat-label>
+                <input [readonly]="true" [value]="step1.modelName" matInput>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100">
-        <mat-label>Lot no.</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.lotNo" matInput>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100">
+                <mat-label>Type</mat-label>
+                <input [readonly]="true" [value]="step1.type" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100">
+                <mat-label>Customer</mat-label>
+                <input [readonly]="true" [value]="step1.customer" matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100">
+                <mat-label>Lot no.</mat-label>
+                <input [readonly]="true" [value]="step1.lotNo" matInput>
+            </mat-form-field>
 
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100">
-        <mat-label>Department</mat-label>
-        <mat-select [disabled]="disable" [(ngModel)]="step1.department" name="department">
-            <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">
-                {{department.name}}</mat-option>
-        </mat-select>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100">
+                <mat-label>Department</mat-label>
+                <input [readonly]="true" [value]="step1.department" matInput>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100">
-        <mat-label>Request Date</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.requestDate" matInput [matDatepicker]="picker1" (click)="picker1.open()">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100">
+                <mat-label>Request Date</mat-label>
+                <input [readonly]="true" [value]="step1.requestDate|date:'d/M/y'" matInput>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100">
-        <mat-label>Concern Shipment Date</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.concernShipmentDate" matInput [matDatepicker]="picker2" (click)="picker2.open()">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-        <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
-        <mat-label>Input to production date</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.inputToProductionDate" matInput [matDatepicker]="picker3" (click)="picker3.open()">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-        <mat-datepicker #picker3></mat-datepicker>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100">
+                <mat-label>Concern Shipment Date</mat-label>
+                <input [readonly]="true" [value]="step1.concernShipmentDate|date:'d/M/y'" matInput>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
-        <mat-label>Concern Customer Date</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.concernCustomerDate" matInput [matDatepicker]="picker4" (click)="picker4.open()">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-        <mat-datepicker #picker4></mat-datepicker>
-    </mat-form-field>
+            </mat-form-field>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100" style="margin-top: 20px;">
-        <mat-label>Report Require Date</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.reportRequireDate" matInput [matDatepicker]="picker5" (click)="picker5.open()">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
-        <mat-datepicker #picker5></mat-datepicker>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+                <mat-label>Input to production date</mat-label>
+                <input [readonly]="true" [value]="step1.inputToProductionDate|date:'d/M/y'" matInput>
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
-        <mat-label>Sample send to QE within date</mat-label>
-        <input [disabled]="disable" [(ngModel)]="step1.sampleSentToQE_withinDate" matInput [matDatepicker]="picker6" (click)="picker6.open()">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
-        <mat-datepicker #picker6></mat-datepicker>
-    </mat-form-field>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+                <mat-label>Concern Customer Date</mat-label>
+                <input [readonly]="true" [value]="step1.concernCustomerDate|date:'d/M/y'" matInput>
+
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+                <mat-label>Report Require Date</mat-label>
+                <input [readonly]="true" [value]="step1.reportRequireDate|date:'d/M/y'" matInput>
+
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
+                <mat-label>Sample send to QE within date</mat-label>
+                <input [readonly]="true" [value]="step1.sampleSentToQE_withinDate|date:'d/M/y'" matInput>
+
+            </mat-form-field>
 
 
-    <mat-form-field appearance="fill" fxFlex="45" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
-        <mat-label>Sample Description</mat-label>
-        <textarea matInput rows="5" [disabled]="disable" [(ngModel)]="step1.sampleDescription"></textarea>
-    </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
+                <mat-label>Sample Description</mat-label>
+                <textarea matInput rows="5" [readonly]="true" [value]="step1.sampleDescription"></textarea>
+            </mat-form-field>
 
-    <mat-list fxFlex="45" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 10px;">
-        <div mat-subheader style="padding-left: 0;">
-            Files
+            <mat-list fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 10px;">
+                <div mat-subheader style="padding-left: 0;">
+                    Files
+
+                </div>
+                <mat-list-item *ngFor="let file of files; let i=index">
+                    <mat-icon mat-list-icon>folder</mat-icon>
+                    <div mat-line>{{file.name}} {{file.size |fileSize}}</div>
+                    <button mat-icon-button color="primary" (click)="onClickViewFile(file);">
+            <span class="material-icons-outlined">
+              pageview
+            </span>
+          </button>
+
+                </mat-list-item>
+            </mat-list>
 
         </div>
-        <mat-list-item *ngFor="let file of files; let i=index">
-            <mat-icon mat-list-icon>folder</mat-icon>
-            <div mat-line>{{file.name}} {{file.size |fileSize}}</div>
-            <div mat-line> DATE</div>
-            <button mat-icon-button color="primary" (click)="onClickViewFile(file);">
-                <span class="material-icons-outlined">
-                    pageview
-                </span>
-            </button>
 
-        </mat-list-item>
-    </mat-list>
-
-    <div fxFlex="45" fxFlex.sm="100">
     </div>
+
+
 
 </div>
-<mat-divider></mat-divider>

@@ -41,10 +41,12 @@ export class RequestSheetComponent implements OnInit {
 
   async submit() {
     const resultUpload = await this.uploadFiles(this.step1.upload);
-    console.log(resultUpload);
-
-    const files = this.step1.files;
-    this.step1.files = [...files,...resultUpload]
+    if(resultUpload && resultUpload.msg){
+      this.step1.files = this.step1.files
+    }else{
+      const files = this.step1.files;
+      this.step1.files = [...files,...resultUpload]
+    }
     const detail = this.step1;
     const testPurpose = this.step2;
 
@@ -61,6 +63,7 @@ export class RequestSheetComponent implements OnInit {
       testingCondition: testingCondition,
       userApprove: userApprove,
     }
+
     this._httpRequest.insertRequest_form(body).subscribe(res => {
       console.log(res);
       if(res){
@@ -69,7 +72,7 @@ export class RequestSheetComponent implements OnInit {
           text:`Your control number is ${res.controlNo}`,
           icon:'success'
         })
-        this.router.navigate(['/request'])
+        // this.router.navigate(['/request'])
       }
     })
 

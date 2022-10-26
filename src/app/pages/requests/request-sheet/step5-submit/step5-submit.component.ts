@@ -43,7 +43,7 @@ export class Step5SubmitComponent implements OnInit {
     const _id: any = localStorage.getItem("_id")
     this.userLogin = await this._user.getUserById(_id).toPromise();
     console.log(this.userLogin);
-    const section = ['IT-SD']
+    const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)
     const level = [this.authorize]
     const temp_level = JSON.stringify(level)

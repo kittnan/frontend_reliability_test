@@ -32,6 +32,7 @@ import { FrequencyFormComponent } from './frequency-form/frequency-form.componen
 import { AccelerationFormComponent } from './acceleration-form/acceleration-form.component';
 import { DirectionFormComponent } from './direction-form/direction-form.component';
 import { ConditionTableComponent } from './condition-table/condition-table.component';
+import { Step5Component } from './views/step5/step5.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { ConditionTableComponent } from './condition-table/condition-table.compo
     FrequencyFormComponent,
     AccelerationFormComponent,
     DirectionFormComponent,
-    ConditionTableComponent
+    ConditionTableComponent,
+    Step5Component
 
   ],
   imports: [
@@ -91,7 +93,8 @@ import { ConditionTableComponent } from './condition-table/condition-table.compo
     FrequencyFormComponent,
     AccelerationFormComponent,
     DirectionFormComponent,
-    ConditionTableComponent
+    ConditionTableComponent,
+    Step5Component
   ]
 })
 export class SharedModule { }

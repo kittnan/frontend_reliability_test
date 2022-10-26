@@ -36,8 +36,12 @@ export class RequestHttpService {
   }
 
   // ! new !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  getRequestTable(params:any): Observable<any> {
+  getRequestTable(params: any): Observable<any> {
     return this.http.get(`${this.URL}/request_form/tableManage/${params.userId}/${params.status}/${params.limit}/${params.skip}/${params.sort}/${params.count}`)
+  }
+
+  getTable(params: any): Observable<any> {
+    return this.http.get(`${this.URL}/request_form/table/${params.userId}/${params.status}`)
   }
 
 }

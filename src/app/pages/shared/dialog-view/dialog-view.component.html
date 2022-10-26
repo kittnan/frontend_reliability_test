@@ -1,4 +1,5 @@
-<!-- <app-step1 [(step1)]="data.step1"></app-step1>
-<app-step2 [(step2)]="data.step2"></app-step2>
-<app-step3 [(step3)]="data.step3"></app-step3>
-<app-step4 [(step4)]="data.step4"></app-step4> -->
+<app-step1 *ngIf="foo" [(step1)]="foo.step1"></app-step1>
+<app-step2 *ngIf="foo" [(step2)]="foo.step2"></app-step2>
+<app-step3 *ngIf="foo" [(step3)]="foo.step3"></app-step3>
+<app-step4 *ngIf="foo" [(step4)]="foo.step4"></app-step4>
+<app-step5 *ngIf="foo" [(step5)]="foo.step5"></app-step5>

@@ -95,3 +95,18 @@ h1.example-app-name {
 .material-icons-outlined {
     align-self: center !important;
 }
+
+.box-title {
+    font-size: 20px;
+    font-weight: bolder;
+    padding: 10px 10px 5px 10px;
+    text-transform: uppercase;
+    border-left: 10px solid rgba(25, 136, 247, 1) 0%;
+    background-color: #71abe5;
+    letter-spacing: 1px;
+}
+
+.box-body {
+    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}

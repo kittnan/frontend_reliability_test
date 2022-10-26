@@ -1,31 +1,34 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="content">
     <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="box-content">
-        <app-views fxFlex="100" *ngIf="request" [formInput]="request"></app-views>
+        <app-views fxFlex="100" *ngIf="data" [formInput]="data"></app-views>
 
         <mat-form-field fxFlex="95" appearance="fill" style="margin-top: 30px;">
             <mat-label>SEND TO...</mat-label>
-            <mat-select [formControl]="userApprove">
-                <mat-option *ngFor="let item of userApproveList; let i=index" [value]="item">
+            <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
+                <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
                     {{item.name|uppercase}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
-        <button *ngIf="request" fxFlex="15" style="margin-top: 20px;" mat-flat-button color="accent" (click)="onClickBack()">
-            <span class="material-icons-outlined">
-                arrow_back
-            </span>
-            Back</button>
-        <button *ngIf="request" fxFlex="40" style="margin-top: 20px;" mat-flat-button color="warn" (click)="onClickReject()">
-            <span class="material-icons-outlined">
-                close
-            </span>
-            Reject</button>
-        <button *ngIf="request" [disabled]="userApprove.invalid" fxFlex="40" style="margin-top: 20px;" mat-flat-button color="primary" (click)="onClickApprove()">
-            <span class="material-icons-outlined">
-                check_circle_outline
-            </span>
-            Approve</button>
+        <!-- <button *ngIf="request" fxFlex="15" style="margin-top: 20px;" mat-flat-button color="accent"
+      (click)="onClickBack()">
+      <span class="material-icons-outlined">
+        arrow_back
+      </span>
+      Back</button>
+    <button *ngIf="request" fxFlex="40" style="margin-top: 20px;" mat-flat-button color="warn"
+      (click)="onClickReject()">
+      <span class="material-icons-outlined">
+        close
+      </span>
+      Reject</button>
+    <button *ngIf="request" [disabled]="userApprove.invalid" fxFlex="40" style="margin-top: 20px;" mat-flat-button
+      color="primary" (click)="onClickApprove()">
+      <span class="material-icons-outlined">
+        check_circle_outline
+      </span>
+      Approve</button> -->
     </div>
 
 </div>

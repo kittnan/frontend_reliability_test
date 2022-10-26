@@ -27,21 +27,21 @@ export class Step2Component implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._master.getTestPurposeMaster().subscribe(res => {
-      this.testPurposes = res;
-      if (this.step2 && res) {
+    // this._master.getTestPurposeMaster().subscribe(res => {
+    //   this.testPurposes = res;
+    //   if (this.step2 && res) {
 
-        this.testPurposes = this.testPurposes.map((t: any) => {
-          if (t.name == this.step2.purpose) {
-            t.checked = true;
-            t.description = this.step2.description
-            return t
-          } else {
-            return t
-          }
-        })
-      }
-    })
+    //     this.testPurposes = this.testPurposes.map((t: any) => {
+    //       if (t.name == this.step2.purpose) {
+    //         t.checked = true;
+    //         t.description = this.step2.description
+    //         return t
+    //       } else {
+    //         return t
+    //       }
+    //     })
+    //   }
+    // })
 
   }
 
@@ -62,7 +62,7 @@ export class Step2Component implements OnInit {
     const value = event.target.value
     this.step2.description.value = value
     this.step2Change.emit(this.step2)
-    
+
   }
 
 }

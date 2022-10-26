@@ -43,8 +43,8 @@ export class Step1Component implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._master.getModelMaster().subscribe(res => this.models = res)
-    this._master.getDepartmentMaster().subscribe(res => this.departments = res)
+    // this._master.getModelMaster().subscribe(res => this.models = res)
+    // this._master.getDepartmentMaster().subscribe(res => this.departments = res)
     this.files = this.step1.files
   }
   onClickViewFile(file: any) {

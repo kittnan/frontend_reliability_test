@@ -1,0 +1,25 @@
+<div fxLayout="row wrap" fxLayoutAlign="space-evenly start" style="margin-top: 40px;">
+    <table fxFlex="95">
+        <tr>
+            <td *ngFor="let title of table_title; let i=index" class="table-title">
+                {{title.name|uppercase}}
+            </td>
+        </tr>
+        <tr>
+            <td *ngFor="let title of table_title; let i=index" class="table-name">
+                {{show(title,'name')}}
+            </td>
+        </tr>
+        <tr>
+            <td *ngFor="let title of table_title; let i=index" class="table-time">
+                {{show(title,'time')|date:'medium' }}
+            </td>
+        </tr>
+        <tr>
+            <td *ngFor="let title of table_title; let i=index" class="table-footer">
+                {{title.footer |uppercase}}
+            </td>
+        </tr>
+    </table>
+
+</div>

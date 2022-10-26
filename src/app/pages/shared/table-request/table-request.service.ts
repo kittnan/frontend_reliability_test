@@ -16,6 +16,9 @@ export class TableRequestService {
   getRequestTableManage(params:any){
     return this._request.getRequestTable(params).toPromise()
   }
+  getTable(params:any){
+    return this._request.getTable(params).toPromise()
+  }
 
 
   async getRequest({ ...data }) {

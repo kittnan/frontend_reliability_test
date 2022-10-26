@@ -1,0 +1,47 @@
+<div fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+    <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider>
+
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" style="margin-top: 20px;">
+
+        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+            <span class="box-title">
+        User Approve
+      </span>
+        </div>
+
+        <div class="box-body" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+            <div fxFlex="30" fxLayoutAlign="center stretch" fxLayout="row wrap" *ngFor="let item of data; let i=index">
+
+                <div *ngIf="item.state" class="card" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+                    <div fxFlex="100" class="header">
+                        {{item.title}}
+                    </div>
+                    <div fxFlex="100" class="body">
+                        <span>
+              {{item.userName}}
+            </span>
+                    </div>
+                    <div fxFlex="100" class="date">
+                        <span *ngIf="item.dateApprove">
+              {{item.dateApprove | date:'d/M/y' }}
+            </span>
+                        <span *ngIf="!item.dateApprove" class="Primary40">
+              WAIT APPROVE
+            </span>
+                    </div>
+                    <div fxFlex="100" class="footer">
+                        {{item.footer}}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
