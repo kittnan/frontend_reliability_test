@@ -11,35 +11,91 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class AdminComponent implements OnInit {
   items: any[] = []
+  sideItems: any[] = []
 
-  userLogin:any
+  userLogin: any
   constructor(
-    changeDetectorRef: ChangeDetectorRef, 
+    changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
     private router: Router,
-    ) {
+  ) {
+
+    this.sideItems = [
+      {
+        title: 'master',
+        icon: 'manage_accounts',
+        items: [
+          {
+            path: '/admin',
+            icon: 'manage_accounts',
+            title: 'Users Manage',
+          },
+          {
+            path: '/admin/master-manage',
+            icon: 'view_list',
+            title: 'Master'
+          },
+
+        ]
+      },
+      {
+        title: 'chamber',
+        icon: 'manage_accounts',
+        items: [
+
+          {
+            path: '/admin/chamber-add',
+            icon: 'view_list',
+            title: 'Chamber'
+          },
+        ]
+      },
+      {
+        title: 'operate',
+        icon: 'manage_accounts',
+        items: [
+
+          {
+            path: '/admin/operate-group',
+            icon: 'view_list',
+            title: 'group'
+          },
+          {
+            path: '/admin/operate-items',
+            icon: 'view_list',
+            title: 'items'
+          },
+        ]
+      }
+    ]
+
     this.items = [
       {
-        path:'/admin',
-        icon:'manage_accounts',
-        title:'Users Manage'
+        path: '/admin',
+        icon: 'manage_accounts',
+        title: 'Users Manage',
       },
       {
-        path:'/admin/master-manage',
-        icon:'view_list',
-        title:'Master'
+        path: '/admin/master-manage',
+        icon: 'view_list',
+        title: 'Master'
+      },
+      {
+        path: '/admin/chamber',
+        icon: 'view_list',
+        title: 'Chamber'
       },
     ],
-    this.userLogin = localStorage.getItem('name')
+      this.userLogin = localStorage.getItem('name')
   }
 
   ngOnDestroy(): void {
   }
   async ngOnInit(): Promise<void> {
-    
+
   }
 
-  onLogout(){
+  onLogout() {
     localStorage.clear()
     this.router.navigate(['/'])
   }

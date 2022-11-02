@@ -112,46 +112,47 @@ export class TableRequestComponent implements OnInit {
 
   private rowStatus(item: any) {
     console.log(this.authorize, item.status);
-
-    if (item.status === 'close_job') return true
-    if (this.authorize === 'request') {
-      if (
-        this.validAuthorize(item, 'draft') ||
-        this.validAuthorize(item, 'reject_request')
-      ) return false
-      return true
-    } else if (this.authorize === 'request_approve') {
-      if (
-        this.validAuthorize(item, 'request') ||
-        this.validAuthorize(item, 'reject_request_approve')
-      ) return false
-      return true
-    } else if (this.authorize === 'qe_window_person') {
-      if (
-        this.validAuthorize(item, 'request_approve') ||
-        this.validAuthorize(item, 'reject_qe_window_person') ||
-        this.validAuthorize(item, 'qe_department_head') ||
-        this.validAuthorize(item, 'finish')
-      ) return false
-      return true
-    } else if (this.authorize === 'qe_engineer') {
-      if (
-        this.validAuthorize(item, 'qe_window_person') ||
-        this.validAuthorize(item, 'reject_qe_engineer')
-      ) return false
-      return true
-    } else if (this.authorize === 'qe_section_head') {
-      if (
-        this.validAuthorize(item, 'qe_engineer') ||
-        this.validAuthorize(item, 'reject_qe_engineer')
-      ) return false
-      return true
-    } else if (this.authorize === 'qe_department_head') {
-      if (
-        this.validAuthorize(item, 'qe_section_head')
-      ) return false
-      return true
-    } else return true
+    if(item.nextApprove._id == this.userLogin._id) return false
+    return true
+    // if (item.status === 'close_job') return true
+    // if (this.authorize === 'request') {
+    //   if (
+    //     this.validAuthorize(item, 'draft') ||
+    //     this.validAuthorize(item, 'reject_request')
+    //   ) return false
+    //   return true
+    // } else if (this.authorize === 'request_approve') {
+    //   if (
+    //     this.validAuthorize(item, 'request') ||
+    //     this.validAuthorize(item, 'reject_request_approve')
+    //   ) return false
+    //   return true
+    // } else if (this.authorize === 'qe_window_person') {
+    //   if (
+    //     this.validAuthorize(item, 'request_approve') ||
+    //     this.validAuthorize(item, 'reject_qe_window_person') ||
+    //     this.validAuthorize(item, 'qe_department_head') ||
+    //     this.validAuthorize(item, 'finish')
+    //   ) return false
+    //   return true
+    // } else if (this.authorize === 'qe_engineer') {
+    //   if (
+    //     this.validAuthorize(item, 'qe_window_person') ||
+    //     this.validAuthorize(item, 'reject_qe_engineer')
+    //   ) return false
+    //   return true
+    // } else if (this.authorize === 'qe_section_head') {
+    //   if (
+    //     this.validAuthorize(item, 'qe_engineer') ||
+    //     this.validAuthorize(item, 'reject_qe_engineer')
+    //   ) return false
+    //   return true
+    // } else if (this.authorize === 'qe_department_head') {
+    //   if (
+    //     this.validAuthorize(item, 'qe_section_head')
+    //   ) return false
+    //   return true
+    // } else return true
 
 
   }
@@ -191,7 +192,7 @@ export class TableRequestComponent implements OnInit {
 
     // if (item.status === 'reject_request') this.linkTo('/request/home', item._id);
     if (item.status === 'request') this.linkTo('/approve/approve-request', item._id);
-    // if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
+    if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
     // if (item.status === 'reject_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
     // if (item.status === 'qe_window_person') this.linkTo('/qe-engineer/approve-request', item._id);
     // if (item.status === 'qe_engineer') this.linkTo('/qe-section-head/approve-request', item._id);

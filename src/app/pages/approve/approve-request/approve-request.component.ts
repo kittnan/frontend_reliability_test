@@ -43,13 +43,14 @@ export class ApproveRequestComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._loading.start();
     this.route.queryParams.subscribe(async params => {
       console.log(params['id']);
       const id = params['id']
       const resData = await this._request.getRequest_formById(id).toPromise()
-      console.log(resData);
-
       this.data = resData[0];
+      console.log(this.data);
+
       this.getUserApprove()
 
     })
@@ -57,17 +58,21 @@ export class ApproveRequestComponent implements OnInit {
 
   }
 
+  ngAfterViewChecked(): void {
+    setTimeout(() => {
+      this._loading.stopAll();
+    }, 1000);
+  }
+
 
   async getUserApprove() {
     const _id: any = localStorage.getItem("_id")
     this.userLogin = await this._user.getUserById(_id).toPromise();
-    console.log(this.userLogin);
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)
     const level = [this.authorize]
     const temp_level = JSON.stringify(level)
     this.userApprove = await this._user.getUserBySection(temp_section, temp_level).toPromise();
-    console.log(this.userApprove);
     this.approve.patchValue(this.userApprove[0])
   }
 

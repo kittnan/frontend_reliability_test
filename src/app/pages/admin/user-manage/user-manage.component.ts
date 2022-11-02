@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { UserForm } from 'src/app/interface/user';
 import { ToastService } from 'src/app/services/toast.service';
@@ -12,10 +15,12 @@ import { DialogAddUserComponent } from './dialog-add-user/dialog-add-user.compon
 })
 export class UserManageComponent implements OnInit {
 
-  users!: UserForm[];
-  user!: UserForm
 
-  userFiltered!: UserForm[];
+  displayedColumns: any = []
+  dataSource!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     public dialog: MatDialog,
     private _user_api: UserHttpService,
@@ -24,55 +29,51 @@ export class UserManageComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.getUser()
+    this.getMaster()
 
   }
 
-  getUser() {
-    this._user_api.getUser().subscribe(res => {
-      this.users = res
-      this.userFiltered = res
-    })
+  async getMaster() {
+    const resData = await this._user_api.getUser().toPromise()
+    this.dataSource = new MatTableDataSource(resData)
+    this.displayedColumns = ['no', 'name','employee_ID','email','department','section','auth','action']
+    this.tableConfig()
+  }
+
+
+
+  tableConfig() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   openDialogAddUser() {
     const dialogRef: MatDialogRef<any> = this.dialog.open(DialogAddUserComponent);
     dialogRef.afterClosed().subscribe(closed => {
       if (closed) {
-        this.getUser();
+        this.getMaster();
       }
     })
   }
 
-  onUserFilter(key: any) {
-    console.log(key);
-    
-    if (key != '') {
-      let filtered: any = this.users.filter((user: UserForm) =>
-        user.employee_ID.toLowerCase().includes(key.toLowerCase()) ||
-        user.username.toLowerCase().includes(key.toLowerCase()) ||
-        user.name.toLowerCase().includes(key.toLowerCase()) ||
-        user.email.toLowerCase().includes(key.toLowerCase()) ||
-        user.authorize.find((auth:any)=> auth.toLowerCase().includes(key.toLowerCase())) ||
-        user.department.toLowerCase().includes(key.toLowerCase())||
-        user.section.toLowerCase().includes(key.toLowerCase())
-
-      )
-      this.userFiltered = filtered
-    } else {
-      this.userFiltered = this.users
-    }
-  }
-
   onEdit(user: any, index: number) {
     console.log(user);
-    
+
     const dialogRef = this.dialog.open(DialogAddUserComponent, {
       data: { ...user, index: index },
     })
     dialogRef.afterClosed().subscribe(closed => {
       if (closed) {
-        this.getUser();
+        this.getMaster();
       }
     })
   }
@@ -87,7 +88,7 @@ export class UserManageComponent implements OnInit {
         this._user_api.deleteUser(item._id).subscribe(res => {
           if (res.deletedCount > 0) {
             this._toast.success()
-            this.getUser()
+            this.getMaster()
           }
         })
       }

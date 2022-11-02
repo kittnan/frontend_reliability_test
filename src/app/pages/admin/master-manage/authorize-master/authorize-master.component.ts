@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 import { AuthorizeForm } from 'src/app/interface/authorize_master';
 import { DialogAuthorizeComponent } from './dialog-authorize/dialog-authorize.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-authorize-master',
@@ -13,8 +16,11 @@ import { DialogAuthorizeComponent } from './dialog-authorize/dialog-authorize.co
 })
 export class AuthorizeMasterComponent implements OnInit {
 
-  masters!: AuthorizeForm[]
-  filteredMaster!: AuthorizeForm[]
+  displayedColumns: any = []
+  dataSource!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     private _master_service: MasterHttpService,
     public dialog: MatDialog,
@@ -28,19 +34,26 @@ export class AuthorizeMasterComponent implements OnInit {
   }
 
 
-  getMaster() {
-    this._master_service.getAuthorizeMaster().subscribe(res => {
-      this.masters = res
-      this.filteredMaster = res
-    })
+  async getMaster() {
+    const resData = await this._master_service.getAuthorizeMaster().toPromise()
+    this.dataSource = new MatTableDataSource(resData)
+    this.displayedColumns = ['no', 'name','action']
+    this.tableConfig()
   }
-  onUserFilter(key: any) {
-    if (key != '') {
-      this.filteredMaster = this.masters.filter((master: any) =>
-        master.name.toLowerCase().includes(key.toLowerCase())
-      )
-    } else {
-      this.filteredMaster = this.masters
+
+
+
+  tableConfig() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 

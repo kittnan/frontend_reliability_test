@@ -1,0 +1,47 @@
+<div [formGroup]="form" fxLayout="row wrap" fxLayoutAlign="start stretch">
+    <h3 fxFlex="100">
+        Operate Item.
+    </h3>
+
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>code</mat-label>
+        <input [readonly]="true" matInput formControlName="code">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>type</mat-label>
+        <mat-select formControlName="type">
+            <mat-option *ngFor="let type of typeList" [value]="type.value">
+                {{type.name |uppercase}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>name</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>qty</mat-label>
+        <input matInput formControlName="qty">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>qtyNon</mat-label>
+        <input matInput formControlName="qtyNon">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>status</mat-label>
+        <input matInput formControlName="status">
+    </mat-form-field>
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end stretch">
+        <button mat-button color="accent" mat-dialog-close>Cancel</button>
+        <button *ngIf="!data" mat-button color="primary" mat-dialog-close [disabled]="form.invalid" (click)="onAdd()">Add</button>
+        <button *ngIf="data" mat-button color="primary" mat-dialog-close [disabled]="form.invalid" (click)="onEdit()">Save</button>
+    </div>
+
+</div>

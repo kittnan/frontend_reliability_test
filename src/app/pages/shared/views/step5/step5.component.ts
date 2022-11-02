@@ -21,16 +21,16 @@ export class Step5Component implements OnInit {
   mapRes(data: any) {
     return new Promise(resolve => {
       const temp = data.map((d: any) => {
-        if(d.level==1 || d.level==2){
+        if (d.level == 1 || d.level == 2 || d.level == 3) {
           return {
             title: d.authorize,
             footer: 'Engineer Level Up',
-            state:true,
+            state: true,
             ...d,
           }
-        }else{
+        } else {
           return {
-            state:false
+            state: false
           }
         }
       })

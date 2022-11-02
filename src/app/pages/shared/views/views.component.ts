@@ -25,9 +25,6 @@ export class ViewsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.formInput);
-
-
     this.form = this.formInput;
 
     if (this.form) {
@@ -38,8 +35,6 @@ export class ViewsComponent implements OnInit {
       this.step5 = this.form.step5
 
     }
-    console.log(this.form);
-
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -53,8 +48,6 @@ export class ViewsComponent implements OnInit {
       step3: this.step3,
       step4: this.step4,
     }
-    console.log(this.form);
-
   }
 
 }

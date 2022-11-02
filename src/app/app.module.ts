@@ -17,6 +17,8 @@ import {
 } from "ngx-ui-loader";
 import { HttpClientModule } from '@angular/common/http';
 import { QeWindowPersonComponent } from './pages/qe-window-person/qe-window-person.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig ={
@@ -25,7 +27,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig ={
   "bgsPosition": "bottom-right",
   "bgsSize": 60,
   "bgsType": "ball-spin",
-  "blur": 5,
+  "blur": 15,
   "delay": 0,
   "fastFadeOut": true,
   "fgsColor": "#673ab7",
@@ -57,7 +59,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig ={
     NotFoundComponent,
     FooterComponent,
     QeWindowPersonComponent,
-    
+
   ],
   imports: [
     AppRoutingModule,
@@ -69,9 +71,15 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig ={
     FormsModule,
     ReactiveFormsModule,
 
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+      ServiceWorkerModule.register('ngsw-worker.js', {
+        enabled: environment.production,
+        // Register the ServiceWorker as soon as the application is stable
+        // or after 30 seconds (whichever comes first).
+        registrationStrategy: 'registerWhenStable:30000'
+      })
 
-    
+
   ],
   providers: [],
   bootstrap: [AppComponent]

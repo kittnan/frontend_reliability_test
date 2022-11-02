@@ -25,7 +25,6 @@ export class DialogTestingTypeComponent implements OnInit {
     private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _toast_service: ToastService,
-    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -38,26 +37,31 @@ export class DialogTestingTypeComponent implements OnInit {
     }
   }
   setFormGroup(list: any) {
-    let c1 = this.TestingTypeForm.get('list') as FormArray;
-    list.map((l: any, index: number) => {
-      if (index + 1 < list.length) {
-        c1.push(this.initListItem())
-      }
-      if (l.listItem.length > 0) {
+    if(list){
+      let c1 = this.TestingTypeForm.get('list') as FormArray;
+      list.map((l: any, index: number) => {
+        if (index + 1 < list.length) {
+          c1.push(this.initListItem())
+        }
+        // if (l && l.listItem.length > 0) {
 
-        const newListItem = l.listItem.map((item: any, index2: number) => {
-          if (index2 + 1 < l.listItem.length) {
-            let listArrayForm = this.TestingTypeForm.get('list')?.get([index]) as FormArray;
-            let listItemArrayForm = listArrayForm.get('listItem') as FormArray;
-            listItemArrayForm.push(this.initOption())
-          }
-          return item
-        })
+        //   const newListItem = l.listItem.map((item: any, index2: number) => {
+        //     if (index2 + 1 < l.listItem.length) {
+        //       let listArrayForm = this.TestingTypeForm.get('list')?.get([index]) as FormArray;
+        //       let listItemArrayForm = listArrayForm.get('listItem') as FormArray;
+        //       listItemArrayForm.push(this.initOption())
+        //     }
+        //     return item
+        //   })
 
-        list.listItem = newListItem
-      }
-    })
-    return list
+        //   list.listItem = newListItem
+        // }
+      })
+      return list
+    }else{
+      return []
+    }
+
 
   }
   initListItem() {

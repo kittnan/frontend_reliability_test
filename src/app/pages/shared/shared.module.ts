@@ -33,6 +33,7 @@ import { AccelerationFormComponent } from './acceleration-form/acceleration-form
 import { DirectionFormComponent } from './direction-form/direction-form.component';
 import { ConditionTableComponent } from './condition-table/condition-table.component';
 import { Step5Component } from './views/step5/step5.component';
+import { ApproveFormComponent } from './approve-form/approve-form.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { Step5Component } from './views/step5/step5.component';
     AccelerationFormComponent,
     DirectionFormComponent,
     ConditionTableComponent,
-    Step5Component
+    Step5Component,
+    ApproveFormComponent
 
   ],
   imports: [
@@ -94,7 +96,8 @@ import { Step5Component } from './views/step5/step5.component';
     AccelerationFormComponent,
     DirectionFormComponent,
     ConditionTableComponent,
-    Step5Component
+    Step5Component,
+    ApproveFormComponent
   ]
 })
 export class SharedModule { }

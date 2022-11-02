@@ -1,26 +1,41 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
+import { AddComponent } from './chamber/add/add.component';
 import { MasterManageComponent } from './master-manage/master-manage.component';
+import { GroupComponent } from './operate/group/group.component';
+import { ItemsComponent } from './operate/items/items.component';
 import { UserManageComponent } from './user-manage/user-manage.component';
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     component: AdminComponent,
-    children:[
+    children: [
       {
-        path:'user-manage',
-        component:UserManageComponent
+        path: 'user-manage',
+        component: UserManageComponent
       },
       {
-        path:'master-manage',
-        component:MasterManageComponent
+        path: 'master-manage',
+        component: MasterManageComponent
       },
       {
-        path:'',
-        pathMatch:'full',
-        redirectTo:'user-manage'
+        path: 'chamber-add',
+        component: AddComponent
+      },
+      {
+        path: 'operate-group',
+        component: GroupComponent
+      },
+      {
+        path: 'operate-items',
+        component: ItemsComponent
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'user-manage'
       }
     ]
   }

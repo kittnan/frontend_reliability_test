@@ -1,38 +1,59 @@
 <div class="container">
     <mat-toolbar color="primary" class="example-toolbar">
         <button mat-icon-button (click)="snav.toggle()">
-            <mat-icon>menu</mat-icon>
-        </button>
+      <mat-icon>menu</mat-icon>
+    </button>
         <h1 class="example-app-name">Reliability Test</h1>
         <span class="example-spacer"></span>
         <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-            <span class="material-icons-outlined">
-                account_circle
-                </span>
-               
-        </button>
+      <span class="material-icons-outlined">
+        account_circle
+      </span>
+
+    </button>
         <span>{{userLogin}}</span>
         <button (click)="onLogout()" mat-icon-button class="example-icon" style="margin-left: 5px;" aria-label="Example icon-button with share icon">
-            <span class="material-icons-outlined">
-                logout
-                </span>
-        </button>
+      <span class="material-icons-outlined">
+        logout
+      </span>
+    </button>
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav #snav mode="side" opened="false">
             <mat-nav-list>
-                <ng-container *ngFor="let item of items; let i=index">
-                    <a mat-list-item routerLinkActive="active" [routerLink]="item.path">
-                        <span class="material-icons-outlined">
-                            {{item.icon}}
-                        </span>
-                        <span>
-                            {{item.title}}
-                        </span>
-                    </a>
+                <!-- <ng-container *ngFor="let item of items; let i=index"> -->
 
-                </ng-container>
+                <mat-accordion *ngFor="let side of sideItems; let i=index">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <span class="material-icons-outlined">
+                  {{side.icon}}
+                </span>
+                                <span>{{side.title |uppercase}}</span>
+                            </mat-panel-title>
+
+                        </mat-expansion-panel-header>
+                        <ul style="list-style: none; padding: 0;">
+                            <li *ngFor="let item of side.items; let i=index">
+                                <a mat-list-item (click)="snav.toggle()" routerLinkActive="active" [routerLink]="item.path">
+                                    <span class="material-icons-outlined">
+                    {{item.icon}}
+                  </span>
+                                    <span>
+                    {{item.title}}
+                  </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+
+
+
+                <!-- </ng-container> -->
 
             </mat-nav-list>
         </mat-sidenav>
