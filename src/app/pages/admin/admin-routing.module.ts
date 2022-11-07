@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
-import { AddComponent } from './chamber/add/add.component';
+import { TableComponent } from './chamber/table/table.component';
 import { MasterManageComponent } from './master-manage/master-manage.component';
 import { GroupComponent } from './operate/group/group.component';
 import { ItemsComponent } from './operate/items/items.component';
@@ -21,8 +21,8 @@ const routes: Routes = [
         component: MasterManageComponent
       },
       {
-        path: 'chamber-add',
-        component: AddComponent
+        path: 'chamber',
+        component: TableComponent
       },
       {
         path: 'operate-group',

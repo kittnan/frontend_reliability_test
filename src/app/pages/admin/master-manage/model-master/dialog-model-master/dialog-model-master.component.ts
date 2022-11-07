@@ -4,6 +4,7 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-model-master',
@@ -29,7 +30,7 @@ export class DialogModelMasterComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
-    
+
     if (this.data) {
       this.modelGroup.patchValue({
         _id: this.data._id,
@@ -46,22 +47,22 @@ export class DialogModelMasterComponent implements OnInit {
     const body = this.modelGroup.value;
     delete body._id
     this._master_service.insertModelMaster(body).subscribe(res => {
-      if (res.length > 0) {
+      if (res && res.length > 0) {
         this.dialogRef.close(res)
-        this._toast_service.success();
+        Swal.fire('SUCCESS', '', 'success')
       } else {
-        this._toast_service.danger('')
+        Swal.fire(res, '', 'error')
       }
     })
   }
   onSave() {
     this.data = { ...this.modelGroup.value }
     this._master_service.updateModelMaster(this.data._id, this.data).subscribe(res => {
-      if (res.modifiedCount > 0) {
+      if (res && res.acknowledged > 0) {
         this.dialogRef.close(res)
-        this._toast_service.success();
+        Swal.fire('SUCCESS', '', 'success')
       } else {
-        this._toast_service.danger('');
+        Swal.fire(res, '', 'error')
       }
     })
   }

@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { OperateGroupService } from 'src/app/http/operate-group.service';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
@@ -24,9 +25,10 @@ export class GroupComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private _operate_items: OperateItemsHttpService,
+    private $operate_items: OperateItemsHttpService,
     public dialog: MatDialog,
-    private _toast_service: ToastService
+    private _toast_service: ToastService,
+    private $operate_group: OperateGroupService
   ) { }
 
   ngOnInit(): void {
@@ -34,9 +36,9 @@ export class GroupComponent implements OnInit {
   }
 
   async getMaster() {
-    const resData = await this._operate_items.get().toPromise()
+    const resData = await this.$operate_group.get().toPromise()
     this.dataSource = new MatTableDataSource(resData)
-    this.displayedColumns = ['no', 'code','type','name','qty','qtyNon','status','action']
+    this.displayedColumns = ['no', 'code','name','operate','status','action']
     this.tableConfig()
   }
 
@@ -59,7 +61,8 @@ export class GroupComponent implements OnInit {
   openDialog() {
     const dialogRef: MatDialogRef<any> = this.dialog.open(GroupDialogComponent,{
       minWidth:100,
-      maxWidth:300
+      maxWidth:500,
+
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res && res.length > 0) {
@@ -71,7 +74,7 @@ export class GroupComponent implements OnInit {
   onEdit(item: any) {
     const dialogRef: MatDialogRef<any> = this.dialog.open(GroupDialogComponent, {
       minWidth:100,
-      maxWidth:300,
+      maxWidth:500,
       data: item
     });
     dialogRef.afterClosed().subscribe(res => {
@@ -87,7 +90,7 @@ export class GroupComponent implements OnInit {
       showCancelButton: true
     }).then(result => {
       if (result.isConfirmed) {
-        this._operate_items.delete(item._id).subscribe(res => {
+        this.$operate_group.delete(item._id).subscribe(res => {
           if (res.deletedCount > 0) {
             this._toast_service.success();
             this.getMaster();

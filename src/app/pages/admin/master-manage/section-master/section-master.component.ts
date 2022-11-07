@@ -55,7 +55,7 @@ export class SectionMasterComponent implements OnInit {
   openDialog() {
     const dialogRef: MatDialogRef<any> = this.dialog.open(DialogSectionComponent);
     dialogRef.afterClosed().subscribe(res => {
-      if (res.length > 0) {
+      if (res) {
         this.getMaster();
       }
     })
@@ -79,10 +79,10 @@ export class SectionMasterComponent implements OnInit {
       if (result.isConfirmed) {
         this._master_service.deleteSectionMaster(item._id).subscribe(res => {
           if (res.deletedCount > 0) {
-            this._toast_service.success();
+            Swal.fire('SUCCESS', '', 'success')
             this.getMaster();
           } else {
-            this._toast_service.danger('')
+            Swal.fire(res, '', 'error')
           }
         })
       }

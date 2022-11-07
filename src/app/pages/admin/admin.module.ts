@@ -26,11 +26,14 @@ import { DialogAuthorizeComponent } from './master-manage/authorize-master/dialo
 import { AuthorizeMasterComponent } from './master-manage/authorize-master/authorize-master.component';
 import { TestingConditionMasterComponent } from './master-manage/testing-condition-master/testing-condition-master.component';
 import { DialogTestingConditionComponent } from './master-manage/testing-condition-master/dialog-testing-condition/dialog-testing-condition.component';
-import { AddComponent } from './chamber/add/add.component';
 import { GroupComponent } from './operate/group/group.component';
 import { ItemsComponent } from './operate/items/items.component';
 import { GroupDialogComponent } from './operate/group/group-dialog/group-dialog.component';
 import { ItemsDialogComponent } from './operate/items/items-dialog/items-dialog.component';
+import { TableComponent } from './chamber/table/table.component';
+import { DialogAddComponent } from './chamber/table/dialog-add/dialog-add.component';
+import { FunctionChamberComponent } from './master-manage/function-chamber/function-chamber.component';
+import { DialogFunctionChamberComponent } from './master-manage/function-chamber/dialog-function-chamber/dialog-function-chamber.component';
 
 
 @NgModule({
@@ -55,11 +58,14 @@ import { ItemsDialogComponent } from './operate/items/items-dialog/items-dialog.
     AuthorizeMasterComponent,
     TestingConditionMasterComponent,
     DialogTestingConditionComponent,
-    AddComponent,
     GroupComponent,
     ItemsComponent,
     GroupDialogComponent,
-    ItemsDialogComponent
+    ItemsDialogComponent,
+    TableComponent,
+    DialogAddComponent,
+    FunctionChamberComponent,
+    DialogFunctionChamberComponent,
   ],
   imports: [
     CommonModule,

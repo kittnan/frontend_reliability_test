@@ -1,5 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 
 @Component({
@@ -11,46 +12,205 @@ export class AppComponent {
   title = 'reliability';
 
   mobileQuery: MediaQueryList;
-  items: any[] = []
-
   private _mobileQueryListener: () => void;
 
+  sideItems: any
+  userLogin: any = ''
+  authorize: any
+  loginStatus: Boolean = false
   constructor(
     changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-    private swUpdate: SwUpdate
+    private swUpdate: SwUpdate,
+    private _router: Router
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-    this.items = [
-      {
-        path: '',
-        icon: 'home',
-        title: 'Home'
-      },
-      {
-        path: '',
-        icon: 'feed',
-        title: 'request'
-      }
-    ]
+
+    this.userLogin = localStorage.getItem('name');
+    this.authorize = localStorage.getItem('authorize');
+
   }
+
+
 
   ngOnInit(): void {
     if (this.swUpdate.isEnabled) {
-
       this.swUpdate.available.subscribe(() => {
-
-          if(confirm("New version available. Load New Version?")) {
-
-              window.location.reload();
-          }
+        if (confirm("New version available. Load New Version?")) {
+          window.location.reload();
+        }
       });
-  }
+    }
+    this.loginValid()
+    this.onAccess()
   }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  loginValid() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.loginStatus = true;
+    } else {
+      this.loginStatus = false;
+    }
+  }
+
+  onAccess() {
+    if (this.authorize == 'admin') {
+      this.sideItems = [
+        {
+          title: 'master',
+          icon: 'discount',
+          items: [
+            {
+              path: '/admin',
+              icon: 'manage_accounts',
+              title: 'users',
+            },
+            {
+              path: '/admin/master-manage',
+              icon: 'discount',
+              title: 'Master'
+            },
+
+          ]
+        },
+        {
+          title: 'chamber',
+          icon: 'all_inbox',
+          items: [
+
+            {
+              path: '/admin/chamber',
+              icon: 'all_inbox',
+              title: 'Chamber'
+            },
+          ]
+        },
+        {
+          title: 'operate',
+          icon: 'hardware',
+          items: [
+
+            {
+              path: '/admin/operate-group',
+              icon: 'home_repair_service',
+              title: 'group'
+            },
+            {
+              path: '/admin/operate-items',
+              icon: 'hardware',
+              title: 'items'
+            },
+          ]
+        }
+      ];
+    }
+    if (this.authorize == 'request') {
+      this.sideItems = [
+        {
+          title: 'request',
+          icon: 'feed',
+          items: [
+            {
+              path: '/request/request-sheet',
+              icon: 'post_add',
+              title: 'new request'
+            },
+            {
+              path: '/request/manage',
+              icon: 'feed',
+              title: 'request manage'
+            },
+          ]
+        }
+      ]
+    }
+    if (this.authorize == 'request_approve') {
+      this.sideItems = [
+        {
+          title: 'request',
+          icon: 'feed',
+          items: [
+            {
+              path: '/approve',
+              icon: 'home',
+              title: 'manage',
+            }
+          ]
+        }
+      ]
+    }
+    if (this.authorize == 'qe-window-person') {
+      this.sideItems = [
+        {
+          title: 'request',
+          icon: 'feed',
+          items: [
+            {
+              path: '/qe-window-person',
+              icon: 'home',
+              title: 'manage',
+            }
+          ]
+        }
+      ]
+    }
+    if (this.authorize == 'qe-engineer') {
+      this.sideItems = [
+        {
+          title: 'request',
+          icon: 'feed',
+          items: [
+            {
+              path: '/qe-engineer',
+              icon: 'home',
+              title: 'manage',
+            }
+          ]
+        }
+      ]
+    }
+    if (this.authorize == 'qe-section-head') {
+      this.sideItems = [
+        {
+          title: 'request',
+          icon: 'feed',
+          items: [
+            {
+              path: '/qe-section-head',
+              icon: 'home',
+              title: 'manage',
+            }
+          ]
+        }
+      ]
+    }
+    if (this.authorize == 'qe-department-head') {
+      this.sideItems = [
+        {
+          title: 'request',
+          icon: 'feed',
+          items: [
+            {
+              path: '/qe-department-head',
+              icon: 'home',
+              title: 'manage',
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+  onLogout() {
+    localStorage.clear()
+    location.href = "/"
+    // this._router.navigate(['/'])
   }
 
 

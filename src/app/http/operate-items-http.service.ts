@@ -12,7 +12,6 @@ export class OperateItemsHttpService {
     private http: HttpClient
   ) { }
 
-  // TODO api_user
   update(id: any, data: any): Observable<any> {
     return this.http.put(`${this.URL}/operate_items/update/${id}`, data)
   }

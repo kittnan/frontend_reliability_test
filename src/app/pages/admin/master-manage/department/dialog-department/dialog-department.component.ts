@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-department',
@@ -29,9 +30,9 @@ export class DialogDepartmentComponent implements OnInit {
     this._master_service.insertDepartmentMaster({ name: this.newMaster }).subscribe(res => {
       if (res.length > 0) {
         this.dialogRef.close(res)
-        this._toast_service.success();
+        Swal.fire('SUCCESS', '', 'success')
       } else {
-        this._toast_service.danger('')
+        Swal.fire(res, '', 'error')
       }
     })
   }
@@ -40,9 +41,9 @@ export class DialogDepartmentComponent implements OnInit {
     this._master_service.updateDepartmentMaster(this.data._id, this.data).subscribe(res => {
       if(res.modifiedCount >0){
         this.dialogRef.close(res)
-        this._toast_service.success();
+        Swal.fire('SUCCESS', '', 'success')
       }else{
-        this._toast_service.danger('');
+        Swal.fire(res, '', 'error')
       }
     })
   }

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-test-purpose',
@@ -37,7 +38,7 @@ export class DialogTestPurposeComponent implements OnInit {
     }
   }
 
-  
+
   onSubmit() {
     this.TestPurposeForm.patchValue({
       name:this.name.value,
@@ -46,11 +47,11 @@ export class DialogTestPurposeComponent implements OnInit {
       }
     })
     this._master_service.insertTestPurposeMaster(this.TestPurposeForm.value).subscribe(res => {
-      if (res.length > 0) {
+      if (res && res.length > 0) {
         this.dialogRef.close(res)
-        this._toast_service.success();
+        Swal.fire('SUCCESS', '', 'success')
       } else {
-        this._toast_service.danger('')
+        Swal.fire(res, '', 'error')
       }
     })
   }
@@ -66,11 +67,11 @@ export class DialogTestPurposeComponent implements OnInit {
       _id:this.data._id
     }
     this._master_service.updateTestPurposeMaster(body._id, body).subscribe(res => {
-      if (res.modifiedCount > 0) {
+      if (res && res.acknowledged) {
         this.dialogRef.close(res)
-        this._toast_service.success();
+        Swal.fire('SUCCESS', '', 'success')
       } else {
-        this._toast_service.danger('');
+        Swal.fire(res, '', 'error')
       }
     })
   }

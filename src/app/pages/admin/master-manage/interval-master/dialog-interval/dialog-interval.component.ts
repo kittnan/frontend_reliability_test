@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-interval',
@@ -34,24 +35,24 @@ export class DialogIntervalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.interval.value);
-    
-    this._master_service.insertIntervalMaster( this.interval.value ).subscribe(res => {
-      if (res.length > 0) {
+
+    this._master_service.insertIntervalMaster(this.interval.value).subscribe(res => {
+      if (res && res.length > 0) {
         this.dialogRef.close(res)
-        this._toast_service.success();
+        Swal.fire('SUCCESS', '', 'success')
       } else {
-        this._toast_service.danger('')
+        Swal.fire(res, '', 'error')
       }
     })
   }
   onSave() {
     // this.data = this.interval.value
     this._master_service.updateIntervalMaster(this.data._id, this.interval.value).subscribe(res => {
-      if (res.modifiedCount > 0) {
+      if (res && res.acknowledged) {
         this.dialogRef.close(res)
-        this._toast_service.success();
+        Swal.fire('SUCCESS', '', 'success')
       } else {
-        this._toast_service.danger('');
+        Swal.fire(res, '', 'error')
       }
     })
   }

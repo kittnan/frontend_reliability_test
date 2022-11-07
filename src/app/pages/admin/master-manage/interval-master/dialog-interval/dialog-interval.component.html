@@ -8,6 +8,16 @@
         <mat-label>Value</mat-label>
         <input matInput type="number" formControlName="value">
     </mat-form-field>
-    <button *ngIf="!data" mat-raised-button class="w-full" color="primary" (click)="onSubmit();">Add</button>
-    <button *ngIf="data" mat-raised-button class="w-full" color="primary" (click)="onSave();">Save</button>
+    <button *ngIf="!data" mat-raised-button class="w-full" color="primary" (click)="onSubmit();">
+      <span class="material-icons-outlined">
+        add_task
+      </span>
+      <span>CREATE</span>
+    </button>
+    <button *ngIf="data" mat-raised-button class="w-full" color="primary" (click)="onSave();">
+      <span class="material-icons-outlined">
+        save
+      </span>
+      <span>SAVE</span>
+    </button>
 </div>

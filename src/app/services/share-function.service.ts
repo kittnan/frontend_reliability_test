@@ -12,6 +12,12 @@ export class ShareFunctionService {
     private _request: RequestHttpService
   ) { }
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+
+  }
+
   async insertLogFlow(actionText: any, controlNo: any, comment: any, userLogin: any) {
     return await this._logFlow.insertLogFlow({
       user: userLogin,

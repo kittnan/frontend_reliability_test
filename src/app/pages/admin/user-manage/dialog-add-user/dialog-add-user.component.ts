@@ -30,18 +30,20 @@ export class DialogAddUserComponent implements OnInit {
 
   authorizes!: AuthorizeForm[]
   _id!: string;
-  URL = environment.API
+
+  departmentList: any = []
+  sectionList: any = []
   constructor(
     public dialogRef: MatDialogRef<DialogAddUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UserForm,
-    private _user_api: UserHttpService,
+    private $user_api: UserHttpService,
     private _toast: ToastService,
-    private _master_service: MasterHttpService
+    private $master_service: MasterHttpService
   ) { }
 
   ngOnInit(): void {
 
-    this._master_service.getAuthorizeMaster().subscribe(res=>{
+    this.$master_service.getAuthorizeMaster().subscribe(res => {
       this.authorizes = res
     })
 
@@ -60,6 +62,8 @@ export class DialogAddUserComponent implements OnInit {
       })
       this._id = this.data._id
     }
+
+    this.getMaster()
   }
   onAddUser() {
     if (this.newUserForm.valid) {
@@ -70,9 +74,9 @@ export class DialogAddUserComponent implements OnInit {
       })
       const body = {
         ...this.newUserForm.value,
-        authorize:authorize
+        authorize: authorize
       }
-      this._user_api.insertUser(body).subscribe(res => {
+      this.$user_api.insertUser(body).subscribe(res => {
         if (res.length > 0) {
           this._toast.success()
           this.dialogRef.close(true)
@@ -88,15 +92,20 @@ export class DialogAddUserComponent implements OnInit {
       })
       const body = {
         ...this.newUserForm.value,
-        authorize:authorize
+        authorize: authorize
       }
-      this._user_api.updateUser(this._id, this.newUserForm.value).subscribe(res => {
+      this.$user_api.updateUser(this._id, this.newUserForm.value).subscribe(res => {
         if (res.modifiedCount > 0) {
           this._toast.success()
           this.dialogRef.close(true)
         }
       })
     }
+  }
+
+  async getMaster(){
+    this.departmentList = await this.$master_service.getDepartmentMaster().toPromise()
+    this.sectionList = await this.$master_service.getSectionMaster().toPromise()
   }
 
 }

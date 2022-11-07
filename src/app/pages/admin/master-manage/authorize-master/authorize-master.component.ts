@@ -84,10 +84,10 @@ export class AuthorizeMasterComponent implements OnInit {
       if (result.isConfirmed) {
         this._master_service.deleteAuthorizeMaster(item._id).subscribe(res => {
           if (res.deletedCount > 0) {
-            this._toast_service.success();
+            Swal.fire('SUCCESS','','success')
             this.getMaster();
           } else {
-            this._toast_service.danger('')
+            Swal.fire(res,'','error')
           }
         })
       }

@@ -37,7 +37,7 @@ export class IntervalMasterComponent implements OnInit {
     if (key != '') {
       this.filteredMaster = this.masters.filter((master: any) =>
         master.name.toLowerCase().includes(key.toLowerCase()) ||
-        master.value.toString().toLowerCase().includes(key.toLowerCase()) 
+        master.value.toString().toLowerCase().includes(key.toLowerCase())
       )
     } else {
       this.filteredMaster = this.masters
@@ -47,7 +47,7 @@ export class IntervalMasterComponent implements OnInit {
   openDialog() {
     const dialogRef: MatDialogRef<any> = this.dialog.open(DialogIntervalComponent);
     dialogRef.afterClosed().subscribe(res => {
-      if (res.length > 0) {
+      if (res) {
         this.getMaster();
       }
     })
@@ -71,10 +71,10 @@ export class IntervalMasterComponent implements OnInit {
       if (result.isConfirmed) {
         this._master_service.deleteIntervalMaster(item._id).subscribe(res => {
           if (res.deletedCount > 0) {
-            this._toast_service.success();
+            Swal.fire('SUCCESS', '', 'success')
             this.getMaster();
           } else {
-            this._toast_service.danger('')
+            Swal.fire(res, '', 'error')
           }
         })
       }

@@ -43,25 +43,31 @@ export class LoginService {
    going(auth:any) {
     if (localStorage.getItem('token')) {
       if (auth == 'admin') {
-        this.router.navigate(['/admin'])
+        location.href = "/admin"
       }
       if (auth == 'request') {
-        this.router.navigate(['/request'])
+        location.href = "/request"
+
       }
       if (auth == 'request_approve') {
-        this.router.navigate(['/approve'])
+        location.href = "/approve"
+
       }
       if (auth == 'qe_window_person') {
-        this.router.navigate(['/qe-window-person'])
+        location.href = "/qe-window-person"
+
       }
       if (auth == 'qe_engineer') {
-        this.router.navigate(['/qe-engineer'])
+        location.href = "/qe-engineer"
+
       }
       if (auth == 'qe_section_head') {
-        this.router.navigate(['/qe-section-head'])
+        location.href = "/qe-section-head"
+
       }
       if (auth == 'qe_department_head') {
-        this.router.navigate(['/qe-department-head'])
+        location.href = "/qe-department-head"
+
       }
     }
   }

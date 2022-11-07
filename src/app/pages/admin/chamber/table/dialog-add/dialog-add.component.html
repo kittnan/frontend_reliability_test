@@ -1,0 +1,63 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <h2 fxFlex="100">
+        CHAMBER
+    </h2>
+    <form [formGroup]="form" fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap" (submit)="onSubmit()">
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>CODE</mat-label>
+            <input matInput [readonly]="true" formControlName="code">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>NAME</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>CAPACITY</mat-label>
+            <input matInput type="number" formControlName="capacity">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>USE </mat-label>
+            <input matInput type="number" formControlName="use">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>FUNCTION</mat-label>
+            <mat-select formControlName="function" multiple="true" [compareWith]="objectComparisonFunction">
+                <mat-option *ngFor="let item of functionChamberList; let i=index" [value]="item">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>STATUS</mat-label>
+            <mat-select formControlName="status">
+                <mat-option *ngFor="let item of statusList; let i=index" [value]="item.value">
+                    {{item.name |uppercase }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
+            <button mat-button matDialogClose style="margin-right: 10px;">Cancel</button>
+            <button *ngIf="!data" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        <span class="material-icons-outlined">
+          add_task
+        </span>
+        <span>CREATE</span>
+      </button>
+            <button *ngIf="data" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        <span class="material-icons-outlined">
+          save
+        </span>
+        <span>SAVE</span>
+      </button>
+        </div>
+
+    </form>
+
+
+</div>

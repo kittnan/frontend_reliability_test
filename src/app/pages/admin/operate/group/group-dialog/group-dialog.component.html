@@ -1,51 +1,111 @@
-<div fxLayout="row wrap" fxLayoutAlign="start stretch">
-    <h3 fxFlex="100">
-        Operate Group.
-    </h3>
-
-    <mat-form-field fxFlex="100" appearance="fill">
-        <mat-label>code</mat-label>
-        <input [readonly]="true" matInput [(ngModel)]="form.code">
-    </mat-form-field>
-
-    <mat-form-field fxFlex="100" appearance="fill">
-        <mat-label>name</mat-label>
-        <input matInput [(ngModel)]="form.name">
-    </mat-form-field>
-
-    <button mat-button (click)="addOperate()">Action</button>
-
-    <ng-container *ngFor="let operate of form.operate; let i=index">
+<mat-dialog-content class="mat-typography">
+    <div fxLayout="row wrap" fxLayoutAlign="start stretch">
+        <h3 fxFlex="100">
+            Operate Group.
+        </h3>
 
         <mat-form-field fxFlex="100" appearance="fill">
-            <mat-label>checker</mat-label>
-            <mat-select [(ngModel)]="operate.checker.code">
-                <mat-option *ngFor="let item of itemList" [value]="item.code">
-                    {{item.name |uppercase}}
-                </mat-option>
-            </mat-select>
+            <mat-label>code</mat-label>
+            <input [readonly]="true" matInput [(ngModel)]="form.code">
         </mat-form-field>
 
         <mat-form-field fxFlex="100" appearance="fill">
-            <mat-label>qty</mat-label>
-            <input matInput [(ngModel)]="operate.checker.qty">
+            <mat-label>name</mat-label>
+            <input matInput [(ngModel)]="form.name">
         </mat-form-field>
 
-    </ng-container>
+        <mat-form-field fxFlex="100" appearance="fill">
+            <mat-label>status</mat-label>
+            <input matInput [(ngModel)]="form.status">
+        </mat-form-field>
 
 
 
+        <ng-container *ngFor="let operate of form.operate; let i=index">
+            <label fxFlex="100">
+        <span style="color: green;">
+          LIST GROUP {{i+1}}
+        </span>
+        <span class="material-icons-outlined" style="color: red;cursor: pointer;" (click)="deleteList(i)">
+          remove
+        </span> </label>
+            <mat-form-field fxFlex="100" appearance="fill">
+                <mat-label>checker</mat-label>
+                <mat-select [(ngModel)]="operate.checker.code" (ngModelChange)="selectOperate(operate,'checker')">
+                    <mat-option *ngFor="let item of filterItemList(itemList,'checker')" [value]="item.code"> {{item.name |uppercase}} ({{item.code|uppercase}})
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+                <mat-label>qty</mat-label>
+                <input matInput type="number" [(ngModel)]="operate.checker.qty">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+                <mat-label>power</mat-label>
+                <mat-select [(ngModel)]="operate.power.code" (ngModelChange)="selectOperate(operate,'power')">
+                    <mat-option *ngFor="let item of filterItemList(itemList,'power')" [value]="item.code">
+                        {{item.name |uppercase}} ({{item.code|uppercase}})
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+                <mat-label>qty</mat-label>
+                <input matInput type="number" [(ngModel)]="operate.power.qty">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+                <mat-label>attachment</mat-label>
+                <mat-select [(ngModel)]="operate.attachment.code" (ngModelChange)="selectOperate(operate,'attachment')">
+                    <mat-option *ngFor="let item of filterItemList(itemList,'attachment')" [value]="item.code">
+                        {{item.name |uppercase}} ({{item.code|uppercase}})
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+                <mat-label>qty</mat-label>
+                <input matInput type="number" [(ngModel)]="operate.attachment.qty">
+            </mat-form-field>
+
+        </ng-container>
+
+        <button fxFlex="100" mat-button color="accent" (click)="addOperate()">
+      <span class="material-icons-outlined">
+        add
+      </span>
+      <span>
+        NEW LIST
+      </span>
+    </button>
 
 
-    <mat-form-field fxFlex="100" appearance="fill">
-        <mat-label>status</mat-label>
-        <input matInput>
-    </mat-form-field>
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end stretch" style="margin-top: 50px;">
+            <button mat-button mat-dialog-close>
+        <span class="material-icons-outlined">
+          close
+        </span>
+        Cancel
+      </button>
+            <button *ngIf="!data" mat-button color="primary" mat-dialog-close (click)="onAdd()">
+        <span class="material-icons-outlined">
+          save
+        </span>
+        <span>
+          SAVE
+        </span>
+      </button>
+            <button *ngIf="data" mat-button color="primary" mat-dialog-close (click)="onEdit()">
+        <span class="material-icons-outlined">
+          save
+        </span>
+        <span>
+          SAVE
+        </span>
+      </button>
+        </div>
 
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end stretch">
-        <button mat-button color="accent" mat-dialog-close>Cancel</button>
-        <button *ngIf="!data" mat-button color="primary" mat-dialog-close (click)="onAdd()">Add</button>
-        <button *ngIf="data" mat-button color="primary" mat-dialog-close (click)="onEdit()">Save</button>
     </div>
-
-</div>
+</mat-dialog-content>

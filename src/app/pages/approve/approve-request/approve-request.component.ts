@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
-import { LogFlowService } from 'src/app/services/log-flow.service';
-import { ShareFunctionService } from 'src/app/services/share-function.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
@@ -34,7 +32,6 @@ export class ApproveRequestComponent implements OnInit {
     private _toast: ToastService,
     private _user: UserHttpService,
     private _loading: NgxUiLoaderService,
-    private $share: ShareFunctionService
 
   ) {
     const id: any = localStorage.getItem('_id')

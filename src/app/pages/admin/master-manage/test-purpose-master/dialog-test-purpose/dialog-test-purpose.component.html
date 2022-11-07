@@ -5,6 +5,16 @@
         <input matInput [formControl]="name">
     </mat-form-field>
     <mat-slide-toggle [formControl]="description">Description</mat-slide-toggle>
-    <button *ngIf="!data" [disabled]="name.invalid || description.invalid" mat-raised-button class="w-full" color="primary" (click)="onSubmit();">Add</button>
-    <button *ngIf="data" [disabled]="name.invalid || description.invalid" mat-raised-button class="w-full" color="primary" (click)="onSave();">Save</button>
+    <button *ngIf="!data" [disabled]="name.invalid || description.invalid" mat-raised-button class="w-full" color="primary" (click)="onSubmit();">
+      <span class="material-icons-outlined">
+        add_task
+      </span>
+      <span>CREATE</span>
+    </button>
+    <button *ngIf="data" [disabled]="name.invalid || description.invalid" mat-raised-button class="w-full" color="primary" (click)="onSave();">
+      <span class="material-icons-outlined">
+        save
+      </span>
+      <span>SAVE</span>
+    </button>
 </div>

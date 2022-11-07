@@ -16,6 +16,7 @@ export class ItemsDialogComponent implements OnInit {
     code: new FormControl('', Validators.required),
     type: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
+    stock: new FormControl('', Validators.required),
     qty: new FormControl('', Validators.required),
     qtyNon: new FormControl(0, Validators.required),
     status: new FormControl('ready', Validators.required),

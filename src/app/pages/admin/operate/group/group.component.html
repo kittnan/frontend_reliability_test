@@ -3,14 +3,14 @@
     <div fxFlex="60" fxLayout="row wrap" fxLayoutAlign="center stretch" class="box-body">
 
         <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end stretch">
-            <button fxFlex="10" mat-icon-button color="primary" (click)="openDialog();">
-      <span class="material-icons-outlined">
-        playlist_add
-      </span>
-      <span>
-        NEW GROUP
-      </span>
-    </button>
+            <button mat-button color="primary" (click)="openDialog();">
+        <span class="material-icons-outlined">
+          playlist_add
+        </span>
+        <span>
+          NEW GROUP
+        </span>
+      </button>
         </div>
 
         <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch">
@@ -32,24 +32,67 @@
                         <td mat-cell *matCellDef="let row"> {{row.code |uppercase}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> TYPE </th>
-                        <td mat-cell *matCellDef="let row"> {{row.type |uppercase}} </td>
-                    </ng-container>
-
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> NAME </th>
                         <td mat-cell *matCellDef="let row"> {{row.name |uppercase}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="qty">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Q'ty (USE) </th>
-                        <td mat-cell *matCellDef="let row"> {{row.qty}} </td>
-                    </ng-container>
+                    <ng-container matColumnDef="operate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> OPERATE </th>
+                        <td mat-cell *matCellDef="let row">
+                            <ng-container *ngFor="let op of row.operate; let i=index">
+                                <span class="title-group">GROUP {{i+1}}</span>
+                                <ul>
+                                    <li>
+                                        <ul>
+                                            <span class="title-head">CHECKER</span>
+                                            <li>
+                                                CODE : {{op.checker.code |uppercase}}
+                                            </li>
+                                            <li>
+                                                NAME : {{op.checker.name}}
+                                            </li>
+                                            <li>
+                                                Q'ty : {{op.checker.qty}} pcs.
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <span class="title-head">POWER</span>
 
-                    <ng-container matColumnDef="qtyNon">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Q'ty (NOT USE) </th>
-                        <td mat-cell *matCellDef="let row"> {{row.qtyNon }} </td>
+
+                                            <li>
+                                                CODE : {{op.power.code|uppercase}}
+                                            </li>
+                                            <li>
+                                                NAME : {{op.power.name}}
+                                            </li>
+                                            <li>
+                                                Q'ty : {{op.power.qty}} pcs.
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <span class="title-head">ATTACHMENT</span>
+
+
+                                            <li>
+                                                CODE : {{op.attachment.code|uppercase}}
+                                            </li>
+                                            <li>
+                                                NAME : {{op.attachment.name}}
+                                            </li>
+                                            <li>
+                                                Q'ty : {{op.attachment.qty}} pcs.
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+
+                                </ul>
+                            </ng-container>
+
+
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="status">
@@ -62,16 +105,16 @@
                         <td mat-cell *matCellDef="let row" style="text-align: center;">
 
                             <button mat-icon-button color="primary" (click)="onEdit(row)" style="margin-right: 10px;">
-              <span class="material-icons-outlined">
-                edit
-              </span>
-            </button>
+                <span class="material-icons-outlined">
+                  edit
+                </span>
+              </button>
 
                             <button mat-icon-button color="warn" (click)="onDelete(row)">
-              <span class="material-icons-outlined">
-                delete
-              </span>
-            </button>
+                <span class="material-icons-outlined">
+                  delete
+                </span>
+              </button>
 
                         </td>
                     </ng-container>
@@ -94,12 +137,5 @@
 
 
     </div>
-
-
-
-
-
-
-
 
 </div>

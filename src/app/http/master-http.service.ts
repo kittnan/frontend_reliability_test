@@ -77,7 +77,7 @@ export class MasterHttpService {
   deleteTestPurposeMaster(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/test_purpose_master/delete/${id}`)
   }
-  
+
   getTestingTypeMaster(): Observable<any> {
     return this.http.get(`${this.URL}/testing_type_master/`)
   }
@@ -90,7 +90,7 @@ export class MasterHttpService {
   deleteTestingTypeMaster(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/testing_type_master/delete/${id}`)
   }
-  
+
   getIntervalMaster(): Observable<any> {
     return this.http.get(`${this.URL}/interval_master/`)
   }
@@ -116,4 +116,37 @@ export class MasterHttpService {
   deleteTestingConditionMaster(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/testing_condition_master/delete/${id}`)
   }
+
+  getFunctionChamber(): Observable<any> {
+    return this.http.get(`${this.URL}/function_chamber/`)
+  }
+  insertFunctionChamber(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/function_chamber/insert`, data)
+  }
+  updateFunctionChamber(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/function_chamber/update/${id}`, data)
+  }
+  deleteFunctionChamber(id: any): Observable<any> {
+    return this.http.delete(`${this.URL}/function_chamber/delete/${id}`)
+  }
+  getFunctionChamberLastRecord():Observable<any>{
+    return this.http.get(`${this.URL}/function_chamber/lastRecord`)
+  }
+
+  getChamberList(): Observable<any> {
+    return this.http.get(`${this.URL}/chamber_list/`)
+  }
+  insertChamberList(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/chamber_list/insert`, data)
+  }
+  updateChamberList(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/chamber_list/update/${id}`, data)
+  }
+  deleteChamberList(id: any): Observable<any> {
+    return this.http.delete(`${this.URL}/chamber_list/delete/${id}`)
+  }
+  getChamberLastRecord():Observable<any>{
+    return this.http.get(`${this.URL}/chamber_list/lastRecord`)
+  }
+
 }

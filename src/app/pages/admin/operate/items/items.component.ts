@@ -36,7 +36,7 @@ export class ItemsComponent implements OnInit {
   async getMaster() {
     const resData = await this._operate_items.get().toPromise()
     this.dataSource = new MatTableDataSource(resData)
-    this.displayedColumns = ['no', 'code','type','name','qty','qtyNon','status','action']
+    this.displayedColumns = ['no', 'code','type','name','stock','qty','qtyNon','status','action']
     this.tableConfig()
   }
 

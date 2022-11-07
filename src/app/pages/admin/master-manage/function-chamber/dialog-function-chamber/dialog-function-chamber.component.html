@@ -1,0 +1,23 @@
+<form [formGroup]="form">
+    <h4>FUNCTION CHAMBER</h4>
+    <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Value</mat-label>
+        <input matInput [readonly]="true" formControlName="value">
+    </mat-form-field>
+    <button *ngIf="!data" mat-raised-button class="w-full" color="primary" matDialogClose [disabled]="form.invalid" (click)="onSubmit();">
+      <span class="material-icons-outlined">
+        add_task
+      </span>
+      <span>CREATE</span>
+    </button>
+    <button *ngIf="data" mat-raised-button class="w-full" color="primary" matDialogClose [disabled]="form.invalid" (click)="onSave();">
+      <span class="material-icons-outlined">
+        save
+      </span>
+      <span>SAVE</span>
+    </button>
+</form>
