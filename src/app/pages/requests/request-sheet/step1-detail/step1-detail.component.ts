@@ -9,7 +9,7 @@ import { SetSubjectService } from '../set-subject.service';
 export interface ModelNo {
   modelNo: string;
   modelName: string;
-  type: string;
+  size: string;
   customer: string;
 }
 export interface Department {
@@ -34,7 +34,7 @@ export class Step1DetailComponent implements OnInit {
     corporate: new FormControl('', Validators.required),
     requestStatus: new FormControl('normal', Validators.required),
     department: new FormControl('', Validators.required),
-    requestDate: new FormControl('', Validators.required),
+    requestDate: new FormControl<String|Date|null>(null, Validators.required),
     concernShipmentDate: new FormControl(''),
     inputToProductionDate: new FormControl(''),
     concernCustomerDate: new FormControl(''),
@@ -43,7 +43,7 @@ export class Step1DetailComponent implements OnInit {
     modelNo: new FormControl('', Validators.required),
     modelName: new FormControl('', Validators.required),
     lotNo: new FormControl('', Validators.required),
-    type: new FormControl('', Validators.required),
+    size: new FormControl('', Validators.required),
     customer: new FormControl('', Validators.required),
     sampleDescription: new FormControl(''),
     files: new FormControl(<any>[], Validators.required),
@@ -75,7 +75,7 @@ export class Step1DetailComponent implements OnInit {
     private router: Router,
 
   ) {
-
+    this.requestForm.patchValue({requestDate:new Date()})
   }
 
   ngOnInit(): void {
@@ -90,8 +90,6 @@ export class Step1DetailComponent implements OnInit {
       this.requestForm.patchValue({
         ...foo
       })
-      console.log(this.requestForm.value);
-
       this.upload = this.requestForm.value.files.map((f: any) => {
         return {
           ...f,
@@ -112,7 +110,7 @@ export class Step1DetailComponent implements OnInit {
     this.requestForm.patchValue({
       modelNo: item.modelNo,
       modelName: item.modelName,
-      type: item.type,
+      size: item.size,
       customer: item.customer,
     })
   }

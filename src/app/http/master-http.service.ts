@@ -148,5 +148,8 @@ export class MasterHttpService {
   getChamberLastRecord():Observable<any>{
     return this.http.get(`${this.URL}/chamber_list/lastRecord`)
   }
+  getChamberByValue(value:any):Observable<any>{
+    return this.http.get(`${this.URL}/chamber_list/chamber/${value}`)
+  }
 
 }

@@ -34,6 +34,7 @@ import { DirectionFormComponent } from './direction-form/direction-form.componen
 import { ConditionTableComponent } from './condition-table/condition-table.component';
 import { Step5Component } from './views/step5/step5.component';
 import { ApproveFormComponent } from './approve-form/approve-form.component';
+import { ChamberTableComponent } from './chamber-table/chamber-table.component';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { ApproveFormComponent } from './approve-form/approve-form.component';
     DirectionFormComponent,
     ConditionTableComponent,
     Step5Component,
-    ApproveFormComponent
+    ApproveFormComponent,
+    ChamberTableComponent
 
   ],
   imports: [
@@ -96,8 +98,13 @@ import { ApproveFormComponent } from './approve-form/approve-form.component';
     AccelerationFormComponent,
     DirectionFormComponent,
     ConditionTableComponent,
+    Step1Component,
+    Step2Component,
+    Step3Component,
+    Step4Component,
     Step5Component,
-    ApproveFormComponent
+    ApproveFormComponent,
+    ChamberTableComponent
   ]
 })
 export class SharedModule { }

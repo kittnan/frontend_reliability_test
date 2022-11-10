@@ -1,3 +1,4 @@
+import { _isTestEnvironment } from '@angular/cdk/platform';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -32,7 +33,7 @@ export class TableRequestComponent implements OnInit {
   selected_status = 'ongoing'
   requests: any = []
 
-  displayedColumns: string[] = ['controlNo', 'lotNo', 'modelNo', 'status', 'edit', 'btn'];
+  displayedColumns: string[] = ['controlNo', 'userRequest','lotNo', 'modelNo', 'status', 'edit', 'btn'];
   pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -56,6 +57,7 @@ export class TableRequestComponent implements OnInit {
     const id: any = localStorage.getItem('_id')
     this.authorize = localStorage.getItem('authorize');
     this.selected_status = 'ongoing';
+    if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo','userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
 
     this.userLogin = await this._login.getProFileById(id).toPromise();
     this.params = {
@@ -94,13 +96,18 @@ export class TableRequestComponent implements OnInit {
         return {
           ...item,
           btn_status: this.rowStatus(item),
-          btn_text: this.rowText(item)
+          btn_text: this.rowText(item),
+          userRequest: this.rowUserRequest(item)
         }
       })
       resolve(foo)
     })
   }
 
+  rowUserRequest(item:any){
+    const resultFind = item.step5.find((i:any)=> i.level==1)
+    return resultFind.userName
+  }
 
 
   private rowText(item: any) {
@@ -112,49 +119,8 @@ export class TableRequestComponent implements OnInit {
 
   private rowStatus(item: any) {
     console.log(this.authorize, item.status);
-    if(item.nextApprove._id == this.userLogin._id) return false
+    if (item.nextApprove._id == this.userLogin._id) return false
     return true
-    // if (item.status === 'close_job') return true
-    // if (this.authorize === 'request') {
-    //   if (
-    //     this.validAuthorize(item, 'draft') ||
-    //     this.validAuthorize(item, 'reject_request')
-    //   ) return false
-    //   return true
-    // } else if (this.authorize === 'request_approve') {
-    //   if (
-    //     this.validAuthorize(item, 'request') ||
-    //     this.validAuthorize(item, 'reject_request_approve')
-    //   ) return false
-    //   return true
-    // } else if (this.authorize === 'qe_window_person') {
-    //   if (
-    //     this.validAuthorize(item, 'request_approve') ||
-    //     this.validAuthorize(item, 'reject_qe_window_person') ||
-    //     this.validAuthorize(item, 'qe_department_head') ||
-    //     this.validAuthorize(item, 'finish')
-    //   ) return false
-    //   return true
-    // } else if (this.authorize === 'qe_engineer') {
-    //   if (
-    //     this.validAuthorize(item, 'qe_window_person') ||
-    //     this.validAuthorize(item, 'reject_qe_engineer')
-    //   ) return false
-    //   return true
-    // } else if (this.authorize === 'qe_section_head') {
-    //   if (
-    //     this.validAuthorize(item, 'qe_engineer') ||
-    //     this.validAuthorize(item, 'reject_qe_engineer')
-    //   ) return false
-    //   return true
-    // } else if (this.authorize === 'qe_department_head') {
-    //   if (
-    //     this.validAuthorize(item, 'qe_section_head')
-    //   ) return false
-    //   return true
-    // } else return true
-
-
   }
 
   validAuthorize(item: any, access: any) {
@@ -170,8 +136,6 @@ export class TableRequestComponent implements OnInit {
     this.pageSizeOptions = [1, 5, 10, 25, 100];
   }
   onClickView(item: any) {
-    console.log(item);
-
     const dialogRef = this.dialog.open(DialogViewComponent, {
       data: item,
       width: '90%',
@@ -204,6 +168,15 @@ export class TableRequestComponent implements OnInit {
     this.router.navigate([path], {
       queryParams: {
         id: param
+      }
+    })
+  }
+
+  onChamber(item:any){
+    console.log(item);
+    this.router.navigate(['/qe-window-person/chamber'],{
+      queryParams:{
+        requestId:item.requestId
       }
     })
   }

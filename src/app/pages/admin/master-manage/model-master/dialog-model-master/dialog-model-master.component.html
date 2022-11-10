@@ -1,31 +1,46 @@
 <div [formGroup]="modelGroup">
     <h4>Model Master</h4>
+
     <mat-form-field class="w-full" appearance="legacy">
         <mat-label>ModelName</mat-label>
         <input matInput formControlName="modelName">
     </mat-form-field>
+
     <mat-form-field class="w-full" appearance="legacy">
         <mat-label>ModelNo</mat-label>
         <input matInput formControlName="modelNo">
     </mat-form-field>
+
     <mat-form-field class="w-full" appearance="legacy">
-        <mat-label>Type</mat-label>
-        <input matInput formControlName="type">
+        <mat-label>Size</mat-label>
+        <input matInput formControlName="size">
     </mat-form-field>
+
     <mat-form-field class="w-full" appearance="legacy">
         <mat-label>Customer</mat-label>
         <input matInput formControlName="customer">
     </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="legacy">
+        <mat-label>Operate Group</mat-label>
+        <mat-select formControlName="operateGroupCode">
+            <mat-option *ngFor="let item of operateList" [value]="item.code">
+                {{item.code|uppercase}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <button *ngIf="!data" [disabled]="modelGroup.invalid" mat-raised-button class="w-full" color="primary" (click)="onSubmit();">
-      <span class="material-icons-outlined">
-        add_task
-      </span>
-      <span>CREATE</span>
-    </button>
+    <span class="material-icons-outlined">
+      add_task
+    </span>
+    <span>CREATE</span>
+  </button>
+
     <button *ngIf="data" [disabled]="modelGroup.invalid" mat-raised-button class="w-full" color="primary" (click)="onSave();">
-      <span class="material-icons-outlined">
-        save
-      </span>
-      <span>SAVE</span>
-    </button>
+    <span class="material-icons-outlined">
+      save
+    </span>
+    <span>SAVE</span>
+  </button>
 </div>

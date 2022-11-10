@@ -1,6 +1,7 @@
 export interface TestingConditionForm {
   highTemp?: string | null,
   lowTemp?: string | null,
+  temp?: string | null,
   humidity?: string | null,
   hz?: string | null,
   acceleration?: string | null,

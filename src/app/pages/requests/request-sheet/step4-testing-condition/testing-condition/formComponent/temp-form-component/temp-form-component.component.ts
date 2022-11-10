@@ -18,7 +18,7 @@ export class TempFormComponentComponent implements OnInit {
   @Output() deleteChange = new EventEmitter();
 
   form: TestingConditionForm = {
-    highTemp:null,
+    temp:null,
     operate:null,
     sampleNo:null,
     qty:null,

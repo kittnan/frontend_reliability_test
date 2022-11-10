@@ -45,8 +45,8 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-            <mat-label>Type</mat-label>
-            <input formControlName="type" matInput>
+            <mat-label>Size</mat-label>
+            <input formControlName="size" matInput>
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
@@ -70,7 +70,7 @@
 
         <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
             <mat-label>Request Date</mat-label>
-            <input formControlName="requestDate" matInput [matDatepicker]="picker1" (click)="picker1.open()">
+            <input formControlName="requestDate" matInput [matDatepicker]="picker1" [readonly]="true" (click)="picker1.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>

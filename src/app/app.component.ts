@@ -67,14 +67,44 @@ export class AppComponent {
           icon: 'discount',
           items: [
             {
-              path: '/admin',
+              path: '/admin/user-manage',
               icon: 'manage_accounts',
               title: 'users',
             },
+            // {
+            //   path: '/admin/master-manage',
+            //   icon: 'discount',
+            //   title: 'Master'
+            // },
             {
-              path: '/admin/master-manage',
-              icon: 'discount',
-              title: 'Master'
+              path: '/admin/department',
+              icon: 'groups_2',
+              title: 'department'
+            },
+            {
+              path: '/admin/section',
+              icon: 'group',
+              title: 'section'
+            },
+            {
+              path: '/admin/authorize',
+              icon: 'verified_user',
+              title: 'authorize'
+            },
+            {
+              path: '/admin/model',
+              icon: 'change_history',
+              title: 'model'
+            },
+            {
+              path: '/admin/test-purpose',
+              icon: 'bug_report',
+              title: 'test-purpose'
+            },
+            {
+              path: '/admin/functional-chamber',
+              icon: 'api',
+              title: 'functional-chamber'
             },
 
           ]
@@ -86,8 +116,8 @@ export class AppComponent {
 
             {
               path: '/admin/chamber',
-              icon: 'all_inbox',
-              title: 'Chamber'
+              icon: 'settings',
+              title: 'manage'
             },
           ]
         },
@@ -145,7 +175,7 @@ export class AppComponent {
         }
       ]
     }
-    if (this.authorize == 'qe-window-person') {
+    if (this.authorize == 'qe_window_person') {
       this.sideItems = [
         {
           title: 'request',
@@ -160,7 +190,7 @@ export class AppComponent {
         }
       ]
     }
-    if (this.authorize == 'qe-engineer') {
+    if (this.authorize == 'qe_engineer') {
       this.sideItems = [
         {
           title: 'request',
@@ -175,7 +205,7 @@ export class AppComponent {
         }
       ]
     }
-    if (this.authorize == 'qe-section-head') {
+    if (this.authorize == 'qe_section_head') {
       this.sideItems = [
         {
           title: 'request',
@@ -190,7 +220,7 @@ export class AppComponent {
         }
       ]
     }
-    if (this.authorize == 'qe-department-head') {
+    if (this.authorize == 'qe_department_head') {
       this.sideItems = [
         {
           title: 'request',

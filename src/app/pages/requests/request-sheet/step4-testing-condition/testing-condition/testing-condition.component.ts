@@ -3,10 +3,11 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { TempFormService } from './formComponent/temp-form-component/temp-form.service';
 import { MatAccordion } from '@angular/material/expansion';
 import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
+import { MasterHttpService } from 'src/app/http/master-http.service';
 
 interface ConditionListForm {
   name: string,
-  key: number
+  value: number
 }
 @Component({
   selector: 'app-testing-condition',
@@ -19,33 +20,7 @@ export class TestingConditionComponent implements OnInit {
   @Output() conditionFormChange = new EventEmitter();
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
-  conditionList: ConditionListForm[] = [
-    {
-      name: 'High Temperature',
-      key: 1
-    },
-    {
-      name: 'High Temperature & Humidity',
-      key: 2
-    },
-    {
-      name: 'High Temperature & Humidity & Vibration',
-      key: 3
-    },
-    {
-      name: 'Low Temperature',
-      key: 4
-    },
-    {
-      name: 'High & Low',
-      key: 5
-    },
-    {
-      name: 'Heat Shock',
-      key: 6
-    },
-
-  ]
+  conditionList!: ConditionListForm[]
   selected: any = 0;
   conditions: any = [];
   allExpandStatus: boolean = true;
@@ -56,8 +31,11 @@ export class TestingConditionComponent implements OnInit {
 
   }
   constructor(
-    private $tempForm: TempFormService
-  ) { }
+    private $tempForm: TempFormService,
+    private $master: MasterHttpService
+  ) {
+    this.$master.getFunctionChamber().subscribe(res => this.conditionList = res)
+  }
 
   ngOnInit(): void {
   }
@@ -108,7 +86,7 @@ export class TestingConditionComponent implements OnInit {
         }
         return {
           ...condition,
-          dataTable:dataT
+          dataTable: dataT
         }
       })
       console.log(result);
@@ -121,13 +99,13 @@ export class TestingConditionComponent implements OnInit {
     let sumStr: string = ''
     console.log(data);
 
-    const direction = data && data.direction? `${data.direction?.x},${data.direction?.y},${data.direction?.z}`:''
-    if (condition && condition.key == 1) sumStr += `${condition.name} ${data.highTemp || ''}`
-    if (condition && condition.key == 2) sumStr += `Damp proof test  ${data.highTemp || ''} ${data.humidity || ''}`
-    if (condition && condition.key == 3) sumStr += `${condition.name}  ${data.highTemp || ''} ${data.humidity || ''} frequency: ${data.hz || ''}Hz Acceleration: ${data.acceleration || ''} Cycles: ${data.timeCycle}min(${data.cycle}) Direction: (${direction})`
-    if (condition && condition.key == 4) sumStr += `${condition.name} ${data.lowTemp || ''}`
-    if (condition && condition.key == 5) sumStr += `${condition.name} ${data.highTemp || ''} ${data.lowTemp || ''}`
-    if (condition && condition.key == 6) sumStr += `${condition.name} ${data.lowTemp || ''}↔${data.highTemp || ''} Cycles: ${data.timeCycle}min(${data.cycle})`
+    const direction = data && data.direction ? `${data.direction?.x},${data.direction?.y},${data.direction?.z}` : ''
+    if (condition && condition.value == 1) sumStr += `${condition.name} ${data.temp || ''}`
+    if (condition && condition.value == 2) sumStr += `${condition.name} ${data.temp || ''}`
+    if (condition && condition.value == 3) sumStr += `Damp proof test  ${data.highTemp || ''} ${data.humidity || ''}`
+    if (condition && condition.value == 4) sumStr += `${condition.name}  ${data.highTemp || ''} ${data.humidity || ''} frequency: ${data.hz || ''}Hz Acceleration: ${data.acceleration || ''} Cycles: ${data.timeCycle}min(${data.cycle}) Direction: (${direction})`
+    if (condition && condition.value == 5) sumStr += `${condition.name} ${data.highTemp || ''} ${data.lowTemp || ''}`
+    if (condition && condition.value == 6) sumStr += `${condition.name} ${data.lowTemp || ''}↔${data.highTemp || ''} Cycles: ${data.timeCycle}min(${data.cycle})`
     return sumStr
 
 

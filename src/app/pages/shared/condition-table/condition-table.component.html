@@ -19,7 +19,7 @@
             <th mat-header-cell *matHeaderCellDef> Inspection Require/Specification Type: {{data[0].dataTable.inspection.name}} </th>
             <td mat-cell *matCellDef="let element;let i =index" [attr.rowspan]="getRowSpan('row', i)" [style.display]="getRowSpan('style', i) ? '' : 'none'">
                 <span style="white-space: pre-wrap;">
-          {{foo(element.dataTable.inspection.detail)}}
+          {{trimStr(element.dataTable.inspection.detail)}}
         </span>
             </td>
         </ng-container>
@@ -39,6 +39,12 @@
         <ng-container matColumnDef="qty">
             <th mat-header-cell *matHeaderCellDef> Q'ty (pcs.) </th>
             <td mat-cell *matCellDef="let element"> {{element.dataTable.qty}} </td>
+        </ng-container>
+        <ng-container matColumnDef="chamber">
+            <th mat-header-cell *matHeaderCellDef> CHOOSE </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button color="warn" (click)="onClickChamber(element)">CHAMBER</button>
+            </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

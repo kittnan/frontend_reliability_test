@@ -5,6 +5,7 @@ import { ToastService } from 'src/app/services/toast.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { OperateGroupService } from 'src/app/http/operate-group.service';
 
 @Component({
   selector: 'app-dialog-model-master',
@@ -14,39 +15,35 @@ import Swal from 'sweetalert2';
 export class DialogModelMasterComponent implements OnInit {
 
   modelGroup = new FormGroup({
-    _id: new FormControl(''),
     modelName: new FormControl('', Validators.required),
     modelNo: new FormControl('', Validators.required),
-    type: new FormControl('', Validators.required),
+    size: new FormControl('', Validators.required),
     customer: new FormControl('', Validators.required),
+    operateGroupCode: new FormControl('', Validators.required),
   })
+
+  operateList: any = []
   constructor(
-    private _master_service: MasterHttpService,
+    private $master: MasterHttpService,
     private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _toast_service: ToastService
-
+    private $operateGroup: OperateGroupService
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
-
+    this.getOperateGroup()
     if (this.data) {
-      this.modelGroup.patchValue({
-        _id: this.data._id,
-        modelName: this.data.modelName,
-        modelNo: this.data.modelNo,
-        type: this.data.type,
-        customer: this.data.customer
-      })
+      this.modelGroup.patchValue({ ...this.data })
     }
+  }
+  async getOperateGroup() {
+    this.operateList = await this.$operateGroup.get().toPromise()
   }
 
 
   onSubmit() {
     const body = this.modelGroup.value;
-    delete body._id
-    this._master_service.insertModelMaster(body).subscribe(res => {
+    this.$master.insertModelMaster(body).subscribe(res => {
       if (res && res.length > 0) {
         this.dialogRef.close(res)
         Swal.fire('SUCCESS', '', 'success')
@@ -56,8 +53,7 @@ export class DialogModelMasterComponent implements OnInit {
     })
   }
   onSave() {
-    this.data = { ...this.modelGroup.value }
-    this._master_service.updateModelMaster(this.data._id, this.data).subscribe(res => {
+    this.$master.updateModelMaster(this.data._id, this.modelGroup.value).subscribe(res => {
       if (res && res.acknowledged > 0) {
         this.dialogRef.close(res)
         Swal.fire('SUCCESS', '', 'success')

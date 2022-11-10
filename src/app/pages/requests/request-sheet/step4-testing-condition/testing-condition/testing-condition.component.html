@@ -6,7 +6,7 @@
                 -
             </mat-option>
             <mat-option *ngFor="let item of conditionList; let i=index" [value]="item">
-                {{i+1}}{{item.name}}
+                {{i+1}}.{{item.name}}
             </mat-option>
         </mat-select>
     </mat-form-field>
@@ -25,17 +25,22 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <app-temp-form-component (deleteChange)="onDelete(i)" [icon]="'thermostat'" [titleText]="'High Temp'" [(data)]="con.data" fxFlex="100" *ngIf="con.key===1"></app-temp-form-component>
-            <app-temp-humi-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.key===2">
+            <app-temp-form-component (deleteChange)="onDelete(i)" [icon]="'ac_unit'" [titleText]="'Low Temp'" [(data)]="con.data" fxFlex="100" *ngIf="con.value===1">
+            </app-temp-form-component>
+
+            <app-temp-form-component (deleteChange)="onDelete(i)" [icon]="'thermostat'" [titleText]="'High Temp'" [(data)]="con.data" fxFlex="100" *ngIf="con.value===2">
+            </app-temp-form-component>
+
+            <app-temp-humi-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.value===3">
             </app-temp-humi-form-component>
 
-            <app-temp-humi-vibration-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.key===3">
+            <app-temp-humi-vibration-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.value===4">
             </app-temp-humi-vibration-form-component>
-            <app-temp-form-component (deleteChange)="onDelete(i)" [icon]="'ac_unit'" [titleText]="'Low Temp'" [(data)]="con.data" fxFlex="100" *ngIf="con.key===4">
-            </app-temp-form-component>
-            <app-high-low-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.key===5">
+
+            <app-high-low-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.value===5">
             </app-high-low-form-component>
-            <app-heat-shock-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.key===6">
+
+            <app-heat-shock-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.value===6">
             </app-heat-shock-form-component>
 
             <mat-action-row>
