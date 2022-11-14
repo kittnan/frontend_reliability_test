@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
@@ -29,7 +30,8 @@ export class TableComponent implements OnInit {
     public dialog: MatDialog,
     private _toast_service: ToastService,
     private $operate_group: OperateGroupService,
-    private $master: MasterHttpService
+    private $master: MasterHttpService,
+    private $chamber: ChamberHttpService
   ) {
   }
 
@@ -38,7 +40,7 @@ export class TableComponent implements OnInit {
   }
 
   async getMaster() {
-    const resData = await this.$master.getChamberList().toPromise()
+    const resData = await this.$chamber.getChamberList().toPromise()
     this.dataSource = new MatTableDataSource(resData)
     this.displayedColumns = ['no', 'code', 'name', 'capacity', 'function', 'use', 'status', 'action']
     this.tableConfig()
@@ -92,7 +94,7 @@ export class TableComponent implements OnInit {
       showCancelButton: true
     }).then(result => {
       if (result.isConfirmed) {
-        this.$master.deleteChamberList(item._id).subscribe(res => {
+        this.$chamber.deleteChamberList(item._id).subscribe(res => {
           if (res.deletedCount > 0) {
             Swal.fire('SUCCESS','','success')
             this.getMaster();

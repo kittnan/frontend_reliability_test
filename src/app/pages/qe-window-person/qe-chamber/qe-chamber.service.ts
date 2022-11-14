@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-
+import { QueueForm, TimeForm } from './qe-chamber.component';
+import * as moment from 'moment';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,9 +10,60 @@ export class QeChamberService {
 
 
   generateQueue(chamber: any, e: any) {
-    console.log(chamber,e);
+    console.log(chamber, e);
 
 
+  }
+  genInspectionTime(time: TimeForm[]) {
+    return time.map((t: any) => {
+      const temp: TimeForm = {
+        at: t,
+        startDate: null,
+        endDate: null,
+        hr: 0
+      }
+      return temp
+    })
+  }
+  genOperateStatus(str: String) {
+    if (str == 'operate') return true
+    return false
+  }
+  genEndDate(item: QueueForm) {
+    item.inspectionTime = this.loopTime(item.inspectionTime, item.startDate)
+    item.reportTime = this.loopReport(item.reportTime, item.startDate)
+    let len: any = item.inspectionTime?.length
+    const endDate: any = item.inspectionTime ? item.inspectionTime[len - 1].endDate : null
+    if (endDate) {
+      item.endDate = moment(endDate).toDate()
+    }
+    console.log(item);
+
+  }
+
+  private loopTime(time: TimeForm[] | any, startDate: Date | any) {
+    if (time) {
+      return time.map((t: TimeForm, index: number) => {
+        t.startDate = moment(startDate).add(Number(t.at), 'hour').toDate()
+        t.endDate = moment(t.startDate).add(Number(t.hr), 'hour').toDate()
+        return t
+      })
+    } else {
+      return time
+    }
+  }
+  private loopReport(time: TimeForm[] | any, startDate: Date | any) {
+    if (time) {
+      return time.map((t: TimeForm) => {
+        return {
+          at: t.at,
+          hr: 0,
+          startDate: moment(startDate).add(Number(t.at), 'hour').toDate(),
+          endDate: moment(startDate).add(Number(t.at), 'hour').toDate()
+        }
+
+      })
+    }
   }
 
 

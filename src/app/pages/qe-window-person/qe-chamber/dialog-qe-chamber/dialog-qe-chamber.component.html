@@ -1,57 +1,43 @@
 <div fxLayoutAlign="start stretch" fxLayout="row wrap">
-    <table mat-table [dataSource]="data">
-        <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef>No</th>
-            <td mat-cell *matCellDef="let element;let i =index"> {{i+1}} </td>
-        </ng-container>
 
-        <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef> code </th>
-            <td mat-cell *matCellDef="let element"> {{element.code}} </td>
-        </ng-container>
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index" class="box-body mtb-4">
 
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> name </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
 
-        <ng-container matColumnDef="capacity">
-            <th mat-header-cell *matHeaderCellDef> capacity </th>
-            <td mat-cell *matCellDef="let element;let i =index">
-                {{calCap(element,i)}}
-            </td>
-        </ng-container>
+        <mat-form-field fxFlex.gt-lg="30" fxFlex.sm="100" appearance="legacy">
+            <mat-label>CODE</mat-label>
+            <input matInput [(ngModel)]="row.code" [readonly]="true">
+        </mat-form-field>
 
-        <ng-container matColumnDef="function">
-            <th mat-header-cell *matHeaderCellDef> FUNCTION </th>
-            <td mat-cell *matCellDef="let element;let i =index">
-                <ul>
-                    <li *ngFor="let item of element.function; let i=index">
-                        {{item.name}}
-                    </li>
-                </ul>
-            </td>
-        </ng-container>
+        <mat-form-field fxFlex.gt-lg="30" fxFlex.sm="100" appearance="legacy">
+            <mat-label>NAME</mat-label>
+            <input matInput [(ngModel)]="row.name" [readonly]="true">
+        </mat-form-field>
 
-        <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef> STATUS </th>
-            <td mat-cell *matCellDef="let element;let i =index">
-                xx
-            </td>
-        </ng-container>
+        <mat-form-field fxFlex.gt-lg="30" fxFlex.sm="100" appearance="legacy">
+            <mat-label>CAPACITY</mat-label>
+            <input matInput [(ngModel)]="row.capacity" [readonly]="true">
+        </mat-form-field>
 
-        <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef> SELECT </th>
-            <td mat-cell *matCellDef="let element;let i =index">
-                <button mat-raised-button color="warn" (click)="onSelect(element)">SELECT</button>
-            </td>
-        </ng-container>
+        <mat-form-field fxFlex.gt-lg="30" fxFlex.sm="100" appearance="legacy">
+            <mat-label>SPACE</mat-label>
+            <input matInput [value]="calCap(row)" [readonly]="true">
+        </mat-form-field>
+
+        <ul fxFlex.gt-lg="30" fxFlex.sm="100" style="display: contents  ; list-style: auto;">
+            FUNCTION
+            <li *ngFor="let function of row.function">
+                {{function.name}}
+            </li>
+        </ul>
+
+        <button fxFlex.gt-lg="30" fxFlex.sm="100" mat-raised-button (click)="onSelect(row)">
+      SELECT
+    </button>
 
 
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+
+    </div>
 
 
 </div>

@@ -106,10 +106,17 @@ h1.example-app-name {
     letter-spacing: 1px;
 }
 
+.mtb-4 {
+    margin: 40px 0 !important;
+}
+
+.overflow {
+    overflow: auto !important;
+}
+
 .box-body {
     box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    // margin: 40px 0;
 }
 
 .skeleton-loader-background {

@@ -40,7 +40,8 @@
                         "ngswConfigPath": "ngsw-config.json",
                         "allowedCommonJsDependencies": [
                             "lodash",
-                            "sweetalert2"
+                            "sweetalert2",
+                            "moment"
                         ]
 
 

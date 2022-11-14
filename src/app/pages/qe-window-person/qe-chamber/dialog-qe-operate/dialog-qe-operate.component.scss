@@ -1,0 +1,13 @@
+.ul-hover {
+    cursor: pointer !important;
+}
+
+.ul-hover :hover {
+    text-decoration: underline !important;
+    color: blue !important;
+}
+
+th,
+td {
+    padding: 10px;
+}

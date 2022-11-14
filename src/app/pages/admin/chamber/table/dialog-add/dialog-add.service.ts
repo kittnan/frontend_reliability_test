@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 
 @Injectable({
@@ -7,14 +8,14 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 export class DialogAddService {
 
   constructor(
-    private $master: MasterHttpService
-  ) { }
+    private $chamber:ChamberHttpService
+    ) { }
 
   async getChamberCode(code: String | null) {
     if (code) {
       return code
     } else {
-      const lastRecord = await this.$master.getChamberLastRecord().toPromise()
+      const lastRecord = await this.$chamber.getChamberLastRecord().toPromise()
       if (lastRecord) {
         let temp = lastRecord[0].code.toString().split('-')
         let newCode = (parseInt(temp[1]) + 1).toString();

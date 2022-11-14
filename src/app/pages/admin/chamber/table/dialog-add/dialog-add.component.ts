@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import Swal from 'sweetalert2';
 import { DialogAddService } from './dialog-add.service';
@@ -64,7 +65,8 @@ export class DialogAddComponent implements OnInit {
     private _dialog: DialogAddService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<any>,
-    private $master: MasterHttpService
+    private $master: MasterHttpService,
+    private $chamber: ChamberHttpService
   ) {
 
   }
@@ -89,7 +91,7 @@ export class DialogAddComponent implements OnInit {
     }
   }
   save() {
-    this.$master.updateChamberList(this.data._id, this.form.value).subscribe(res => {
+    this.$chamber.updateChamberList(this.data._id, this.form.value).subscribe(res => {
       if (res && res.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
         this.dialogRef.close(res)
@@ -99,7 +101,7 @@ export class DialogAddComponent implements OnInit {
     })
   }
   create() {
-    this.$master.insertChamberList(this.form.value).subscribe(res => {
+    this.$chamber.insertChamberList(this.form.value).subscribe(res => {
       if (res && res.length > 0) {
         Swal.fire('SUCCESS', '', 'success')
         this.dialogRef.close(res)

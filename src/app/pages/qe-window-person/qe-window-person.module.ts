@@ -13,6 +13,8 @@ import { QeWindowReportComponent } from './qe-window-report/qe-window-report.com
 import { QeChamberComponent } from './qe-chamber/qe-chamber.component';
 import { QeChamberSelectComponent } from './qe-chamber-select/qe-chamber-select.component';
 import { DialogQeChamberComponent } from './qe-chamber/dialog-qe-chamber/dialog-qe-chamber.component';
+import { DialogQeOperateComponent } from './qe-chamber/dialog-qe-operate/dialog-qe-operate.component';
+import { QeChamberPlanningComponent } from './qe-chamber/qe-chamber-planning/qe-chamber-planning.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { DialogQeChamberComponent } from './qe-chamber/dialog-qe-chamber/dialog-
     QeWindowReportComponent,
     QeChamberComponent,
     QeChamberSelectComponent,
-    DialogQeChamberComponent
+    DialogQeChamberComponent,
+    DialogQeOperateComponent,
+    QeChamberPlanningComponent
   ],
   imports: [
     CommonModule,
