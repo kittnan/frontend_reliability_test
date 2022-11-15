@@ -110,6 +110,10 @@ h1.example-app-name {
     margin: 40px 0 !important;
 }
 
+.mtb-2 {
+    margin: 20px 0 !important;
+}
+
 .overflow {
     overflow: auto !important;
 }
@@ -117,6 +121,10 @@ h1.example-app-name {
 .box-body {
     box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
+}
+
+.pointer {
+    cursor: pointer !important;
 }
 
 .skeleton-loader-background {

@@ -24,10 +24,7 @@ export class ConditionTableComponent implements OnInit {
   displayedColumns: string[] = ['item', 'condition', 'operate', 'inspection', 'timeInspection', 'timeReport', 'sampleNo', 'qty'];
 
   ngOnInit(): void {
-    const access = localStorage.getItem('authorize')
-    if (access == 'qe_window_person') {
-      this.displayedColumns = ['item', 'condition', 'operate', 'inspection', 'timeInspection', 'timeReport', 'sampleNo', 'qty', 'chamber'];
-    }
+
   }
   getRowSpan(action: string, index: number) {
     if (action == 'row') {
@@ -44,20 +41,6 @@ export class ConditionTableComponent implements OnInit {
     return item.trim()
   }
 
-  async onClickChamber(item: any) {
-    console.log(item);
-
-    this.clickChange.emit('xxx')
-
-    // console.log(item);
-    // const resData = await this.$master.getChamberByValue(item.value).toPromise()
-    // console.log(resData);
-    // const dialogRef: MatDialogRef<any> = this.dialog.open(ChamberTableComponent, {
-    //   data: resData,
-    //   maxWidth: 1000,
-    //   maxHeight: 1000
-    // })
-  }
 
 
 

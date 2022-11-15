@@ -32,13 +32,11 @@ export class QeChamberService {
   genEndDate(item: QueueForm) {
     item.inspectionTime = this.loopTime(item.inspectionTime, item.startDate)
     item.reportTime = this.loopReport(item.reportTime, item.startDate)
-    let len: any = item.inspectionTime?.length
-    const endDate: any = item.inspectionTime ? item.inspectionTime[len - 1].endDate : null
+    const endDate: any = this.loopSum(item.inspectionTime, item.startDate)
     if (endDate) {
-      item.endDate = moment(endDate).toDate()
+      item.endDate = endDate
     }
-    console.log(item);
-
+    return item
   }
 
   private loopTime(time: TimeForm[] | any, startDate: Date | any) {
@@ -63,6 +61,17 @@ export class QeChamberService {
         }
 
       })
+    }
+  }
+
+  private loopSum(time: TimeForm[] | any, startDate: Date | any) {
+    if (time) {
+      return time.reduce((prev: any, now: TimeForm) => {
+        const d = moment(prev)
+        d.add(Number(now.at), 'hour');
+        d.add(Number(now.hr), 'hour');
+        return d.toDate()
+      }, startDate)
     }
   }
 

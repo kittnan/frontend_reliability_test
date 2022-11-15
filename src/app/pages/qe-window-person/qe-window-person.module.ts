@@ -15,6 +15,7 @@ import { QeChamberSelectComponent } from './qe-chamber-select/qe-chamber-select.
 import { DialogQeChamberComponent } from './qe-chamber/dialog-qe-chamber/dialog-qe-chamber.component';
 import { DialogQeOperateComponent } from './qe-chamber/dialog-qe-operate/dialog-qe-operate.component';
 import { QeChamberPlanningComponent } from './qe-chamber/qe-chamber-planning/qe-chamber-planning.component';
+import { QeChamberPlanningDetailComponent } from './qe-chamber/qe-chamber-planning/qe-chamber-planning-detail/qe-chamber-planning-detail.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { QeChamberPlanningComponent } from './qe-chamber/qe-chamber-planning/qe-
     QeChamberSelectComponent,
     DialogQeChamberComponent,
     DialogQeOperateComponent,
-    QeChamberPlanningComponent
+    QeChamberPlanningComponent,
+    QeChamberPlanningDetailComponent
   ],
   imports: [
     CommonModule,

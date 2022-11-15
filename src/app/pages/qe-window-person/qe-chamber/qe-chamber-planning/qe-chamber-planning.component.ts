@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { DialogQeChamberComponent } from '../dialog-qe-chamber/dialog-qe-chamber.component';
 import { DialogQeOperateComponent } from '../dialog-qe-operate/dialog-qe-operate.component';
 import { QueueForm } from '../qe-chamber.component';
@@ -17,7 +18,7 @@ export class QeChamberPlanningComponent implements OnInit {
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   dataSource: any;
-  displayedColumns = ['select', 'reqNo', 'userRequest', 'requestDate', 'sendDate', 'condition', 'operate', 'qty'];
+  displayedColumns = ['select', 'condition', 'userRequest', 'requestDate', 'sendDate', 'operate', 'qty'];
   selection = new SelectionModel<any>(true, []);
   selected: any[] = []
   chamberTable!: QueueForm[]
@@ -28,7 +29,7 @@ export class QeChamberPlanningComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.data){
-      this.dataSource = this.data
+      this.dataSource =new MatTableDataSource(this.data)
     }
   }
 
@@ -114,7 +115,8 @@ export class QeChamberPlanningComponent implements OnInit {
         },
         work: {
           requestId: selected.step1.requestId,
-          qty: selected.condition.data.qty
+          qty: selected.condition.data.qty,
+          controlNo:selected.step1.controlNo
         },
         condition: {
           name: selected.condition.dataTable.name,
