@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
 
 @Component({
@@ -13,17 +13,26 @@ export class DialogQeOperateComponent implements OnInit {
   dataSource: any;
   constructor(
     private $operateGroup: OperateGroupService,
-    private dialogRef: MatDialogRef<any>
+    private dialogRef: MatDialogRef<any>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.$operateGroup.get().subscribe(res => this.dataSource = res)
+
   }
 
   ngOnInit(): void {
+    if (this.data) {
+      const startDate = this.data.startDate;
+      const operate = JSON.stringify(this.data.operate)
+      this.$operateGroup.getReady(startDate,operate).subscribe(res=>{
+        console.log(res);
+
+      })
+    }
   }
   onSelect(element: any, item: any) {
     this.dialogRef.close({
       ...item,
-      code:element.code
+      code: element.code
     })
   }
 

@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
   }
 
   async getMaster() {
-    const resData = await this.$chamber.getChamberList().toPromise()
+    const resData = await this.$chamber.get().toPromise()
     this.dataSource = new MatTableDataSource(resData)
     this.displayedColumns = ['no', 'code', 'name', 'capacity', 'function', 'use', 'status', 'action']
     this.tableConfig()
@@ -94,7 +94,7 @@ export class TableComponent implements OnInit {
       showCancelButton: true
     }).then(result => {
       if (result.isConfirmed) {
-        this.$chamber.deleteChamberList(item._id).subscribe(res => {
+        this.$chamber.delete(item._id).subscribe(res => {
           if (res.deletedCount > 0) {
             Swal.fire('SUCCESS','','success')
             this.getMaster();

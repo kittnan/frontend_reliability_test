@@ -15,22 +15,26 @@ export class DialogQeChamberComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private $chamber :ChamberHttpService
+    private $chamber: ChamberHttpService
   ) { }
   displayedColumns: string[] = ['no', 'code', 'name', 'capacity', 'function', 'status', 'action'];
   rows: any
 
   async ngOnInit(): Promise<void> {
-    console.log(this.data);
     if (this.data) {
-      this.rows = await this.$chamber.getChamberByValue(this.data).toPromise()
+      this.rows = await this.$chamber.getReady(this.data.value, this.data.startDate, this.data.qty).toPromise()
       console.log(this.rows);
 
     }
   }
-  calCap(item: any) {
-    const sum = (parseInt(item.use) / parseInt(item.capacity)) * 100
-    return `${sum}% ( ${item.use}/${item.capacity} )`
+  htmlCap(item: any){
+    return `${item.run}/${item.capacity}`
+  }
+  htmlCalCapPercent(item: any) {
+    const cap = Number(item.capacity)
+    const use = Number(item.run) == 0 ? cap : Number(item.run)
+    const percent = (use /cap )
+    return percent
   }
   onSelect(e: any) {
     this.dialogRef.close(e)

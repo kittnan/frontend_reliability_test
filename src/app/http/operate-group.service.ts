@@ -21,6 +21,9 @@ export class OperateGroupService {
   get(): Observable<any> {
     return this.http.get(`${this.URL}/operate_group/`)
   }
+  getReady(startDate:any,operate:any): Observable<any> {
+    return this.http.get(`${this.URL}/operate_group/ready/${startDate}/${operate}`)
+  }
   getLastRecord(): Observable<any> {
     return this.http.get(`${this.URL}/operate_group/lastCode/`)
   }

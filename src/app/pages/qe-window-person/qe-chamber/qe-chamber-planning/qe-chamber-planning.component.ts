@@ -18,9 +18,7 @@ export class QeChamberPlanningComponent implements OnInit {
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   dataSource: any;
-  displayedColumns = ['select', 'condition', 'userRequest', 'requestDate', 'sendDate', 'operate', 'qty'];
-  selection = new SelectionModel<any>(true, []);
-  selected: any[] = []
+  displayedColumns = [ 'condition', 'userRequest', 'requestDate', 'sendDate', 'operate', 'qty'];
   chamberTable!: QueueForm[]
   constructor(
     private dialog: MatDialog,
@@ -28,8 +26,9 @@ export class QeChamberPlanningComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(this.data){
-      this.dataSource =new MatTableDataSource(this.data)
+    if (this.data) {
+      this.dataSource = new MatTableDataSource(this.data)
+      this.createPlaning()
     }
   }
 
@@ -40,29 +39,7 @@ export class QeChamberPlanningComponent implements OnInit {
     return element.dataTable.name
   }
 
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
 
 
   dialogChamber(item: QueueForm) {
@@ -74,10 +51,6 @@ export class QeChamberPlanningComponent implements OnInit {
       if (res) {
         item.chamber = res
       }
-      // await this.$chamber.createQueue({
-      //   foo: item,
-      //   doo: res
-      // }).toPromise()
     })
   }
 
@@ -100,8 +73,7 @@ export class QeChamberPlanningComponent implements OnInit {
 
 
   createPlaning() {
-    this.selected = [...this.selection.selected]
-    this.chamberTable = this.selected.map((selected: any) => {
+    this.chamberTable = this.data.map((selected: any) => {
       const temp: QueueForm = {
         startDate: null,
         endDate: null,
@@ -116,14 +88,14 @@ export class QeChamberPlanningComponent implements OnInit {
         work: {
           requestId: selected.step1.requestId,
           qty: selected.condition.data.qty,
-          controlNo:selected.step1.controlNo
+          controlNo: selected.step1.controlNo,
         },
         condition: {
           name: selected.condition.dataTable.name,
           value: selected.condition.value
         },
-        model: selected.step1.modelNo
-
+        model: selected.step1.modelNo,
+        status:'draft'
       }
       return temp
     })

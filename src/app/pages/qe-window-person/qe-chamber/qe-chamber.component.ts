@@ -6,6 +6,7 @@ import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
 import { QueueService } from 'src/app/http/queue.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
+import Swal from 'sweetalert2';
 import { QeChamberService } from './qe-chamber.service';
 
 
@@ -19,7 +20,9 @@ export interface QueueForm {
   condition: ConditionForm | null,
   operate: OperateForm | null,
   model: String | null,
-  chamber?: ChamberForm
+  chamber?: ChamberForm,
+  status:String |null,
+  _id?:String |null
 
 }
 interface ChamberForm {
@@ -107,10 +110,7 @@ export class QeChamberComponent implements OnInit {
       }
     })
   }
-  async submit() {
-    console.log(this.chamberTable);
-    await this.$queue.insert(this.chamberTable).toPromise()
-  }
+
 
 
 

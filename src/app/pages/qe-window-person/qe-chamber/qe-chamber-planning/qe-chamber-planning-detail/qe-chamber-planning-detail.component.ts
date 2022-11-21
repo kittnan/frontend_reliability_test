@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
+import { QueueService } from 'src/app/http/queue.service';
+import Swal from 'sweetalert2';
 import { DialogQeChamberComponent } from '../../dialog-qe-chamber/dialog-qe-chamber.component';
 import { DialogQeOperateComponent } from '../../dialog-qe-operate/dialog-qe-operate.component';
 import { QueueForm, OperateForm } from '../../qe-chamber.component';
@@ -23,43 +25,81 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
   constructor(
     private dialog: MatDialog,
-    private _qe_chamber: QeChamberService,
-    private $operateItems: OperateItemsHttpService
+    private $qe_chamber: QeChamberService,
+    private $operateItems: OperateItemsHttpService,
+    private $queue: QueueService
   ) {
     this.$operateItems.get().subscribe(res => this.operateItems = res)
   }
 
   ngOnInit(): void {
+    this.getDraft()
+  }
+
+  async getDraft() {
+    console.log('test@', this.data);
+    if (this.data) {
+      const queueDraft = await this.$queue.getFormId(this.data[0].work.requestId).toPromise()
+      this.data = this.data.map((d: QueueForm) => {
+        const draft = queueDraft.find((draft: QueueForm) => draft.condition?.name == d.condition?.name)
+        if (draft) {
+          return {
+            ...d,
+            ...draft
+          }
+        } else {
+          return d
+        }
+      })
+      console.log('!!', this.data);
+
+    }
   }
 
   dialogChamber(item: QueueForm) {
-    const dialogRef = this.dialog.open(DialogQeChamberComponent, {
-      data: item.condition?.value
-    })
-    dialogRef.afterClosed().subscribe(async res => {
-      if (res) {
-        item.chamber = res
-        this.emit()
-      }
+    if (item && item.startDate) {
+      const dialogRef = this.dialog.open(DialogQeChamberComponent, {
+        data: {
+          value: item.condition?.value,
+          startDate: item.startDate,
+          qty: item.work?.qty
+        },
 
-    })
+      })
+      dialogRef.afterClosed().subscribe(async res => {
+        if (res) {
+          item.chamber = res
+        }
+
+      })
+    } else {
+      Swal.fire('PLEASE SELECT DATE START!!!', '', 'warning')
+    }
+
   }
 
   dialogOperate(item: QueueForm) {
-    const dialogRef = this.dialog.open(DialogQeOperateComponent, {
-      data: ''
-    })
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        item.operate = {
-          attachment: res.attachment,
-          checker: res.checker,
-          power: res.power,
-          status: true
+    if (item && item.startDate) {
+      const dialogRef = this.dialog.open(DialogQeOperateComponent, {
+        data: {
+          startDate: item.startDate,
+          operate: item.operate
         }
-        this.emit()
-      }
-    })
+      })
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          item.operate = {
+            attachment: res.attachment,
+            checker: res.checker,
+            power: res.power,
+            status: true
+          }
+        }
+      })
+    } else {
+      Swal.fire('PLEASE SELECT DATE START!!!', '', 'warning')
+    }
+
   }
 
   onSelectHour(item: QueueForm, e: any) {
@@ -68,8 +108,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   onCal(item: QueueForm, index: number) {
-    item = this._qe_chamber.genEndDate(item)
-    this.emit()
+    item = this.$qe_chamber.genEndDate(item)
   }
 
   compareSelect(a: any, b: any) {
@@ -85,7 +124,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       name: e.value.name,
       qty: 1
     }
-    this.emit()
   }
   onSelectPower(e: any, item: OperateForm) {
     item.power = {
@@ -93,7 +131,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       name: e.value.name,
       qty: 1
     }
-    this.emit()
 
   }
   onSelectAttachment(e: any, item: OperateForm) {
@@ -102,9 +139,42 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       name: e.value.name,
       qty: 1
     }
-    this.emit()
 
   }
+
+  onDraft(item: QueueForm, index: number) {
+    console.log(item);
+
+    const body = [item]
+    if (item._id) {
+      this.onEdit(item._id, item)
+    } else {
+      this.onInsert(body, index)
+    }
+
+  }
+
+  onInsert(item: any, index: number) {
+    this.$queue.insert(item).subscribe(res => {
+      if (res && res.status) {
+        this.data[index] = res.text
+        Swal.fire('SUCCESS', '', 'success')
+      } else {
+        Swal.fire(res.text, '', 'error')
+      }
+    })
+  }
+  onEdit(id: any, item: any) {
+    this.$queue.update(id, item).subscribe(res => {
+      if (res && res.acknowledged) {
+        Swal.fire('SUCCESS', '', 'success')
+      } else {
+        Swal.fire(res.text, '', 'error')
+      }
+    })
+  }
+
+
 
   showOperateItemChecker(operateItems: any) {
     return operateItems.filter((item: any) => item.type === 'checker')
@@ -115,8 +185,29 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   showOperateItemAttachment(operateItems: any) {
     return operateItems.filter((item: any) => item.type === 'attachment')
   }
-  emit() {
-    this.dataChange.emit(this.data)
+
+
+
+  async submit() {
+    const ff = this.data.find((d: any) => !d._id)
+    console.log(ff);
+    if (ff) {
+      Swal.fire('SOME CONDITION NOT READY', '', 'error')
+    } else {
+      this.$queue.updateMany(this.data).subscribe(res => {
+        console.log(res);
+        if (res && res.status) {
+          Swal.fire('SUCCESS', '', 'success')
+        } else {
+          Swal.fire(res.text, '', 'error')
+        }
+      })
+    }
+
+
+
+
   }
+
 
 }

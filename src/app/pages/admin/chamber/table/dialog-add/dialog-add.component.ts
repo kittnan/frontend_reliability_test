@@ -91,7 +91,7 @@ export class DialogAddComponent implements OnInit {
     }
   }
   save() {
-    this.$chamber.updateChamberList(this.data._id, this.form.value).subscribe(res => {
+    this.$chamber.update(this.data._id, this.form.value).subscribe(res => {
       if (res && res.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
         this.dialogRef.close(res)
@@ -101,7 +101,7 @@ export class DialogAddComponent implements OnInit {
     })
   }
   create() {
-    this.$chamber.insertChamberList(this.form.value).subscribe(res => {
+    this.$chamber.insert(this.form.value).subscribe(res => {
       if (res && res.length > 0) {
         Swal.fire('SUCCESS', '', 'success')
         this.dialogRef.close(res)

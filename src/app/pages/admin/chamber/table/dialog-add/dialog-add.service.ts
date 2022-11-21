@@ -15,7 +15,7 @@ export class DialogAddService {
     if (code) {
       return code
     } else {
-      const lastRecord = await this.$chamber.getChamberLastRecord().toPromise()
+      const lastRecord = await this.$chamber.getLast().toPromise()
       if (lastRecord) {
         let temp = lastRecord[0].code.toString().split('-')
         let newCode = (parseInt(temp[1]) + 1).toString();

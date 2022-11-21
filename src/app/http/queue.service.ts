@@ -17,10 +17,16 @@ export class QueueService {
   update(id: any, data: any): Observable<any> {
     return this.http.put(`${this.URL}/queue/update/${id}`, data)
   }
+  updateMany(data: any): Observable<any> {
+    return this.http.put(`${this.URL}/queue/updateMany/`, data)
+  }
   get(): Observable<any> {
     return this.http.get(`${this.URL}/queue/`)
   }
-  delete(id:any): Observable<any> {
+  getFormId(id: any): Observable<any> {
+    return this.http.get(`${this.URL}/queue/formId/${id}`)
+  }
+  delete(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/queue/delete/${id}`)
   }
 

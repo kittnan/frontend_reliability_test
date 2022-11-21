@@ -4,32 +4,63 @@
         <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index" (click)="onSelect(row)" class="pointer box-body mtb-2 b-1">
 
             <!-- <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" > -->
-            <mat-form-field fxFlex.gt-lg="30" fxFlex.sm="100" appearance="legacy">
+            <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
                 <mat-label>CODE</mat-label>
-                <input matInput [(ngModel)]="row.code" [readonly]="true">
+                <input matInput [(ngModel)]="row.code" [readonly]="true" class="pointer">
             </mat-form-field>
 
-            <mat-form-field fxFlex.gt-lg="30" fxFlex.sm="100" appearance="legacy">
+            <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
                 <mat-label>NAME</mat-label>
-                <input matInput [(ngModel)]="row.name" [readonly]="true">
+                <input matInput [(ngModel)]="row.name" [readonly]="true" class="pointer">
             </mat-form-field>
 
-            <mat-form-field fxFlex.gt-lg="30" fxFlex.sm="100" appearance="legacy">
+            <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
                 <mat-label>CAPACITY</mat-label>
-                <input matInput [(ngModel)]="row.capacity" [readonly]="true">
+                <input matInput [value]="htmlCap(row)" [readonly]="true" class="pointer">
             </mat-form-field>
 
-            <mat-form-field fxFlex.gt-lg="30" fxFlex.sm="100" appearance="legacy">
-                <mat-label>SPACE</mat-label>
-                <input matInput [value]="calCap(row)" [readonly]="true">
+            <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
+                <mat-label>USE SPACE</mat-label>
+                <input matInput [value]="htmlCalCapPercent(row)|percent" [readonly]="true" class="pointer">
             </mat-form-field>
 
-            <ul fxFlex.gt-lg="30" fxFlex.sm="100" style="display: contents  ; list-style: auto;">
-                FUNCTION
-                <li *ngFor="let function of row.function">
-                    {{function.name}}
-                </li>
-            </ul>
+            <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+
+                <div fxFlex="22" fxLayoutAlign="center stretch" fxLayout="row wrap">
+                    <ul fxFlex="100">
+                        <strong>FUNCTION :</strong>
+                        <li *ngFor="let function of row.function">
+                            {{function.name}}
+                        </li>
+                    </ul>
+                </div>
+
+                <div fxFlex="78" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+                    <ul fxFlex="33" *ngFor="let item of row.remain">
+                        <li *ngIf="item.work.controlNo">
+                            <strong>No</strong> {{item.work.controlNo}}
+                        </li>
+                        <li *ngIf="item.condition.name">
+                            <strong>CONDITION</strong> {{item.condition.name}}
+                        </li>
+                        <li>
+                            <strong>Qty</strong> {{item.work.qty}} pcs.
+                        </li>
+                        <li>
+                            <strong>START</strong> {{item.startDate |date:'dd MMMM YYYY h:mm a'}}
+                        </li>
+                        <li>
+                            <strong>END</strong> {{item.endDate |date:'dd MMMM YYYY h:mm a'}}
+                        </li>
+                    </ul>
+                </div>
+
+
+
+            </div>
+
+
+
             <!-- </div> -->
 
         </div>

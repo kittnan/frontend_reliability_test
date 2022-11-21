@@ -13,26 +13,28 @@ export class ChamberHttpService {
     private http: HttpClient
   ) { }
 
-  getChamberList(): Observable<any> {
+  get(): Observable<any> {
     return this.http.get(`${this.URL}/chamber_list/`)
   }
-  insertChamberList(data: any): Observable<any> {
+  insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/chamber_list/insert`, data)
   }
-  updateChamberList(id: any, data: any): Observable<any> {
+  update(id: any, data: any): Observable<any> {
     return this.http.put(`${this.URL}/chamber_list/update/${id}`, data)
   }
-  deleteChamberList(id: any): Observable<any> {
+  delete(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/chamber_list/delete/${id}`)
   }
-  getChamberLastRecord():Observable<any>{
+  getLast():Observable<any>{
     return this.http.get(`${this.URL}/chamber_list/lastRecord`)
   }
-  getChamberByValue(value:any):Observable<any>{
+  getByValue(value:any):Observable<any>{
     return this.http.get(`${this.URL}/chamber_list/chamber/${value}`)
   }
-
-  createQueue(data: any): Observable<any> {
+  insertQueue(data: any): Observable<any> {
     return this.http.post(`${this.URL}/chamber_list/insertQueue`, data)
+  }
+  getReady(value:any,startDate:any,qty:any):Observable<any>{
+    return this.http.get(`${this.URL}/chamber_list/ready/${value}/${startDate}/${qty}`)
   }
 }
