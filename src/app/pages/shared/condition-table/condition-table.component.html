@@ -1,4 +1,4 @@
-<div fxLayoutAlign="start stretch" fxLayout="row wrap">
+<div fxLayoutAlign="start stretch" fxLayout="row wrap" style="overflow: auto;">
     <table *ngIf="data&& data.length>0" fxFlex="100" mat-table [dataSource]="data">
         <ng-container matColumnDef="item">
             <th mat-header-cell *matHeaderCellDef>Item</th>

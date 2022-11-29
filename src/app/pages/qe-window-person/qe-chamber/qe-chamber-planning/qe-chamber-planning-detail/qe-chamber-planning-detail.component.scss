@@ -18,3 +18,21 @@ th,
 td {
     padding: 10px;
 }
+
+.b-left-red {
+    border-left: 20px solid rgb(241, 125, 125)
+}
+
+.b-left-green {
+    border-left: 20px solid rgb(118, 255, 118);
+    // background-color: rgb(118 255 118 / 22%);
+}
+
+.red {
+    background-color: rgb(241, 125, 125);
+}
+
+.green {
+    background-color: rgb(118, 255, 118);
+    ;
+}

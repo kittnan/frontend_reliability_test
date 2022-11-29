@@ -10,4 +10,19 @@
 th,
 td {
     padding: 10px;
+    border: 1px solid black;
+    text-align: -webkit-center;
+}
+
+.item>th,
+.item>td {
+    border: 0;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.row-hover:hover {
+    background-color: #b8d4b2 !important;
 }

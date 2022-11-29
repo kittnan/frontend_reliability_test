@@ -35,6 +35,7 @@ import { ConditionTableComponent } from './condition-table/condition-table.compo
 import { Step5Component } from './views/step5/step5.component';
 import { ApproveFormComponent } from './approve-form/approve-form.component';
 import { ChamberTableComponent } from './chamber-table/chamber-table.component';
+import { PlanReliabilityTestComponent } from './plan-reliability-test/plan-reliability-test.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { ChamberTableComponent } from './chamber-table/chamber-table.component';
     ConditionTableComponent,
     Step5Component,
     ApproveFormComponent,
-    ChamberTableComponent
+    ChamberTableComponent,
+    PlanReliabilityTestComponent
 
   ],
   imports: [
@@ -104,7 +106,8 @@ import { ChamberTableComponent } from './chamber-table/chamber-table.component';
     Step4Component,
     Step5Component,
     ApproveFormComponent,
-    ChamberTableComponent
+    ChamberTableComponent,
+    PlanReliabilityTestComponent
   ]
 })
 export class SharedModule { }

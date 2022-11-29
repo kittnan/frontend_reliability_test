@@ -14,6 +14,9 @@ export class QueueService {
   insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/queue/insert/`, data)
   }
+  check(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/queue/check/`, data)
+  }
   update(id: any, data: any): Observable<any> {
     return this.http.put(`${this.URL}/queue/update/${id}`, data)
   }

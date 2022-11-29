@@ -1,86 +1,94 @@
 <mat-dialog-content class="mat-typography">
+    <mat-spinner *ngIf="load"></mat-spinner>
+    <table *ngIf="!load">
+        <tr style="background-color: darkseagreen;">
+            <th align="center" colspan="3">OPERATE GROUP ALL</th>
+        </tr>
+        <tr>
+            <th>GROUP NO</th>
+            <th>CODE</th>
+            <th>NAME</th>
+        </tr>
+        <ng-container *ngFor="let group of groupList; let i_group=index">
+            <ng-container *ngFor="let operate of group.operate; let i_operate=index">
+                <tr [style.backgroundColor]="'#eaeaea'" class="pointer row-hover" (click)="onSelect(group,operate)">
+                    <td align="center">
+                        {{i_group+1}}.{{i_operate+1}}
+                    </td>
+                    <td align="center">
+                        {{group.code |uppercase}}
+                    </td>
+                    <td align="center">
+                        {{group.name}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Checker</th>
+                    <th>Power</th>
+                    <th>Attachment</th>
+                </tr>
+                <tr>
+                    <td>
+                        <tr class="item">
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Qy</th>
+                        </tr>
+                        <tr class="item">
+                            <td>
+                                {{operate.checker.code |uppercase}}
+                            </td>
+                            <td>
+                                {{operate.checker.name}}
+                            </td>
+                            <td>
+                                {{operate.checker.qty}}
+                            </td>
+                        </tr>
+                    </td>
+                    <td>
+                        <tr class="item">
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Qy</th>
+                        </tr>
+                        <tr class="item">
+                            <td>
+                                {{operate.power.code |uppercase}}
+                            </td>
+                            <td>
+                                {{operate.power.name}}
+                            </td>
+                            <td>
+                                {{operate.power.qty}}
+                            </td>
+                        </tr>
+                    </td>
+                    <td>
+                        <tr class="item">
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Qy</th>
+                        </tr>
+                        <tr class="item">
+                            <td>
+                                {{operate.attachment.code |uppercase}}
+                            </td>
+                            <td>
+                                {{operate.attachment.name}}
+                            </td>
+                            <td>
+                                {{operate.attachment.qty}}
+                            </td>
+                        </tr>
+                    </td>
 
-    <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element;let i=index;"> {{i+1}} </td>
+                </tr>
+            </ng-container>
+
+
         </ng-container>
 
-        <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef> CODE </th>
-            <td mat-cell *matCellDef="let element"> {{element.code|uppercase}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> NAME </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="operate">
-            <th mat-header-cell *matHeaderCellDef> OPERATE ITEMS </th>
-            <td mat-cell *matCellDef="let element" class="ul-hover">
-
-                <ul *ngFor="let operate of element.operate; let i=index">
-
-                    <b>GROUP {{i+1}}</b>
-
-                    <li (click)="onSelect(element,operate)">
-
-                        <ul style="margin-top: 5px;">
-                            <b>CHECKER</b>
-                            <li>
-                                <b>CODE</b>: {{operate.checker.code |uppercase}}
-                            </li>
-                            <li>
-                                <b>NAME</b>: {{operate.checker.name}}
-                            </li>
-                            <li>
-                                <b>QTY</b>: {{operate.checker.qty}} pcs.
-                            </li>
-                        </ul>
-
-
-                        <ul style="margin-top: 5px;">
-                            <b>POWER</b>
-                            <li>
-                                <b>CODE</b>: {{operate.power.code |uppercase}}
-                            </li>
-                            <li>
-                                <b>NAME</b>: {{operate.power.name}}
-                            </li>
-                            <li>
-                                <b>QTY</b>: {{operate.power.qty}} pcs.
-                            </li>
-                        </ul>
-
-                        <ul style="margin-top: 5px;">
-                            <b>ATTACHMENT</b>
-                            <li>
-                                <b>CODE</b>: {{operate.attachment.code |uppercase}}
-                            </li>
-                            <li>
-                                <b>NAME</b>: {{operate.attachment.name}}
-                            </li>
-                            <li>
-                                <b>QTY</b>: {{operate.attachment.qty}} pcs.
-                            </li>
-                        </ul>
-
-
-
-
-                    </li>
-                </ul>
-
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef> STATUS </th>
-            <td mat-cell *matCellDef="let element"> {{element.status |uppercase}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
 </mat-dialog-content>

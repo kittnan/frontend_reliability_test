@@ -1,0 +1,45 @@
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    word-wrap: break-word;
+}
+
+th,
+td {
+    padding: 10px;
+}
+
+table {
+    table-layout: fixed;
+}
+
+.box-table {
+    overflow: auto;
+}
+
+thead th {
+    position: -webkit-sticky;
+    /* for Safari */
+    position: sticky;
+    top: 0;
+    background: #FFF;
+}
+
+thead th:first-child {
+    left: 0;
+    z-index: 1;
+}
+
+tbody th {
+    position: -webkit-sticky;
+    /* for Safari */
+    position: sticky;
+    left: 0;
+    background: #FFF;
+}
+
+.text-over {
+    font-size: 1rem;
+}

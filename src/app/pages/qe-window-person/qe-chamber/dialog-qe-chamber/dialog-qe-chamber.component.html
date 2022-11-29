@@ -1,9 +1,9 @@
 <mat-dialog-content class="mat-typography">
-    <div fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <mat-spinner *ngIf="load"></mat-spinner>
+    <div *ngIf="!load" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index" (click)="onSelect(row)" class="pointer box-body mtb-2 b-1">
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index" (click)="onSelect(row)" class="pointer box-body mtb-2 b-1" [ngClass]="{'chamber-red': !row.status}">
 
-            <!-- <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" > -->
             <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
                 <mat-label>CODE</mat-label>
                 <input matInput [(ngModel)]="row.code" [readonly]="true" class="pointer">
@@ -61,7 +61,6 @@
 
 
 
-            <!-- </div> -->
 
         </div>
 

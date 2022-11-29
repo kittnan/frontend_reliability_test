@@ -28,14 +28,14 @@ export class ApproveRequestComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _request: RequestHttpService,
+    private $request: RequestHttpService,
     private _toast: ToastService,
-    private _user: UserHttpService,
+    private $user: UserHttpService,
     private _loading: NgxUiLoaderService,
 
   ) {
     const id: any = localStorage.getItem('_id')
-    this._user.getUserById(id).subscribe(res => this.userLogin = res)
+    this.$user.getUserById(id).subscribe(res => this.userLogin = res)
     this.dateNow = new Date()
   }
 
@@ -44,7 +44,7 @@ export class ApproveRequestComponent implements OnInit {
     this.route.queryParams.subscribe(async params => {
       console.log(params['id']);
       const id = params['id']
-      const resData = await this._request.getRequest_formById(id).toPromise()
+      const resData = await this.$request.getRequest_formById(id).toPromise()
       this.data = resData[0];
       console.log(this.data);
 
@@ -64,12 +64,12 @@ export class ApproveRequestComponent implements OnInit {
 
   async getUserApprove() {
     const _id: any = localStorage.getItem("_id")
-    this.userLogin = await this._user.getUserById(_id).toPromise();
+    this.userLogin = await this.$user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)
     const level = [this.authorize]
     const temp_level = JSON.stringify(level)
-    this.userApprove = await this._user.getUserBySection(temp_section, temp_level).toPromise();
+    this.userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
     this.approve.patchValue(this.userApprove[0])
   }
 

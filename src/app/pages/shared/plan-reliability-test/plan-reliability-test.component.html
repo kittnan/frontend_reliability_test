@@ -1,0 +1,74 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+    <div fxLayoutAlign="start stretch" fxLayout="row wrap" class="box-table">
+        <table fxFlex="100">
+            <tr>
+                <th colspan="3" class="text-over">
+                    Control No. {{requestForm[0].step1.controlNo}}
+                </th>
+            </tr>
+            <tr>
+                <th colspan="3" class="text-over">
+                    Over All Plan Reliability Test
+                </th>
+            </tr>
+            <tr>
+                <th width="33%">Model No. </th>
+                <th width="33%">Model Name </th>
+                <th width="33">Requestor </th>
+            </tr>
+            <tr>
+                <th>{{requestForm[0].step1.modelNo}}</th>
+                <th>{{requestForm[0].step1.modelName }}</th>
+                <th>{{htmlUserRequest(requestForm[0].step5) |uppercase}}</th>
+            </tr>
+        </table>
+
+        <table fxFlex="100">
+            <thead>
+                <tr>
+                    <th [attr.colspan]="queues.header.length +1">
+                        Inspection Result
+                    </th>
+                </tr>
+                <tr>
+                    <th width="10%">
+                        Condition
+                    </th>
+                    <ng-container>
+                        <th width="10%" *ngFor="let head of queues.header; let i=index">
+                            {{head}}
+                        </th>
+                    </ng-container>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <th style="z-index: 2;">
+                        Sample Receive
+                    </th>
+                    <ng-container>
+                        <th *ngFor="let re of queues.receive; let i=index">
+                            {{re}}
+                        </th>
+                    </ng-container>
+                </tr>
+                <tr *ngFor="let row of queues.data; let i_row=index" align="center">
+
+                    <ng-container *ngFor="let col of row; let i_col=index">
+                        <th *ngIf="i_col==0">
+                            {{col}}
+                        </th>
+                        <td *ngIf="i_col!=0">
+                            {{col}}
+                        </td>
+                    </ng-container>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

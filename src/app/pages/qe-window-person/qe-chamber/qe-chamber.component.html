@@ -1,5 +1,5 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div *ngIf="form" fxFlex="80" fxLayoutAlign="center stretch" fxLayout="row wrap" class="box-body mtb-4">
+    <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap" class="box-body mtb-4">
         <app-step1 fxFlex="100" [step1]="form.step1"></app-step1>
         <app-step2 fxFlex="100" [step2]="form.step2"></app-step2>
         <app-step4 fxFlex="100" [step4]="form.step4"></app-step4>
