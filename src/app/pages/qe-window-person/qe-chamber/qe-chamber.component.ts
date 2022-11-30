@@ -21,8 +21,8 @@ export interface QueueForm {
   operate: OperateForm | null,
   model: String | null,
   chamber?: ChamberForm,
-  status:String |null,
-  _id?:String |null
+  status: String | null,
+  _id?: String | null
 
 }
 interface ChamberForm {
@@ -78,7 +78,7 @@ export class QeChamberComponent implements OnInit {
   dataSource: any
   form: any
   chamberTable!: QueueForm[]
-
+  table: any
 
   constructor(
     private routeActive: ActivatedRoute,
@@ -110,8 +110,46 @@ export class QeChamberComponent implements OnInit {
       }
     })
   }
+  dataChange(e: any) {
+    this.chamberTable = e
+    console.log(this.chamberTable);
+
+  }
+  tableChange(e: any) {
+    this.table = e
+    console.log(this.table);
+  }
+
+  async submit() {
+    try {
+      console.clear()
+      console.log(this.chamberTable);
+      console.log('@@@@@@@', this.table);
+      console.log('form', this.form);
+      // await this.$request.updateRequest_form(this.form[0]._id, { table: this.table }).toPromise()
+      // await this.$queue.updateMany(this.chamberTable).toPromise()
+      // Swal.fire('SUCCESS', '', 'success')
+    } catch (error) {
+      Swal.fire(error?.toString(), '', 'error')
+    }
+  }
 
 
+  onUpdate(data: any) {
+    this.$queue.updateMany(data).subscribe(res => {
+      console.log(res);
+
+    })
+
+  }
+  validButtonSubmit() {
+    const r_find = this.chamberTable.find((d: any) => !d._id);
+    if (r_find) {
+      return true
+    }
+    return false
+
+  }
 
 
 

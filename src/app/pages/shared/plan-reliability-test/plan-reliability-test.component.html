@@ -1,14 +1,14 @@
-<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+<div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
 
-    <div fxLayoutAlign="start stretch" fxLayout="row wrap" class="box-table">
-        <table fxFlex="100">
+    <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="box-table">
+        <table fxFlex="auto">
             <tr>
                 <th colspan="3" class="text-over">
                     Control No. {{requestForm[0].step1.controlNo}}
                 </th>
             </tr>
             <tr>
-                <th colspan="3" class="text-over">
+                <th colspan="3" class="upper-text s-20">
                     Over All Plan Reliability Test
                 </th>
             </tr>
@@ -27,17 +27,17 @@
         <table fxFlex="100">
             <thead>
                 <tr>
-                    <th [attr.colspan]="queues.header.length +1">
-                        Inspection Result
+                    <th [attr.colspan]="queues.header.length +1" class="upper-text" style="background-color: rgb(141, 141, 218);">
+                        Inspection & Report Result
                     </th>
                 </tr>
                 <tr>
-                    <th width="10%">
+                    <th width="10%" class="upper-text c-blue">
                         Condition
                     </th>
                     <ng-container>
-                        <th width="10%" *ngFor="let head of queues.header; let i=index">
-                            {{head}}
+                        <th width="10%" *ngFor="let head of queues.header; let i=index" class="upper-text c-blue">
+                            {{head |uppercase}}
                         </th>
                     </ng-container>
                 </tr>
@@ -58,10 +58,28 @@
 
                     <ng-container *ngFor="let col of row; let i_col=index">
                         <th *ngIf="i_col==0">
-                            {{col}}
+                            <ul>
+                                <li *ngFor="let c of col; let i_c=index">
+                                    <span *ngIf="i_c==0">
+                    {{c |uppercase}}
+                  </span>
+                                    <span *ngIf="i_c==1" style="color: red;">
+                    {{c |uppercase}}
+                  </span>
+                                </li>
+                            </ul>
                         </th>
                         <td *ngIf="i_col!=0">
-                            {{col}}
+                            <ul>
+                                <li *ngFor="let c of col; let i_c=index">
+                                    <span *ngIf="i_c==0">
+                    {{c}}
+                  </span>
+                                    <span *ngIf="i_c==1" style="color: red;">
+                    {{c}}
+                  </span>
+                                </li>
+                            </ul>
                         </td>
                     </ng-container>
                 </tr>

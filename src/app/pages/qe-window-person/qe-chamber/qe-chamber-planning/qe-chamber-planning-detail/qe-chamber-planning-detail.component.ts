@@ -12,6 +12,7 @@ import { DialogQeChamberComponent } from '../../dialog-qe-chamber/dialog-qe-cham
 import { DialogQeOperateComponent } from '../../dialog-qe-operate/dialog-qe-operate.component';
 import { QueueForm, OperateForm, TimeForm } from '../../qe-chamber.component';
 import { QeChamberService } from '../../qe-chamber.service';
+import { GenInspectionTableService } from './gen-inspection-table.service';
 @Component({
   selector: 'app-qe-chamber-planning-detail',
   templateUrl: './qe-chamber-planning-detail.component.html',
@@ -34,6 +35,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   approve = new FormControl(null, Validators.required)
   @Input() data: any;
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
+
+  @Output() tableChange: EventEmitter<any> = new EventEmitter()
   constructor(
     private dialog: MatDialog,
     private $qe_chamber: QeChamberService,
@@ -41,7 +44,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private $queue: QueueService,
     private $operateGroup: OperateGroupService,
     private $request: RequestHttpService,
-    private $user: UserHttpService
+    private $user: UserHttpService,
+    private _qenInspectionTable: GenInspectionTableService,
   ) {
     this.$operateItems.get().subscribe(res => this.operateItems = res);
     const id: any = localStorage.getItem('_id')
@@ -296,210 +300,50 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
 
-  validButtonSubmit() {
-    const r_find = this.data.find((d: any) => !d._id);
-    if (r_find) {
-      return true
-    }
-    return false
 
-  }
 
   async mapForTable(data: any) {
     console.log(data);
-    console.log(this.requestForm);
-
 
     const header = data.reduce((prev: any, now: any) => {
       const temp: any = prev
       temp.push(now.condition.name)
       return temp
     }, [])
-
     const receive = header.map((h: any) => moment(this.requestForm[0].step1.sampleSentToQE_withinDate).format('ddd, D/M/YY h:mm a'))
-    let time = data.reduce((prev: any, now: any) => {
-      return this.loopTime2(now.inspectionTime, prev)
-    }, [])
-    time.sort((a: any, b: any) => a.at - b.at)
-    console.log(time);
-    let r_loop: any = await this.loopTable(time, data, header)
-    r_loop = r_loop.filter((r: any) => r.length != 0)
+    const times_inspection = await this.mapTime(data, 'inspectionTime')
+    const times_report = await this.mapTime(data, 'reportTime')
+    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, data, header, 'inspectionTime', times_report)
     this.tableData = {
       header: header,
       receive: receive,
-      data: r_loop
+      data: table_inspection
     }
+    this.emit()
 
   }
 
-  loopTime2(arr: any, prev: any) {
-    return arr.filter((a: any) => {
-      const found = prev.find((p: any) => p.at == a.at)
-      if (found) {
-        return found
-      } else {
-        return a
-      }
-    });
-  }
 
-  async loopTable(time: any, data: any, header: any) {
-    return new Promise(async resolve => {
-      let row: any[] = []
-      for (let i = 0; i < time.length; i++) {
-        const r_loop = await this.loopDataFilter(data, time[i], header)
-        row = row.concat(r_loop)
-        if (i + 1 == time.length) {
-          row.push(['END DATE',...data.map((d:any)=>  d?.endDate? moment(d.endDate).format('ddd, D/M/YY h:mm a'):'-' )])
-          resolve(row)
-        }
-      }
-    })
-  }
-
-  loopDataFilter(data: any, t: any, header: any) {
+  mapTime(data: any, key: any) {
     return new Promise(resolve => {
-      let row1: any[] = []
-      let row2: any[] = []
-      let row3: any[] = []
-
-      let row1_test = []
-
-      for (let col = 0; col < data.length; col++) {
-        const r_find = data[col].inspectionTime.find((inspec: any) => inspec.at == t.at && header[col] == data[col].condition.name)
-
-
-
-        const r_find_test = data[col].reportTime.find((report: any) => report.at == t.at && header[col] == data[col].condition.name)
-        const start_test = r_find_test?.startDate ? moment(r_find_test.startDate).format('ddd, D/M/YY h:mm a') : '-'
-
-
-
-
-
-        const start = r_find?.startDate ? moment(r_find.startDate).format('ddd, D/M/YY h:mm a') : '-'
-        const end = r_find?.endDate ? moment(r_find.endDate).format('ddd, D/M/YY h:mm a') : '-'
-        const between = start == '-' ? ' - ' : `${start}-${end}`
-        if (r_find && r_find.at == 0 && col == 0) {
-          row1.push('Inspection of Initial')
-          row1.push(between)
-
-          row2.push('Input to Chamber')
-          row2.push(end)
-
-          row1_test.push('Report of Initial')
-          row1_test.push(start_test?start_test:'-')
-
-
-        } else if (r_find && r_find.at == 0 && col != 0) {
-          row1.push(between)
-
-          row2.push(end)
-
-          row1_test.push(start_test?start_test:'-')
-
-        } else if (r_find && col == 0) {
-          row1.push(`${r_find.at}hrs`)
-
-          row2.push(`Inspection after ${r_find.at}hrs`);
-
-          row3.push(`Input to Chamber`);
-
-          row1.push(`${start}`)
-
-          row2.push(between)
-
-          row3.push(end)
-
-          row1_test.push(`Report after ${r_find.at}hrs`);
-          row1_test.push(start_test?start_test:'-')
-
-        } else if (r_find && col != 0) {
-          row1.push(`${start}`)
-
-          row2.push(between)
-
-          row3.push(end)
-
-          row1_test.push(start_test?start_test:'-')
-
-        } else {
-          row1.push('-')
-
-          row2.push('-')
-
-          row3.push('-')
-
-          row1_test.push(start_test?start_test:'-')
-
-        }
-
-        if (col + 1 == data.length) {
-          let arr = [row1, row2, row3]
-          console.log('!!!!!!!',row1);
-          console.log('@@@@@@@@@@@@@@@',row1_test);
-
-          resolve(arr)
-        }
-
-      }
-
+      let times = data.reduce((prev: any, now: any) => {
+        const foo = prev.concat(now[key])
+        return foo
+      }, [])
+      times = Object.values(times.reduce((acc: any, cur: any) => Object.assign(acc, { [cur.at]: cur }), {}))
+      times.sort((a: any, b: any) => a.at - b.at)
+      times.push({ at: -1 })
+      resolve(times)
     })
   }
 
-
-
-
-  loopTime(arr: any, items: QueueForm | any, key: any) {
-    const inspectionTime: any = items[key]
-    for (let i = 0; i < inspectionTime.length; i++) {
-      const r_find = arr.data.find((inspec: any) => inspec.at == inspectionTime[i].at)
-      const r_findHead = arr.header.find((h: any) => h == items.condition.name)
-      if (r_find) {
-        r_find['data'].push({
-          ...inspectionTime[i],
-          name: items.condition?.name,
-          value: items.condition?.value
-        })
-      } else {
-        arr.data.push({
-          at: inspectionTime[i].at,
-          data: [{
-            ...inspectionTime[i],
-            name: items.condition?.name,
-            value: items.condition?.value
-
-          }]
-        })
-      }
-
-      if (!r_findHead) {
-        arr.header.push(items.condition.name)
-      }
-
-      if (i + 1 == inspectionTime.length) {
-        return arr
-      }
-    }
+  emit() {
+    this.tableChange.emit(this.tableData)
+    this.dataChange.emit(this.data)
   }
 
-  async submit() {
 
-    console.log(this.data);
 
-    // const ff = this.data.find((d: any) => !d._id)
-    // if (ff) {
-    //   Swal.fire('SOME CONDITION NOT READY', '', 'error')
-    // } else {
-    //   this.$queue.updateMany(this.data).subscribe(res => {
-    //     if (res && res.status) {
-    //       Swal.fire('SUCCESS', '', 'success')
-    //     } else {
-    //       Swal.fire(res.text, '', 'error')
-    //     }
-    //   })
-    // }
-  }
 
   async getUserApprove() {
     const _id: any = localStorage.getItem("_id")
@@ -515,5 +359,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   public objectComparisonFunction = function (option: any, value: any): boolean {
     return option._id === value._id;
   }
+
+
 
 }
