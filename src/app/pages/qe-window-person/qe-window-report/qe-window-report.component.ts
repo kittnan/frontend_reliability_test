@@ -16,9 +16,15 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 export class QeWindowReportComponent implements OnInit {
 
   request: any;
-  userLogin: any
-  userApproveList: any = [];
+  userLogin: any;
+  // userApprove = new FormControl('', Validators.required)
   dateNow!: Date
+
+
+  data: any
+  authorize = 'qe_engineer'
+  userApprove: any = [];
+  approve = new FormControl(null, Validators.required)
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -35,61 +41,41 @@ export class QeWindowReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._loading.start();
     this.route.queryParams.subscribe(async params => {
       console.log(params['id']);
       const id = params['id']
-      this.request = await this._request.getRequest_formById(id).toPromise()
-      const findRequestApprove = this.request.step4.find((r: any) => r.access == 'request_approve')
-      if (findRequestApprove) findRequestApprove.time = new Date();
-    })
-  }
+      const resData = await this._request.get_id(id).toPromise()
+      this.data = resData[0];
+      console.log(this.data);
 
-  
-  ngAfterViewInit(): void {
-    this._loading.stopAll();
-  }
+      this.getUserApprove()
 
-  onClickBack() {
-    this.router.navigate(['qe-window-person'])
-  }
-
-
-  onClickApprove() {
-    Swal.fire({
-      title: 'Do you want to approve ?',
-      icon: 'question',
-      showCancelButton: true,
-      input: 'textarea',
-    }).then(async (value: SweetAlertResult) => {
-      if (value.isConfirmed) {
-        this.updateRequest(value.value)
-      }
     })
 
+
   }
-  async updateRequest(confirmValue: any) {
-    this.request.status = 'close_job';
-  
-    const resultFind :any= await this.findMe(this.request.step4)
-    resultFind.status = true;
-    resultFind.time = new Date();
-    await this._request.updateRequest_form(this.request._id, this.request).toPromise();
-    await (await this.$share.insertLogFlow('close_job', this.request.step1.controlNo, confirmValue, this.userLogin)).toPromise();
-    this._toast.success();
+
+  ngAfterViewChecked(): void {
     setTimeout(() => {
-      this.router.navigate(['/qe-window-person']);
-    }, 500);
+      this._loading.stopAll();
+    }, 1000);
   }
 
-  findMe(step4:any){
-    return new Promise((resolve,reject)=>{
-      const resultFind = step4.find((u:any)=> u.access =='finish')
-      if(resultFind){
-        resolve(resultFind)
-      }else{
-        reject('you not access')
-      }
-    })
+
+  async getUserApprove() {
+    const _id: any = localStorage.getItem("_id")
+    this.userLogin = await this._user.getUserById(_id).toPromise();
+    const section = [this.userLogin.section]
+    const temp_section = JSON.stringify(section)
+    const level = [this.authorize]
+    const temp_level = JSON.stringify(level)
+    this.userApprove = await this._user.getUserBySection(temp_section, temp_level).toPromise();
+    this.approve.patchValue(this.userApprove[0])
+  }
+
+  public objectComparisonFunction = function (option: any, value: any): boolean {
+    return option._id === value._id;
   }
 
 

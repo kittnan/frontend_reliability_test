@@ -212,7 +212,7 @@
 
     <mat-form-field fxFlex="100" appearance="fill" style="margin-top: 30px;">
         <mat-label>SEND TO...</mat-label>
-        <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
+        <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve" (selectionChange)="emit()">
             <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
                 {{item.name|uppercase}}
             </mat-option>

@@ -41,7 +41,7 @@ export class QeDepartmentApproveComponent implements OnInit {
     this.route.queryParams.subscribe(async params => {
       console.log(params['id']);
       const id = params['id']
-      this.request = await this._request.getRequest_formById(id).toPromise()
+      this.request = await this._request.get_id(id).toPromise()
       const findRequestApprove = this.request.step4.find((r: any) => r.access == 'request_approve')
       if (findRequestApprove) findRequestApprove.time = new Date();
       this.getUserApprove()
@@ -49,7 +49,7 @@ export class QeDepartmentApproveComponent implements OnInit {
 
     // if (localStorage.getItem('request_id')) {
     //   const id: any = localStorage.getItem('request_id')
-    //   this.request = this._request.getRequest_formById(id).toPromise()
+    //   this.request = this._request.get_id(id).toPromise()
     // }
   }
   async getUserApprove() {
@@ -107,7 +107,7 @@ export class QeDepartmentApproveComponent implements OnInit {
 
   async rejectRequest(confirmValue: any) {
     this.request.status = 'reject_qe_window_person';
-    await this._request.updateRequest_form(this.request._id, this.request).toPromise();
+    await this._request.update(this.request._id, this.request).toPromise();
     await (await this.$share.insertLogFlow('reject_qe_window_person', this.request.step1.controlNo, confirmValue, this.userLogin)).toPromise()
     this._toast.success();
     setTimeout(() => {
@@ -125,7 +125,7 @@ export class QeDepartmentApproveComponent implements OnInit {
     const resultFind: any = await this.findMe(this.request.step4)
     resultFind.status = true;
     resultFind.time = new Date();
-    await this._request.updateRequest_form(this.request._id, this.request).toPromise();
+    await this._request.update(this.request._id, this.request).toPromise();
     await (await this.$share.insertLogFlow('qe_department_head', this.request.step1.controlNo, confirmValue, this.userLogin)).toPromise();
     this._toast.success();
     setTimeout(() => {

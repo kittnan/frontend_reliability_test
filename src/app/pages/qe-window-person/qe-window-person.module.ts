@@ -11,7 +11,6 @@ import { SharedModule } from '../shared/shared.module';
 import { QeWindowApproveComponent } from './qe-window-approve/qe-window-approve.component';
 import { QeWindowReportComponent } from './qe-window-report/qe-window-report.component';
 import { QeChamberComponent } from './qe-chamber/qe-chamber.component';
-import { QeChamberSelectComponent } from './qe-chamber-select/qe-chamber-select.component';
 import { DialogQeChamberComponent } from './qe-chamber/dialog-qe-chamber/dialog-qe-chamber.component';
 import { DialogQeOperateComponent } from './qe-chamber/dialog-qe-operate/dialog-qe-operate.component';
 import { QeChamberPlanningComponent } from './qe-chamber/qe-chamber-planning/qe-chamber-planning.component';
@@ -24,11 +23,10 @@ import { QeChamberPlanningDetailComponent } from './qe-chamber/qe-chamber-planni
     QeWindowApproveComponent,
     QeWindowReportComponent,
     QeChamberComponent,
-    QeChamberSelectComponent,
     DialogQeChamberComponent,
     DialogQeOperateComponent,
     QeChamberPlanningComponent,
-    QeChamberPlanningDetailComponent
+    QeChamberPlanningDetailComponent,
   ],
   imports: [
     CommonModule,

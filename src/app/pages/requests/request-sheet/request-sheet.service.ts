@@ -32,7 +32,7 @@ export class RequestSheetService {
       let setTime = new Date(setFirstDate).setHours(0, 0, 0, 0)
       let newDate = new Date(setTime)
 
-      this._request.countRequest_form({
+      this._request.count({
         date: newDate,
         corporate: corporate
       }).subscribe(res => {

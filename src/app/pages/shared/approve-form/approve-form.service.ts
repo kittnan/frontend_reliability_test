@@ -16,9 +16,7 @@ export class ApproveFormService {
   ) { }
 
   async submit(action: string, data: any, userLogin: any, userApprove: any) {
-    console.clear()
     const statusForm = this.genStatusForm(action, data.status)
-    console.log(statusForm);
     const body_form = {
       nextApprove: userApprove,
       status: statusForm
@@ -31,7 +29,7 @@ export class ApproveFormService {
 
     let arr = []
     arr.push(
-      this._request.updateRequest_form(data._id, body_form).toPromise()
+      this._request.update(data._id, body_form).toPromise()
     )
     if (currentStep) {
       arr.push(
@@ -50,7 +48,7 @@ export class ApproveFormService {
       console.log(value);
       Swal.fire('Success', '', 'success')
       setTimeout(() => {
-        this._router.navigate(['/'])
+        // this._router.navigate(['/'])
       }, 1000);
     }).catch(err => console.log(err))
   }
@@ -136,7 +134,7 @@ export class ApproveFormService {
       }
     }
     if (curStatus == 'qe_section_head') {
-      const foo = data.step5.find((d: any) => d.authorize == 'qe_department_head')
+      const foo = data.step5.find((d: any) => d.authorize == 'qe_window_person' && d.level==6)
       if (foo) {
         return {
           ...foo,
@@ -147,7 +145,7 @@ export class ApproveFormService {
       }
       return {
         requestId: data._id,
-        authorize: 'qe_department_head',
+        authorize: 'qe_window_person',
         userId: userApprove._id,
         userName: userApprove.name,
         statusApprove: false,
@@ -163,6 +161,10 @@ export class ApproveFormService {
   private genStatusForm(action: string, prevStatus: string) {
     if (action == 'approve') {
       if (prevStatus == 'request') return 'request_approve'
+      if (prevStatus == 'request_approve') return 'qe_window_person'
+      if (prevStatus == 'qe_window_person') return 'qe_engineer'
+      if (prevStatus == 'qe_engineer') return 'qe_section_head'
+      if (prevStatus == 'qe_section_head') return 'qe_window_person_report'
     }
     if (action == 'reject') {
       if (prevStatus == 'request') return 'reject_' + prevStatus;

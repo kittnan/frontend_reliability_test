@@ -14,12 +14,9 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 })
 export class ApproveRequestComponent implements OnInit {
 
-  request: any;
   userLogin: any;
-  // userApprove = new FormControl('', Validators.required)
   config_auth = 'qe_window_person'
   dateNow!: Date
-
 
   data: any
   authorize = 'qe_window_person'
@@ -44,7 +41,7 @@ export class ApproveRequestComponent implements OnInit {
     this.route.queryParams.subscribe(async params => {
       console.log(params['id']);
       const id = params['id']
-      const resData = await this.$request.getRequest_formById(id).toPromise()
+      const resData = await this.$request.get_id(id).toPromise()
       this.data = resData[0];
       console.log(this.data);
 

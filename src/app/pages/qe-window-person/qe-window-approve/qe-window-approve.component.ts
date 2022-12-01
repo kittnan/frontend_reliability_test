@@ -46,7 +46,7 @@ export class QeWindowApproveComponent implements OnInit {
     this.route.queryParams.subscribe(async params => {
       console.log(params['id']);
       const id = params['id']
-      const resData = await this._request.getRequest_formById(id).toPromise()
+      const resData = await this._request.get_id(id).toPromise()
       this.data = resData[0];
       console.log(this.data);
 

@@ -22,21 +22,21 @@ export class RequestSheetComponent implements OnInit {
   userLogin: any
   constructor(
     private _setSubject: SetSubjectService,
-    private _httpRequest: RequestHttpService,
-    private _user: UserHttpService,
-    private _file :FilesHttpService,
+    private $request: RequestHttpService,
+    private $user: UserHttpService,
+    private $files :FilesHttpService,
     private router:Router
 
   ) { }
 
   async ngOnInit(): Promise<void> {
     const _id: any = localStorage.getItem("_id")
-    this.userLogin = await this._user.getUserById(_id).toPromise();
+    this.userLogin = await this.$user.getUserById(_id).toPromise();
     this._setSubject.setBehaviorMaster();
   }
 
   uploadFiles(formData:any) {
-    return this._file.uploadFile(formData).toPromise()
+    return this.$files.uploadFile(formData).toPromise()
   }
 
   async submit() {
@@ -64,7 +64,7 @@ export class RequestSheetComponent implements OnInit {
       userApprove: userApprove,
     }
 
-    this._httpRequest.insertRequest_form(body).subscribe(res => {
+    this.$request.insert(body).subscribe(res => {
       console.log(res);
       if(res){
         Swal.fire({

@@ -158,9 +158,9 @@ export class TableRequestComponent implements OnInit {
     if (item.status === 'request') this.linkTo('/approve/approve-request', item._id);
     if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
     // if (item.status === 'reject_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
-    // if (item.status === 'qe_window_person') this.linkTo('/qe-engineer/approve-request', item._id);
-    // if (item.status === 'qe_engineer') this.linkTo('/qe-section-head/approve-request', item._id);
-    // if (item.status === 'qe_section_head') this.linkTo('/qe-department-head/approve-request', item._id);
+    if (item.status === 'qe_window_person') this.linkTo('/qe-engineer/approve-request', item._id);
+    if (item.status === 'qe_engineer') this.linkTo('/qe-section-head/approve-request', item._id);
+    if (item.status === 'qe_section_head') this.linkTo('/qe-window-person/report', item._id);
     // if (item.status === 'qe_department_head') this.linkTo('/qe-window-person/report', item._id);
   }
 

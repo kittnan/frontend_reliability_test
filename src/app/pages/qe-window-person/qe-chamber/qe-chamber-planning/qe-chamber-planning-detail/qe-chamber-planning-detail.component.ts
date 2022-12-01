@@ -37,6 +37,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   @Output() tableChange: EventEmitter<any> = new EventEmitter()
+  @Output() approveChange: EventEmitter<any> = new EventEmitter()
   constructor(
     private dialog: MatDialog,
     private $qe_chamber: QeChamberService,
@@ -73,7 +74,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         }
       })
 
-      this.requestForm = await this.$request.getRequest_formById(this.data[0].work.requestId).toPromise()
+      this.requestForm = await this.$request.get_id(this.data[0].work.requestId).toPromise()
       this.mapForTable(this.data)
     }
   }
@@ -303,8 +304,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
 
   async mapForTable(data: any) {
-    console.log(data);
-
     const header = data.reduce((prev: any, now: any) => {
       const temp: any = prev
       temp.push(now.condition.name)
@@ -340,8 +339,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   emit() {
     this.tableChange.emit(this.tableData)
     this.dataChange.emit(this.data)
+    this.approveChange.emit(this.approve.value)
   }
-
 
 
 
@@ -354,6 +353,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     const temp_level = JSON.stringify(level)
     this.userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
     this.approve.patchValue(this.userApprove[0])
+    this.emit()
   }
 
   public objectComparisonFunction = function (option: any, value: any): boolean {

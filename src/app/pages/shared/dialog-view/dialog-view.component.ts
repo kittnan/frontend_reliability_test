@@ -19,7 +19,7 @@ export class DialogViewComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // console.log(this.data);
-     const resData = await this._request.getRequest_formById(this.data._id).toPromise()
+     const resData = await this._request.get_id(this.data._id).toPromise()
      console.log(resData);
      this.foo =resData[0];
      console.log(this.foo);

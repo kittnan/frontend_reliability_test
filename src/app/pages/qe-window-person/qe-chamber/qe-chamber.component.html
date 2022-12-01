@@ -8,7 +8,7 @@
         <mat-divider fxFlex="100" style="margin: 20px 0;"></mat-divider>
 
         <app-qe-chamber-planning fxFlex="100" [data]="dataSource" (dataChange)="emitted($event)"></app-qe-chamber-planning>
-        <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(data)]="chamberTable" (dataChange)="dataChange($event)" (tableChange)="tableChange($event)">
+        <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(data)]="chamberTable" (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)">
         </app-qe-chamber-planning-detail>
         <button fxFlex="100" mat-raised-button (click)="submit()" color="primary" [disabled]="validButtonSubmit()">
       <span class="material-icons-outlined">

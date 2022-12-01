@@ -1,13 +1,10 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ChamberHttpService } from 'src/app/http/chamber-http.service';
-import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
+import { ActivatedRoute } from '@angular/router';
 import { QueueService } from 'src/app/http/queue.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import Swal from 'sweetalert2';
-import { QeChamberService } from './qe-chamber.service';
+import { ApproveFormService } from '../../shared/approve-form/approve-form.service';
 
 
 
@@ -79,18 +76,20 @@ export class QeChamberComponent implements OnInit {
   form: any
   chamberTable!: QueueForm[]
   table: any
+  nextApprove: any
 
   constructor(
     private routeActive: ActivatedRoute,
     private $request: RequestHttpService,
-    private $queue: QueueService
+    private $queue: QueueService,
+    private _approve: ApproveFormService
   ) {
 
   }
   ngOnInit(): void {
     this.routeActive.queryParams.subscribe(async (params: any) => {
       const { requestId } = params;
-      const resData = await this.$request.getRequest_formById(requestId).toPromise()
+      const resData = await this.$request.get_id(requestId).toPromise()
       this.form = resData[0]
       const temp = this.setDataTable();
       this.dataSource = temp
@@ -119,6 +118,10 @@ export class QeChamberComponent implements OnInit {
     this.table = e
     console.log(this.table);
   }
+  approveChange(e: any) {
+    console.log('@$$$$$', e);
+    this.nextApprove = e
+  }
 
   async submit() {
     try {
@@ -126,8 +129,11 @@ export class QeChamberComponent implements OnInit {
       console.log(this.chamberTable);
       console.log('@@@@@@@', this.table);
       console.log('form', this.form);
-      // await this.$request.updateRequest_form(this.form[0]._id, { table: this.table }).toPromise()
-      // await this.$queue.updateMany(this.chamberTable).toPromise()
+      await this.$request.update(this.form._id, {
+        table: this.table
+      }).toPromise()
+      this._approve.submit('approve', this.form, '', this.nextApprove)
+      await this.$queue.updateMany(this.chamberTable).toPromise()
       // Swal.fire('SUCCESS', '', 'success')
     } catch (error) {
       Swal.fire(error?.toString(), '', 'error')

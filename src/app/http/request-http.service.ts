@@ -13,22 +13,22 @@ export class RequestHttpService {
   ) { }
 
   // TODO request http
-  getRequest_formById(id: string): Observable<any> {
+  get_id(id: string): Observable<any> {
     return this.http.get(`${this.URL}/request_form/id/${id}`)
   }
-  getRequest_form(): Observable<any> {
+  get_all(): Observable<any> {
     return this.http.get(`${this.URL}/request_form`)
   }
-  insertRequest_form(data: any): Observable<any> {
+  insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/request_form/insert`, data)
   }
-  updateRequest_form(id: any, data: any): Observable<any> {
+  update(id: any, data: any): Observable<any> {
     return this.http.put(`${this.URL}/request_form/update/${id}`, data)
   }
-  deleteRequest_form(id: any): Observable<any> {
+  delete(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/request_form/delete/${id}`)
   }
-  countRequest_form(data: any): Observable<any> {
+  count(data: any): Observable<any> {
     return this.http.post(`${this.URL}/request_form/count`, data)
   }
   getByCondition(data: any): Observable<any> {
