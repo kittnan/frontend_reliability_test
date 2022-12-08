@@ -1,3 +1,7 @@
+import { SheetStep5Component } from './sheet/components/sheet-step5/sheet-step5.component';
+import { SheetStep4Component } from './sheet/components/sheet-step4/sheet-step4.component';
+import { SheetStep3Component } from './sheet/components/sheet-step3/sheet-step3.component';
+import { SheetStep1Component } from './sheet/components/sheet-step1/sheet-step1.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -5,13 +9,8 @@ import { RequestsRoutingModule } from './requests-routing.module';
 import { RequestsComponent } from './requests.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-// import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// import { Step1RequestComponent } from './home/step1-request/step1-request.component';
-// import { Step2TestPurposeComponent } from './home/step2-test-purpose/step2-test-purpose.component';
-// import { Step3TestingTypeComponent } from './home/step3-testing-type/step3-testing-type.component';
-// import { Step4DoneComponent } from './home/step4-done/step4-done.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ManageComponent } from './manage/manage.component';
@@ -31,16 +30,14 @@ import { HeatShockFormComponentComponent } from './request-sheet/step4-testing-c
 import { HighLowFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/high-low-form-component/high-low-form-component.component';
 import { InspectionFormComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/inspection-form/inspection-form.component';
 import { Step5SubmitComponent } from './request-sheet/step5-submit/step5-submit.component';
+import { SheetComponent } from './sheet/sheet.component';
+import { SheetStep2Component } from './sheet/components/sheet-step2/sheet-step2.component';
 
 
 @NgModule({
   declarations: [
     RequestsComponent,
-    // HomeComponent,
-    // Step1RequestComponent,
-    // Step2TestPurposeComponent,
-    // Step3TestingTypeComponent,
-    // Step4DoneComponent,
+
     ManageComponent,
     RequestSheetComponent,
     Step1DetailComponent,
@@ -55,6 +52,12 @@ import { Step5SubmitComponent } from './request-sheet/step5-submit/step5-submit.
     HighLowFormComponentComponent,
     InspectionFormComponent,
     Step5SubmitComponent,
+    SheetComponent,
+    SheetStep1Component,
+    SheetStep2Component,
+    SheetStep3Component,
+    SheetStep4Component,
+    SheetStep5Component
 
   ],
   imports: [

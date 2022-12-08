@@ -22,10 +22,9 @@ export class ApproveFormComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _request: RequestHttpService,
-    private _userApprove: UserApproveHttpService,
     private _user: UserHttpService,
-    private $approve: ApproveFormService
+    private _approve: ApproveFormService,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -41,21 +40,61 @@ export class ApproveFormComponent implements OnInit {
       showCancelButton: true
     }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this.$approve.submit('approve', this.data, this.userLogin, this.userApprove)
+        this._approve.submit('approve', this.data, this.userLogin, this.userApprove)
       }
     })
   }
 
-  onReject() {
-    Swal.fire({
-      title: `Do you want to reject ?`,
-      icon: 'question',
-      showCancelButton: true
-    }).then((value: SweetAlertResult) => {
-      if (value.isConfirmed) {
-        Swal.fire('Success', '', 'success')
-      }
+  async onReject() {
+
+    console.log(this.data);
+
+    const option = this.genOption(this.data.status)
+
+    const { value: key } = await Swal.fire({
+      title: 'Select REJECT ',
+      input: 'select',
+      inputOptions: option,
+      inputPlaceholder: 'Select reject owner',
+      showCancelButton: true,
+
     })
+
+    if (key) {
+      await Swal.fire({
+        input: 'textarea',
+        inputLabel: 'Message',
+        inputPlaceholder: 'Type your message here...',
+        inputAttributes: {
+          'aria-label': 'Type your message here'
+        },
+        showCancelButton: true
+      }).then((value: SweetAlertResult) => {
+        console.log(value);
+        if (value.isConfirmed) {
+          Swal.fire(key)
+          // Swal.fire(value.value)
+          this._approve.reject('reject', this.data, this.userLogin,key,value.value)
+        }
+      })
+
+
+    }
+
+
+  }
+
+  genOption(status: any) {
+    const request_user = this.data.step5.find((s: any) => s.authorize == 'request')
+    if (status == 'request') {
+      return {
+        'request': request_user ? 'request ➢ ' + request_user.userName : '-'
+      }
+
+    }
+    return {
+
+    }
   }
 
   onBack() {

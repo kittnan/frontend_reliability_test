@@ -156,6 +156,11 @@ export class AppComponent {
               icon: 'feed',
               title: 'request manage'
             },
+            {
+              path: '/request/sheet',
+              icon: 'post_add',
+              title: 'new request TEST'
+            },
           ]
         }
       ]

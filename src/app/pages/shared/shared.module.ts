@@ -66,7 +66,7 @@ import { PlanReliabilityTestComponent } from './plan-reliability-test/plan-relia
     Step5Component,
     ApproveFormComponent,
     ChamberTableComponent,
-    PlanReliabilityTestComponent
+    PlanReliabilityTestComponent,
 
   ],
   imports: [
@@ -105,7 +105,7 @@ import { PlanReliabilityTestComponent } from './plan-reliability-test/plan-relia
     Step5Component,
     ApproveFormComponent,
     ChamberTableComponent,
-    PlanReliabilityTestComponent
+    PlanReliabilityTestComponent,
   ]
 })
 export class SharedModule { }

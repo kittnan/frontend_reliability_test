@@ -1,3 +1,4 @@
+import { RequestHttpService } from './../../../../http/request-http.service';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -34,7 +35,7 @@ export class Step1DetailComponent implements OnInit {
     corporate: new FormControl('', Validators.required),
     requestStatus: new FormControl('normal', Validators.required),
     department: new FormControl('', Validators.required),
-    requestDate: new FormControl<String|Date|null>(null, Validators.required),
+    requestDate: new FormControl<String | Date | null>(null, Validators.required),
     concernShipmentDate: new FormControl(''),
     inputToProductionDate: new FormControl(''),
     concernCustomerDate: new FormControl(''),
@@ -73,19 +74,31 @@ export class Step1DetailComponent implements OnInit {
     private _stepper: CdkStepper,
     private route: ActivatedRoute,
     private router: Router,
+    private $request: RequestHttpService
 
   ) {
-    this.requestForm.patchValue({requestDate:new Date()})
+    this.requestForm.patchValue({ requestDate: new Date() });
+    if(this.step1){
+      console.log(this.step1);
+    }
   }
 
   ngOnInit(): void {
-    this._setSubject.getModelMaster().subscribe(res => {
-      this.models = res
-    })
-    this._setSubject.getDepartmentMaster().subscribe(res => {
-      this.departments = res
-    })
+    this._setSubject.getModelMaster().subscribe(res => this.models = res)
+    this._setSubject.getDepartmentMaster().subscribe(res => this.departments = res
+    )
+
+    if(this.step1){
+      console.log(this.step1);
+
+      this.requestForm.patchValue({...this.step1})
+    }
     this.route.queryParams.subscribe(async params => {
+      // console.log('@@@@@@@@@@', params);
+
+      // const res = await this.$request.get_id(params['id']).toPromise()
+
+
       const foo = this._setSubject.getFormStep1()
       this.requestForm.patchValue({
         ...foo

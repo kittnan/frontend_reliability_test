@@ -41,7 +41,7 @@ export class TableRequestComponent implements OnInit {
 
   params!: ParamsForm
 
-  ongoing: any = ['request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
+  ongoing: any = ['request','reject_request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
   closed: any = ['closed'];
   all: any = []
 
@@ -118,7 +118,7 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    console.log(this.authorize, item.status);
+    console.log(item.nextApprove._id, this.userLogin._id);
     if (item.nextApprove._id == this.userLogin._id) return false
     return true
   }
@@ -156,6 +156,7 @@ export class TableRequestComponent implements OnInit {
 
     // if (item.status === 'reject_request') this.linkTo('/request/home', item._id);
     if (item.status === 'request') this.linkTo('/approve/approve-request', item._id);
+    if (item.status === 'reject_request') this.linkTo('/request/request-sheet', item._id);
     if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
     // if (item.status === 'reject_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
     if (item.status === 'qe_window_person') this.linkTo('/qe-engineer/approve-request', item._id);

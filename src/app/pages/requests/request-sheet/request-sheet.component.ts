@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FilesHttpService } from 'src/app/http/files-http.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
@@ -24,10 +24,25 @@ export class RequestSheetComponent implements OnInit {
     private _setSubject: SetSubjectService,
     private $request: RequestHttpService,
     private $user: UserHttpService,
-    private $files :FilesHttpService,
-    private router:Router
+    private $files: FilesHttpService,
+    private router: Router,
+    private route: ActivatedRoute
 
-  ) { }
+  ) {
+    this.route.queryParams.subscribe(params => {
+      if (params && params['id']) {
+        this.$request.get_id(params['id']).subscribe(res => {
+          console.log(res);
+          this.step1 = res[0].step1
+          this.step2 = res[0].step2
+          this.step3 = res[0].step3
+          this.step4 = res[0].step4
+          this.step5 = res[0].step5
+        })
+
+      }
+    })
+  }
 
   async ngOnInit(): Promise<void> {
     const _id: any = localStorage.getItem("_id")
@@ -35,17 +50,17 @@ export class RequestSheetComponent implements OnInit {
     this._setSubject.setBehaviorMaster();
   }
 
-  uploadFiles(formData:any) {
+  uploadFiles(formData: any) {
     return this.$files.uploadFile(formData).toPromise()
   }
 
   async submit() {
     const resultUpload = await this.uploadFiles(this.step1.upload);
-    if(resultUpload && resultUpload.msg){
+    if (resultUpload && resultUpload.msg) {
       this.step1.files = this.step1.files
-    }else{
+    } else {
       const files = this.step1.files;
-      this.step1.files = [...files,...resultUpload]
+      this.step1.files = [...files, ...resultUpload]
     }
     const detail = this.step1;
     const testPurpose = this.step2;
@@ -66,11 +81,11 @@ export class RequestSheetComponent implements OnInit {
 
     this.$request.insert(body).subscribe(res => {
       console.log(res);
-      if(res){
+      if (res) {
         Swal.fire({
-          title:`Create success!!`,
-          text:`Your control number is ${res.controlNo}`,
-          icon:'success'
+          title: `Create success!!`,
+          text: `Your control number is ${res.controlNo}`,
+          icon: 'success'
         })
         // this.router.navigate(['/request'])
       }
