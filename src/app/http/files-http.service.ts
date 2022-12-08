@@ -18,8 +18,8 @@ export class FilesHttpService {
   uploadFile(formData: any): Observable<any> {
     return this.http.post(`${this.URL}/files/upload`, formData)
   }
-  deleteFile(data: any): Observable<any> {
-    return this.http.post(`${this.URL}/files/delete`,  data)
+  delete(data: any): Observable<any> {
+    return this.http.delete(`${this.URL}/files/delete/${data}`)
   }
 
 

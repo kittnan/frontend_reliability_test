@@ -19,6 +19,9 @@ export class RequestHttpService {
   get_all(): Observable<any> {
     return this.http.get(`${this.URL}/request_form`)
   }
+  draft(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/request_form/draft`, data)
+  }
   insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/request_form/insert`, data)
   }

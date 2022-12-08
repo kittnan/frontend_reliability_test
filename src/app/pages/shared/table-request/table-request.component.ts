@@ -41,7 +41,7 @@ export class TableRequestComponent implements OnInit {
 
   params!: ParamsForm
 
-  ongoing: any = ['request','reject_request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
+  ongoing: any = ['draft','request','reject_request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
   closed: any = ['closed'];
   all: any = []
 
@@ -114,6 +114,7 @@ export class TableRequestComponent implements OnInit {
     if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit'
     if (item && item.status === 'qe_department_head') return 'report'
     if (item && item.status === 'close_job') return 'CLOSED'
+    if (item && item.status === 'draft') return 'edit'
     return 'approve'
   }
 
@@ -153,6 +154,9 @@ export class TableRequestComponent implements OnInit {
 
   onEdit(item: any) {
     console.log(item.status);
+
+    if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
+
 
     // if (item.status === 'reject_request') this.linkTo('/request/home', item._id);
     if (item.status === 'request') this.linkTo('/approve/approve-request', item._id);
