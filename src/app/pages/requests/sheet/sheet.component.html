@@ -1,13 +1,21 @@
 <div fxLayout="row wrap" fxLayoutAlign="center stretch">
-    <div fxFlex.lt-md="80" fxFlex.sm="100">
+    <div fxFlex="80" class="mat-elevation-z8" style="margin-top:10px ;">
         <mat-stepper labelPosition="end" #stepper>
             <mat-step>
                 <ng-template matStepLabel>Sheet Detail</ng-template>
-                <app-sheet-step1 [(data)]="request.step1" (dataChange)="emit($event)"></app-sheet-step1>
+                <app-sheet-step1 [(data)]="request.step1" [formId]="formId" (dataChange)="emit($event)"></app-sheet-step1>
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Test Purpose</ng-template>
-                <app-sheet-step2 [(data)]="request.step2" [formId]="formId"></app-sheet-step2>
+                <app-sheet-step2 [formId]="formId"></app-sheet-step2>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Testing Type</ng-template>
+                <app-sheet-step3 [formId]="formId"></app-sheet-step3>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Testing Condition</ng-template>
+                <app-sheet-step4 [formId]="formId"></app-sheet-step4>
             </mat-step>
         </mat-stepper>
 

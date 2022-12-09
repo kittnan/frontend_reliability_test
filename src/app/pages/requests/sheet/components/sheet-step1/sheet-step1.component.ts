@@ -25,6 +25,7 @@ export interface ModelNo {
   styleUrls: ['./sheet-step1.component.css']
 })
 export class SheetStep1Component implements OnInit {
+  @Input() formId: any
   @Input() data: any
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
@@ -33,23 +34,23 @@ export class SheetStep1Component implements OnInit {
   requestForm = new FormGroup({
     _id: new FormControl(null),
     requestId: new FormControl(''),
-    controlNo: new FormControl('', Validators.required),
-    corporate: new FormControl('', Validators.required),
-    requestStatus: new FormControl('normal', Validators.required),
-    department: new FormControl('', Validators.required),
-    requestDate: new FormControl<String | Date | null>(null, Validators.required),
+    controlNo: new FormControl(null, Validators.required),
+    corporate: new FormControl(''),
+    requestStatus: new FormControl('normal'),
+    department: new FormControl(''),
+    requestDate: new FormControl<String | Date | null>(null),
     concernShipmentDate: new FormControl(''),
     inputToProductionDate: new FormControl(''),
     concernCustomerDate: new FormControl(''),
     reportRequireDate: new FormControl(''),
     sampleSentToQE_withinDate: new FormControl(''),
-    modelNo: new FormControl('', Validators.required),
-    modelName: new FormControl('', Validators.required),
-    lotNo: new FormControl('', Validators.required),
-    size: new FormControl('', Validators.required),
-    customer: new FormControl('', Validators.required),
+    modelNo: new FormControl(''),
+    modelName: new FormControl(''),
+    lotNo: new FormControl(''),
+    size: new FormControl(''),
+    customer: new FormControl(''),
     sampleDescription: new FormControl(''),
-    files: new FormControl(<any>[], Validators.required),
+    files: new FormControl(<any>[]),
     upload: new FormControl()
   })
 
@@ -195,14 +196,18 @@ export class SheetStep1Component implements OnInit {
 
   }
   async createFiles(files: any) {
+    this.data = this.requestForm.value
     const formData = await this.addFormData(files, this.data.controlNo)
     const resUpload = await this.$file.uploadFile(formData).toPromise()
     this.data.files = [...this.data.files, ...resUpload]
+    this.requestForm.patchValue({
+      files:this.data.files
+    })
     const resUpdate = await this.$step1.update(this.data._id, this.data).toPromise()
     setTimeout(() => {
       this.fileUpload.nativeElement.value = ""
       this.fileProgress = false
-      Swal.fire('SUCCESS','','success')
+      Swal.fire('SUCCESS', '', 'success')
     }, 1000);
   }
   generateToken(n: number) {
@@ -221,8 +226,6 @@ export class SheetStep1Component implements OnInit {
         let type = files[i].name.split('.');
         type = type[type.length - 1]
         const newFileName = `${controlNo}-${this.generateToken(3)}.${type}`
-        console.log(newFileName);
-
         formData.append('Files', files[i], newFileName)
         if (i + 1 === files.length) {
           resolve(formData)
@@ -250,9 +253,8 @@ export class SheetStep1Component implements OnInit {
   }
 
   async update() {
-    const resUpdate = await this.$step1.update(this.requestForm.value._id,this.requestForm.value).toPromise()
-    this.dataChange.emit(this.requestForm.value._id)
-
+    const resUpdate = await this.$step1.update(this.requestForm.value._id, this.requestForm.value).toPromise()
+    this.dataChange.emit(this.formId)
     setTimeout(() => {
       this._loading.stopAll()
     }, 1000);
@@ -269,8 +271,11 @@ export class SheetStep1Component implements OnInit {
       nextApprove: this.userLogin
     }
     const resDraft = await this.$request.draft(body).toPromise()
-    const formData = await this.addFormData(this.tempUpload, resDraft[0].controlNo)
-    const resUpload = await this.$file.uploadFile(formData).toPromise()
+    let resUpload = []
+    if (this.tempUpload.length > 0) {
+      const formData = await this.addFormData(this.tempUpload, resDraft[0].controlNo)
+      resUpload = await this.$file.uploadFile(formData).toPromise()
+    }
     this.requestForm.patchValue({
       controlNo: resDraft[0].controlNo,
       requestId: resDraft[0]._id,

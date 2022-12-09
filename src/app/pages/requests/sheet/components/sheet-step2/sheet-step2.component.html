@@ -3,9 +3,9 @@
         <mat-radio-button [value]="purpose.name" [checked]="purpose.checked" [ngClass]="{'mb10': purpose['description'].status==false}" (change)="onCheckRadio($event,purpose)" fxLayoutAlign="start center" style="margin-right: 10px;">
             {{purpose.name}}
         </mat-radio-button>
-        <mat-form-field *ngIf="purpose['description'].status" fxFlex="auto" class="full-width" appearance="legacy">
+        <mat-form-field *ngIf="purpose['description'].status" fxFlex="auto" class="full-width" appearance="fill">
             <mat-label>description</mat-label>
-            <input [disabled]="!purpose.checked" [id]="purpose._id" (change)="onInputDescription($event)" matInput class="full-width">
+            <input [disabled]="!purpose.checked" [value]="purpose['description'].value" [id]="purpose._id" (change)="onInputDescription($event)" matInput class="full-width">
         </mat-form-field>
     </div>
 </div>

@@ -1,0 +1,19 @@
+<!-- <div fxFlex="90" fxLayoutAlign="start stretch" fxLayout="row wrap"> -->
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" style="padding: 10px;">
+    <app-temp-form fxFlex="33" [icon]="'thermostat'" [titleText]="'High Temp'" (formInputChange)="emit()" [(formInput)]="form.highTemp">
+    </app-temp-form>
+    <app-humidity-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.humidity"></app-humidity-form>
+    <app-frequency-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.hz"></app-frequency-form>
+    <app-acceleration-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.acceleration"></app-acceleration-form>
+    <app-time-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.timeCycle"></app-time-form>
+    <app-cycle-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.cycle"></app-cycle-form>
+    <app-direction-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.direction"> </app-direction-form>
+
+    <app-operate-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.operate"></app-operate-form>
+    <app-sample-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.sampleNo"></app-sample-form>
+    <app-qty-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.qty"></app-qty-form>
+    <app-time-inspec-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.timeInspection" [title]="'Inspection Time'">
+    </app-time-inspec-form>
+    <app-time-inspec-form fxFlex="33" (formInputChange)="emit()" [(formInput)]="form.timeReport" [title]="'Report Time'">
+    </app-time-inspec-form>
+</div>

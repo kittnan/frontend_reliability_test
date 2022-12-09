@@ -30,6 +30,7 @@ export class SheetComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.params);
     if (this.params && this.params['id']) {
+      this.formId = this.params['id']
       this.$request.get_id(this.params['id']).subscribe(res => {
         this.request = res[0]
       })

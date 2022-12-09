@@ -32,6 +32,13 @@ import { InspectionFormComponent } from './request-sheet/step4-testing-condition
 import { Step5SubmitComponent } from './request-sheet/step5-submit/step5-submit.component';
 import { SheetComponent } from './sheet/sheet.component';
 import { SheetStep2Component } from './sheet/components/sheet-step2/sheet-step2.component';
+import { Step4HeatShockComponent } from './sheet/components/sheet-step4/step4-form/step4-heat-shock/step4-heat-shock.component';
+import { Step4HighLowComponent } from './sheet/components/sheet-step4/step4-form/step4-high-low/step4-high-low.component';
+import { Step4TempFormComponent } from './sheet/components/sheet-step4/step4-form/step4-temp-form/step4-temp-form.component';
+import { Step4HomeComponent } from './sheet/components/sheet-step4/step4-form/step4-home/step4-home.component';
+import { Step4InspectionComponent } from './sheet/components/sheet-step4/step4-form/step4-inspection/step4-inspection.component';
+import { Step4HumiComponent } from './sheet/components/sheet-step4/step4-form/step4-humi/step4-humi.component';
+import { Step4VibrationComponent } from './sheet/components/sheet-step4/step4-form/step4-vibration/step4-vibration.component';
 
 
 @NgModule({
@@ -57,7 +64,14 @@ import { SheetStep2Component } from './sheet/components/sheet-step2/sheet-step2.
     SheetStep2Component,
     SheetStep3Component,
     SheetStep4Component,
-    SheetStep5Component
+    SheetStep5Component,
+    Step4HeatShockComponent,
+    Step4HighLowComponent,
+    Step4TempFormComponent,
+    Step4HomeComponent,
+    Step4InspectionComponent,
+    Step4HumiComponent,
+    Step4VibrationComponent
 
   ],
   imports: [

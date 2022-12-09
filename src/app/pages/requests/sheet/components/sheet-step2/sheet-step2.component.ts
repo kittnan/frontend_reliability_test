@@ -5,6 +5,7 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-sheet-step2',
@@ -13,8 +14,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class SheetStep2Component implements OnInit {
   @Input() formId: any
-  @Input() data: any
-  @Output() dataChange: EventEmitter<any> = new EventEmitter()
+  // @Input() data: any
+  // @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   testPurposeForm = new FormGroup({
     _id: new FormControl(null),
@@ -33,7 +34,25 @@ export class SheetStep2Component implements OnInit {
 
   async ngOnInit() {
     this.testPurposes = await this.$master.getTestPurposeMaster().toPromise()
-    console.log(this.data);
+    if (this.formId) {
+      const params = new HttpParams().set('requestId', this.formId)
+      const resGet = await this.$step2.get(params).toPromise()
+      if (resGet && resGet.length > 0) {
+        this.testPurposes = this.testPurposes.map((t: any) => {
+          if (t.name == resGet[0].purpose) {
+            return {
+              ...t,
+              checked: true,
+              description: resGet[0].description
+            }
+          }
+          return t
+        })
+        this.testPurposeForm.patchValue({
+          ...resGet[0]
+        })
+      }
+    }
   }
 
   onCheckRadio(event: any, purpose: any) {
@@ -41,18 +60,15 @@ export class SheetStep2Component implements OnInit {
       let temp: any = document.getElementById(purpose._id)
       temp.value = ''
     }
-    this.testPurposes = this.testPurposes.map((purpose: any) => {
-      purpose.checked = false
-      purpose['description'].value = ""
-      return purpose
+    this.testPurposes = this.testPurposes.map((p: any) => {
+      p.checked = false
+      p['description'].value = ""
+      return p
     })
     purpose.checked = true
     this.testPurposeForm.patchValue({
       purpose: purpose.name,
-      description: {
-        status: true,
-        value: ''
-      }
+      description: purpose.description
     })
   }
   onInputDescription(event: any) {
@@ -67,64 +83,51 @@ export class SheetStep2Component implements OnInit {
 
   onNext() {
 
-    console.log(this.formId);
+    this.testPurposeForm.patchValue({
+      requestId: this.formId
+    })
+    Swal.fire({
+      title: `Do you want to save draft?`,
+      icon: 'question',
+      showCancelButton: true
+    }).then((value: SweetAlertResult) => {
+      if (value.isConfirmed) {
+        this._loading.start()
+        if (this.testPurposeForm.value._id) {
+          this.update()
+        } else {
+          this.insert()
+        }
+      }
+    })
 
-
-    // Swal.fire({
-    //   title: `Do you want to save draft?`,
-    //   icon: 'question',
-    //   showCancelButton: true
-    // }).then((value: SweetAlertResult) => {
-    //   if (value.isConfirmed) {
-    //     this._loading.start()
-    //     if (this.testPurposeForm.value._id) {
-    //       this.update()
-    //     } else {
-    //       this.insert()
-    //     }
-    //   }
-    // })
-
-
-    // console.log(this.testPurposeForm.value);
-
-    // this._loading.start()
-    // this.step2Change.emit(this.testPurposeForm.value)
-    // this._loading.stopAll();
-    // this._stepper.next();
-    // // if (this.testPurposeForm.valid) {
-    // //   this._homeService.setFormStep2(this.testPurposeForm.value)
-    // //   setTimeout(() => {
-    // //     this._loading.stopAll();
-    // //     this._stepper.next();
-    // //   }, 500);
-    // // } else {
-    // //   setTimeout(() => {
-    // //     this._loading.stopAll();
-    // //     Swal.fire('Form not valid!!', '', 'warning');
-    // //   }, 500);
-    // // }
   }
 
   async insert() {
-    console.log(this.testPurposeForm.value,this.formId);
     const dataInsert = this.testPurposeForm.value
     delete dataInsert._id
     const resInsert = await this.$step2.insert(dataInsert).toPromise()
 
     setTimeout(() => {
-      Swal.fire('SUCCESS','','success')
+      Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);
 
   }
-  update() {
+  async update() {
+    console.log(this.testPurposeForm.value);
 
+    const resUpdate = await this.$step2.update(this.testPurposeForm.value._id, this.testPurposeForm.value).toPromise()
+    setTimeout(() => {
+      Swal.fire('SUCCESS', '', 'success')
+      this._loading.stopAll()
+      this._stepper.next()
+    }, 1000);
   }
 
   onBack() {
-    // this._stepper.previous()
+    this._stepper.previous()
   }
 
 
