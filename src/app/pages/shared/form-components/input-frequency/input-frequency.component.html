@@ -1,0 +1,19 @@
+<div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+        stacked_line_chart
+    </span>
+    <mat-form-field fxFlex="45" appearance="fill">
+        <mat-label>Hz</mat-label>
+        <input matInput [(ngModel)]="form.low" (ngModelChange)="emitForm()">
+        <span matSuffix>
+            ~
+        </span>
+    </mat-form-field>
+    <mat-form-field fxFlex="45" appearance="fill">
+        <mat-label>Hz</mat-label>
+        <input matInput [(ngModel)]="form.high" (ngModelChange)="emitForm()">
+        <span matSuffix>
+            Hz
+        </span>
+    </mat-form-field>
+</div>

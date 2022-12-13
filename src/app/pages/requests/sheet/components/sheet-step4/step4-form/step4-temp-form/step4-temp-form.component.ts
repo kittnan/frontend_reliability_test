@@ -29,6 +29,13 @@ export class Step4TempFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('OKOKOKOKO',this.data);
+
+    if(this.data){
+      this.form = this.data
+      console.log('BBBB',this.form);
+
+    }
   }
   emit() {
     setTimeout(() => {

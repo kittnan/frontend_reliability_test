@@ -1,0 +1,8 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <app-input-temp fxFlex="33" [icon]="'ac_unit'" [title]="'Low Temp'" [(form)]="form.lowTemp" (formChange)="emit($event)"></app-input-temp>
+    <app-input-operate fxFlex="33" [(form)]="form.operate" (formChange)="emit($event)"></app-input-operate>
+    <app-input-sample fxFlex="33" [(form)]="form.sample" (formChange)="emit($event)"></app-input-sample>
+    <app-input-qty fxFlex="33" [(form)]="form.qty" (formChange)="emit($event)"></app-input-qty>
+    <app-input-time-inspec fxFlex="33" [(form)]="form.inspection" [title]="'Inspection'" (formChange)="emit($event)"></app-input-time-inspec>
+    <app-input-time-inspec fxFlex="33" [(form)]="form.report" [title]="'Report'" (formChange)="emit($event)"></app-input-time-inspec>
+</div>

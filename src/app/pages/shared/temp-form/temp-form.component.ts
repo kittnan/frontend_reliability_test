@@ -22,6 +22,9 @@ export class TempFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    if(this.formInput){
+
+    }
   }
   emitForm() {
     const total: string = `${this.form.temp}±${this.form.tempVar}℃`

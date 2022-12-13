@@ -55,6 +55,10 @@ export class Step4HomeComponent implements OnInit {
       }
     })
     console.log(this.conditionList);
+    console.log('TTTTTTTTTTTTTTTTTGGGGGGGGGGgg',this.conditionForm);
+    if(this.conditionForm){
+      this.conditions = this.conditionForm
+    }
   }
 
   checkDisable(item: ConditionListForm, step3ListSelected: any[]) {
@@ -62,7 +66,7 @@ export class Step4HomeComponent implements OnInit {
 
     if (item.value == 1) {
       alert('1')
-      const foo =step3ListSelected.find((foo: any) => foo.name.toLowerCase().includes('low'))
+      const foo = step3ListSelected.find((foo: any) => foo.name.toLowerCase().includes('low'))
       console.log(foo);
 
       if (foo) return false
@@ -102,6 +106,17 @@ export class Step4HomeComponent implements OnInit {
     setTimeout(() => {
       this.selected = 0;
     }, 100);
+    console.log(this.conditions);
+
+
+  }
+
+  foo(e:any,con:any){
+    // console.log('%%%%',e);
+    console.log(con);
+
+    con.data = e
+    console.log('<><><><><>',con);
 
   }
 

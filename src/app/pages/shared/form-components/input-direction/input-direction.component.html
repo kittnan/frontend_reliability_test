@@ -1,0 +1,17 @@
+<div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+    signal_cellular_4_bar
+    </span>
+    <mat-form-field fxFlex="30" appearance="fill">
+        <mat-label>X</mat-label>
+        <input type="number" matInput [(ngModel)]="form.x" (ngModelChange)="emit()">
+    </mat-form-field>
+    <mat-form-field fxFlex="30" appearance="fill">
+        <mat-label>Y</mat-label>
+        <input type="number" matInput [(ngModel)]="form.y" (ngModelChange)="emit()">
+    </mat-form-field>
+    <mat-form-field fxFlex="30" appearance="fill">
+        <mat-label>Z</mat-label>
+        <input type="number" matInput [(ngModel)]="form.z" (ngModelChange)="emit()">
+    </mat-form-field>
+</div>

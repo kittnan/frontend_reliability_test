@@ -1,0 +1,9 @@
+<div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+        format_list_numbered_rtl
+        </span>
+    <mat-form-field fxFlex="90" appearance="fill">
+        <mat-label>Sample No.</mat-label>
+        <input matInput [(ngModel)]="form" (input)="emitForm()">
+    </mat-form-field>
+</div>

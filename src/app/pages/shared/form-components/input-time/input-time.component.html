@@ -1,0 +1,12 @@
+<div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+        timer
+    </span>
+    <mat-form-field fxFlex="90" appearance="fill">
+        <mat-label>Time</mat-label>
+        <input matInput [(ngModel)]="form" (ngModelChange)="emit()">
+        <span matSuffix>
+            min per 1 cycle
+        </span>
+    </mat-form-field>
+</div>

@@ -1,3 +1,4 @@
+import { LowTempFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/low-temp-form/low-temp-form.component';
 import { SheetStep5Component } from './sheet/components/sheet-step5/sheet-step5.component';
 import { SheetStep4Component } from './sheet/components/sheet-step4/sheet-step4.component';
 import { SheetStep3Component } from './sheet/components/sheet-step3/sheet-step3.component';
@@ -39,6 +40,11 @@ import { Step4HomeComponent } from './sheet/components/sheet-step4/step4-form/st
 import { Step4InspectionComponent } from './sheet/components/sheet-step4/step4-form/step4-inspection/step4-inspection.component';
 import { Step4HumiComponent } from './sheet/components/sheet-step4/step4-form/step4-humi/step4-humi.component';
 import { Step4VibrationComponent } from './sheet/components/sheet-step4/step4-form/step4-vibration/step4-vibration.component';
+import { HeatShockComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/heat-shock/heat-shock.component';
+import { HighLowComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-low/high-low.component';
+import { HighTempFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-form/high-temp-form.component';
+import { HighTempHumiFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-humi-form/high-temp-humi-form.component';
+import { HighTempHumiVibrationFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-humi-vibration-form/high-temp-humi-vibration-form.component';
 
 
 @NgModule({
@@ -71,7 +77,13 @@ import { Step4VibrationComponent } from './sheet/components/sheet-step4/step4-fo
     Step4HomeComponent,
     Step4InspectionComponent,
     Step4HumiComponent,
-    Step4VibrationComponent
+    Step4VibrationComponent,
+    HeatShockComponent,
+    HighLowComponent,
+    LowTempFormComponent,
+    HighTempFormComponent,
+    HighTempHumiFormComponent,
+    HighTempHumiVibrationFormComponent
 
   ],
   imports: [

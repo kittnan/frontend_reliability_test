@@ -1,0 +1,15 @@
+<div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+    <span class="material-icons-outlined">
+        schedule
+        </span>
+    <mat-form-field fxFlex="90" appearance="fill">
+        <mat-label>{{title}}</mat-label>
+        <input matInput [(ngModel)]="temp" (input)="inputTime()">
+        <span matSuffix>
+            hr
+        </span>
+        <mat-hint>
+            <span *ngFor="let d of form" style="margin-right: 5px;">{{d}}</span>
+        </mat-hint>
+    </mat-form-field>
+</div>

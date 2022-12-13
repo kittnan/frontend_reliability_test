@@ -35,6 +35,18 @@ import { Step5Component } from './views/step5/step5.component';
 import { ApproveFormComponent } from './approve-form/approve-form.component';
 import { ChamberTableComponent } from './chamber-table/chamber-table.component';
 import { PlanReliabilityTestComponent } from './plan-reliability-test/plan-reliability-test.component';
+import { HighTempComponent } from './form-components/high-temp/high-temp.component';
+import { InputOperateComponent } from './form-components/input-operate/input-operate.component';
+import { InputSampleComponent } from './form-components/input-sample/input-sample.component';
+import { InputQtyComponent } from './form-components/input-qty/input-qty.component';
+import { InputTimeInspecComponent } from './form-components/input-time-inspec/input-time-inspec.component';
+import { InputTempComponent } from './form-components/input-temp/input-temp.component';
+import { InputHumiComponent } from './form-components/input-humi/input-humi.component';
+import { InputFrequencyComponent } from './form-components/input-frequency/input-frequency.component';
+import { InputAccelerationComponent } from './form-components/input-acceleration/input-acceleration.component';
+import { InputTimeComponent } from './form-components/input-time/input-time.component';
+import { InputCycleComponent } from './form-components/input-cycle/input-cycle.component';
+import { InputDirectionComponent } from './form-components/input-direction/input-direction.component';
 
 
 @NgModule({
@@ -67,6 +79,18 @@ import { PlanReliabilityTestComponent } from './plan-reliability-test/plan-relia
     ApproveFormComponent,
     ChamberTableComponent,
     PlanReliabilityTestComponent,
+    HighTempComponent,
+    InputOperateComponent,
+    InputSampleComponent,
+    InputQtyComponent,
+    InputTimeInspecComponent,
+    InputTempComponent,
+    InputHumiComponent,
+    InputFrequencyComponent,
+    InputAccelerationComponent,
+    InputTimeComponent,
+    InputCycleComponent,
+    InputDirectionComponent,
 
   ],
   imports: [
@@ -106,6 +130,17 @@ import { PlanReliabilityTestComponent } from './plan-reliability-test/plan-relia
     ApproveFormComponent,
     ChamberTableComponent,
     PlanReliabilityTestComponent,
+    InputOperateComponent,
+    InputSampleComponent,
+    InputQtyComponent,
+    InputTimeInspecComponent,
+    InputTempComponent,
+    InputHumiComponent,
+    InputFrequencyComponent,
+    InputAccelerationComponent,
+    InputTimeComponent,
+    InputCycleComponent,
+    InputDirectionComponent
   ]
 })
 export class SharedModule { }
