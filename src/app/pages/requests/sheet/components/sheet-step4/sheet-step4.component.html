@@ -1,5 +1,5 @@
 <app-step4-home [(conditionForm)]="conditionForm.data" (conditionFormChange)="onConditionForm()" [formId]="formId"></app-step4-home>
-<app-condition-table [data]="conditionForm.data"></app-condition-table>
+<app-condition-table *ngIf="table.length>0" [data]="table"></app-condition-table>
 <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
     <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">
     <span class="material-icons-outlined">

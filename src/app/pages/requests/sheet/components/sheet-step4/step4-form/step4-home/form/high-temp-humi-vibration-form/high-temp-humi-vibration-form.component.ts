@@ -15,57 +15,39 @@ export class HighTempHumiVibrationFormComponent implements OnInit {
 
   form: any = {
     highTemp: {
-      temp: '1',
-      tempVar: '2'
+      temp: '',
+      tempVar: ''
     },
     operate: {
       text: 'operate',
       value: false
     },
-    sample: 'xxx',
-    qty: '12',
+    sample: '',
+    qty: '',
     inspection: [0],
     report: [0],
-    humi: '67',
+    humi: '',
     frequency: {
-      high: '200',
-      low: '100'
+      high: '',
+      low: ''
     },
-    acceleration: '9.6',
-    time:'100',
-    cycle:'100',
+    acceleration: '',
+    time:'',
+    cycle:'',
     direction:{
       x:'0',
-      y:'9',
-      z:'7'
+      y:'0',
+      z:'0'
     }
   }
 
-  // form: any = {
-  //   highTemp: null,
-  //   humidity: null,
-  //   hz: null,
-  //   acceleration: null,
-  //   timeCycle: null,
-  //   cycle: null,
-  //   direction: {
-  //     x: 0,
-  //     y: 0,
-  //     z: 0
-  //   },
-  //   operate: null,
-  //   sampleNo: null,
-  //   qty: null,
-  //   timeInspection: null,
-  //   timeReport: null,
-  // }
 
   constructor() { }
 
   ngOnInit(): void {
+    this.form = {...this.data}
   }
   emit(e: any) {
-    console.log(e);
     this.form = { ...this.form, ...e }
     this.dataChange.emit(this.form)
 

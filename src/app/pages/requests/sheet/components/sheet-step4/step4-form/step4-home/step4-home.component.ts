@@ -26,7 +26,7 @@ export class Step4HomeComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   conditionList!: ConditionListForm[]
   selected: any = 0;
-  conditions: any = [];
+  conditions: any[] = [];
   allExpandStatus: boolean = true;
 
   inspection: any = {
@@ -45,8 +45,11 @@ export class Step4HomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const params: HttpParams = new HttpParams().set('requestId', this.formId)
     const step3 = await this.$step3.get(params).toPromise()
-    console.log(step3);
-    const step3ListSelected = step3[0].data[0].list
+    let step3ListSelected = []
+    if (step3.length > 0) {
+      step3ListSelected = step3[0].data[0].list
+    }
+
     this.conditionList = await this.$master.getFunctionChamber().toPromise()
     this.conditionList = this.conditionList.map((con: ConditionListForm) => {
       return {
@@ -54,21 +57,18 @@ export class Step4HomeComponent implements OnInit {
         disable: false
       }
     })
-    console.log(this.conditionList);
-    console.log('TTTTTTTTTTTTTTTTTGGGGGGGGGGgg',this.conditionForm);
-    if(this.conditionForm){
+    if (this.conditionForm) {
       this.conditions = this.conditionForm
+      this.inspection = this.conditionForm[0]?.data.inspectionDetail ? this.conditionForm[0].data.inspectionDetail : this.inspection
+      this.emit()
     }
   }
 
   checkDisable(item: ConditionListForm, step3ListSelected: any[]) {
-    console.log(item.value);
 
     if (item.value == 1) {
       alert('1')
       const foo = step3ListSelected.find((foo: any) => foo.name.toLowerCase().includes('low'))
-      console.log(foo);
-
       if (foo) return false
       return true
     } else
@@ -101,29 +101,68 @@ export class Step4HomeComponent implements OnInit {
           }
   }
 
-  onSelected() {
-    this.conditions.push({ ...this.selected, data: null })
+  async onSelected() {
+    this.conditions.push({
+      ...this.selected, data: {
+        lowTemp: {
+          temp: '0',
+          tempVar: '0'
+        },
+        highTemp: {
+          temp: '0',
+          tempVar: '0'
+        },
+        operate: {
+          text: 'operate',
+          value: false
+        },
+        sample: '',
+        qty: '',
+        inspection: [0],
+        report: [0],
+        humi: '0',
+        frequency: {
+          high: '0',
+          low: '0'
+        },
+        acceleration: '0',
+        time: '0',
+        cycle: '0',
+        direction: {
+          x: '0',
+          y: '0',
+          z: '0'
+        },
+        inspectionDetail: {
+          name: 'normal',
+          value: ''
+        }
+      }, inspectionDetail: {}
+    })
+    this.emit()
     setTimeout(() => {
       this.selected = 0;
     }, 100);
-    console.log(this.conditions);
-
 
   }
 
-  foo(e:any,con:any){
-    // console.log('%%%%',e);
-    console.log(con);
-
+  async dataChange(e: any, con: any) {
     con.data = e
-    console.log('<><><><><>',con);
+    this.emit()
+  }
 
+  async onInspectionDetail() {
+    this.emit()
   }
 
   async onUpdateTable() {
-    console.log(this.inspection);
-    console.log(this.conditions);
+    this.emit()
+  }
+
+  async emit() {
     const dataEmit = await this.mapData(this.conditions, this.inspection)
+    console.log(dataEmit);
+
     this.conditionFormChange.emit(dataEmit)
   }
 
@@ -136,6 +175,7 @@ export class Step4HomeComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         this.conditions = this.conditions.filter((c: any) => c != this.conditions[item])
+        this.emit()
       }
     })
 
@@ -143,41 +183,61 @@ export class Step4HomeComponent implements OnInit {
 
   mapData(conditions: any, inspection: any) {
     return new Promise(resolve => {
-      console.log(conditions);
       const result = conditions.map((condition: any) => {
         const data = condition.data;
+        data['inspectionDetail'] = inspection
+
         const sumStr = this.sumString(condition)
+
         const dataT = {
           name: sumStr || '',
           operate: data.operate,
-          inspection: inspection,
-          timeInspection: data.timeInspection,
-          timeReport: data.timeReport,
-          sampleNo: data.sampleNo,
+          inspectionDetail: data.inspectionDetail,
+          inspection: data.inspection,
+          report: data.report,
+          sample: data.sample,
           qty: data.qty
         }
         return {
           ...condition,
-          dataTable: dataT
+          dataTable: dataT,
+          inspectionDetail:dataT.inspectionDetail
         }
       })
-      console.log(result);
       resolve(result)
     })
   }
 
   sumString(condition: any) {
-    const data: TestingConditionForm = condition.data
+    const data: any = condition.data
     let sumStr: string = ''
-    console.log(data);
-
-    const direction = data && data.direction ? `${data.direction?.x},${data.direction?.y},${data.direction?.z}` : ''
-    if (condition && condition.value == 1) sumStr += `${condition.name} ${data.temp || ''}`
-    if (condition && condition.value == 2) sumStr += `${condition.name} ${data.temp || ''}`
-    if (condition && condition.value == 3) sumStr += `Damp proof test  ${data.highTemp || ''} ${data.humidity || ''}`
-    if (condition && condition.value == 4) sumStr += `${condition.name}  ${data.highTemp || ''} ${data.humidity || ''} frequency: ${data.hz || ''}Hz Acceleration: ${data.acceleration || ''} Cycles: ${data.timeCycle}min(${data.cycle}) Direction: (${direction})`
-    if (condition && condition.value == 5) sumStr += `${condition.name} ${data.highTemp || ''} ${data.lowTemp || ''}`
-    if (condition && condition.value == 6) sumStr += `${condition.name} ${data.lowTemp || ''}↔${data.highTemp || ''} Cycles: ${data.timeCycle}min(${data.cycle})`
+    const lowTemp = data && data.lowTemp ? `${data.lowTemp.temp}±${data.lowTemp.tempVar}°C` : ''
+    const highTemp = data && data.highTemp ? `${data.highTemp.temp}±${data.highTemp.tempVar}°C` : ''
+    const acceleration = data && data.acceleration ? `Acceleration: ${data.acceleration}m/s2` : ''
+    const cycle = data && data.cycle ? `${data.cycle}` : ''
+    const time = data && data.time ? `${data.time}` : ''
+    const timeCycle = cycle && time ? `Cycles: ${time}min(${cycle})` : ''
+    const humi = data && data.humi ? `${data.humi}%RH` : ''
+    const direction: any = data && data.direction ? `Direction: (${data.direction?.x},${data.direction?.y},${data.direction?.z})` : ''
+    const frequency = data && data.frequency && data.frequency.low && data.frequency.high ? `Frequency: ${data.frequency.low}-${data.frequency.high}Hz` : ''
+    if (condition && condition.value == 1) {
+      sumStr += `${condition.name} ${lowTemp}`
+    }
+    if (condition && condition.value == 2) {
+      sumStr += `${condition.name} ${highTemp}`
+    }
+    if (condition && condition.value == 3) {
+      sumStr += `Damp proof test  ${highTemp} ${humi}`
+    }
+    if (condition && condition.value == 4) {
+      sumStr += `${condition.name}  ${highTemp} ${humi} ${frequency} ${acceleration} ${timeCycle} ${direction}`
+    }
+    if (condition && condition.value == 5) {
+      sumStr += `${condition.name} ${highTemp} ↔ ${lowTemp}`
+    }
+    if (condition && condition.value == 6) {
+      sumStr += `${condition.name} ${lowTemp}↔${highTemp} ${timeCycle}`
+    }
     return sumStr
 
 

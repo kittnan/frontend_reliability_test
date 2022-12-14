@@ -10,78 +10,30 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <div fxFlex="100">
-        <button mat-button (click)="allExpandStatus = true">Expand All</button>
-        <button mat-button (click)="allExpandStatus = false">Collapse All</button>
-    </div>
 
-    <div fxFlex="100" multi fxLayoutAlign="center stretch" fxLayout="row wrap" *ngFor="let con of conditions; let i=index">
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mat-elevation-z1" style="padding: 20px; margin: 10px 0;" *ngFor="let con of conditions; let i=index">
         <h4 fxFlex="100">
             {{i+1}}.{{con.name}}
+            <button mat-button color="primary" (click)="onDelete(i)">
+                <span class="material-icons-outlined cursor" style="font-size: 30px;" >
+                    delete
+                </span>
+            </button>
         </h4>
-        <div fxFlex="95" multi fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <app-low-temp-form fxFlex="100" (dataChange)="foo($event,con)" *ngIf="con.value===1"></app-low-temp-form>
-            <app-high-temp-form fxFlex="100" (dataChange)="foo($event,con)" *ngIf="con.value===2"></app-high-temp-form>
-            <app-high-temp-humi-form fxFlex="100" (dataChange)="foo($event,con)" *ngIf="con.value===3"></app-high-temp-humi-form>
-            <app-high-temp-humi-vibration-form fxFlex="100" (dataChange)="foo($event,con)" *ngIf="con.value===4"></app-high-temp-humi-vibration-form>
-            <app-high-low fxFlex="100" (dataChange)="foo($event,con)" *ngIf="con.value===5"></app-high-low>
-            <app-heat-shock fxFlex="100" (dataChange)="foo($event,con)" *ngIf="con.value===6"></app-heat-shock>
-        </div>
-        <div fxFlex="5" fxLayoutAlign="end stretch">
-            <button mat-button color="primary">
-          <span class="material-icons-outlined cursor" style="font-size: 30px;" (click)="onDelete(i)">
-              delete
-          </span>
-          </button>
+        <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+            <app-low-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===1"></app-low-temp-form>
+            <app-high-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===2"></app-high-temp-form>
+            <app-high-temp-humi-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===3"></app-high-temp-humi-form>
+            <app-high-temp-humi-vibration-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===4"></app-high-temp-humi-vibration-form>
+            <app-high-low fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===5"></app-high-low>
+            <app-heat-shock fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===6"></app-heat-shock>
         </div>
     </div>
 
 
-
-    <!-- <mat-accordion fxFlex="100" multi fxLayoutAlign="start stretch" fxLayout="row wrap" *ngFor="let con of conditions; let i=index">
-        <mat-expansion-panel [expanded]="allExpandStatus" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <mat-expansion-panel-header fxFlex="100">
-                <mat-panel-title class="fc-blue">
-                    {{i+1}}.{{con.name}}
-                </mat-panel-title>
-
-            </mat-expansion-panel-header>
-
-            <app-low-temp-form fxFlex="100" *ngIf="con.value===1"></app-low-temp-form>
-
-            <app-temp-form-component (deleteChange)="onDelete(i)" [icon]="'thermostat'" [titleText]="'High Temp'" [(data)]="con.data" fxFlex="100" *ngIf="con.value===2">
-            </app-temp-form-component>
-
-            <app-temp-humi-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.value===3">
-            </app-temp-humi-form-component>
-
-            <app-temp-humi-vibration-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.value===4">
-            </app-temp-humi-vibration-form-component>
-
-            <app-high-low-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.value===5">
-            </app-high-low-form-component>
-
-            <app-heat-shock-form-component (deleteChange)="onDelete(i)" [(data)]="con.data" fxFlex="100" *ngIf="con.value===6">
-            </app-heat-shock-form-component>
-
-            <mat-action-row fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
-                <button mat-button color="primary">
-                    <span class="material-icons-outlined cursor" style="font-size: 30px;" (click)="onDelete(i)">
-                        delete
-                    </span>
-                </button>
-            </mat-action-row>
-        </mat-expansion-panel>
-
-    </mat-accordion> -->
-
-
-
-
-    <app-inspection-form fxFlex="100" [(inspection)]="inspection.name" [(inspectionDetail)]="inspection.detail">
+    <app-inspection-form fxFlex="100" [(inspection)]="inspection.name" [(inspectionDetail)]="inspection.detail" (inspectionChange)="onInspectionDetail()" (inspectionDetailChange)="onInspectionDetail()" class="mat-elevation-z10" style="padding: 20px; margin: 10px 0;">
     </app-inspection-form>
 
-    <button fxFlex="100" mat-raised-button color="accent" (click)="onUpdateTable()">UPDATE TABLE</button>
 
     <mat-divider fxFlex="100" style="margin: 10px 0;"></mat-divider>
 

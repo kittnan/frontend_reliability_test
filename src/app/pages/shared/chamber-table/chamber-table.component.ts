@@ -18,7 +18,7 @@ export class ChamberTableComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.data);
+     (this.data);
     this.rows = this.data
   }
   calCap(item: any, index: any) {

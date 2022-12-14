@@ -26,8 +26,6 @@ export class FilesReportComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.clear()
-    console.log(this.queues);
   }
 
   onClickViewFile(item: any) {

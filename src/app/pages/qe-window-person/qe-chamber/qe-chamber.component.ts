@@ -111,24 +111,16 @@ export class QeChamberComponent implements OnInit {
   }
   dataChange(e: any) {
     this.chamberTable = e
-    console.log(this.chamberTable);
-
   }
   tableChange(e: any) {
     this.table = e
-    console.log(this.table);
   }
   approveChange(e: any) {
-    console.log('@$$$$$', e);
     this.nextApprove = e
   }
 
   async submit() {
     try {
-      console.clear()
-      console.log(this.chamberTable);
-      console.log('@@@@@@@', this.table);
-      console.log('form', this.form);
       await this.$request.update(this.form._id, {
         table: this.table
       }).toPromise()
@@ -143,8 +135,6 @@ export class QeChamberComponent implements OnInit {
 
   onUpdate(data: any) {
     this.$queue.updateMany(data).subscribe(res => {
-      console.log(res);
-
     })
 
   }

@@ -49,8 +49,6 @@ export class TestingConditionComponent implements OnInit {
   }
 
   async onUpdateTable() {
-    console.log(this.inspection);
-    console.log(this.conditions);
     const dataEmit = await this.mapData(this.conditions, this.inspection)
     this.conditionFormChange.emit(dataEmit)
   }
@@ -71,7 +69,6 @@ export class TestingConditionComponent implements OnInit {
 
   mapData(conditions: any, inspection: any) {
     return new Promise(resolve => {
-      console.log(conditions);
       const result = conditions.map((condition: any) => {
         const data = condition.data;
         const sumStr = this.sumString(condition)
@@ -89,7 +86,6 @@ export class TestingConditionComponent implements OnInit {
           dataTable: dataT
         }
       })
-      console.log(result);
       resolve(result)
     })
   }
@@ -97,7 +93,6 @@ export class TestingConditionComponent implements OnInit {
   sumString(condition: any) {
     const data: TestingConditionForm = condition.data
     let sumStr: string = ''
-    console.log(data);
 
     const direction = data && data.direction ? `${data.direction?.x},${data.direction?.y},${data.direction?.z}` : ''
     if (condition && condition.value == 1) sumStr += `${condition.name} ${data.temp || ''}`

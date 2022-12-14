@@ -114,8 +114,6 @@ export class GroupDialogComponent implements OnInit {
     this.form.operate.splice(index, 1)
   }
   async onEdit() {
-    console.log(this.form);
-
     const resUpdate = await this.$operate_group.update(this.data._id, this.form).toPromise()
     if (resUpdate.acknowledged) {
       this.dialogRef.close(resUpdate)

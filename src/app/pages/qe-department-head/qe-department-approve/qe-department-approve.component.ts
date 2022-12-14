@@ -39,7 +39,6 @@ export class QeDepartmentApproveComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(async params => {
-      console.log(params['id']);
       const id = params['id']
       this.request = await this._request.get_id(id).toPromise()
       const findRequestApprove = this.request.step4.find((r: any) => r.access == 'request_approve')

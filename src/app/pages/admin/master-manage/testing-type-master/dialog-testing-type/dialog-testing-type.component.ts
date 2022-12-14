@@ -86,8 +86,6 @@ export class DialogTestingTypeComponent implements OnInit {
   getList() {
     let c1 = this.TestingTypeForm.get('list') as FormArray;
     let c2 = c1.controls
-    // console.log(c2);
-
     return c2
   }
 

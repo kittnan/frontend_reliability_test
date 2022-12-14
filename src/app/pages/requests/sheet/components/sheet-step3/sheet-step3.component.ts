@@ -30,7 +30,7 @@ interface listForm {
 })
 export class SheetStep3Component implements OnInit {
   @Input() formId: any
-  testingTypeMenu: testingTypeMenuForm = {
+  testingTypeMenu: any = {
     data: [],
     requestId: null
   }
@@ -50,12 +50,15 @@ export class SheetStep3Component implements OnInit {
       requestId: this.formId,
       data: resultMap
     };
-    const params: HttpParams = new HttpParams().set('requestId', this.formId)
-    const resGet: any = await this.$step3.get(params).toPromise()
-    if (resGet && resGet.length > 0) {
-      this.testingTypeMenu = {
-        ...resGet[0]
-      }
+    if(this.formId){
+      const params: HttpParams = new HttpParams().set('requestId', this.formId)
+      const resGet: any = await this.$step3.get(params).toPromise()
+      if (resGet && resGet.length > 0) {
+        this.testingTypeMenu = {
+          ...resGet[0]
+        }
+    }
+
     }
   }
 
@@ -77,6 +80,7 @@ export class SheetStep3Component implements OnInit {
   }
 
   async update() {
+    this.testingTypeMenu.requestId = this.formId
     const resUpdate = await this.$step3.update(this.testingTypeMenu._id, this.testingTypeMenu).toPromise()
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
@@ -85,8 +89,10 @@ export class SheetStep3Component implements OnInit {
     }, 1000);
   }
   async insert() {
+    this.testingTypeMenu.requestId = this.formId
     const resInsert = await this.$step3.insert(this.testingTypeMenu).toPromise()
     setTimeout(() => {
+      this.testingTypeMenu._id = resInsert[0]._id
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
       this._stepper.next()

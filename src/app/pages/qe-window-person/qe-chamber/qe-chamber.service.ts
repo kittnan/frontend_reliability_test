@@ -10,8 +10,6 @@ export class QeChamberService {
 
 
   generateQueue(chamber: any, e: any) {
-    console.log(chamber, e);
-
 
   }
   genInspectionTime(time: TimeForm[]) {

@@ -31,7 +31,6 @@ export class DialogTestPurposeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.TestPurposeForm.value);
     if(this.data){
       this.name.setValue(this.data.name);
       this.description.setValue(this.data['description'].status)

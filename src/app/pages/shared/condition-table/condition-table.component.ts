@@ -21,7 +21,7 @@ export class ConditionTableComponent implements OnInit {
     private router: Router
   ) { }
 
-  displayedColumns: string[] = ['item', 'condition', 'operate', 'inspection', 'timeInspection', 'timeReport', 'sampleNo', 'qty'];
+  displayedColumns: string[] = ['item', 'condition', 'operate', 'inspectionDetail', 'inspection', 'report', 'sample', 'qty'];
 
   ngOnInit(): void {
 

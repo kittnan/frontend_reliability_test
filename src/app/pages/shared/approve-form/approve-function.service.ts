@@ -19,7 +19,7 @@ export class ApproveFunctionService {
   }
 
   nextStep(curStatus: string, data: any, userApprove: any) {
-    console.log(curStatus);
+     (curStatus);
 
     if (curStatus == 'request_approve') {
       const foo = data.step5.find((d: any) => d.authorize == 'qe_window_person')

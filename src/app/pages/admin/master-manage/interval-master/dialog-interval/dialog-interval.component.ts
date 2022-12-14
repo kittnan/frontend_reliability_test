@@ -34,8 +34,6 @@ export class DialogIntervalComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.interval.value);
-
     this._master_service.insertIntervalMaster(this.interval.value).subscribe(res => {
       if (res && res.length > 0) {
         this.dialogRef.close(res)

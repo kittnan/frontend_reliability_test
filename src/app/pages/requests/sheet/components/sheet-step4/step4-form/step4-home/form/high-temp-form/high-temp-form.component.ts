@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-high-temp-form',
@@ -7,13 +7,13 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class HighTempFormComponent implements OnInit {
 
-
+  @Input() data: any
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   form: any = {
     highTemp: {
-      temp: '1',
-      tempVar: '2'
+      temp: '',
+      tempVar: ''
     },
     operate: {
       text: '',
@@ -21,12 +21,15 @@ export class HighTempFormComponent implements OnInit {
     },
     sample: '',
     qty: '',
-    inspection: [],
-    report: []
+    inspection: [0],
+    report: [0]
   }
   constructor() { }
 
   ngOnInit(): void {
+    if(this.data){
+      this.form = {...this.data}
+    }
   }
 
   emit(e: any) {

@@ -48,7 +48,7 @@ export class Step1Component implements OnInit {
     this.files = this.step1.files
   }
   onClickViewFile(file: any) {
-      console.log(file);
+       (file);
       window.open(file.path, '_blank')
   }
 

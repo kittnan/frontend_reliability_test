@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-low-temp-form',
@@ -7,27 +7,30 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 })
 export class LowTempFormComponent implements OnInit {
 
+  @Input() data: any
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   form: any = {
     lowTemp: {
-      temp: '1',
-      tempVar: '2'
+      temp: '',
+      tempVar: ''
     },
     operate: {
       text: 'operate',
       value: false
     },
-    sample: 'xxx',
-    qty: '12',
+    sample: '',
+    qty: '',
     inspection: [0],
     report: [0]
   }
   constructor() { }
 
   ngOnInit(): void {
+    if(this.data){
+      this.form = {...this.data}
+    }
   }
-
   emit(e: any) {
     this.form = { ...this.form,...e }
     this.dataChange.emit(this.form)

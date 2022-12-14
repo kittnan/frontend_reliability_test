@@ -20,7 +20,6 @@ export class DialogSectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
 
     if (this.data) {
       this.newMaster = this.data.name

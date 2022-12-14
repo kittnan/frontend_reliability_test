@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-step4-inspection',
-  templateUrl: './step4-inspection.component.html',
-  styleUrls: ['./step4-inspection.component.scss']
+  selector: 'app-inspection-form',
+  templateUrl: './inspection-form.component.html',
+  styleUrls: ['./inspection-form.component.scss']
 })
-export class Step4InspectionComponent implements OnInit {
+export class InspectionFormComponent implements OnInit {
 
   items:any = [
     {
@@ -31,4 +31,5 @@ export class Step4InspectionComponent implements OnInit {
     this.inspectionChange.emit(this.inspection);
     this.inspectionDetailChange.emit(this.inspectionDetail)
   }
+
 }

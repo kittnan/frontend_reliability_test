@@ -23,8 +23,6 @@ export class InputOperateComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.form);
-
   }
   emit() {
     this.formChange.emit({operate:this.form})

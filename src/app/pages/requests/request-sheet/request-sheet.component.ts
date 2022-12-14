@@ -32,7 +32,6 @@ export class RequestSheetComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params && params['id']) {
         this.$request.get_id(params['id']).subscribe(res => {
-          console.log(res);
           this.step1 = res[0].step1
           this.step2 = res[0].step2
           this.step3 = res[0].step3
@@ -80,7 +79,6 @@ export class RequestSheetComponent implements OnInit {
     }
 
     this.$request.insert(body).subscribe(res => {
-      console.log(res);
       if (res) {
         Swal.fire({
           title: `Create success!!`,
@@ -94,8 +92,6 @@ export class RequestSheetComponent implements OnInit {
   }
 
   appendFormData(data: any) {
-    console.log(data);
-
     return new Promise(resolve => {
       const formData = new FormData
       for (let index = 0; index < data.length; index++) {

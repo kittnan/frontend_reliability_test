@@ -34,8 +34,6 @@ export class TestingConditionMasterComponent implements OnInit {
   }
   async getMaster() {
     const resData = await this._master.getTestingConditionMaster().toPromise();
-    console.log(resData);
-
     this.dataSource = new MatTableDataSource(resData);
     this.setOption()
   }
@@ -79,7 +77,6 @@ export class TestingConditionMasterComponent implements OnInit {
     }).then(result => {
       if (result.isConfirmed) {
         this._master.deleteTestingConditionMaster(item._id).subscribe((res: any) => {
-          console.log(res);
           if (res.acknowledged) {
             this._toast_service.success();
             this.getMaster();

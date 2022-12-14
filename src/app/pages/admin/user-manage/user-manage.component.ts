@@ -65,8 +65,6 @@ export class UserManageComponent implements OnInit {
   }
 
   onEdit(user: any, index: number) {
-    console.log(user);
-
     const dialogRef = this.dialog.open(DialogAddUserComponent, {
       data: { ...user, index: index },
     })

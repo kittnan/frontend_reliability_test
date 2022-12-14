@@ -22,9 +22,9 @@ export class TableRequestService {
 
 
   async getRequest({ ...data }) {
-    // console.log(data);
+    //  (data);
     const resultCondition: any = await this.setCondition(data['selected_status'])
-    // console.log(resultCondition);
+    //  (resultCondition);
     return this.getRequestCondition(data['user']._id, resultCondition['status'], resultCondition['action'])
 
   }

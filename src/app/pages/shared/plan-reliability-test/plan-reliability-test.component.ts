@@ -12,10 +12,10 @@ export class PlanReliabilityTestComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(
+     (
       this.queues
     );
-    console.log(
+     (
       this.requestForm
     );
 

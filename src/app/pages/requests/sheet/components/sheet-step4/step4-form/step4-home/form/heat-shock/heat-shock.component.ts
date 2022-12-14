@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-heat-shock',
@@ -6,33 +6,37 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./heat-shock.component.scss']
 })
 export class HeatShockComponent implements OnInit {
+  @Input() data: any
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   form: any = {
     lowTemp: {
-      temp: '1',
-      tempVar: '2'
+      temp: '',
+      tempVar: ''
     },
     highTemp: {
-      temp: '1',
-      tempVar: '2'
+      temp: '',
+      tempVar: ''
     },
     operate: {
       text: 'operate',
       value: false
     },
-    sample: 'xxx',
-    qty: '12',
+    sample: '',
+    qty: '',
     inspection: [0],
     report: [0],
-    time:'100',
-    cycle:'100',
+    time:'',
+    cycle:'',
 
 
   }
   constructor() { }
 
   ngOnInit(): void {
+    if(this.data){
+      this.form = {...this.data}
+    }
   }
 
   emit(e: any) {

@@ -119,7 +119,7 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    console.log(item.nextApprove._id, this.userLogin._id);
+     (item.nextApprove._id, this.userLogin._id);
     if (item.nextApprove._id == this.userLogin._id) return false
     return true
   }
@@ -153,7 +153,7 @@ export class TableRequestComponent implements OnInit {
   }
 
   onEdit(item: any) {
-    console.log(item.status);
+     (item.status);
 
     if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
 
@@ -178,7 +178,7 @@ export class TableRequestComponent implements OnInit {
   }
 
   onChamber(item:any){
-    console.log(item);
+     (item);
     this.router.navigate(['/qe-window-person/chamber'],{
       queryParams:{
         requestId:item.requestId
@@ -189,8 +189,8 @@ export class TableRequestComponent implements OnInit {
 
 
   doo() {
-    console.log(this.paginator);
-    console.log(this.sort);
+     (this.paginator);
+     (this.sort);
     this.params.skip = (this.paginator.pageSize * this.paginator.pageIndex).toString()
     this.params.limit = this.paginator.pageSize.toString()
     this.onSelectStatus()

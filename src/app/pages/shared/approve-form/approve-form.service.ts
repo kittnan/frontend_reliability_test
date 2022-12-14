@@ -43,18 +43,17 @@ export class ApproveFormService {
     }
 
     Promise.all(arr).then((value: any) => {
-      console.log(value);
+       (value);
       Swal.fire('Success', '', 'success')
       setTimeout(() => {
         // this._router.navigate(['/'])
       }, 1000);
-    }).catch(err => console.log(err))
+    }).catch(err =>  (err))
   }
 
 
 
   async reject(action: string, data: any, userLogin: any, key: any, value: any) {
-    console.clear()
     let flowNow = data.step5.find((s: any) => s.userId == userLogin._id)
     flowNow.comment = flowNow.comment && flowNow.comment.length ? [...flowNow.comment, value] : [value]
     let upperReject = data.step5.filter((s: any) => s.authorize != key)
@@ -69,13 +68,12 @@ export class ApproveFormService {
       },
       status: statusForm
     }
-    console.log(body_form);
 
     arr.push(
       this.$request.update(data._id, body_form).toPromise()
     )
     Promise.all(arr).then((value)=>{
-      console.log(value);
+       (value);
 
     })
     // !

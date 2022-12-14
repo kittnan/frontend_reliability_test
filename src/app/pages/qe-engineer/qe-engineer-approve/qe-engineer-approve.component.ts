@@ -40,12 +40,9 @@ export class QeEngineerApproveComponent implements OnInit {
   ngOnInit(): void {
     this._loading.start();
     this.route.queryParams.subscribe(async params => {
-      console.log(params['id']);
       const id = params['id']
       const resData = await this.$request.get_id(id).toPromise()
       this.data = resData[0];
-      console.log(this.data);
-
       this.getUserApprove()
 
     })

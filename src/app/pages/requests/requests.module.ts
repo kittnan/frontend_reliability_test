@@ -29,22 +29,16 @@ import { TempHumiFormComponentComponent } from './request-sheet/step4-testing-co
 import { TempHumiVibrationFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/temp-humi-vibration-form-component/temp-humi-vibration-form-component.component';
 import { HeatShockFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/heat-shock-form-component/heat-shock-form-component.component';
 import { HighLowFormComponentComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/high-low-form-component/high-low-form-component.component';
-import { InspectionFormComponent } from './request-sheet/step4-testing-condition/testing-condition/formComponent/inspection-form/inspection-form.component';
 import { Step5SubmitComponent } from './request-sheet/step5-submit/step5-submit.component';
 import { SheetComponent } from './sheet/sheet.component';
 import { SheetStep2Component } from './sheet/components/sheet-step2/sheet-step2.component';
-import { Step4HeatShockComponent } from './sheet/components/sheet-step4/step4-form/step4-heat-shock/step4-heat-shock.component';
-import { Step4HighLowComponent } from './sheet/components/sheet-step4/step4-form/step4-high-low/step4-high-low.component';
-import { Step4TempFormComponent } from './sheet/components/sheet-step4/step4-form/step4-temp-form/step4-temp-form.component';
 import { Step4HomeComponent } from './sheet/components/sheet-step4/step4-form/step4-home/step4-home.component';
-import { Step4InspectionComponent } from './sheet/components/sheet-step4/step4-form/step4-inspection/step4-inspection.component';
-import { Step4HumiComponent } from './sheet/components/sheet-step4/step4-form/step4-humi/step4-humi.component';
-import { Step4VibrationComponent } from './sheet/components/sheet-step4/step4-form/step4-vibration/step4-vibration.component';
 import { HeatShockComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/heat-shock/heat-shock.component';
 import { HighLowComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-low/high-low.component';
 import { HighTempFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-form/high-temp-form.component';
 import { HighTempHumiFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-humi-form/high-temp-humi-form.component';
 import { HighTempHumiVibrationFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-humi-vibration-form/high-temp-humi-vibration-form.component';
+import { InspectionFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/inspection-form/inspection-form.component';
 
 
 @NgModule({
@@ -63,7 +57,6 @@ import { HighTempHumiVibrationFormComponent } from './sheet/components/sheet-ste
     TempHumiVibrationFormComponentComponent,
     HeatShockFormComponentComponent,
     HighLowFormComponentComponent,
-    InspectionFormComponent,
     Step5SubmitComponent,
     SheetComponent,
     SheetStep1Component,
@@ -71,19 +64,14 @@ import { HighTempHumiVibrationFormComponent } from './sheet/components/sheet-ste
     SheetStep3Component,
     SheetStep4Component,
     SheetStep5Component,
-    Step4HeatShockComponent,
-    Step4HighLowComponent,
-    Step4TempFormComponent,
     Step4HomeComponent,
-    Step4InspectionComponent,
-    Step4HumiComponent,
-    Step4VibrationComponent,
     HeatShockComponent,
     HighLowComponent,
     LowTempFormComponent,
     HighTempFormComponent,
     HighTempHumiFormComponent,
-    HighTempHumiVibrationFormComponent
+    HighTempHumiVibrationFormComponent,
+    InspectionFormComponent,
 
   ],
   imports: [

@@ -79,7 +79,6 @@ export class Step1DetailComponent implements OnInit {
   ) {
     this.requestForm.patchValue({ requestDate: new Date() });
     if(this.step1){
-      console.log(this.step1);
     }
   }
 
@@ -89,12 +88,10 @@ export class Step1DetailComponent implements OnInit {
     )
 
     if(this.step1){
-      console.log(this.step1);
 
       this.requestForm.patchValue({...this.step1})
     }
     this.route.queryParams.subscribe(async params => {
-      // console.log('@@@@@@@@@@', params);
 
       // const res = await this.$request.get_id(params['id']).toPromise()
 

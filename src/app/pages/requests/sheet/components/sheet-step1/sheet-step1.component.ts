@@ -89,8 +89,6 @@ export class SheetStep1Component implements OnInit {
   async ngOnInit() {
     this.models = await this.$master.getModelMaster().toPromise()
     this.departments = await this.$master.getDepartmentMaster().toPromise()
-    console.log(this.data);
-
     if (this.data) {
       this.requestForm.patchValue({ ...this.data })
     }
@@ -256,9 +254,10 @@ export class SheetStep1Component implements OnInit {
     const resUpdate = await this.$step1.update(this.requestForm.value._id, this.requestForm.value).toPromise()
     this.dataChange.emit(this.formId)
     setTimeout(() => {
+      Swal.fire('SUCCESS','','success')
       this._loading.stopAll()
+      this._stepper.next()
     }, 1000);
-    this._stepper.next()
   }
   async insert() {
     const body = {
@@ -298,11 +297,13 @@ export class SheetStep1Component implements OnInit {
     }
     await this.$step5.insert(step5Data).toPromise()
 
-    this.dataChange.emit(resInsert[0]._id)
+    this.dataChange.emit(resDraft[0]._id)
     setTimeout(() => {
+      this.requestForm.patchValue({_id:resInsert[0]._id})
+      Swal.fire('SUCCESS','','success')
       this._loading.stopAll()
+      this._stepper.next()
     }, 1000);
-    this._stepper.next()
   }
   onBack() {
     this.router.navigate(['/request/manage']);

@@ -47,7 +47,6 @@ export class QeChamberPlanningComponent implements OnInit {
       data: item.condition?.value
     })
     dialogRef.afterClosed().subscribe(async res => {
-      console.log(res);
       if (res) {
         item.chamber = res
       }
@@ -59,14 +58,12 @@ export class QeChamberPlanningComponent implements OnInit {
       data: ''
     })
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
       item.operate = {
         attachment: res.attachment,
         checker: res.checker,
         power: res.power,
         status: true
       }
-      console.log(item);
 
     })
   }

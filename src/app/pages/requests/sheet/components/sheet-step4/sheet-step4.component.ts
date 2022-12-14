@@ -13,8 +13,9 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 export class SheetStep4Component implements OnInit {
   @Input() formId: any
   conditionForm: any = {
-    data:[]
+    data: []
   }
+  table: any[] = []
   constructor(
     private _stepper: CdkStepper,
     private _loading: NgxUiLoaderService,
@@ -22,24 +23,19 @@ export class SheetStep4Component implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.clear()
-    console.log(this.formId);
     if (this.formId) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const resGet = await this.$step4.get(params).toPromise();
-      console.log(resGet);
       if (resGet && resGet.length > 0) {
         this.conditionForm = resGet[0]
-        console.log(this.conditionForm);
-
       }
 
     }
   }
 
   onConditionForm() {
-    console.log('@@@@@@', this.conditionForm);
     // this.conditionForm.data = this.data
+    this.table = this.conditionForm.data
   }
 
   onNext() {
@@ -57,15 +53,12 @@ export class SheetStep4Component implements OnInit {
         }
       }
     })
-    console.log('onNext', this.conditionForm);
-
   }
 
 
 
 
   async update() {
-    alert('update')
     const resUpdate = await this.$step4.update(this.conditionForm._id, this.conditionForm).toPromise()
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
@@ -74,18 +67,17 @@ export class SheetStep4Component implements OnInit {
     }, 1000);
   }
   async insert() {
-    alert('insert')
     this.conditionForm.requestId = this.formId
-
     const resInsert = await this.$step4.insert(this.conditionForm).toPromise()
     setTimeout(() => {
+      this.conditionForm._id = resInsert[0]._id
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);
   }
   onBack() {
-    // this._stepper.previous();
+    this._stepper.previous();
   }
 
 }

@@ -25,7 +25,6 @@ export class DialogQeChamberComponent implements OnInit {
     this.load = true
     if (this.data) {
       this.rows = await this.$chamber.getReady(this.data.value, this.data.startDate, this.data.qty).toPromise()
-      console.log(this.rows);
       setTimeout(() => {
         this.load = false
       }, 500);

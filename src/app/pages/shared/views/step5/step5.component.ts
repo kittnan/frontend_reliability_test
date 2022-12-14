@@ -15,7 +15,7 @@ export class Step5Component implements OnInit {
   async ngOnInit(): Promise<void> {
     const resultMap: any = await this.mapRes(this.step5)
     this.data = resultMap.sort((a: any, b: any) => a.level < b.level ? -1 : Number(a.level > b.level))
-    console.log(this.data);
+     (this.data);
 
   }
 

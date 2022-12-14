@@ -30,7 +30,6 @@ export class ApproveFormComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const id: any = localStorage.getItem('_id');
     this.userLogin = await this._user.getUserById(id).toPromise()
-    console.log(this.userLogin);
 
   }
   onApprove() {
@@ -47,7 +46,7 @@ export class ApproveFormComponent implements OnInit {
 
   async onReject() {
 
-    console.log(this.data);
+     (this.data);
 
     const option = this.genOption(this.data.status)
 
@@ -70,7 +69,7 @@ export class ApproveFormComponent implements OnInit {
         },
         showCancelButton: true
       }).then((value: SweetAlertResult) => {
-        console.log(value);
+         (value);
         if (value.isConfirmed) {
           Swal.fire(key)
           // Swal.fire(value.value)
