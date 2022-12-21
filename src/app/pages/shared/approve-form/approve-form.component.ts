@@ -1,3 +1,6 @@
+import { RejectService } from './reject.service';
+import { ApproveService } from './approve.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RequestHttpService } from 'src/app/http/request-http.service';
@@ -23,12 +26,15 @@ export class ApproveFormComponent implements OnInit {
   constructor(
     private _router: Router,
     private _user: UserHttpService,
-    private _approve: ApproveFormService,
+    // private _approve: ApproveFormService,
+    private _approve: ApproveService,
+    private _loading: NgxUiLoaderService,
+    private _reject: RejectService
 
   ) { }
 
   async ngOnInit(): Promise<void> {
-    const id: any = localStorage.getItem('_id');
+    const id: any = sessionStorage.getItem('_id');
     this.userLogin = await this._user.getUserById(id).toPromise()
 
   }
@@ -39,26 +45,44 @@ export class ApproveFormComponent implements OnInit {
       showCancelButton: true
     }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this._approve.submit('approve', this.data, this.userLogin, this.userApprove)
+        this.comment('approve')
+      }
+    })
+  }
+
+  async comment(key: any) {
+    await Swal.fire({
+      input: 'textarea',
+      inputLabel: 'Message',
+      inputPlaceholder: 'Type your message here...',
+      inputAttributes: {
+        'aria-label': 'Type your message here'
+      },
+      showCancelButton: true
+    }).then((value: SweetAlertResult) => {
+      (value);
+      if (value.isConfirmed) {
+        if (key == 'approve') {
+          // console.log(this.userLogin,this.userApprove, this.data, value.value);
+          this._approve.send(this.userLogin,this.userApprove, this.data, value.value)
+        } else {
+
+        }
+        // this._approve.submit('approve', this.data, this.userLogin, this.userApprove,value.value)
       }
     })
   }
 
   async onReject() {
-
-     (this.data);
-
     const option = this.genOption(this.data.status)
-
     const { value: key } = await Swal.fire({
-      title: 'Select REJECT ',
+      title: 'REJECT ',
       input: 'select',
       inputOptions: option,
-      inputPlaceholder: 'Select reject owner',
+      inputPlaceholder: 'SEND REJECT TO',
       showCancelButton: true,
 
     })
-
     if (key) {
       await Swal.fire({
         input: 'textarea',
@@ -69,11 +93,17 @@ export class ApproveFormComponent implements OnInit {
         },
         showCancelButton: true
       }).then((value: SweetAlertResult) => {
-         (value);
         if (value.isConfirmed) {
-          Swal.fire(key)
+          const findUserApprove = this.data.step5.find((s:any)=> s.prevStatusForm==key)
+          this._reject.send(this.userLogin,findUserApprove, this.data, value.value,key)
+          // const nextUserApprove = {
+          //   _id:findUserApprove.userId,
+          //   name:findUserApprove.userName
+          // }
+          // this._reject.send(key,nextUserApprove,this.data,value.value)
+          // Swal.fire(key)
           // Swal.fire(value.value)
-          this._approve.reject('reject', this.data, this.userLogin,key,value.value)
+          // this._approve.reject('reject', this.data, this.userLogin,key,value.value)
         }
       })
 
@@ -84,13 +114,28 @@ export class ApproveFormComponent implements OnInit {
   }
 
   genOption(status: any) {
-    const request_user = this.data.step5.find((s: any) => s.authorize == 'request')
-    if (status == 'request') {
+    console.log(status);
+
+    const request_user = this.data.step5.find((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
+
+    if (status == 'request_approve') {
       return {
-        'request': request_user ? 'request ➢ ' + request_user.userName : '-'
+        'request': request_user ? 'request ➢ ' + request_user.prevUser.name : '-'
       }
 
     }
+    if (status == 'qe_window_person') {
+      return {
+        'request': request_user ? 'request ➢ ' + request_user.prevUser.name : '-'
+      }
+
+    }
+    // if (status == 'qe_engineer') {
+    //   return {
+    //     'request_approve': request_user ? 'request_approve ➢ ' + request_user.prevUser.name : '-'
+    //   }
+
+    // }
     return {
 
     }

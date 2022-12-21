@@ -32,7 +32,7 @@ export class QeDepartmentApproveComponent implements OnInit {
     private $share: ShareFunctionService
 
   ) {
-    const id: any = localStorage.getItem('_id')
+    const id: any = sessionStorage.getItem('_id')
     this._user.getUserById(id).subscribe(res => this.userLogin = res)
     this.dateNow = new Date()
   }
@@ -46,8 +46,8 @@ export class QeDepartmentApproveComponent implements OnInit {
       this.getUserApprove()
     })
 
-    // if (localStorage.getItem('request_id')) {
-    //   const id: any = localStorage.getItem('request_id')
+    // if (sessionStorage.getItem('request_id')) {
+    //   const id: any = sessionStorage.getItem('request_id')
     //   this.request = this._request.get_id(id).toPromise()
     // }
   }

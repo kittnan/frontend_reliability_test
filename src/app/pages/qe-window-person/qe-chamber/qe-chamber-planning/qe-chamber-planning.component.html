@@ -9,7 +9,7 @@
             <ng-container matColumnDef="userRequest">
                 <th mat-header-cell *matHeaderCellDef>USER REQUEST</th>
                 <td mat-cell *matCellDef="let element;">
-                    {{htmlUserRequest(element)}}
+                    {{element.step5[0].prevUser.name}}
                 </td>
             </ng-container>
 
@@ -37,7 +37,7 @@
             <ng-container matColumnDef="operate">
                 <th mat-header-cell *matHeaderCellDef>OPERATE</th>
                 <td mat-cell *matCellDef="let element;">
-                    {{element.condition.data.operate}}
+                    {{element.condition.data.operate.text}}
                 </td>
             </ng-container>
 

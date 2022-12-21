@@ -33,7 +33,7 @@ export class QeSectionHeadApproveComponent implements OnInit {
     private _loading: NgxUiLoaderService,
 
   ) {
-    const id: any = localStorage.getItem('_id')
+    const id: any = sessionStorage.getItem('_id')
     this.$user.getUserById(id).subscribe(res => this.userLogin = res)
     this.dateNow = new Date()
   }
@@ -59,15 +59,20 @@ export class QeSectionHeadApproveComponent implements OnInit {
 
 
   async getUserApprove() {
-    const _id: any = localStorage.getItem("_id")
+    const _id: any = sessionStorage.getItem("_id")
     this.userLogin = await this.$user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)
     const level = [this.authorize]
     const temp_level = JSON.stringify(level)
     this.userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
+    console.log(this.data.step5);
+
     const qe_window_person = this.data.step5.find((u: any) => u.level == 3)
-    const selected = this.userApprove.find((u: any) => u._id == qe_window_person.userId)
+
+    const findOld = this.userApprove.find((u: any) => u._id == qe_window_person.prevUser._id)
+
+    const selected = findOld? findOld : this.userApprove[0]
     this.approve.patchValue(selected)
   }
 

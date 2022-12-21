@@ -6,12 +6,13 @@
 }
 
 .card {
-    width: 350px;
-    background-color: #fff;
+    width: 550px;
+    background-color: rgba(255, 255, 255, 0.959);
     border-radius: 10px;
     overflow: hidden;
     position: relative;
-    padding: 20px;
+    padding: 40px;
+    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
 }
 
 .card-title {
@@ -21,12 +22,10 @@
 }
 
 .card-title2 {
-    font-size: 25px;
+    font-size: 40px;
     font-weight: 900;
-    letter-spacing: 3px;
+    letter-spacing: 6px;
     margin-bottom: 10px;
     padding: 10px;
     background-color: #f0f0f0;
 }
-
-body {}

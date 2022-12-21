@@ -39,9 +39,6 @@ export class QeChamberPlanningComponent implements OnInit {
     return element.dataTable.name
   }
 
-
-
-
   dialogChamber(item: QueueForm) {
     const dialogRef = this.dialog.open(DialogQeChamberComponent, {
       data: item.condition?.value
@@ -68,19 +65,20 @@ export class QeChamberPlanningComponent implements OnInit {
     })
   }
 
-
   createPlaning() {
     this.chamberTable = this.data.map((selected: any) => {
+      console.log(selected);
+
       const temp: QueueForm = {
         startDate: null,
         endDate: null,
-        inspectionTime: this._qe_chamber.genInspectionTime(selected.condition.data.timeInspection),
-        reportTime: this._qe_chamber.genInspectionTime(selected.condition.data.timeReport),
+        inspectionTime: this._qe_chamber.genInspectionTime(selected.condition.data.inspection),
+        reportTime: this._qe_chamber.genInspectionTime(selected.condition.data.report),
         operate: {
           attachment: {},
           checker: {},
           power: {},
-          status: this._qe_chamber.genOperateStatus(selected.condition.data.operate)
+          status: selected.condition.data.operate.value
         },
         work: {
           requestId: selected.step1.requestId,

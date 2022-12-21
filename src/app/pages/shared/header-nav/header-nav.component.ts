@@ -25,7 +25,7 @@ export class HeaderNavComponent implements OnInit {
   }
 
   onLogout() {
-    localStorage.clear();
+    sessionStorage.clear();
     sessionStorage.clear()
     this.router.navigate(['/'])
   }

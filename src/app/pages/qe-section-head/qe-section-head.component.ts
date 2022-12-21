@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class QeSectionHeadComponent implements OnInit {
 
-  
+
   items: any[] = []
   userLogin!: any;
 
@@ -22,7 +22,7 @@ export class QeSectionHeadComponent implements OnInit {
         icon: 'home',
         title: 'manage',
       },
-      this.userLogin = localStorage.getItem('name')
+      this.userLogin = sessionStorage.getItem('name')
 
     ]
   }
@@ -33,7 +33,7 @@ export class QeSectionHeadComponent implements OnInit {
   }
 
   onLogout() {
-    localStorage.clear()
+    sessionStorage.clear()
     this.router.navigate(['/'])
   }
 

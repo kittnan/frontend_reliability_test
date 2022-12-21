@@ -30,14 +30,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   tableData: any = null
 
   userLogin: any;
-  authorize = 'qe_engineer'
-  userApprove: any = [];
-  approve = new FormControl(null, Validators.required)
   @Input() data: any;
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   @Output() tableChange: EventEmitter<any> = new EventEmitter()
-  @Output() approveChange: EventEmitter<any> = new EventEmitter()
   constructor(
     private dialog: MatDialog,
     private $qe_chamber: QeChamberService,
@@ -49,14 +45,13 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private _qenInspectionTable: GenInspectionTableService,
   ) {
     this.$operateItems.get().subscribe(res => this.operateItems = res);
-    const id: any = localStorage.getItem('_id')
+    const id: any = sessionStorage.getItem('_id')
     this.$user.getUserById(id).subscribe(res => this.userLogin = res)
 
   }
 
   ngOnInit(): void {
     this.getDraft()
-    this.getUserApprove()
   }
 
   async getDraft() {
@@ -339,26 +334,13 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   emit() {
     this.tableChange.emit(this.tableData)
     this.dataChange.emit(this.data)
-    this.approveChange.emit(this.approve.value)
   }
 
 
 
-  async getUserApprove() {
-    const _id: any = localStorage.getItem("_id")
-    this.userLogin = await this.$user.getUserById(_id).toPromise();
-    const section = [this.userLogin.section]
-    const temp_section = JSON.stringify(section)
-    const level = [this.authorize]
-    const temp_level = JSON.stringify(level)
-    this.userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
-    this.approve.patchValue(this.userApprove[0])
-    this.emit()
-  }
 
-  public objectComparisonFunction = function (option: any, value: any): boolean {
-    return option._id === value._id;
-  }
+
+
 
 
 

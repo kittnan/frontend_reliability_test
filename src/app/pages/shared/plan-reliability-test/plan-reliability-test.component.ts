@@ -21,7 +21,7 @@ export class PlanReliabilityTestComponent implements OnInit {
 
   }
   htmlUserRequest(step5: any) {
-    return step5.find((item: any) => item.level == 1).userName || ''
+    return step5.find((item: any) => item.level == 1).prevUser.name || ''
   }
 
 }

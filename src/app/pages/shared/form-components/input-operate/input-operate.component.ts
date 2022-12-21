@@ -18,11 +18,12 @@ export class InputOperateComponent implements OnInit {
       value: false
     },
   ]
-  @Input() form: any
+  @Input() form: any = null
   @Output() formChange = new EventEmitter();
   constructor() { }
 
   ngOnInit(): void {
+
   }
   emit() {
     this.formChange.emit({operate:this.form})

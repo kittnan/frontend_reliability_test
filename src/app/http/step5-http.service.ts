@@ -19,5 +19,8 @@ export class Step5HttpService {
   update(id: any, data: any): Observable<any> {
     return this.http.put(`${this.URL}/step5/update/${id}`, data)
   }
+  clear(data:any): Observable<any> {
+    return this.http.put(`${this.URL}/step5/clear`,data)
+  }
 
 }

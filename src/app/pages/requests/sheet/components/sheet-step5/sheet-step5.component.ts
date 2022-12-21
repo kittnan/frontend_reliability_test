@@ -1,16 +1,13 @@
-import { ApproveFormService } from './../../../../shared/approve-form/approve-form.service';
 import { Step5HttpService } from './../../../../../http/step5-http.service';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import Swal, { SweetAlertResult } from 'sweetalert2';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FilesHttpService } from 'src/app/http/files-http.service';
+import { Router } from '@angular/router';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
-import { ShareFunctionService } from 'src/app/services/share-function.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { ApproveService } from 'src/app/pages/shared/approve-form/approve.service';
 
 @Component({
   selector: 'app-sheet-step5',
@@ -34,7 +31,8 @@ export class SheetStep5Component implements OnInit {
     private _user: UserHttpService,
     private $step5: Step5HttpService,
     private $request: RequestHttpService,
-    private _router: Router
+    private _router: Router,
+    private _approve: ApproveService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -54,7 +52,7 @@ export class SheetStep5Component implements OnInit {
   }
 
   async getUserApprove() {
-    const _id: any = localStorage.getItem("_id")
+    const _id: any = sessionStorage.getItem("_id")
     this.userLogin = await this._user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)
@@ -72,8 +70,11 @@ export class SheetStep5Component implements OnInit {
       title: 'Do you want to submit?',
       icon: 'question',
       showCancelButton: true
-    }).then((value: SweetAlertResult) => {
+    }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
+        if (this.formId) {
+          this.request = await this.$request.get_id(this.formId).toPromise()
+        }
         this.comment()
       }
     })
@@ -90,18 +91,15 @@ export class SheetStep5Component implements OnInit {
       },
       showCancelButton: true
     }).then((value: SweetAlertResult) => {
-      (value);
       if (value.isConfirmed) {
-        this._loading.start()
-        const level2 = this.resStep5.find((s: any) => s.level == 2)
-        if (level2) {
-          this.update(value.value)
-        } else {
-          this.insert(value.value)
-        }
+        this._approve.send(this.userLogin,this.selected,this.request[0],value.value)
       }
     })
   }
+
+
+
+
 
   async update(commentText: any) {
     let level1 = this.resStep5.find((s: any) => s.level == 1)
@@ -109,7 +107,7 @@ export class SheetStep5Component implements OnInit {
       ...level1,
       dateApprove: new Date(),
       statusApprove: true,
-      comment: [...level1.comment, commentText]
+      comment: level1.comment && level1.comment.length > 0 ? [...level1.comment, commentText] : [commentText]
     }
     const resUpdateStep = await this.$step5.update(level1._id, level1).toPromise()
     const requestUpdate = {
@@ -127,27 +125,27 @@ export class SheetStep5Component implements OnInit {
 
 
   async insert(commentText: any) {
+    const params: HttpParams = new HttpParams().set('requestId', this.formId)
+    this.resStep5 = await this.$step5.get(params).toPromise()
     let level1 = this.resStep5.find((s: any) => s.level == 1)
     level1 = {
       ...level1,
       dateApprove: new Date(),
-      status: true,
-      comment: [...level1.comment, commentText]
+      statusApprove: true,
+      comment: level1.comment && level1.comment.length > 0 ? [...level1.comment, commentText] : [commentText]
     }
     const resUpdateStep = await this.$step5.update(level1._id, level1).toPromise()
     const nextApprove = {
       authorize: 'request_approve',
       comment: [],
-      dateApprove: new Date(),
-      dateReject: new Date(),
+      dateApprove: null,
+      dateReject: null,
       level: 2,
       requestId: this.formId,
       statusApprove: false,
       userId: this.selected._id,
       userName: this.selected.name
     }
-    console.log(nextApprove);
-    console.log(this.request);
     const resInsert = await this.$step5.insert(nextApprove).toPromise()
     const requestUpdate = {
       ...this.request,

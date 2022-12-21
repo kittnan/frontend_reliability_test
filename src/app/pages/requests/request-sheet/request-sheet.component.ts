@@ -44,7 +44,7 @@ export class RequestSheetComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const _id: any = localStorage.getItem("_id")
+    const _id: any = sessionStorage.getItem("_id")
     this.userLogin = await this.$user.getUserById(_id).toPromise();
     this._setSubject.setBehaviorMaster();
   }

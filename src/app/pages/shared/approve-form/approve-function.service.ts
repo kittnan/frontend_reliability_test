@@ -8,18 +8,19 @@ export class ApproveFunctionService {
   constructor() { }
 
 
-  currentStep(curStatus: string, data: any) {
-    const foo = data.step5.find((d: any) => d.authorize == curStatus)
+  currentStep(curStatus: string, data: any, comment: any) {
+    const step5Find = data.step5.find((d: any) => d.authorize == curStatus)
     return {
-      ...foo,
+      ...step5Find,
       dateApprove: new Date(),
-      statusApprove: true
+      statusApprove: true,
+      comment: step5Find.comment && step5Find.comment.length > 0 ? [...step5Find.comment, comment] : [comment]
     }
 
   }
 
   nextStep(curStatus: string, data: any, userApprove: any) {
-     (curStatus);
+    (curStatus);
 
     if (curStatus == 'request_approve') {
       const foo = data.step5.find((d: any) => d.authorize == 'qe_window_person')
@@ -39,8 +40,8 @@ export class ApproveFunctionService {
         statusApprove: false,
         dateApprove: null,
         level: 3,
-        new: true
-
+        new: true,
+        comment:[]
       }
     }
     if (curStatus == 'qe_window_person') {
@@ -61,7 +62,8 @@ export class ApproveFunctionService {
         statusApprove: false,
         dateApprove: null,
         level: 4,
-        new: true
+        new: true,
+        comment:[]
 
       }
     }
@@ -83,7 +85,8 @@ export class ApproveFunctionService {
         statusApprove: false,
         dateApprove: null,
         level: 5,
-        new: true
+        new: true,
+        comment:[]
 
       }
     }
@@ -105,7 +108,8 @@ export class ApproveFunctionService {
         statusApprove: false,
         dateApprove: null,
         level: 6,
-        new: true
+        new: true,
+        comment:[]
 
       }
     }
@@ -128,13 +132,14 @@ export class ApproveFunctionService {
         statusApprove: false,
         dateApprove: null,
         level: 6,
-        new: true
+        new: true,
+        comment:[]
 
       }
     }
     return {}
   }
-  genStatusForm(action: string, prevStatus: string) {
+  nextFormStatus(action: string, prevStatus: string) {
     if (action == 'approve') {
       if (prevStatus == 'request') return 'request_approve'
       if (prevStatus == 'request_approve') return 'qe_window_person'

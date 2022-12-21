@@ -17,13 +17,14 @@ export class ApproveFormService {
     private _fn: ApproveFunctionService
   ) { }
 
-  async submit(action: string, data: any, userLogin: any, userApprove: any) {
-    const statusForm = this._fn.genStatusForm(action, data.status)
+  // async submit({action,data,userLogin,userApprove,comment}:any) {
+  async submit(action: string, data: any, userLogin: any, userApprove: any,comment:any) {
+    const statusForm = this._fn.nextFormStatus(action, data.status)
     const body_form = {
       nextApprove: userApprove,
       status: statusForm
     }
-    const currentStep = this._fn.currentStep(statusForm, data)
+    const currentStep = this._fn.currentStep(statusForm, data,comment)
     const nextStep = this._fn.nextStep(statusForm, data, userApprove)
     let arr = []
     arr.push(

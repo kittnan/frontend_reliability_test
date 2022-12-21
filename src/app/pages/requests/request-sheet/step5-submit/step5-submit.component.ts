@@ -40,7 +40,7 @@ export class Step5SubmitComponent implements OnInit {
   }
 
   async getUserApprove() {
-    const _id: any = localStorage.getItem("_id")
+    const _id: any = sessionStorage.getItem("_id")
     this.userLogin = await this._user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)

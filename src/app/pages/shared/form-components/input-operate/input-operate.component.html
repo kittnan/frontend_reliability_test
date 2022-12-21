@@ -5,9 +5,7 @@
     <mat-form-field fxFlex="90" appearance="fill">
         <mat-label>Operate</mat-label>
         <mat-select [(ngModel)]="form" (ngModelChange)="emit()" [compareWith]="objectComparisonFunction">
-            <mat-option value="">
-                -
-            </mat-option>
+
             <mat-option *ngFor="let item of items" [value]="item">
                 {{item.text |uppercase}}
             </mat-option>

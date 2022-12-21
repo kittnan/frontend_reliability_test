@@ -34,7 +34,7 @@
         Back
       </span>
     </button>
-        <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+        <button fxFlex="30" mat-raised-button color="primary" [disabled]="!selected" (click)="onNext()">
 
       <span class="material-icons-outlined">
         done_all

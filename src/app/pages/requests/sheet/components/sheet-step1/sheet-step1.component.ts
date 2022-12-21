@@ -92,7 +92,7 @@ export class SheetStep1Component implements OnInit {
     if (this.data) {
       this.requestForm.patchValue({ ...this.data })
     }
-    const tempId: any = localStorage.getItem('_id')
+    const tempId: any = sessionStorage.getItem('_id')
     this.userLogin = await this.$user.getUserById(tempId).toPromise()
 
   }
@@ -199,7 +199,7 @@ export class SheetStep1Component implements OnInit {
     const resUpload = await this.$file.uploadFile(formData).toPromise()
     this.data.files = [...this.data.files, ...resUpload]
     this.requestForm.patchValue({
-      files:this.data.files
+      files: this.data.files
     })
     const resUpdate = await this.$step1.update(this.data._id, this.data).toPromise()
     setTimeout(() => {
@@ -254,14 +254,16 @@ export class SheetStep1Component implements OnInit {
     const resUpdate = await this.$step1.update(this.requestForm.value._id, this.requestForm.value).toPromise()
     this.dataChange.emit(this.formId)
     setTimeout(() => {
-      Swal.fire('SUCCESS','','success')
+      Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);
   }
+
+
   async insert() {
     const body = {
-      userId: localStorage.getItem('_id'),
+      userId: sessionStorage.getItem('_id'),
       date: new Date(),
       controlNo: this.requestForm.value.controlNo,
       corporate: this.requestForm.value.corporate,
@@ -286,21 +288,26 @@ export class SheetStep1Component implements OnInit {
     const resInsert = await this.$step1.insert(requestBody).toPromise()
     const step5Data = {
       requestId: resDraft[0]._id,
-      authorize: 'request',
-      userId: this.userLogin._id,
-      userName: this.userLogin.name,
-      statusApprove: false,
-      dateApprove: new Date(),
-      dateReject: new Date(),
+      prevUser: {
+        _id: this.userLogin._id,
+        name: this.userLogin.name
+      },
+      nextUser: {
+        _id: this.userLogin._id,
+        name: this.userLogin.name
+      },
+      prevStatusForm: 'draft',
+      nextStatusForm: 'draft',
       comment: [],
-      level: 1
+      level: 1,
+      date: null,
     }
     await this.$step5.insert(step5Data).toPromise()
 
     this.dataChange.emit(resDraft[0]._id)
     setTimeout(() => {
-      this.requestForm.patchValue({_id:resInsert[0]._id})
-      Swal.fire('SUCCESS','','success')
+      this.requestForm.patchValue({ _id: resInsert[0]._id })
+      Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);

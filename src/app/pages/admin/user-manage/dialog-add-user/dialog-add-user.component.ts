@@ -70,7 +70,7 @@ export class DialogAddUserComponent implements OnInit {
       const authorize = [this.newUserForm.value.authorize]
       this.newUserForm.patchValue({
         username: this.newUserForm.value.employee_ID,
-        createdBy: localStorage.getItem('name')
+        createdBy: sessionStorage.getItem('name')
       })
       const body = {
         ...this.newUserForm.value,
@@ -88,7 +88,7 @@ export class DialogAddUserComponent implements OnInit {
     if (this.newUserForm.valid) {
       const authorize = [this.newUserForm.value.authorize]
       this.newUserForm.patchValue({
-        createdBy: localStorage.getItem('name')
+        createdBy: sessionStorage.getItem('name')
       })
       const body = {
         ...this.newUserForm.value,

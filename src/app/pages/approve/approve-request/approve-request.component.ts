@@ -31,7 +31,7 @@ export class ApproveRequestComponent implements OnInit {
     private _loading: NgxUiLoaderService,
 
   ) {
-    const id: any = localStorage.getItem('_id')
+    const id: any = sessionStorage.getItem('_id')
     this.$user.getUserById(id).subscribe(res => this.userLogin = res)
     this.dateNow = new Date()
   }
@@ -41,7 +41,7 @@ export class ApproveRequestComponent implements OnInit {
     this.route.queryParams.subscribe(async params => {
       const id = params['id']
       const resData = await this.$request.get_id(id).toPromise()
-      this.data = resData[0];
+      this.data = resData[0]
       this.getUserApprove()
 
     })
@@ -57,7 +57,7 @@ export class ApproveRequestComponent implements OnInit {
 
 
   async getUserApprove() {
-    const _id: any = localStorage.getItem("_id")
+    const _id: any = sessionStorage.getItem("_id")
     this.userLogin = await this.$user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)

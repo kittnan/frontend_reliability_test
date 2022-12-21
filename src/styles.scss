@@ -11,6 +11,16 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.mat-sidenav-container,
+.container {
+    background-image: url('./assets/5305323.jpg');
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .title-header {
     background-color: #a088ca;
 }

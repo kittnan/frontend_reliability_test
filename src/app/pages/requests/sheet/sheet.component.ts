@@ -38,7 +38,5 @@ export class SheetComponent implements OnInit {
   }
   emit(e: any) {
     this.formId = e
-    alert(this.formId)
-
   }
 }

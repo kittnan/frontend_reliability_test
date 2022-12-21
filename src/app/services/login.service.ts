@@ -23,12 +23,12 @@ export class LoginService {
       if (res.length > 0) {
         const user = res[0];
         this.setToken()
-        localStorage.setItem('_id', user._id);
-        localStorage.setItem('authorize', user.authorize);
-        localStorage.setItem('name', user.name);
+        sessionStorage.setItem('_id', user._id);
+        sessionStorage.setItem('authorize', user.authorize);
+        sessionStorage.setItem('name', user.name);
         this._toast.success();
         setTimeout(() => {
-          this.going(localStorage.getItem('authorize'))
+          this.going(sessionStorage.getItem('authorize'))
         }, 2000);
       } else {
         this._toast.danger('login failed!!')
@@ -41,7 +41,7 @@ export class LoginService {
   }
 
    going(auth:any) {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       if (auth == 'admin') {
         location.href = "/admin"
       }
@@ -74,7 +74,7 @@ export class LoginService {
 
   private setToken() {
     const token = uuidv4()
-    localStorage.setItem('token', token)
+    sessionStorage.setItem('token', token)
   }
 
   getProFileById(id:string){

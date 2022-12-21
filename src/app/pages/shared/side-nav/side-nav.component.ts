@@ -22,7 +22,7 @@ export class SideNavComponent implements OnInit {
         icon: 'home',
         title: 'manage',
       },
-      this.userLogin = localStorage.getItem('name')
+      this.userLogin = sessionStorage.getItem('name')
 
     ]
   }
@@ -34,7 +34,7 @@ export class SideNavComponent implements OnInit {
   }
 
   onLogout() {
-    localStorage.clear()
+    sessionStorage.clear()
     this.router.navigate(['/'])
   }
   onClickLink() {

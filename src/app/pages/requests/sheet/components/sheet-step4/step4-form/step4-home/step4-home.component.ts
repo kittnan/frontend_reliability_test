@@ -114,7 +114,7 @@ export class Step4HomeComponent implements OnInit {
         },
         operate: {
           text: 'operate',
-          value: false
+          value: true
         },
         sample: '',
         qty: '',
@@ -161,8 +161,6 @@ export class Step4HomeComponent implements OnInit {
 
   async emit() {
     const dataEmit = await this.mapData(this.conditions, this.inspection)
-    console.log(dataEmit);
-
     this.conditionFormChange.emit(dataEmit)
   }
 

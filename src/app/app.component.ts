@@ -27,8 +27,8 @@ export class AppComponent {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.userLogin = localStorage.getItem('name');
-    this.authorize = localStorage.getItem('authorize');
+    this.userLogin = sessionStorage.getItem('name');
+    this.authorize = sessionStorage.getItem('authorize');
 
   }
 
@@ -51,7 +51,7 @@ export class AppComponent {
   }
 
   loginValid() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       this.loginStatus = true;
     } else {
@@ -146,21 +146,22 @@ export class AppComponent {
           title: 'request',
           icon: 'feed',
           items: [
+            // {
+            //   path: '/request/request-sheet',
+            //   icon: 'post_add',
+            //   title: 'new request'
+            // },
             {
-              path: '/request/request-sheet',
+              path: '/request/sheet',
               icon: 'post_add',
-              title: 'new request'
+              title: 'new'
             },
             {
               path: '/request/manage',
               icon: 'feed',
-              title: 'request manage'
+              title: 'manage'
             },
-            {
-              path: '/request/sheet',
-              icon: 'post_add',
-              title: 'new request TEST'
-            },
+
           ]
         }
       ]
@@ -243,7 +244,7 @@ export class AppComponent {
   }
 
   onLogout() {
-    localStorage.clear()
+    sessionStorage.clear()
     location.href = "/"
     // this._router.navigate(['/'])
   }

@@ -10,7 +10,7 @@
 
     <mat-form-field appearance="fill" fxFlex.gt-lg="50" fxFlex.gt-md="50" fxFlex.gt-xs="100">
         <mat-label>Inspection Require/Specification Detail</mat-label>
-        <textarea [(ngModel)]="inspectionDetail" matInput [rows]="2" (change)="emit()"></textarea>
+        <textarea [(ngModel)]="inspectionDetail" matInput [rows]="2" (input)="emit()"></textarea>
     </mat-form-field>
 
 

@@ -14,42 +14,42 @@ export class AuthService {
   }
 
   getToken() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) return true
     return false
   }
 
   getAuthorizeRequest() {
-    if (localStorage.getItem('authorize') == 'request') return true
+    if (sessionStorage.getItem('authorize') == 'request') return true
     return false
   }
   getAuthorizeApprove() {
-    if (localStorage.getItem('authorize') == 'request_approve') return true
+    if (sessionStorage.getItem('authorize') == 'request_approve') return true
     return false
   }
   getAuthorizeAdmin() {
-    if (localStorage.getItem('authorize') == 'admin') return true
+    if (sessionStorage.getItem('authorize') == 'admin') return true
     return false
   }
   getAuthorizeQeWindowPerson() {
-    if (localStorage.getItem('authorize') == 'qe_window_person') return true
+    if (sessionStorage.getItem('authorize') == 'qe_window_person') return true
     return false
   }
   getAuthorizeQeEngineer() {
-    if (localStorage.getItem('authorize') == 'qe_engineer') return true
+    if (sessionStorage.getItem('authorize') == 'qe_engineer') return true
     return false
   }
   getAuthorizeQeSectionHead() {
-    if (localStorage.getItem('authorize') == 'qe_section_head') return true
+    if (sessionStorage.getItem('authorize') == 'qe_section_head') return true
     return false
   }
   getAuthorizeQeDepartmentHead() {
-    if (localStorage.getItem('authorize') == 'qe_department_head') return true
+    if (sessionStorage.getItem('authorize') == 'qe_department_head') return true
     return false
   }
 
   async getUserLogin() {
-    const _id: any = localStorage.getItem('_id')
+    const _id: any = sessionStorage.getItem('_id')
     const resultUserLogin = this.findUserLogin(_id)
     return resultUserLogin
   }

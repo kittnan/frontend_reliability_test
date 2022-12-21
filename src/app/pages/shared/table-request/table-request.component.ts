@@ -54,8 +54,8 @@ export class TableRequestComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    const id: any = localStorage.getItem('_id')
-    this.authorize = localStorage.getItem('authorize');
+    const id: any = sessionStorage.getItem('_id')
+    this.authorize = sessionStorage.getItem('authorize');
     this.selected_status = 'ongoing';
     if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo','userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
 
@@ -106,7 +106,7 @@ export class TableRequestComponent implements OnInit {
 
   rowUserRequest(item:any){
     const resultFind = item.step5.find((i:any)=> i.level==1)
-    return resultFind.userName
+    return resultFind.prevUser.name
   }
 
 
@@ -155,17 +155,18 @@ export class TableRequestComponent implements OnInit {
   onEdit(item: any) {
      (item.status);
 
-    if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
+     if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
+     if (item.status === 'request_approve') this.linkTo('/approve/approve-request', item._id);
+     if (item.status === 'qe_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
+     if (item.status === 'qe_engineer') this.linkTo('/qe-engineer/approve-request', item._id);
 
+     if (item.status === 'reject_request') this.linkTo('/request/sheet', item._id);
 
     // if (item.status === 'reject_request') this.linkTo('/request/home', item._id);
     if (item.status === 'request') this.linkTo('/approve/approve-request', item._id);
-    if (item.status === 'reject_request') this.linkTo('/request/request-sheet', item._id);
-    if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
+    // if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
     // if (item.status === 'reject_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
-    if (item.status === 'qe_window_person') this.linkTo('/qe-engineer/approve-request', item._id);
-    if (item.status === 'qe_engineer') this.linkTo('/qe-section-head/approve-request', item._id);
-    if (item.status === 'qe_section_head') this.linkTo('/qe-window-person/report', item._id);
+    if (item.status === 'qe_section_head') this.linkTo('/qe-section-head/approve-request', item._id);
     // if (item.status === 'qe_department_head') this.linkTo('/qe-window-person/report', item._id);
   }
 
