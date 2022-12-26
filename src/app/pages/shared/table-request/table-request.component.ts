@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { _isTestEnvironment } from '@angular/cdk/platform';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,6 +10,7 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { LoginService } from 'src/app/services/login.service';
 import { DialogViewComponent } from '../dialog-view/dialog-view.component';
 import { TableRequestService } from './table-request.service';
+import { interval, Subscription } from 'rxjs';
 
 
 interface ParamsForm {
@@ -33,7 +35,7 @@ export class TableRequestComponent implements OnInit {
   selected_status = 'ongoing'
   requests: any = []
 
-  displayedColumns: string[] = ['controlNo', 'userRequest','lotNo', 'modelNo', 'status', 'edit', 'btn'];
+  displayedColumns: string[] = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'btn'];
   pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -41,12 +43,14 @@ export class TableRequestComponent implements OnInit {
 
   params!: ParamsForm
 
-  ongoing: any = ['draft','request','reject_request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
+  ongoing: any = ['draft', 'request', 'reject_request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
   closed: any = ['closed'];
   all: any = []
 
+  interval$!: Subscription;
+  presentCount = 0
   constructor(
-    private _request: RequestHttpService,
+    private $request: RequestHttpService,
     private router: Router,
     private _login: LoginService,
     private dialog: MatDialog,
@@ -57,7 +61,7 @@ export class TableRequestComponent implements OnInit {
     const id: any = sessionStorage.getItem('_id')
     this.authorize = sessionStorage.getItem('authorize');
     this.selected_status = 'ongoing';
-    if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo','userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
+    if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
 
     this.userLogin = await this._login.getProFileById(id).toPromise();
     this.params = {
@@ -70,23 +74,52 @@ export class TableRequestComponent implements OnInit {
 
     }
     this.onSelectStatus()
+    this.interval$ = interval(1000).subscribe(res => this.autoFeed())
+  }
+
+  ngOnDestroy(): void {
+    this.interval$.unsubscribe()
+  }
+
+  async autoFeed() {
+    let statusStr: any = null
+    if (this.selected_status == 'ongoing') {
+      statusStr = 'ongoing'
+    }
+    if (this.selected_status == 'closed') {
+      statusStr = 'finish'
+    }
+    if (this.selected_status == 'all') {
+      statusStr = 'all'
+    }
+    const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
+    const count :any= await this.$request.tableCount(param).toPromise()
+    if(count && count.length>0 && count[0].count != this.presentCount)this.onSelectStatus()
   }
 
   async onSelectStatus() {
     let status: any = []
+    let statusStr: any = null
     if (this.selected_status == 'ongoing') {
       status = this.ongoing;
+      statusStr = 'ongoing'
     }
     if (this.selected_status == 'closed') {
       status = this.closed;
+      statusStr = 'finish'
     }
     if (this.selected_status == 'all') {
       status = [...this.ongoing, ...this.closed];
+      statusStr = 'all'
     }
     this.params.status = JSON.stringify(status)
 
-    const resData = await this.$tableRequest.getTable(this.params)
+    const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
+    const resData = await this.$request.table(param).toPromise()
+    // const resData = await this.$tableRequest.getTable(this.params)
     const resultMap: any = await this.mapRows(resData)
+    console.log(resultMap);
+    this.presentCount = resultMap.length
     this.dataSource = new MatTableDataSource(resultMap);
     this.setOption();
   }
@@ -104,8 +137,8 @@ export class TableRequestComponent implements OnInit {
     })
   }
 
-  rowUserRequest(item:any){
-    const resultFind = item.step5.find((i:any)=> i.level==1)
+  rowUserRequest(item: any) {
+    const resultFind = item.step5.find((i: any) => i.level == 1)
     return resultFind.prevUser.name
   }
 
@@ -119,7 +152,7 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-     (item.nextApprove._id, this.userLogin._id);
+    (item.nextApprove._id, this.userLogin._id);
     if (item.nextApprove._id == this.userLogin._id) return false
     return true
   }
@@ -153,14 +186,14 @@ export class TableRequestComponent implements OnInit {
   }
 
   onEdit(item: any) {
-     (item.status);
+    (item.status);
 
-     if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
-     if (item.status === 'request_approve') this.linkTo('/approve/approve-request', item._id);
-     if (item.status === 'qe_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
-     if (item.status === 'qe_engineer') this.linkTo('/qe-engineer/approve-request', item._id);
+    if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
+    if (item.status === 'request_approve') this.linkTo('/approve/approve-request', item._id);
+    if (item.status === 'qe_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
+    if (item.status === 'qe_engineer') this.linkTo('/qe-engineer/approve-request', item._id);
 
-     if (item.status === 'reject_request') this.linkTo('/request/sheet', item._id);
+    if (item.status === 'reject_request') this.linkTo('/request/sheet', item._id);
 
     // if (item.status === 'reject_request') this.linkTo('/request/home', item._id);
     if (item.status === 'request') this.linkTo('/approve/approve-request', item._id);
@@ -178,11 +211,11 @@ export class TableRequestComponent implements OnInit {
     })
   }
 
-  onChamber(item:any){
-     (item);
-    this.router.navigate(['/qe-window-person/chamber'],{
-      queryParams:{
-        requestId:item.requestId
+  onChamber(item: any) {
+    (item);
+    this.router.navigate(['/qe-window-person/chamber'], {
+      queryParams: {
+        requestId: item.requestId
       }
     })
   }
@@ -190,8 +223,8 @@ export class TableRequestComponent implements OnInit {
 
 
   doo() {
-     (this.paginator);
-     (this.sort);
+    (this.paginator);
+    (this.sort);
     this.params.skip = (this.paginator.pageSize * this.paginator.pageIndex).toString()
     this.params.limit = this.paginator.pageSize.toString()
     this.onSelectStatus()

@@ -4,7 +4,6 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { MatAccordion } from '@angular/material/expansion';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
-import { TempFormService } from 'src/app/pages/requests/request-sheet/step4-testing-condition/testing-condition/formComponent/temp-form-component/temp-form.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 interface ConditionListForm {
@@ -35,7 +34,6 @@ export class Step4HomeComponent implements OnInit {
 
   }
   constructor(
-    private $tempForm: TempFormService,
     private $master: MasterHttpService,
     private $step3: Step3HttpService
   ) {

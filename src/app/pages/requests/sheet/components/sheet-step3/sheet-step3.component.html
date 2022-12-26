@@ -1,5 +1,5 @@
 <div fxLayout="row wrap" fxLayoutAlign="space-between stretch" style="margin-top: 40px;">
-    <section fxFlex="30" class="section" *ngFor="let group of testingTypeMenu.data; let i=index">
+    <section fxFlex="30" fxFlex.sm="100" class="section form-grey" *ngFor="let group of testingTypeMenu.data; let i=index">
         <mat-checkbox class="example-margin" [(ngModel)]="group.checked" color="primary">
             {{group.groupName}}
         </mat-checkbox>

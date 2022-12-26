@@ -47,4 +47,15 @@ export class RequestHttpService {
     return this.http.get(`${this.URL}/request_form/table/${params.userId}/${params.status}`)
   }
 
+  table(param: any) {
+    return this.http.get(`${this.URL}/request_form/tableShow/`, {
+      params: param
+    })
+  }
+  tableCount(param: any) {
+    return this.http.get(`${this.URL}/request_form/tableShowCount/`, {
+      params: param
+    })
+  }
+
 }

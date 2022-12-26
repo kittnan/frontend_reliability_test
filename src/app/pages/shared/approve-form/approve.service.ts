@@ -138,8 +138,6 @@ export class ApproveService {
 
       case 'request':
         return 1
-      case 'reject_request':
-        return 1
 
       case 'request_approve':
         return 2
@@ -155,6 +153,22 @@ export class ApproveService {
 
       case 'qe_window_person_report':
         return 6
+
+      case 'reject_request':
+        return 1
+
+      case 'reject_request_approve':
+        return 2
+
+      case 'reject_qe_window_person':
+        return 3
+
+      case 'reject_qe_engineer':
+        return 4
+
+      case 'reject_qe_section_head':
+        return 5
+
 
       default:
         return ''
@@ -233,24 +247,24 @@ export class ApproveService {
   private link(status: any) {
     let str = ''
 
-    if(status =='request'){
-      str= 'request'
+    if (status == 'request') {
+      str = 'request'
     }
 
-    if(status =='request_approve'){
-      str= 'approve'
+    if (status == 'request_approve') {
+      str = 'approve'
     }
 
-    if(status =='qe_window_person'){
-      str= 'qe-window-person'
+    if (status == 'qe_window_person') {
+      str = 'qe-window-person'
     }
 
-    if(status =='qe_engineer'){
-      str= 'qe-engineer'
+    if (status == 'qe_engineer') {
+      str = 'qe-engineer'
     }
 
-    if(status =='qe_section_head'){
-      str= 'qe-section-head'
+    if (status == 'qe_section_head') {
+      str = 'qe-section-head'
     }
     this._router.navigate([`/${str}`])
   }

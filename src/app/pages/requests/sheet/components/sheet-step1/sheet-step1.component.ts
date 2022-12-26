@@ -5,11 +5,10 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import { RequestSheetService } from '../../../request-sheet/request-sheet.service';
-import { SetSubjectService } from '../../../request-sheet/set-subject.service';
+import { RequestSheetService } from '../../request-sheet.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { UserHttpService } from 'src/app/http/user-http.service';
 
@@ -71,10 +70,8 @@ export class SheetStep1Component implements OnInit {
   userLogin: any
   constructor(
     private _request: RequestSheetService,
-    private _setSubject: SetSubjectService,
     private _loading: NgxUiLoaderService,
     private _stepper: CdkStepper,
-    private route: ActivatedRoute,
     private router: Router,
     private $request: RequestHttpService,
     private $master: MasterHttpService,

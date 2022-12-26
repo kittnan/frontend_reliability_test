@@ -66,14 +66,14 @@ export class QeSectionHeadApproveComponent implements OnInit {
     const level = [this.authorize]
     const temp_level = JSON.stringify(level)
     this.userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
-    console.log(this.data.step5);
-
     const qe_window_person = this.data.step5.find((u: any) => u.level == 3)
+    if(qe_window_person){
+      const findOld = this.userApprove.find((u: any) => u._id == qe_window_person.prevUser._id)
+      const selected = findOld? findOld : this.userApprove[0]
+      this.approve.patchValue(selected)
+    }
 
-    const findOld = this.userApprove.find((u: any) => u._id == qe_window_person.prevUser._id)
 
-    const selected = findOld? findOld : this.userApprove[0]
-    this.approve.patchValue(selected)
   }
 
   public objectComparisonFunction = function (option: any, value: any): boolean {

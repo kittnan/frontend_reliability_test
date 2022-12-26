@@ -64,7 +64,7 @@ export class ApproveFormComponent implements OnInit {
       if (value.isConfirmed) {
         if (key == 'approve') {
           // console.log(this.userLogin,this.userApprove, this.data, value.value);
-          this._approve.send(this.userLogin,this.userApprove, this.data, value.value)
+          this._approve.send(this.userLogin, this.userApprove, this.data, value.value)
         } else {
 
         }
@@ -74,7 +74,7 @@ export class ApproveFormComponent implements OnInit {
   }
 
   async onReject() {
-    const option = this.genOption(this.data.status)
+    const option: any = this.genOption(this.data.status)
     const { value: key } = await Swal.fire({
       title: 'REJECT ',
       input: 'select',
@@ -94,16 +94,9 @@ export class ApproveFormComponent implements OnInit {
         showCancelButton: true
       }).then((value: SweetAlertResult) => {
         if (value.isConfirmed) {
-          const findUserApprove = this.data.step5.find((s:any)=> s.prevStatusForm==key)
-          this._reject.send(this.userLogin,findUserApprove, this.data, value.value,key)
-          // const nextUserApprove = {
-          //   _id:findUserApprove.userId,
-          //   name:findUserApprove.userName
-          // }
-          // this._reject.send(key,nextUserApprove,this.data,value.value)
-          // Swal.fire(key)
-          // Swal.fire(value.value)
-          // this._approve.reject('reject', this.data, this.userLogin,key,value.value)
+          const findUserApprove = this.data.step5.find((s: any) => s.prevStatusForm == key)
+          console.log(findUserApprove);
+          this._reject.send(this.userLogin, findUserApprove, this.data, value.value, key)
         }
       })
 
@@ -115,30 +108,40 @@ export class ApproveFormComponent implements OnInit {
 
   genOption(status: any) {
     console.log(status);
+    console.log(this.data.step5);
 
-    const request_user = this.data.step5.find((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
-
+    let request_user
     if (status == 'request_approve') {
-      return {
-        'request': request_user ? 'request ➢ ' + request_user.prevUser.name : '-'
-      }
+      // const request_user = this.data.step5.find((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
+
+      // return {
+      //   'request': request_user ? 'request ➢ ' + request_user.prevUser.name : '-'
+      // }
 
     }
     if (status == 'qe_window_person') {
-      return {
-        'request': request_user ? 'request ➢ ' + request_user.prevUser.name : '-'
-      }
+      // const request_user = this.data.step5.find((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
+
+      // return {
+      //   'request': request_user ? 'request ➢ ' + request_user.prevUser.name : '-'
+      // }
 
     }
-    // if (status == 'qe_engineer') {
-    //   return {
-    //     'request_approve': request_user ? 'request_approve ➢ ' + request_user.prevUser.name : '-'
-    //   }
 
-    // }
-    return {
-
+    if (status == 'qe_engineer') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request_approve')
     }
+    const arrayUniqueByKey = [...new Map(request_user.map((item: any) =>
+      [item['prevStatusForm'], item])).values()];
+    console.log(arrayUniqueByKey);
+    return arrayUniqueByKey.reduce((prev: any, now: any) => {
+      const newKey: any = now.prevStatusForm
+      prev[newKey] = `${now.prevStatusForm} ➢ ${now.prevUser.name}`
+      return prev
+    }, {})
+
   }
 
   onBack() {

@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
-import { RequestSheetService } from '../../../request-sheet/request-sheet.service';
-import { SetSubjectService } from '../../../request-sheet/set-subject.service';
+import { RequestSheetService } from '../../request-sheet.service';
+import { SetSubjectService } from '../../set-subject.service';
 
 interface testingTypeMenuForm {
   data: dataForm[],

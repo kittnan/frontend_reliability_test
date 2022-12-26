@@ -1,8 +1,8 @@
-<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" style="margin-top: 20px;">
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start">
 
 
-    <div fxFlex="100" fxFlex.xl="60" fxFlex.lg="80" fxLayout="row wrap" fxLayoutAlign="center start" style="margin-top: 20px;">
-        <mat-form-field fxFlex="90" appearance="fill">
+    <div fxFlex="95" fxFlex.xl="60" fxFlex.lg="80" fxLayout="row wrap" fxLayoutAlign="center start" class="box-body">
+        <mat-form-field fxFlex="100" appearance="fill">
             <mat-label>Status</mat-label>
             <mat-select [(ngModel)]="selected_status" (selectionChange)="onSelectStatus()">
                 <mat-option *ngFor="let st of status" [value]="st">
@@ -11,7 +11,7 @@
             </mat-select>
         </mat-form-field>
 
-        <div fxFlex="90" fxLayoutAlign="center stretch" fxLayout="row wrap" class="mat-elevation-z8">
+        <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap" class="mat-elevation-z8">
 
             <table fxFlex="100" mat-table [dataSource]="dataSource" matSort>
 
