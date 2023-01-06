@@ -32,7 +32,7 @@ thead th:first-child {
     z-index: 1;
 }
 
-tbody th {
+tbody {
     position: -webkit-sticky;
     /* for Safari */
     position: sticky;
@@ -59,4 +59,8 @@ ul {
 
 .c-blue {
     color: rgb(73, 73, 233);
+}
+
+.bg-grey {
+    background-color: rgb(201, 200, 200);
 }

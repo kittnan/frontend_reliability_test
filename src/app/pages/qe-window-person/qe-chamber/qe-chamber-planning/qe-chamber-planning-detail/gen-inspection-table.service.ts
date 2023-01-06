@@ -39,11 +39,13 @@ export class GenInspectionTableService {
     if (at == 0) {
       arr.push(['Inspection of Initial', text])
       arr.push(['Input to Chamber'])
+      arr.push(['-'])
     } else
       if (at != 0 && at != -1) {
         arr.push([`${at}hrs`])
         arr.push([`Inspection after ${at}hrs`, text])
         arr.push(['Input to Chamber'])
+        arr.push(['-'])
       } else
         if (at == -1) {
           arr.push(['End Date'])
@@ -66,6 +68,7 @@ export class GenInspectionTableService {
     let inspec_arr = this.mapCol(foundItem, time, d, timeReport)
     return inspec_arr
   }
+
   private mapCol(foundItem: any, time: any, data: any, timeReport: any) {
     const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D/M/YY h:mm a') : '-'
     const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D/M/YY h:mm a') : '-'

@@ -1,70 +1,149 @@
+<h2 *ngIf="!load" mat-dialog-title fxLayoutAlign="start center">
+    <mat-icon>fact_check</mat-icon>
+    CHOOSE CHAMBER
+</h2>
 <mat-dialog-content class="mat-typography">
     <mat-spinner *ngIf="load"></mat-spinner>
     <div *ngIf="!load" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index" (click)="onSelect(row)" class="pointer box-body mtb-2 b-1" [ngClass]="{'chamber-red': !row.status}">
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+            <table fxFlex="100" mat-table [dataSource]="rows" class="">
 
-            <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
-                <mat-label>CODE</mat-label>
-                <input matInput [(ngModel)]="row.code" [readonly]="true" class="pointer">
-            </mat-form-field>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> SELECT </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-mini-fab color="primary" (click)="onSelect(element)">
+              <mat-icon>done</mat-icon>
+            </button>
+                    </td>
+                </ng-container>
 
-            <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
-                <mat-label>NAME</mat-label>
-                <input matInput [(ngModel)]="row.name" [readonly]="true" class="pointer">
-            </mat-form-field>
+                <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef> CODE </th>
+                    <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+                </ng-container>
 
-            <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
-                <mat-label>CAPACITY</mat-label>
-                <input matInput [value]="htmlCap(row)" [readonly]="true" class="pointer">
-            </mat-form-field>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> NAME </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
 
-            <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="100" appearance="legacy">
-                <mat-label>USE SPACE</mat-label>
-                <input matInput [value]="htmlCalCapPercent(row)|percent" [readonly]="true" class="pointer">
-            </mat-form-field>
+                <ng-container matColumnDef="capacity">
+                    <th mat-header-cell *matHeaderCellDef> CAPACITY </th>
+                    <td mat-cell *matCellDef="let element"> {{htmlCap(element)}} </td>
+                </ng-container>
 
-            <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+                <ng-container matColumnDef="use">
+                    <th mat-header-cell *matHeaderCellDef> USE </th>
+                    <td mat-cell *matCellDef="let element"> {{htmlCalCapPercent(element)|percent}} </td>
+                </ng-container>
 
-                <div fxFlex="22" fxLayoutAlign="center stretch" fxLayout="row wrap">
-                    <ul fxFlex="100">
-                        <strong>FUNCTION :</strong>
-                        <li *ngFor="let function of row.function">
+                <ng-container matColumnDef="function">
+                    <th mat-header-cell *matHeaderCellDef> FUNCTION </th>
+                    <td mat-cell *matCellDef="let element">
+                        <li *ngFor="let function of element.function">
                             {{function.name}}
                         </li>
-                    </ul>
-                </div>
+                    </td>
+                </ng-container>
 
-                <div fxFlex="78" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
-                    <ul fxFlex="33" *ngFor="let item of row.remain">
-                        <li *ngIf="item.work.controlNo">
-                            <strong>No</strong> {{item.work.controlNo}}
-                        </li>
-                        <li *ngIf="item.condition.name">
-                            <strong>CONDITION</strong> {{item.condition.name}}
-                        </li>
-                        <li>
-                            <strong>Qty</strong> {{item.work.qty}} pcs.
-                        </li>
-                        <li>
-                            <strong>START</strong> {{item.startDate |date:'dd MMMM YYYY h:mm a'}}
-                        </li>
-                        <li>
-                            <strong>END</strong> {{item.endDate |date:'dd MMMM YYYY h:mm a'}}
-                        </li>
-                    </ul>
-                </div>
+                <ng-container matColumnDef="remain">
+                    <th mat-header-cell *matHeaderCellDef> REMAIN </th>
+                    <td mat-cell *matCellDef="let element">
+                        <ul *ngFor="let remain of element.remain; let i=index" style="list-style: none; margin: 10px 0;">
+                            <li style="color: rgb(71, 35, 230);">
+                                {{remain.work.controlNo}}
+                            </li>
+                            <li>
+                                {{remain.endDate |date:'dd/MM/yy, h:mm a'}}
+                            </li>
+                            <li>
+                                {{remain.work.qty}} pcs.
+                            </li>
+                        </ul>
+                    </td>
+                </ng-container>
 
-
-
-            </div>
-
-
-
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
 
         </div>
 
 
+        <!-- <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index"
+      (click)="onSelect(row)" class="pointer box-body mtb-2 b-1" [ngClass]="{'chamber-red': !row.status}">
+
+      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
+        <mat-label>CODE</mat-label>
+        <input matInput [(ngModel)]="row.code" [readonly]="true" class="pointer">
+      </mat-form-field>
+
+      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
+        <mat-label>NAME</mat-label>
+        <input matInput [(ngModel)]="row.name" [readonly]="true" class="pointer">
+      </mat-form-field>
+
+      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
+        <mat-label>CAPACITY</mat-label>
+        <input matInput [value]="htmlCap(row)" [readonly]="true" class="pointer">
+      </mat-form-field>
+
+      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
+        <mat-label>USE SPACE</mat-label>
+        <input matInput [value]="htmlCalCapPercent(row)|percent" [readonly]="true" class="pointer">
+      </mat-form-field>
+
+      <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+
+        <div fxFlex="22" fxLayoutAlign="center stretch" fxLayout="row wrap">
+          <ul fxFlex="100">
+            <strong>FUNCTION :</strong>
+            <li *ngFor="let function of row.function">
+              {{function.name}}
+            </li>
+          </ul>
+        </div>
+
+        <div fxFlex="78" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+          <ul fxFlex="33" *ngFor="let item of row.remain">
+            <li *ngIf="item.work.controlNo">
+              <strong>No</strong> {{item.work.controlNo}}
+            </li>
+            <li *ngIf="item.condition.name">
+              <strong>CONDITION</strong> {{item.condition.name}}
+            </li>
+            <li>
+              <strong>Qty</strong> {{item.work.qty}} pcs.
+            </li>
+            <li>
+              <strong>START</strong> {{item.startDate |date:'dd MMMM YYYY h:mm a'}}
+            </li>
+            <li>
+              <strong>END</strong> {{item.endDate |date:'dd MMMM YYYY h:mm a'}}
+            </li>
+          </ul>
+        </div>
+
+
+
+      </div>
+
+
+
+
+    </div> -->
+
+
     </div>
 
+
+
 </mat-dialog-content>
+<mat-dialog-actions *ngIf="!load" align="end">
+    <button mat-button mat-dialog-close>
+    <span class="material-icons-outlined">
+      close
+    </span>
+  </button>
+</mat-dialog-actions>

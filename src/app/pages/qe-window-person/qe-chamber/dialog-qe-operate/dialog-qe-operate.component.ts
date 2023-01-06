@@ -1,6 +1,10 @@
+import { HttpParams } from '@angular/common/http';
+import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { throwMatDuplicatedDrawerError } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-dialog-qe-operate',
@@ -13,38 +17,52 @@ export class DialogQeOperateComponent implements OnInit {
   dataSource: any;
   startDate: any
   groupList: any = []
+  operateItems: any[] = []
   load = false
   constructor(
     private $operateGroup: OperateGroupService,
     private dialogRef: MatDialogRef<any>,
+    private $operate: OperateItemsHttpService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.load = true
     if (this.data) {
       const startDate = this.data.startDate;
       this.startDate = startDate
-      const operate = JSON.stringify(this.data.operate)
+      // const operate = JSON.stringify(this.data.operate)
       this.getGroupReady()
-
+      const param = new HttpParams().set('starDate',startDate)
+      this.operateItems = await this.$operate.remain(param).toPromise()
     }
 
   }
   async getGroupReady() {
-    const groups = await this.$operateGroup.get().toPromise()
-    for (let i = 0; i < groups.length; i++) {
-      const foo = await this.loopGroup(groups[i])
-      this.groupList.push(foo)
-      if (i + 1 == groups.length) {
-        this.dataSource = this.groupList
-        setTimeout(() => {
-          this.load = false
-        }, 500);
-      }
-    }
+    // console.log(this.data);
+
+    // const groups = await this.$operateGroup.get().toPromise()
+    // for (let i = 0; i < groups.length; i++) {
+    //   const foo = await this.loopGroup(groups[i])
+    //   this.groupList.push(foo)
+    //   if (i + 1 == groups.length) {
+    //     console.log(this.groupList);
+
+    //     this.dataSource = this.groupList
+    //     setTimeout(() => {
+    //       this.load = false
+    //     }, 500);
+    //   }
+    // }
+
+    const param: HttpParams = new HttpParams().set('startDate', this.startDate)
+    const foo = await this.$operate.condition(param).toPromise()
+    this.groupList = foo
+    setTimeout(() => {
+      this.load = false
+    }, 500);
   }
   async loopGroup(group: any) {
     for (let i = 0; i < group.operate.length; i++) {
@@ -65,9 +83,19 @@ export class DialogQeOperateComponent implements OnInit {
 
 
   onSelect(element: any, item: any) {
-    this.dialogRef.close({
-      ...item,
-      code: element.code
+
+    Swal.fire({
+      title: `Do you want to choose ${element.code}?`,
+      icon: 'question',
+      showCancelButton: true
+    }).then((value: SweetAlertResult) => {
+      if (value.isConfirmed) {
+        this.dialogRef.close({
+          ...item,
+          code: element.code
+        })
+      }
+
     })
   }
 

@@ -36,3 +36,7 @@ td {
     background-color: rgb(118, 255, 118);
     ;
 }
+
+::ng-deep.mat-stroked-button {
+    margin: 5px 0;
+}

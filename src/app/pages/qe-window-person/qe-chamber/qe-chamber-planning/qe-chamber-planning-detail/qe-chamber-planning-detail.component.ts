@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -86,6 +87,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       })
       dialogRef.afterClosed().subscribe(async res => {
         if (res) {
+          console.log(res);
+
           item.chamber = res
         }
 
@@ -191,11 +194,12 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         const body = [item]
-        if (item._id) {
-          this.onEdit(item._id, item, index)
-        } else {
-          this.onInsert(body, index)
-        }
+        // if (item._id) {
+        //   this.onEdit(item._id, item, index)
+        // } else {
+        //   this.onInsert(body, index)
+        // }
+        this.insertDirect(body, index)
       }
     })
 
@@ -218,8 +222,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
           this.data[index] = r_insert[0]
           Swal.fire('SUCCESS', '', 'success')
           this.mapForTable(this.data)
-
-
         } else {
           Swal.fire({
             html: r_checkOperate.text,
@@ -281,6 +283,26 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       Swal.fire(r_checkQueue, '', 'error')
     }
 
+  }
+
+  async insertDirect(item: any, index: number) {
+    const newItem = item[0]
+    if(newItem._id){
+      const r_update = await this.$queue.update(newItem._id,newItem).toPromise()
+      if (r_update && r_update.acknowledged) {
+        Swal.fire('SUCCESS', '', 'success')
+        this.mapForTable(this.data)
+
+      } else {
+        Swal.fire('', '', 'error')
+      }
+    }else{
+      const r_insert = await this.$queue.insert(newItem).toPromise()
+      console.log(r_insert);
+      this.data[index] = r_insert[0]
+      Swal.fire('SUCCESS', '', 'success')
+      this.mapForTable(this.data)
+    }
   }
 
 

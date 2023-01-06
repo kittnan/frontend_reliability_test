@@ -23,6 +23,7 @@ export class DialogViewComponent implements OnInit {
      this.foo =resData[0];
 
 
+
   }
   ngAfterViewInit(): void {
     setTimeout(() => {

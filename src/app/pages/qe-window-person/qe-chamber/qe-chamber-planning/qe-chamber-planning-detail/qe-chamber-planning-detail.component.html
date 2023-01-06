@@ -14,9 +14,10 @@
 
 
         <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-            <label class="color-secondary">
+            <button mat-stroked-button color="primary">
         {{i+1}}.1 CHAMBER DETAIL
-      </label>
+      </button>
+
         </div>
 
         <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
@@ -55,20 +56,20 @@
                 <input matInput [value]="item.endDate|date:'EEEE, d MMMM y, h:mm a'" [readonly]="true">
             </mat-form-field>
 
-            <!-- <div fxFlex.gt-lg="45"></div> -->
 
         </div>
 
 
 
         <mat-divider fxFlex="100" class="mtb-4"></mat-divider>
-        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <label class="color-secondary" style="padding-right: 10px;">
-        <span>
-          {{i+1}}.2 CHAMBER
-        </span>
-      </label>
-            <button mat-raised-button color="primary" (click)="dialogChamber(item)">SELECT</button>
+        <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
+
+            <button mat-stroked-button color="primary" (click)="dialogChamber(item)">
+        {{i+1}}.2 CHAMBER
+        <mat-icon>fact_check</mat-icon>
+      </button>
+
+
         </div>
 
         <div fxFlex="100" fxLayoutAlign="start  stretch" fxLayout="row wrap">
@@ -88,11 +89,12 @@
         <mat-divider fxFlex="100" class="mtb-4"></mat-divider>
 
         <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <label class="color-secondary w-5" style="padding-right: 10px;">
+
+            <button mat-stroked-button color="primary" [disabled]="!item.operate.status" (click)="dialogOperate(item)">
         {{i+1}}.3 OPERATE
-      </label>
-            <button mat-raised-button color="primary" [disabled]="!item.operate.status" (click)="dialogOperate(item)">SELECT
+        <mat-icon>fact_check</mat-icon>
       </button>
+
         </div>
 
         <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">

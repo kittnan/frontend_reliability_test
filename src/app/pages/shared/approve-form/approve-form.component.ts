@@ -112,27 +112,22 @@ export class ApproveFormComponent implements OnInit {
 
     let request_user
     if (status == 'request_approve') {
-      // const request_user = this.data.step5.find((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
 
-      // return {
-      //   'request': request_user ? 'request ➢ ' + request_user.prevUser.name : '-'
-      // }
-
     }
-    if (status == 'qe_window_person') {
-      // const request_user = this.data.step5.find((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
+    if (status == 'qe_window_person' || status == 'reject_qe_window_person') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
-
-      // return {
-      //   'request': request_user ? 'request ➢ ' + request_user.prevUser.name : '-'
-      // }
-
     }
 
-    if (status == 'qe_engineer') {
+    if (status == 'qe_engineer' || status =='reject_qe_engineer') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request_approve')
     }
+
+    if (status == 'qe_section_head' || status == 'reject_qe_section_head') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_engineer' || s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request')
+    }
+
+
     const arrayUniqueByKey = [...new Map(request_user.map((item: any) =>
       [item['prevStatusForm'], item])).values()];
     console.log(arrayUniqueByKey);

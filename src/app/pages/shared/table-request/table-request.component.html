@@ -44,28 +44,29 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
                     <td mat-cell *matCellDef="let row">
                         <button mat-raised-button color="primary" [disabled]="row.btn_status" (click)="onEdit(row)">
-                            {{row.btn_text |uppercase}}
-                        </button>
+              {{row.btn_text |uppercase}}
+            </button>
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="chamber">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
-                    <td mat-cell *matCellDef="let row">
-                        <button mat-raised-button color="accent" (click)="onChamber(row)">
-                            CHAMBER
-                        </button>
-                    </td>
-                </ng-container>
+                <!-- <ng-container matColumnDef="chamber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-raised-button color="accent" (click)="onChamber(row)">
+              CHAMBER
+            </button>
+          </td>
+        </ng-container> -->
 
                 <ng-container matColumnDef="btn">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
                     <td mat-cell *matCellDef="let row">
                         <button mat-icon-button color="primary" (click)="onClickView(row)">
-                            <span class="material-icons-outlined">
-                                zoom_in
-                            </span>
-                        </button>
+              <span class="material-icons-outlined">
+                zoom_in
+              </span>
+            </button>
+
                     </td>
                 </ng-container>
 

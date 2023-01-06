@@ -1,25 +1,83 @@
+<h2 *ngIf="!load" mat-dialog-title fxLayoutAlign="start center">
+    <mat-icon>fact_check</mat-icon>
+    CHOOSE OPERATE
+</h2>
 <mat-dialog-content class="mat-typography">
     <mat-spinner *ngIf="load"></mat-spinner>
+
+    <table *ngIf="!load" style="width: -webkit-fill-available; margin: 10px 0 20px 0;">
+        <tr style="background-color: darkseagreen;">
+            <th colspan="4">
+                OPERATE TOOL ALL
+            </th>
+        </tr>
+        <tr style="background-color: darkseagreen;">
+            <th>
+                CODE
+            </th>
+            <th>
+                TYPE
+            </th>
+            <th>
+                NAME
+            </th>
+            <th>
+                REMAIN/TOTAL
+            </th>
+        </tr>
+        <tr *ngFor="let item of operateItems; let i=index">
+            <td>
+                {{item.code |uppercase}}
+            </td>
+            <td>
+                {{item.type |uppercase}}
+            </td>
+            <td>
+                {{item.name}}
+            </td>
+            <td>
+                {{item.remain}} / {{item.stock}}
+            </td>
+        </tr>
+    </table>
+
     <table *ngIf="!load">
         <tr style="background-color: darkseagreen;">
-            <th align="center" colspan="3">OPERATE GROUP ALL</th>
+            <th align="center" colspan="4">OPERATE GROUP ALL</th>
         </tr>
-        <tr>
+        <tr style="background-color: darkseagreen;">
+            <th>SELECT</th>
             <th>GROUP NO</th>
             <th>CODE</th>
             <th>NAME</th>
         </tr>
         <ng-container *ngFor="let group of groupList; let i_group=index">
             <ng-container *ngFor="let operate of group.operate; let i_operate=index">
-                <tr [style.backgroundColor]="'#eaeaea'" class="pointer row-hover" (click)="onSelect(group,operate)">
-                    <td align="center">
-                        {{i_group+1}}.{{i_operate+1}}
+                <tr *ngIf="i_group>0" style="border: 0;">
+                    <td colspan="4" style="border: 0;">
+
+                    </td>
+                </tr>
+                <tr [style.backgroundColor]="'#eaeaea'" class="">
+                    <td rowspan="3">
+                        <button mat-mini-fab color="primary" (click)="onSelect(group,operate)">
+              <mat-icon>done</mat-icon>
+            </button>
                     </td>
                     <td align="center">
-                        {{group.code |uppercase}}
+                        <strong>
+              {{i_group+1}}.{{i_operate+1}}
+            </strong>
                     </td>
                     <td align="center">
-                        {{group.name}}
+                        <strong>
+              {{group.code |uppercase}}
+            </strong>
+                    </td>
+                    <td align="center">
+                        <strong>
+              {{group.name}}
+            </strong>
                     </td>
                 </tr>
                 <tr>
@@ -92,3 +150,10 @@
     </table>
 
 </mat-dialog-content>
+<mat-dialog-actions *ngIf="!load" align="end">
+    <button mat-button mat-dialog-close>
+    <span class="material-icons-outlined">
+      close
+    </span>
+  </button>
+</mat-dialog-actions>

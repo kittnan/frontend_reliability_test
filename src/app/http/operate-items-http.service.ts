@@ -31,4 +31,12 @@ export class OperateItemsHttpService {
     return this.http.delete(`${this.URL}/operate_items/delete/${id}`)
   }
 
+  remain(params:any): Observable<any> {
+    return this.http.get(`${this.URL}/operate_items/remain`,{params:params})
+  }
+
+  condition(params:any): Observable<any> {
+    return this.http.get(`${this.URL}/operate_items/condition`,{params:params})
+  }
+
 }

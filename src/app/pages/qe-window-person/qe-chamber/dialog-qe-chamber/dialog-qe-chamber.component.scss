@@ -3,6 +3,14 @@ th {
     padding: 10px;
 }
 
+td {
+    vertical-align: text-top;
+}
+
+tr:hover {
+    background-color: rgb(221, 221, 221);
+}
+
 .b-1:hover {
     // box-shadow: 2px 2px 8px 4px rgb(7 15 253 / 76%);
     box-shadow: 0px 0px 2px 0px rgba(68, 0, 255, 1);

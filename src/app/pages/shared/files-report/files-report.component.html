@@ -1,24 +1,105 @@
 <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+    <h4 fxFlex="100">
+        UPLOAD REPORT
+    </h4>
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="box-table">
+        <table fxFlex="100" *ngFor="let queue of queues; let i_queue=index">
+            <colgroup width="20%"></colgroup>
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <strong>
+              {{queue.condition.name}}
+            </strong>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <span>
+              TIME
+            </span>
+                    </th>
+                    <th>
+                        <span>
+              FILE
+            </span>
+                    </th>
 
-    <!-- <mat-list fxFlex="50" fxFlex.sm="100" fxFlexAlign="space-around" *ngFor="let queue of queues; let i_queue=index">
-        <div mat-subheader>
-            {{queue.condition.name}}
-        </div>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let time of queue.reportTime; let i_time=index">
+                    <td>
+                        <span>
+              Report At {{time.at}}
+              <input hidden type="file" #fileUpload multiple
+                (change)="onUploadFile($event,time,queue.work.controlNo,i_queue);">
+              <button mat-button color="accent" (click)="fileUpload.click()" title="UPLOAD">
+                <span class="material-icons-outlined">
+                  cloud_upload
+                </span>
 
-        <mat-list-item *ngFor="let report of queue.reportTime">
-            <mat-icon matListItemIcon>folder</mat-icon>
-            <div matListItemTitle>REPORT AT {{report.at}} </div>
-            <div matListItemLine>datee</div>
-        </mat-list-item>
-    </mat-list> -->
+                        </button>
+                        </span>
+                    </td>
+                    <td>
 
-    <div fxFlex="40" fxLayoutAlign="center stretch" fxLayout="row wrap" *ngFor="let queue of queues; let i_queue=index">
-        <h4 fxFlex="100">{{queue.condition.name}}</h4>
-        <mat-list fxFlex="100" fxFlex.sm="100" fxFlexAlign="space-around" fxLayout="row wrap" *ngFor="let time of queue.reportTime; let i_time=index">
-            <div fxFlex="100">
-                Report At {{time.at}}
+                        <ng-container *ngIf="time.files.length>0; else elseTemplate">
+                            <div fxLayout="row wrap" fxLayoutAlign="start stretch" *ngFor="let file of time.files">
+                                <div fxFlex="80" fxLayout="row wrap" fxLayoutAlign="start stretch">
+                                    <mat-icon fxFlex="10" fxLayoutAlign="center center" matListItemIcon>folder</mat-icon>
+                                    <span fxFlex="90" fxLayoutAlign="start center" matListItemTitle> {{file.name}} (
+                    {{file.size|fileSize}}
+                    )
 
-                <button mat-button color="accent" (click)="fileUpload.click()">
+                  </span>
+                                    <div fxFlexOffset="10" matListItemLine>UPLOAD DATE: {{file.date | date:'dd-MMM-YYYY, HH:mm'}}</div>
+
+                                </div>
+
+                                <div fxFlex="20" fxLayout="row wrap" fxLayoutAlign="space-around center">
+
+
+
+                                    <button mat-button color="primary" (click)="download(file.path,file.name)" title="DOWNLOAD">
+                    <span class="material-icons-outlined">
+                      cloud_download
+                    </span>
+
+                  </button>
+                                    <button mat-button color="warn" (click)="onDelete(file,time,i_queue)" title="DELETE">
+                    <span class="material-icons-outlined">
+                      delete
+                    </span>
+
+                  </button>
+                                </div>
+
+                            </div>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+
+                        </ng-template>
+
+
+
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- <div fxFlex="40" fxLayoutAlign="start stretch" fxLayout="row wrap" *ngFor="let queue of queues; let i_queue=index">
+    <h4 fxFlex="100">{{queue.condition.name}}</h4>
+    <mat-list fxFlex="100" fxFlex.sm="100" fxFlexAlign="space-around" fxLayout="row wrap"
+      *ngFor="let time of queue.reportTime; let i_time=index">
+      <div fxFlex="100">
+        Report At {{time.at}}
+
+        <button mat-button color="accent" (click)="fileUpload.click()">
           <span class="material-icons-outlined">
             cloud_upload
           </span>
@@ -27,19 +108,21 @@
           </span>
         </button>
 
-                <input hidden type="file" #fileUpload multiple (change)="onUploadFile($event,time,queue.work.controlNo,i_queue);">
+        <input hidden type="file" #fileUpload multiple
+          (change)="onUploadFile($event,time,queue.work.controlNo,i_queue);">
 
-            </div>
+      </div>
 
-            <div fxFlexOffset="5" fxFlex="95" fxLayoutAlign="start stretch" fxLayout="row wrap" *ngFor="let file of time.files">
-                <mat-icon fxFlex="5" matListItemIcon>folder</mat-icon>
-                <span fxFlex="95" matListItemTitle> {{file.name}} ( {{file.size|fileSize}} )
+      <div fxFlexOffset="5" fxFlex="95" fxLayoutAlign="start stretch" fxLayout="row wrap"
+        *ngFor="let file of time.files">
+        <mat-icon fxFlex="5" matListItemIcon>folder</mat-icon>
+        <span fxFlex="95" matListItemTitle> {{file.name}} ( {{file.size|fileSize}} )
 
         </span>
-                <div fxFlexOffset="5" fxFlex="95" matListItemLine>UPLOAD DATE: {{file.date | date:'dd-MMM-YYYY, HH:mm'}}</div>
+        <div fxFlexOffset="5" fxFlex="95" matListItemLine>UPLOAD DATE: {{file.date | date:'dd-MMM-YYYY, HH:mm'}}</div>
 
-                <div fxFlexOffset="5" fxFlex="95" fxLayout="row wrap">
-                    <button mat-button color="primary" (click)="download(file.path,file.name)">
+        <div fxFlexOffset="5" fxFlex="95" fxLayout="row wrap">
+          <button mat-button color="primary" (click)="download(file.path,file.name)">
             <span class="material-icons-outlined">
               cloud_download
             </span>
@@ -47,7 +130,7 @@
               DOWNLOAD
             </span>
           </button>
-                    <button mat-button color="warn" (click)="onDelete(file,time,i_queue)">
+          <button mat-button color="warn" (click)="onDelete(file,time,i_queue)">
             <span class="material-icons-outlined">
               delete
             </span>
@@ -55,9 +138,9 @@
               DELETE
             </span>
           </button>
-                </div>
+        </div>
 
-            </div>
-        </mat-list>
-    </div>
+      </div>
+    </mat-list>
+  </div> -->
 </div>

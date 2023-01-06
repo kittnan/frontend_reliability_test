@@ -48,6 +48,7 @@ export class FilesReportComponent implements OnInit {
     if (res && res.length > 0) {
       time['files'].push(...res)
       const r_update = await this.$queue.update(this.queues[i_queue]._id, this.queues[i_queue]).toPromise()
+
       if (r_update && r_update.acknowledged) {
         setTimeout(() => {
           this._loading.stopAll()
@@ -108,9 +109,10 @@ export class FilesReportComponent implements OnInit {
     })
   }
 
-  download(dataurl: any, filename: any) {
-    const link = document.createElement("a");
-    link.href = dataurl;
+  download(dataUrl: any, filename: any) {
+    let link = document.createElement("a");
+    link.target = '_blank'
+    link.href = dataUrl;
     link.download = filename;
     link.click();
   }

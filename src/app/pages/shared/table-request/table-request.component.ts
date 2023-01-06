@@ -1,5 +1,4 @@
 import { HttpParams } from '@angular/common/http';
-import { _isTestEnvironment } from '@angular/cdk/platform';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -61,7 +60,7 @@ export class TableRequestComponent implements OnInit {
     const id: any = sessionStorage.getItem('_id')
     this.authorize = sessionStorage.getItem('authorize');
     this.selected_status = 'ongoing';
-    if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
+    // if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
 
     this.userLogin = await this._login.getProFileById(id).toPromise();
     this.params = {
@@ -93,8 +92,8 @@ export class TableRequestComponent implements OnInit {
       statusStr = 'all'
     }
     const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
-    const count :any= await this.$request.tableCount(param).toPromise()
-    if(count && count.length>0 && count[0].count != this.presentCount)this.onSelectStatus()
+    const count: any = await this.$request.tableCount(param).toPromise()
+    if (count && count.length > 0 && count[0].count != this.presentCount) this.onSelectStatus()
   }
 
   async onSelectStatus() {
@@ -145,14 +144,13 @@ export class TableRequestComponent implements OnInit {
 
   private rowText(item: any) {
     if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit'
-    if (item && item.status === 'qe_department_head') return 'report'
-    if (item && item.status === 'close_job') return 'CLOSED'
     if (item && item.status === 'draft') return 'edit'
+    if (item && item.status === 'qe_department_head') return 'report'
+    if (item && (item.status === 'close_job' || item.status === 'finish')) return 'FINISH'
     return 'approve'
   }
 
   private rowStatus(item: any) {
-    (item.nextApprove._id, this.userLogin._id);
     if (item.nextApprove._id == this.userLogin._id) return false
     return true
   }
@@ -186,12 +184,14 @@ export class TableRequestComponent implements OnInit {
   }
 
   onEdit(item: any) {
-    (item.status);
+    console.log(item.status);
+
 
     if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
     if (item.status === 'request_approve') this.linkTo('/approve/approve-request', item._id);
-    if (item.status === 'qe_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
+    if (item.status === 'qe_window_person') this.linkTo('/qe-window-person/chamber', item._id);
     if (item.status === 'qe_engineer') this.linkTo('/qe-engineer/approve-request', item._id);
+    if (item.status === 'qe_window_person_report') this.linkTo('/qe-window-person/report', item._id);
 
     if (item.status === 'reject_request') this.linkTo('/request/sheet', item._id);
 
@@ -200,6 +200,9 @@ export class TableRequestComponent implements OnInit {
     // if (item.status === 'request_approve') this.linkTo('/qe-window-person/approve-request', item._id);
     // if (item.status === 'reject_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
     if (item.status === 'qe_section_head') this.linkTo('/qe-section-head/approve-request', item._id);
+
+    if (item.status === 'reject_qe_window_person') this.linkTo('/qe-window-person/chamber', item._id);
+    if (item.status === 'reject_qe_engineer') this.linkTo('/qe-engineer/approve-request', item._id);
     // if (item.status === 'qe_department_head') this.linkTo('/qe-window-person/report', item._id);
   }
 

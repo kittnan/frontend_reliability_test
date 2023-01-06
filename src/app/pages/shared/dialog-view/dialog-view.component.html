@@ -3,3 +3,4 @@
 <app-step3 *ngIf="foo" [(step3)]="foo.step3"></app-step3>
 <app-step4 *ngIf="foo" [(step4)]="foo.step4"></app-step4>
 <app-step5 *ngIf="foo" [(step5)]="foo.step5"></app-step5>
+<app-plan-reliability-test *ngIf="foo &&foo.table" [requestForm]="[foo]" [queues]="foo.table"></app-plan-reliability-test>

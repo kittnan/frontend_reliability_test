@@ -4,7 +4,7 @@
         <table fxFlex="auto">
             <tr>
                 <th colspan="3" class="text-over">
-                    Control No. {{requestForm[0].step1.controlNo}}
+                    CONTROL No. {{requestForm[0].step1.controlNo}}
                 </th>
             </tr>
             <tr>
@@ -54,35 +54,41 @@
                         </th>
                     </ng-container>
                 </tr>
-                <tr *ngFor="let row of queues.data; let i_row=index" align="center">
 
-                    <ng-container *ngFor="let col of row; let i_col=index">
-                        <th *ngIf="i_col==0">
-                            <ul>
-                                <li *ngFor="let c of col; let i_c=index">
-                                    <span *ngIf="i_c==0">
-                    {{c |uppercase}}
-                  </span>
-                                    <span *ngIf="i_c==1" style="color: red;">
-                    {{c |uppercase}}
-                  </span>
-                                </li>
-                            </ul>
-                        </th>
-                        <td *ngIf="i_col!=0">
-                            <ul>
-                                <li *ngFor="let c of col; let i_c=index">
-                                    <span *ngIf="i_c==0">
-                    {{c}}
-                  </span>
-                                    <span *ngIf="i_c==1" style="color: red;">
-                    {{c}}
-                  </span>
-                                </li>
-                            </ul>
-                        </td>
-                    </ng-container>
-                </tr>
+                <ng-container *ngFor="let row of queues.data; let i_row=index">
+
+                    <tr align="center" [ngClass]="{'bg-grey': renderColor(i_row)|| false}">
+
+                        <ng-container *ngFor="let col of row; let i_col=index">
+                            <th *ngIf="i_col==0">
+                                <ul>
+                                    <li *ngFor="let c of col; let i_c=index">
+                                        <span *ngIf="i_c==0">
+                      {{c |uppercase}}
+                    </span>
+                                        <span *ngIf="i_c==1" style="color: red;">
+                      {{c |uppercase}}
+                    </span>
+                                    </li>
+                                </ul>
+                            </th>
+                            <td *ngIf="i_col!=0">
+                                <ul>
+                                    <li *ngFor="let c of col; let i_c=index">
+                                        <span *ngIf="i_c==0">
+                      {{c}}
+                    </span>
+                                        <span *ngIf="i_c==1" style="color: red;">
+                      {{c}}
+                    </span>
+                                    </li>
+                                </ul>
+                            </td>
+                        </ng-container>
+                    </tr>
+
+                </ng-container>
+
             </tbody>
 
         </table>

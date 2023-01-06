@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -34,7 +34,11 @@ export class ChamberHttpService {
   insertQueue(data: any): Observable<any> {
     return this.http.post(`${this.URL}/chamber_list/insertQueue`, data)
   }
-  getReady(value:any,startDate:any,qty:any):Observable<any>{
-    return this.http.get(`${this.URL}/chamber_list/ready/${value}/${startDate}/${qty}`)
+  getReady(param:HttpParams):Observable<any>{
+    return this.http.get(`${this.URL}/chamber_list/ready/`,{params:param})
   }
+  ready(param:HttpParams):Observable<any>{
+    return this.http.get(`${this.URL}/chamber_list/readyNew/`,{params:param})
+  }
+
 }

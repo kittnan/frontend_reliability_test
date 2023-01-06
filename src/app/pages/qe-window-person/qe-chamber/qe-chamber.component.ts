@@ -99,8 +99,8 @@ export class QeChamberComponent implements OnInit {
   ngOnInit(): void {
     this.getUserApprove()
     this.routeActive.queryParams.subscribe(async (params: any) => {
-      const { requestId } = params;
-      const resData = await this.$request.get_id(requestId).toPromise()
+      const { id } = params;
+      const resData = await this.$request.get_id(id).toPromise()
       this.form = resData[0]
       const temp = this.setDataTable();
       this.dataSource = temp
@@ -109,7 +109,6 @@ export class QeChamberComponent implements OnInit {
 
   emitted(item: any) {
     this.chamberTable = item
-    console.log("🚀 ~ file: qe-chamber.component.ts:104 ~ QeChamberComponent ~ emitted ~ this.chamberTable", this.chamberTable)
   }
 
   setDataTable() {
@@ -126,78 +125,15 @@ export class QeChamberComponent implements OnInit {
   }
   tableChange(e: any) {
     this.table = e
+    this.form.table = this.table
+
   }
   approveChange(e: any) {
     this.nextApprove = e
   }
 
-  async submit() {
-    try {
-      await this.$request.update(this.form._id, {
-        table: this.table
-      }).toPromise()
-      console.log(this.nextApprove, this.form);
-
-      // this._approve.send(this.userLogin,this.nextApprove,this.form)
-      // this._approve.submit('approve', this.form, '', this.nextApprove,'')
-      // await this.$queue.updateMany(this.chamberTable).toPromise()
-      // Swal.fire('SUCCESS', '', 'success')
-    } catch (error) {
-      Swal.fire(error?.toString(), '', 'error')
-    }
-  }
-
-onApprove(){
-  Swal.fire({
-    title: `Do you want to approve ?`,
-    icon: 'question',
-    showCancelButton: true
-  }).then(async (value: SweetAlertResult) => {
-    if (value.isConfirmed) {
-      this.comment('approve')
-    }
-  })
-}
-
-async comment(key: any) {
-  await Swal.fire({
-    input: 'textarea',
-    inputLabel: 'Message',
-    inputPlaceholder: 'Type your message here...',
-    inputAttributes: {
-      'aria-label': 'Type your message here'
-    },
-    showCancelButton: true
-  }).then(async (value: SweetAlertResult) => {
-    (value);
-    if (value.isConfirmed) {
-      if (key == 'approve') {
-        await this.$request.update(this.form._id, {
-          table: this.table
-        }).toPromise()
-        // console.log(this.userLogin,this.approve.value, this.form, value.value);
-        this._approve.send(this.userLogin,this.approve.value, this.form, value.value)
-      } else {
-
-      }
-      // this._approve.submit('approve', this.data, this.userLogin, this.userApprove,value.value)
-    }
-  })
-}
 
 
-  onReject() {
-
-  }
-  onBack() {
-
-  }
-
-  onUpdate(data: any) {
-    this.$queue.updateMany(data).subscribe(res => {
-    })
-
-  }
   validButtonSubmit() {
     // const r_find = this.chamberTable.find((d: any) => !d._id);
     // if (r_find) {

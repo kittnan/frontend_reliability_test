@@ -44,6 +44,7 @@ export class QeEngineerApproveComponent implements OnInit {
       const resData = await this.$request.get_id(id).toPromise()
       this.data = resData[0];
       this.getUserApprove()
+      console.log(this.data);
 
     })
 
