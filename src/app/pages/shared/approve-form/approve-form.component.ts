@@ -7,7 +7,6 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserApproveHttpService } from 'src/app/http/user-approve-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
-import { ApproveFormService } from './approve-form.service';
 
 @Component({
   selector: 'app-approve-form',
@@ -18,6 +17,7 @@ export class ApproveFormComponent implements OnInit {
 
 
   @Input() reject: boolean = true
+  @Input() back: boolean = true
   @Input() data: any
   @Input() userApprove: any
 
@@ -26,7 +26,6 @@ export class ApproveFormComponent implements OnInit {
   constructor(
     private _router: Router,
     private _user: UserHttpService,
-    // private _approve: ApproveFormService,
     private _approve: ApproveService,
     private _loading: NgxUiLoaderService,
     private _reject: RejectService
@@ -39,15 +38,28 @@ export class ApproveFormComponent implements OnInit {
 
   }
   onApprove() {
-    Swal.fire({
-      title: `Do you want to approve ?`,
-      icon: 'question',
-      showCancelButton: true
-    }).then(async (value: SweetAlertResult) => {
-      if (value.isConfirmed) {
-        this.comment('approve')
-      }
-    })
+    if (this.data.status == "qe_window_person_report") {
+      Swal.fire({
+        title: `Do you want to finish job ?`,
+        icon: 'question',
+        showCancelButton: true
+      }).then(async (value: SweetAlertResult) => {
+        if (value.isConfirmed) {
+          this._approve.finishJob(this.data, this.userLogin)
+        }
+      })
+    } else {
+      Swal.fire({
+        title: `Do you want to approve ?`,
+        icon: 'question',
+        showCancelButton: true
+      }).then(async (value: SweetAlertResult) => {
+        if (value.isConfirmed) {
+          this.comment('approve')
+        }
+      })
+
+    }
   }
 
   async comment(key: any) {
@@ -63,12 +75,8 @@ export class ApproveFormComponent implements OnInit {
       (value);
       if (value.isConfirmed) {
         if (key == 'approve') {
-          // console.log(this.userLogin,this.userApprove, this.data, value.value);
           this._approve.send(this.userLogin, this.userApprove, this.data, value.value)
-        } else {
-
         }
-        // this._approve.submit('approve', this.data, this.userLogin, this.userApprove,value.value)
       }
     })
   }
@@ -107,9 +115,6 @@ export class ApproveFormComponent implements OnInit {
   }
 
   genOption(status: any) {
-    console.log(status);
-    console.log(this.data.step5);
-
     let request_user
     if (status == 'request_approve') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
@@ -119,7 +124,10 @@ export class ApproveFormComponent implements OnInit {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
     }
 
-    if (status == 'qe_engineer' || status =='reject_qe_engineer') {
+    if (status == 'qe_engineer' || status == 'reject_qe_engineer') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request_approve')
+    }
+    if (status == 'qe_engineer2' || status == 'reject_qe_engineer') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request_approve')
     }
 
@@ -130,7 +138,6 @@ export class ApproveFormComponent implements OnInit {
 
     const arrayUniqueByKey = [...new Map(request_user.map((item: any) =>
       [item['prevStatusForm'], item])).values()];
-    console.log(arrayUniqueByKey);
     return arrayUniqueByKey.reduce((prev: any, now: any) => {
       const newKey: any = now.prevStatusForm
       prev[newKey] = `${now.prevStatusForm} ➢ ${now.prevUser.name}`

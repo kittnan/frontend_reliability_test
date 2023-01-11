@@ -27,7 +27,7 @@ export class QeWindowReportComponent implements OnInit {
   approve = new FormControl(null, Validators.required)
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    private _router: Router,
     private _request: RequestHttpService,
     private _toast: ToastService,
     private _user: UserHttpService,
@@ -74,6 +74,8 @@ export class QeWindowReportComponent implements OnInit {
   public objectComparisonFunction = function (option: any, value: any): boolean {
     return option._id === value._id;
   }
+
+
 
 
 }

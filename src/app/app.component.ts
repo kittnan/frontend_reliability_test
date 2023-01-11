@@ -196,7 +196,7 @@ export class AppComponent {
         }
       ]
     }
-    if (this.authorize == 'qe_engineer') {
+    if (this.authorize == 'qe_engineer' || this.authorize == 'qe_engineer2') {
       this.sideItems = [
         {
           title: 'request',

@@ -15,8 +15,6 @@ export class PlanReliabilityTestComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.requestForm, this.queues);
-
 
   }
   htmlUserRequest(step5: any) {

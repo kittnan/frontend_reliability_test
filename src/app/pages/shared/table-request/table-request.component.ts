@@ -29,7 +29,7 @@ export class TableRequestComponent implements OnInit {
   userLogin: any;
   authorize: any;
   status: any[] = [
-    'ongoing', 'closed', 'all'
+    'ongoing', 'finish', 'all'
   ]
   selected_status = 'ongoing'
   requests: any = []
@@ -43,7 +43,7 @@ export class TableRequestComponent implements OnInit {
   params!: ParamsForm
 
   ongoing: any = ['draft', 'request', 'reject_request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
-  closed: any = ['closed'];
+  finish: any = ['finish'];
   all: any = []
 
   interval$!: Subscription;
@@ -73,7 +73,7 @@ export class TableRequestComponent implements OnInit {
 
     }
     this.onSelectStatus()
-    this.interval$ = interval(1000).subscribe(res => this.autoFeed())
+    this.interval$ = interval(60000).subscribe(res => this.autoFeed())
   }
 
   ngOnDestroy(): void {
@@ -91,9 +91,10 @@ export class TableRequestComponent implements OnInit {
     if (this.selected_status == 'all') {
       statusStr = 'all'
     }
-    const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
-    const count: any = await this.$request.tableCount(param).toPromise()
-    if (count && count.length > 0 && count[0].count != this.presentCount) this.onSelectStatus()
+    this.onSelectStatus()
+    // const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
+    // const count: any = await this.$request.tableCount(param).toPromise()
+    // if (count && count.length > 0 && count[0].count != this.presentCount) this.onSelectStatus()
   }
 
   async onSelectStatus() {
@@ -103,12 +104,12 @@ export class TableRequestComponent implements OnInit {
       status = this.ongoing;
       statusStr = 'ongoing'
     }
-    if (this.selected_status == 'closed') {
-      status = this.closed;
+    if (this.selected_status == 'finish') {
+      status = this.finish;
       statusStr = 'finish'
     }
     if (this.selected_status == 'all') {
-      status = [...this.ongoing, ...this.closed];
+      status = [...this.ongoing, ...this.finish];
       statusStr = 'all'
     }
     this.params.status = JSON.stringify(status)
@@ -117,7 +118,6 @@ export class TableRequestComponent implements OnInit {
     const resData = await this.$request.table(param).toPromise()
     // const resData = await this.$tableRequest.getTable(this.params)
     const resultMap: any = await this.mapRows(resData)
-    console.log(resultMap);
     this.presentCount = resultMap.length
     this.dataSource = new MatTableDataSource(resultMap);
     this.setOption();
@@ -151,7 +151,7 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    if (item.nextApprove._id == this.userLogin._id) return false
+    if (item.nextApprove && item.nextApprove._id == this.userLogin._id) return false
     return true
   }
 
@@ -184,13 +184,11 @@ export class TableRequestComponent implements OnInit {
   }
 
   onEdit(item: any) {
-    console.log(item.status);
-
-
     if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
     if (item.status === 'request_approve') this.linkTo('/approve/approve-request', item._id);
     if (item.status === 'qe_window_person') this.linkTo('/qe-window-person/chamber', item._id);
     if (item.status === 'qe_engineer') this.linkTo('/qe-engineer/approve-request', item._id);
+    if (item.status === 'qe_engineer2') this.linkTo('/qe-engineer/approve-request', item._id);
     if (item.status === 'qe_window_person_report') this.linkTo('/qe-window-person/report', item._id);
 
     if (item.status === 'reject_request') this.linkTo('/request/sheet', item._id);

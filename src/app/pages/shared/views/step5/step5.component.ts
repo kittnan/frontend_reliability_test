@@ -14,13 +14,15 @@ export class Step5Component implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const resultMap: any = await this.mapRes(this.step5)
+
     this.data = resultMap.sort((a: any, b: any) => Number(a.level) < Number(b.level) ? -1 : Number(a.level > b.level))
+
   }
 
   mapRes(data: any) {
     return new Promise(resolve => {
       const temp = data.map((d: any) => {
-        if (d.level == 1 || d.level == 2 || d.level == 3 || d.level == 4 || d.level == 5|| d.level == 6) {
+        if (d.level == 1 || d.level == 2 || d.level == 3 || d.level == 4 || d.level == 5|| d.level == 6 || d.level == 7 ) {
           return {
             title: d.prevStatusForm,
             footer: 'Engineer Level Up',

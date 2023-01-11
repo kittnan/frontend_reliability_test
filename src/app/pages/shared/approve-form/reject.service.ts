@@ -1,3 +1,4 @@
+import { LogFlowService } from './../../../http/log-flow.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
@@ -15,7 +16,8 @@ export class RejectService {
     private $request: RequestHttpService,
     private $step5: Step5HttpService,
     private _loading: NgxUiLoaderService,
-    private _router: Router
+    private _router: Router,
+    private $log: LogFlowService
   ) { }
 
   async send(prevUser: any, nextUserApprove: any, form: any, comment: any, rejectToStatus: any) {
@@ -36,9 +38,13 @@ export class RejectService {
     }
     this.clearStep5UpperTarget(upperLevel)
     await this.$request.update(newForm._id, newForm).toPromise()
-
+    const logData = {
+      formId: newForm._id,
+      action: newForm.status,
+      user: prevUser
+    }
+    this.sendLog(logData)
     const oldStepReject = form.step5.find((step: any) => step.level == level)
-    console.log(oldStepReject);
     if (oldStepReject) {
       const newStep = {
         ...oldStepReject,
@@ -53,9 +59,9 @@ export class RejectService {
         },
         comment: [comment]
       }
-      console.log(newStep);
 
       await this.$step5.update(newStep._id, newStep).toPromise()
+
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
         this._loading.stopAll()
@@ -78,7 +84,6 @@ export class RejectService {
         level: level,
         requestId: form._id,
       }
-      console.log(newStep);
       await this.$step5.insert(newStep).toPromise()
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
@@ -148,25 +153,30 @@ export class RejectService {
   private link(status: any) {
     let str = ''
 
-    if(status =='request'){
-      str= 'request'
+    if (status == 'request') {
+      str = 'request'
     }
 
-    if(status =='request_approve'){
-      str= 'approve'
+    if (status == 'request_approve') {
+      str = 'approve'
     }
 
-    if(status =='qe_window_person'){
-      str= 'qe-window-person'
+    if (status == 'qe_window_person') {
+      str = 'qe-window-person'
     }
 
-    if(status =='qe_engineer'){
-      str= 'qe-engineer'
+    if (status == 'qe_engineer') {
+      str = 'qe-engineer'
     }
 
-    if(status =='qe_section_head'){
-      str= 'qe-section-head'
+    if (status == 'qe_section_head') {
+      str = 'qe-section-head'
     }
     this._router.navigate([`/${str}`])
   }
+
+  sendLog(data: any) {
+    this.$log.insertLogFlow(data).subscribe(res => console.log(res))
+  }
+
 }

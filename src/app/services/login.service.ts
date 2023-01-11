@@ -55,11 +55,12 @@ export class LoginService {
       }
       if (auth == 'qe_window_person') {
         location.href = "/qe-window-person"
-
       }
       if (auth == 'qe_engineer') {
         location.href = "/qe-engineer"
-
+      }
+      if (auth == 'qe_engineer2') {
+        location.href = "/qe-engineer"
       }
       if (auth == 'qe_section_head') {
         location.href = "/qe-section-head"

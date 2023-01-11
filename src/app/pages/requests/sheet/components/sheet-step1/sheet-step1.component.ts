@@ -1,3 +1,4 @@
+import { LogFlowService } from './../../../../../http/log-flow.service';
 import { Step5HttpService } from './../../../../../http/step5-http.service';
 import { Step1HttpService } from './../../../../../http/step1-http.service';
 import { FilesHttpService } from 'src/app/http/files-http.service';
@@ -79,6 +80,7 @@ export class SheetStep1Component implements OnInit {
     private $step1: Step1HttpService,
     private $step5: Step5HttpService,
     private $user: UserHttpService,
+    private $log: LogFlowService
   ) {
     this.requestForm.patchValue({ requestDate: new Date() });
   }
@@ -250,6 +252,13 @@ export class SheetStep1Component implements OnInit {
   async update() {
     const resUpdate = await this.$step1.update(this.requestForm.value._id, this.requestForm.value).toPromise()
     this.dataChange.emit(this.formId)
+
+    const logData = {
+      formId: this.requestForm.value._id,
+      action: 'draft',
+      user: this.userLogin
+    }
+    this.sendLog(logData)
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
@@ -302,6 +311,12 @@ export class SheetStep1Component implements OnInit {
     await this.$step5.insert(step5Data).toPromise()
 
     this.dataChange.emit(resDraft[0]._id)
+    const logData = {
+      formId: resDraft[0]._id,
+      action: 'draft',
+      user: this.userLogin
+    }
+    this.sendLog(logData)
     setTimeout(() => {
       this.requestForm.patchValue({ _id: resInsert[0]._id })
       Swal.fire('SUCCESS', '', 'success')
@@ -311,6 +326,9 @@ export class SheetStep1Component implements OnInit {
   }
   onBack() {
     this.router.navigate(['/request/manage']);
+  }
+  sendLog(data: any) {
+    this.$log.insertLogFlow(data).subscribe(res => console.log(res))
   }
 
 }

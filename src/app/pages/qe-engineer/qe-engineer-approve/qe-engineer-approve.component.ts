@@ -16,7 +16,6 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 export class QeEngineerApproveComponent implements OnInit {
 
   userLogin: any;
-  config_auth = 'qe_section_head'
   dateNow!: Date
 
   data: any
@@ -44,10 +43,7 @@ export class QeEngineerApproveComponent implements OnInit {
       const resData = await this.$request.get_id(id).toPromise()
       this.data = resData[0];
       this.getUserApprove()
-      console.log(this.data);
-
     })
-
 
   }
 
@@ -59,6 +55,10 @@ export class QeEngineerApproveComponent implements OnInit {
 
 
   async getUserApprove() {
+    const ses_authorize = sessionStorage.getItem('authorize')
+    if(ses_authorize=='qe_engineer'){
+      this.authorize = 'qe_engineer2'
+    }
     const _id: any = sessionStorage.getItem("_id")
     this.userLogin = await this.$user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]

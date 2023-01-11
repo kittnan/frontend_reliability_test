@@ -36,7 +36,7 @@ export class AuthService {
     return false
   }
   getAuthorizeQeEngineer() {
-    if (sessionStorage.getItem('authorize') == 'qe_engineer') return true
+    if (sessionStorage.getItem('authorize') == 'qe_engineer' || sessionStorage.getItem('authorize') == 'qe_engineer2') return true
     return false
   }
   getAuthorizeQeSectionHead() {

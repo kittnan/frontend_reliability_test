@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RequestHttpService } from '../http/request-http.service';
-import { LogFlowService } from './log-flow.service';
+// import { LogFlowService } from './log-flow.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,6 @@ import { LogFlowService } from './log-flow.service';
 export class ShareFunctionService {
 
   constructor(
-    private _logFlow: LogFlowService,
     private _request: RequestHttpService
   ) { }
 
@@ -18,13 +17,13 @@ export class ShareFunctionService {
 
   }
 
-  async insertLogFlow(actionText: any, controlNo: any, comment: any, userLogin: any) {
-    return await this._logFlow.insertLogFlow({
-      user: userLogin,
-      action: actionText,
-      request_no: controlNo,
-      comment: comment
-    })
-  }
+  // async insertLogFlow(actionText: any, controlNo: any, comment: any, userLogin: any) {
+  //   return await this._logFlow.insertLogFlow({
+  //     user: userLogin,
+  //     action: actionText,
+  //     request_no: controlNo,
+  //     comment: comment
+  //   })
+  // }
 
 }

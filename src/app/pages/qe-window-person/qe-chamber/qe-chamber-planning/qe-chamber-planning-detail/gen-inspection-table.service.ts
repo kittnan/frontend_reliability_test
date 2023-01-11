@@ -70,12 +70,12 @@ export class GenInspectionTableService {
   }
 
   private mapCol(foundItem: any, time: any, data: any, timeReport: any) {
-    const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D/M/YY h:mm a') : '-'
-    const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D/M/YY h:mm a') : '-'
+    const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D/MMM/YY h:mm a') : '-'
+    const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D/MMM/YY h:mm a') : '-'
     const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
 
     const report = timeReport.find((t: any) => t.at == time.at)
-    let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D/M/YY h:mm a') : '-'
+    let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D/MMM/YY h:mm a') : '-'
 
     let inspec_arr: any[] = [[], [], []]
     if (foundItem && time.at == 0 && time.at != -1) {
@@ -100,7 +100,7 @@ export class GenInspectionTableService {
           }
           else
             if (time.at == -1) {
-              const d_end = data?.endDate ? moment(data.endDate).format('ddd, D/M/YY h:mm a') : '-'
+              const d_end = data?.endDate ? moment(data.endDate).format('ddd, D/MMM/YY h:mm a') : '-'
               inspec_arr[0].push([d_end])
             }
 

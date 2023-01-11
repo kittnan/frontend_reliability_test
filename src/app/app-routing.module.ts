@@ -11,7 +11,6 @@ import { AdminModule } from './pages/admin/admin.module';
 import { ApproveModule } from './pages/approve/approve.module';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { QeDepartmentHeadModule } from './pages/qe-department-head/qe-department-head.module';
 import { QeEngineerModule } from './pages/qe-engineer/qe-engineer.module';
 import { QeSectionHeadModule } from './pages/qe-section-head/qe-section-head.module';
 import { QeWindowPersonModule } from './pages/qe-window-person/qe-window-person.module';
@@ -58,11 +57,7 @@ const routes: Routes = [
     loadChildren: () => QeSectionHeadModule,
     canActivate: [QeSectionHeadGuard]
   },
-  {
-    path: 'qe-department-head',
-    loadChildren: () => QeDepartmentHeadModule,
-    canActivate: [QeDepartmentHeadGuard]
-  },
+
   {
     path: '**',
     component: NotFoundComponent

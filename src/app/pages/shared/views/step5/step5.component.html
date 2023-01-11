@@ -13,30 +13,31 @@
 
         <div class="box-body" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
-            <div fxFlex="30" fxFlexOffset="3" fxLayoutAlign="start stretch" fxLayout="row wrap" *ngFor="let item of data; let i=index">
-
-                <div *ngIf="item.state" class="card" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
-                    <div fxFlex="100" class="header">
-                        {{item.level}}.{{item.title}}
-                    </div>
-                    <div fxFlex="100" class="body">
-                        <span>
-              {{item.prevUser.name}}
-            </span>
-                    </div>
-                    <div fxFlex="100" class="date">
-                        <span *ngIf="item.date">
-              {{item.date | date:'dd/MM/YYYY' }}
-            </span>
-                        <span *ngIf="!item.date" class="Primary40">
-              WAIT APPROVE
-            </span>
-                    </div>
-                    <div fxFlex="100" class="footer">
-                        {{item.footer}}
+            <ng-container *ngFor="let item of data; let i=index">
+                <div *ngIf="item.state" fxFlex="30" fxFlexOffset="3" fxLayoutAlign="start stretch" fxLayout="row wrap">
+                    <div class="card" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+                        <div fxFlex="100" class="header">
+                            {{item.level}}.{{item.title}}
+                        </div>
+                        <div fxFlex="100" class="body">
+                            <span>
+                {{item.prevUser.name}}
+              </span>
+                        </div>
+                        <div fxFlex="100" class="date">
+                            <span *ngIf="item.date">
+                {{item.date | date:'dd-MMM-YYYY' }}
+              </span>
+                            <span *ngIf="!item.date" class="Primary40">
+                WAIT APPROVE
+              </span>
+                        </div>
+                        <div fxFlex="100" class="footer">
+                            {{item.footer}}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </ng-container>
 
         </div>
 
