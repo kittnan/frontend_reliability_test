@@ -40,7 +40,7 @@ export class LoginService {
     return this.http.post(`${this.URL}/user/login`, data)
   }
 
-   going(auth:any) {
+  going(auth: any) {
     if (sessionStorage.getItem('token')) {
       if (auth == 'admin') {
         location.href = "/admin"
@@ -78,7 +78,7 @@ export class LoginService {
     sessionStorage.setItem('token', token)
   }
 
-  getProFileById(id:string){
+  getProFileById(id: string) {
     return this.http.get(`${this.URL}/user/id/${id}`,)
   }
 }

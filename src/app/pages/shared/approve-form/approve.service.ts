@@ -1,3 +1,4 @@
+import { SendMailService } from './../../../http/send-mail.service';
 import { LogFlowService } from './../../../http/log-flow.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Step5HttpService } from './../../../http/step5-http.service';
@@ -16,7 +17,8 @@ export class ApproveService {
     private $step5: Step5HttpService,
     private _loading: NgxUiLoaderService,
     private _router: Router,
-    private $log: LogFlowService
+    private $log: LogFlowService,
+    private $sendMail: SendMailService
   ) { }
 
   async finishJob(form: any, userLogin: any) {
@@ -79,11 +81,12 @@ export class ApproveService {
       const resUpdateStep5: any = await this.$step5.update(step5Prev._id, step5Prev).toPromise()
       const resUpdateForm: any = await this.$request.update(newForm._id, newForm).toPromise()
       const logData = {
-        formId: form._id,
+        formId: newForm._id,
         action: 'request_approve',
         user: prevUser
       }
       this.sendLog(logData)
+      this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id)
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
         this._loading.stopAll()
@@ -142,11 +145,12 @@ export class ApproveService {
 
       const resUpdateForm: any = await this.$request.update(newForm._id, newForm).toPromise()
       const logData = {
-        formId: form._id,
+        formId: newForm._id,
         action: newForm.status,
         user: prevUser
       }
       this.sendLog(logData)
+      this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id)
 
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
@@ -163,9 +167,22 @@ export class ApproveService {
     this.$log.insertLogFlow(data).subscribe(res => console.log(res))
   }
 
-  sendMail() {
-
+  async sendMail(to: any[], status: string, formId: string) {
+    const body = {
+      to: to,
+      status: status,
+      formId: formId
+    }
+    const resSendMail = await this.$sendMail.send(body).toPromise()
+    console.log(resSendMail);
+    const logData = {
+      formId: formId,
+      action: `send mail ${status}`,
+      detail: JSON.stringify(resSendMail)
+    }
+    this.sendLog(logData)
   }
+
 
   private findStep5(step5: any, statusForm: any) {
     return step5.find((s: any) => s.prevStatusForm == statusForm)
