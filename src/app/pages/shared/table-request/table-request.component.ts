@@ -57,8 +57,8 @@ export class TableRequestComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    const id: any = sessionStorage.getItem('_id')
-    this.authorize = sessionStorage.getItem('authorize');
+    const id: any = localStorage.getItem('_id')
+    this.authorize = localStorage.getItem('authorize');
     this.selected_status = 'ongoing';
     // if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
 

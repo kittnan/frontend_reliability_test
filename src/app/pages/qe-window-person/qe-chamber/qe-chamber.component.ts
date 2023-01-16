@@ -92,7 +92,7 @@ export class QeChamberComponent implements OnInit {
     private _approve: ApproveService,
     private $user: UserHttpService
   ) {
-    const id: any = sessionStorage.getItem('_id')
+    const id: any = localStorage.getItem('_id')
     this.$user.getUserById(id).subscribe(res => this.userLogin = res)
   }
   ngOnInit(): void {
@@ -143,7 +143,7 @@ export class QeChamberComponent implements OnInit {
   }
 
   async getUserApprove() {
-    const _id: any = sessionStorage.getItem("_id")
+    const _id: any = localStorage.getItem("_id")
     this.userLogin = await this.$user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)

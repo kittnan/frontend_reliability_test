@@ -17,7 +17,7 @@ export class AdminComponent implements OnInit {
   ) {
 
 
-    this.userLogin = sessionStorage.getItem('name')
+    this.userLogin = localStorage.getItem('name')
   }
 
   ngOnDestroy(): void {

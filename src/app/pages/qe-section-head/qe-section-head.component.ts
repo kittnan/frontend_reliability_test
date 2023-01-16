@@ -22,7 +22,7 @@ export class QeSectionHeadComponent implements OnInit {
         icon: 'home',
         title: 'manage',
       },
-      this.userLogin = sessionStorage.getItem('name')
+      this.userLogin = localStorage.getItem('name')
 
     ]
   }
@@ -33,7 +33,7 @@ export class QeSectionHeadComponent implements OnInit {
   }
 
   onLogout() {
-    sessionStorage.clear()
+    localStorage.clear()
     this.router.navigate(['/'])
   }
 

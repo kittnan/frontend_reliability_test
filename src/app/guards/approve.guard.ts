@@ -21,10 +21,7 @@ export class ApproveGuard implements CanActivate {
     if (this.auth.getToken() && this.auth.getAuthorizeApprove()) {
       return true
     }
-
-    // this.route.queryParams.subscribe(res => console.log(res['id']))
-    this.router.navigate(['/login'])
-
+    this.router.navigate(['/login'], { queryParams: route.queryParams });
     return false
   }
 

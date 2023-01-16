@@ -1,7 +1,9 @@
+import { environment } from 'src/environments/environment';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
@@ -27,8 +29,8 @@ export class AppComponent {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.userLogin = sessionStorage.getItem('name');
-    this.authorize = sessionStorage.getItem('authorize');
+    this.userLogin = localStorage.getItem('name');
+    this.authorize = localStorage.getItem('authorize');
 
   }
 
@@ -51,7 +53,7 @@ export class AppComponent {
   }
 
   loginValid() {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
       this.loginStatus = true;
     } else {
@@ -100,6 +102,11 @@ export class AppComponent {
               path: '/admin/test-purpose',
               icon: 'bug_report',
               title: 'test-purpose'
+            },
+            {
+              path: '/admin/testing-type',
+              icon: 'bug_report',
+              title: 'testing-type'
             },
             {
               path: '/admin/functional-chamber',
@@ -244,9 +251,18 @@ export class AppComponent {
   }
 
   onLogout() {
-    sessionStorage.clear()
-    location.href = "/"
-    // this._router.navigate(['/'])
+    Swal.fire({
+      title: `Do you want to logout?`,
+      icon: 'question',
+      showCancelButton: true
+    }).then((value: SweetAlertResult) => {
+      if (value.isConfirmed) {
+        localStorage.clear()
+        this._router.navigate([environment.BASE]).then(() => {
+          window.location.reload();
+        });
+      }
+    })
   }
 
 

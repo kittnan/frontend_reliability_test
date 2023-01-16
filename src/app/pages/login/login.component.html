@@ -3,16 +3,20 @@
         <div class="card-head" fxLayout="row wrap" fxLayoutAlign="center center">
 
             <div fxFlex="100" fxLayoutAlign="center center">
-                <span class="card-title2" fxLayoutAlign="center center">
-                    RELIABILITY TEST
-                </span>
+
+                <span fxFlex="100" class="card-title2" fxLayoutAlign="center center">
+          RELIABILITY
+        </span>
             </div>
             <div fxFlex="100" fxLayoutAlign="center center">
-                <span class="card-title" fxLayoutAlign="center center">
-                    LOGIN
-                </span>
+                <span fxFlex="100" class="card-title2" fxLayoutAlign="center center">
+          CONTROL SYSTEM
+        </span>
             </div>
         </div>
+
+
+
         <form [formGroup]="LoginForm" (submit)="onLogin()" class="card-body" fxLayout="row wrap" fxLayoutAlign="center center">
             <mat-form-field fxFlex="100" appearance="fill">
                 <mat-label>Username</mat-label>
@@ -24,12 +28,12 @@
             </mat-form-field>
 
             <div class="card-footer" fxLayoutAlign="center center">
-                <button type="submit" mat-raised-button fxFlex="50" color="primary" style="margin-top: 10px;">
-                    <span class="material-icons-outlined">
-                        lock_open
-                    </span>
-                    
-                </button>
+                <button type="submit" mat-raised-button fxFlex="100" style="margin-top: 10px;">
+          LOGIN <span class="material-icons-outlined">
+            lock_open
+          </span>
+
+        </button>
             </div>
         </form>
 

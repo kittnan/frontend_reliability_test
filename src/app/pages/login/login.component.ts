@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -16,12 +17,12 @@ export class LoginComponent implements OnInit {
   })
   constructor(
     private _login: LoginService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-
-    if (sessionStorage.getItem('_id')) {
-      this._login.going(sessionStorage.getItem('authorize'))
+    if (localStorage.getItem('_id')) {
+      this._login.going(localStorage.getItem('authorize'))
     }
   }
 

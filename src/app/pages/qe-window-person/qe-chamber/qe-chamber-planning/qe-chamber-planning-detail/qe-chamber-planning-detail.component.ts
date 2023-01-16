@@ -46,7 +46,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private _qenInspectionTable: GenInspectionTableService,
   ) {
     this.$operateItems.get().subscribe(res => this.operateItems = res);
-    const id: any = sessionStorage.getItem('_id')
+    const id: any = localStorage.getItem('_id')
     this.$user.getUserById(id).subscribe(res => this.userLogin = res)
 
   }
@@ -287,8 +287,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   async insertDirect(item: any, index: number) {
     const newItem = item[0]
-    if(newItem._id){
-      const r_update = await this.$queue.update(newItem._id,newItem).toPromise()
+    if (newItem._id) {
+      const r_update = await this.$queue.update(newItem._id, newItem).toPromise()
       if (r_update && r_update.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
         this.mapForTable(this.data)
@@ -296,7 +296,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       } else {
         Swal.fire('', '', 'error')
       }
-    }else{
+    } else {
       const r_insert = await this.$queue.insert(newItem).toPromise()
       console.log(r_insert);
       this.data[index] = r_insert[0]

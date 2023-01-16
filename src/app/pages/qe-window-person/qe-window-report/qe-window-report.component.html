@@ -5,7 +5,7 @@
         <app-plan-reliability-test *ngIf="data" fxFlex="100" [requestForm]="[data]" [queues]="data.table">
         </app-plan-reliability-test>
 
-        <app-files-report fxFlex="100" [queues]="data.queues"> </app-files-report>
+        <app-files-report fxFlex="100" [queues]="data.queues" [form]="data" [userLogin]="userLogin"> </app-files-report>
 
         <app-approve-form fxFlex="100" [reject]="false" [back]="false" [data]="data" style="margin-top: 20px;"></app-approve-form>
 

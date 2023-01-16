@@ -1,9 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { LogFlowService } from 'src/app/http/log-flow.service';
 import { QueueService } from 'src/app/http/queue.service';
 import { ReportHttpService } from 'src/app/http/report-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { QueueForm } from '../../qe-window-person/qe-chamber/qe-chamber.component';
+import { ApproveService } from '../approve-form/approve.service';
 
 @Component({
   selector: 'app-files-report',
@@ -13,6 +15,8 @@ import { QueueForm } from '../../qe-window-person/qe-chamber/qe-chamber.componen
 export class FilesReportComponent implements OnInit {
 
   @Input() queues!: any[]
+  @Input() form!: any
+  @Input() userLogin!: any
 
   files!: File[]
   fileProgress: boolean = false
@@ -22,47 +26,61 @@ export class FilesReportComponent implements OnInit {
   constructor(
     private $report: ReportHttpService,
     private $queue: QueueService,
-    private _loading: NgxUiLoaderService
+    private _loading: NgxUiLoaderService,
+    private _approve: ApproveService,
+    private $log: LogFlowService
   ) { }
 
   ngOnInit(): void {
   }
 
-  onClickViewFile(item: any) {
 
-  }
+  onUploadFile(e: any, time: any, no: any, i_queue: any) {
+    Swal.fire({
+      title: `Do you want to upload report?`,
+      icon: 'question',
+      showCancelButton: true
+    }).then(async (value: SweetAlertResult) => {
+      if (value.isConfirmed) {
 
-  async onUploadFile(e: any, time: any, no: any, i_queue: any) {
-    this._loading.start()
-    let runNumber = 0
-    const files = e.target.files
-    const len = time['files'] && time['files'].length > 0 ? time['files'].length : 1
-    runNumber = len
-    if (len > 1) {
-      const spt = time['files'][len - 1].name.split('-')
-      runNumber = Number(spt[6]) + 1
-    }
-    const formData: any = await this.formAppend(files, no, time, i_queue, runNumber)
-    const res = await this.$report.upload(formData).toPromise()
+        this._loading.start()
+        let runNumber = 0
+        const files = e.target.files
+        const len = time['files'] && time['files'].length > 0 ? time['files'].length : 1
+        runNumber = len
+        if (len > 1) {
+          const spt = time['files'][len - 1].name.split('-')
+          runNumber = Number(spt[6]) + 1
+        }
+        const formData: any = await this.formAppend(files, no, time, i_queue, runNumber)
+        const res = await this.$report.upload(formData).toPromise()
+        if (res && res.length > 0) {
+          time['files'].push(...res)
+          const r_update = await this.$queue.update(this.queues[i_queue]._id, this.queues[i_queue]).toPromise()
 
-    if (res && res.length > 0) {
-      time['files'].push(...res)
-      const r_update = await this.$queue.update(this.queues[i_queue]._id, this.queues[i_queue]).toPromise()
-
-      if (r_update && r_update.acknowledged) {
-        setTimeout(() => {
-          this._loading.stopAll()
-          Swal.fire('SUCCESS', '', 'success')
+          if (r_update && r_update.acknowledged) {
+            const logData = {
+              formId: this.form._id,
+              action: 'uploadReport',
+              user: this.userLogin
+            }
+            this.sendLog(logData)
+            this.sendMail('uploadReport')
+            setTimeout(() => {
+              this._loading.stopAll()
+              Swal.fire('SUCCESS', '', 'success')
+              this.fileUpload.nativeElement.value = ""
+            }, 1000);
+          } else {
+            Swal.fire(`Can't update queue`, '', 'error')
+            this.fileUpload.nativeElement.value = ""
+          }
+        } else {
+          Swal.fire(`Can't upload files`, '', 'error')
           this.fileUpload.nativeElement.value = ""
-        }, 1000);
-      } else {
-        Swal.fire(`Can't update queue`, '', 'error')
-        this.fileUpload.nativeElement.value = ""
+        }
       }
-    } else {
-      Swal.fire(`Can't upload files`, '', 'error')
-      this.fileUpload.nativeElement.value = ""
-    }
+    })
   }
 
   formAppend(files: any, no: any, time: any, i_queue: any, runNumber: any) {
@@ -94,6 +112,15 @@ export class FilesReportComponent implements OnInit {
           time.files = time.files.filter((f: any) => f != file)
           const r_update = await this.$queue.update(this.queues[i_queue]._id, this.queues[i_queue]).toPromise()
           if (r_update && r_update.acknowledged) {
+            const logData = {
+              formId: this.form._id,
+              action: 'deleteReport',
+              user: this.userLogin
+            }
+            this.sendLog(logData)
+
+            this.sendMail('deleteReport')
+
             setTimeout(() => {
               this._loading.stopAll()
               Swal.fire('SUCCESS', '', 'success')
@@ -107,6 +134,21 @@ export class FilesReportComponent implements OnInit {
 
       }
     })
+  }
+  sendMail(action: any) {
+    if (!!this.form) {
+      const nextUser = this.form?.step5?.find((item: any) => item.prevStatusForm === "request")
+      if (!!nextUser) {
+        this._approve.sendMail([nextUser.prevUser._id], action, this.form._id)
+      } else {
+        console.error('not found user')
+      }
+    } else {
+      console.error('not found form')
+    }
+  }
+  sendLog(data: any) {
+    this.$log.insertLogFlow(data).subscribe(res => console.log(res))
   }
 
   download(dataUrl: any, filename: any) {

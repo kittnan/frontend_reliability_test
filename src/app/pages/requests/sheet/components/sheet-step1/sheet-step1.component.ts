@@ -91,7 +91,7 @@ export class SheetStep1Component implements OnInit {
     if (this.data) {
       this.requestForm.patchValue({ ...this.data })
     }
-    const tempId: any = sessionStorage.getItem('_id')
+    const tempId: any = localStorage.getItem('_id')
     this.userLogin = await this.$user.getUserById(tempId).toPromise()
 
   }
@@ -269,7 +269,7 @@ export class SheetStep1Component implements OnInit {
 
   async insert() {
     const body = {
-      userId: sessionStorage.getItem('_id'),
+      userId: localStorage.getItem('_id'),
       date: new Date(),
       controlNo: this.requestForm.value.controlNo,
       corporate: this.requestForm.value.corporate,

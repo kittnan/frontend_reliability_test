@@ -6,6 +6,7 @@ import { Step5HttpService } from './../../../http/step5-http.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
+import { SendMailService } from 'src/app/http/send-mail.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class RejectService {
     private $step5: Step5HttpService,
     private _loading: NgxUiLoaderService,
     private _router: Router,
-    private $log: LogFlowService
+    private $log: LogFlowService,
+    private $sendMail: SendMailService
   ) { }
 
   async send(prevUser: any, nextUserApprove: any, form: any, comment: any, rejectToStatus: any) {

@@ -31,7 +31,7 @@ export class QeEngineerApproveComponent implements OnInit {
     private _loading: NgxUiLoaderService,
 
   ) {
-    const id: any = sessionStorage.getItem('_id')
+    const id: any = localStorage.getItem('_id')
     this.$user.getUserById(id).subscribe(res => this.userLogin = res)
     this.dateNow = new Date()
   }
@@ -55,11 +55,11 @@ export class QeEngineerApproveComponent implements OnInit {
 
 
   async getUserApprove() {
-    const ses_authorize = sessionStorage.getItem('authorize')
-    if(ses_authorize=='qe_engineer'){
+    const ses_authorize = localStorage.getItem('authorize')
+    if (ses_authorize == 'qe_engineer') {
       this.authorize = 'qe_engineer2'
     }
-    const _id: any = sessionStorage.getItem("_id")
+    const _id: any = localStorage.getItem("_id")
     this.userLogin = await this.$user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)

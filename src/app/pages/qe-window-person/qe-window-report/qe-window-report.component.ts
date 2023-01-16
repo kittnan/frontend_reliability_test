@@ -35,7 +35,7 @@ export class QeWindowReportComponent implements OnInit {
     private $share: ShareFunctionService
 
   ) {
-    const id: any = sessionStorage.getItem('_id')
+    const id: any = localStorage.getItem('_id')
     this._user.getUserById(id).subscribe(res => this.userLogin = res)
     this.dateNow = new Date()
   }
@@ -61,7 +61,7 @@ export class QeWindowReportComponent implements OnInit {
 
 
   async getUserApprove() {
-    const _id: any = sessionStorage.getItem("_id")
+    const _id: any = localStorage.getItem("_id")
     this.userLogin = await this._user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)

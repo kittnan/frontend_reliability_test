@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Params, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
@@ -9,7 +9,8 @@ import { AuthService } from '../services/auth.service';
 export class QeEngineerGuard implements CanActivate {
   constructor(
     private auth: AuthService,
-    private router : Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
 
   }
@@ -17,12 +18,12 @@ export class QeEngineerGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-      if(this.auth.getToken() && this.auth.getAuthorizeQeEngineer()){
-        return true
-      }
-    this.router.navigate(['/login'])
-
-      return false
+    this.route.queryParams
+    if (this.auth.getToken() && this.auth.getAuthorizeQeEngineer()) {
+      return true
+    }
+    this.router.navigate(['/login'], { queryParams: route.queryParams });
+    return false
   }
-  
+
 }

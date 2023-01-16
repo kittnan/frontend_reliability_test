@@ -33,7 +33,7 @@ export class ApproveFormComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    const id: any = sessionStorage.getItem('_id');
+    const id: any = localStorage.getItem('_id');
     this.userLogin = await this._user.getUserById(id).toPromise()
 
   }

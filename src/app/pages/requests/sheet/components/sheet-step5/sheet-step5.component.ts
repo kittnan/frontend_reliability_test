@@ -52,7 +52,7 @@ export class SheetStep5Component implements OnInit {
   }
 
   async getUserApprove() {
-    const _id: any = sessionStorage.getItem("_id")
+    const _id: any = localStorage.getItem("_id")
     this.userLogin = await this._user.getUserById(_id).toPromise();
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)
@@ -92,7 +92,7 @@ export class SheetStep5Component implements OnInit {
       showCancelButton: true
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this._approve.send(this.userLogin,this.selected,this.request[0],value.value)
+        this._approve.send(this.userLogin, this.selected, this.request[0], value.value)
       }
     })
   }

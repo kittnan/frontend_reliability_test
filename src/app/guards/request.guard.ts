@@ -10,7 +10,7 @@ export class RequestGuard implements CanActivate {
 
   constructor(
     private auth: AuthService,
-    private router : Router
+    private router: Router
   ) {
 
   }
@@ -18,10 +18,10 @@ export class RequestGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    if(this.auth.getToken() && this.auth.getAuthorizeRequest()){
+    if (this.auth.getToken() && this.auth.getAuthorizeRequest()) {
       return true
     }
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login'], { queryParams: route.queryParams });
     return false
   }
 }
