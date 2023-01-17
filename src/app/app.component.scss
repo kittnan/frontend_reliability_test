@@ -64,9 +64,14 @@ h1.example-app-name {
 }
 
 .mat-sidenav {
-    background-color: #ffffff65;
+    background-color: #dfdfdf;
 }
 
 .mat-expansion-panel {
     background-color: #ffffffc2;
+}
+
+::ng-deep .mat-toolbar.mat-primary {
+    background: #404040;
+    color: #fff;
 }

@@ -99,14 +99,17 @@ export class LoginService {
             newUrl = "/qe-department-head"
           }
         }
+
         this.router.navigate([newUrl], { queryParamsHandling: 'preserve' }).then((boo: any) => {
           window.location.reload()
         })
+
       })
 
 
     }
   }
+
 
   private setToken() {
     const token = uuid()

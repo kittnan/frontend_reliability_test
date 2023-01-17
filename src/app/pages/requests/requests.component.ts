@@ -16,6 +16,15 @@ export class RequestsComponent implements OnInit {
   ngOnDestroy(): void {
   }
   ngOnInit(): void {
+    const arr = ['Name', '2', '3', '4', '5']
+    let obj: any = { ...arr }
+    console.log(obj);
+
+    // for (let i = 0; i < arr.length; i++) {
+    //   obj[arr[i]] = ''
+    //   console.log(obj);
+
+    // }
   }
 
 
