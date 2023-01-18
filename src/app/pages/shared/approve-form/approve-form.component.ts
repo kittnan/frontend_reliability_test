@@ -30,11 +30,14 @@ export class ApproveFormComponent implements OnInit {
     private _loading: NgxUiLoaderService,
     private _reject: RejectService
 
-  ) { }
+  ) {
+    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    this.userLogin = JSON.parse(userLoginStr)
+  }
 
   async ngOnInit(): Promise<void> {
-    const id: any = localStorage.getItem('_id');
-    this.userLogin = await this._user.getUserById(id).toPromise()
+    // const id: any = localStorage.getItem('_id');
+    // this.userLogin = await this._user.getUserById(id).toPromise()
 
   }
   onApprove() {

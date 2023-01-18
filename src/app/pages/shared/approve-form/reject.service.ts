@@ -46,6 +46,7 @@ export class RejectService {
       user: prevUser
     }
     this.sendLog(logData)
+    this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id)
     const oldStepReject = form.step5.find((step: any) => step.level == level)
     if (oldStepReject) {
       const newStep = {
@@ -112,6 +113,23 @@ export class RejectService {
       Promise.all(arr2)
     }
   }
+
+  async sendMail(to: any[], status: string, formId: string) {
+    const body = {
+      to: to,
+      status: status,
+      formId: formId
+    }
+    const resSendMail = await this.$sendMail.send(body).toPromise()
+    console.log(resSendMail);
+    const logData = {
+      formId: formId,
+      action: `send mail ${status}`,
+      detail: JSON.stringify(resSendMail)
+    }
+    this.sendLog(logData)
+  }
+
 
 
   private findNextLevel(formStatus: any, to: any) {

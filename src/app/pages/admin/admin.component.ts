@@ -15,8 +15,6 @@ export class AdminComponent implements OnInit {
 
     private router: Router,
   ) {
-
-
     this.userLogin = localStorage.getItem('name')
   }
 

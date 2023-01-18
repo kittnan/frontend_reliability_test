@@ -21,11 +21,18 @@ export class LoginService {
   onLogin(data: any) {
     this.login(data).subscribe(res => {
       if (res.length > 0) {
-        const user = res[0];
+        const user = {
+          ...res[0],
+          name: this.shortName(res[0].name)
+        };
         this.setToken()
         localStorage.setItem('_id', user._id);
         localStorage.setItem('authorize', user.authorize);
         localStorage.setItem('name', user.name);
+        let userLoginStr = JSON.stringify(user)
+        localStorage.setItem('reliability-userLogin', userLoginStr)
+
+
         this._toast.success();
         setTimeout(() => {
           this.going(localStorage.getItem('authorize'))
@@ -36,17 +43,29 @@ export class LoginService {
     })
   }
 
+  private shortName(name: string) {
+    let newName: string = name.trim()
+    let sptName: string[] = newName.split(' ')
+    if (sptName.length > 1) {
+      const fName = sptName[0]
+      const lName = sptName[2].split('')[0]
+      return `${fName}-${lName}`
+    } else {
+      return sptName[0]
+    }
+  }
+
   login(data: any): Observable<any> {
     return this.http.post(`${this.URL}/user/login`, data)
   }
 
   async going(auth: any) {
     if (localStorage.getItem('token')) {
-
       this.route.queryParams.subscribe(res => {
         const { id, status } = res
         let newUrl = ''
-        if (id) {
+        if (!!id) {
+          console.log(1);
 
           if (auth == 'admin') {
             newUrl = "/admin"
@@ -73,7 +92,12 @@ export class LoginService {
           if (auth == 'qe_section_head') {
             newUrl = "/qe-section-head/approve-request"
           }
+          this.router.navigate([newUrl], { queryParamsHandling: 'preserve' }).then((boo: any) => {
+            window.location.reload()
+          })
         } else {
+          console.log(2);
+
           if (auth == 'admin') {
             newUrl = "/admin"
           }
@@ -98,11 +122,12 @@ export class LoginService {
           if (auth == 'qe_department_head') {
             newUrl = "/qe-department-head"
           }
+          this.router.navigate([newUrl]).then((boo: any) => {
+            window.location.reload()
+          })
         }
 
-        this.router.navigate([newUrl], { queryParamsHandling: 'preserve' }).then((boo: any) => {
-          window.location.reload()
-        })
+
 
       })
 

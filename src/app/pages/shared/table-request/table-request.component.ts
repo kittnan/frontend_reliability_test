@@ -54,7 +54,10 @@ export class TableRequestComponent implements OnInit {
     private _login: LoginService,
     private dialog: MatDialog,
     private $tableRequest: TableRequestService
-  ) { }
+  ) {
+    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    this.userLogin = JSON.parse(userLoginStr)
+  }
 
   async ngOnInit(): Promise<void> {
     const id: any = localStorage.getItem('_id')
@@ -62,7 +65,7 @@ export class TableRequestComponent implements OnInit {
     this.selected_status = 'ongoing';
     // if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
 
-    this.userLogin = await this._login.getProFileById(id).toPromise();
+    // this.userLogin = await this._login.getProFileById(id).toPromise();
     this.params = {
       userId: this.userLogin._id,
       status: '',
@@ -146,7 +149,7 @@ export class TableRequestComponent implements OnInit {
     if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit'
     if (item && item.status === 'draft') return 'edit'
     if (item && item.status === 'qe_department_head') return 'report'
-    if (item && (item.status === 'close_job' || item.status === 'finish')) return 'FINISH'
+    if (item && (item.status === 'close_job' || item.status === 'finish')) return 'finish'
     return 'approve'
   }
 
@@ -191,7 +194,6 @@ export class TableRequestComponent implements OnInit {
     if (item.status === 'qe_engineer2') this.linkTo('/qe-engineer/approve-request', item._id);
     if (item.status === 'qe_window_person_report') this.linkTo('/qe-window-person/report', item._id);
 
-    if (item.status === 'reject_request') this.linkTo('/request/sheet', item._id);
 
     // if (item.status === 'reject_request') this.linkTo('/request/home', item._id);
     if (item.status === 'request') this.linkTo('/approve/approve-request', item._id);
@@ -199,6 +201,8 @@ export class TableRequestComponent implements OnInit {
     // if (item.status === 'reject_window_person') this.linkTo('/qe-window-person/approve-request', item._id);
     if (item.status === 'qe_section_head') this.linkTo('/qe-section-head/approve-request', item._id);
 
+    if (item.status === 'reject_request') this.linkTo('/request/sheet', item._id);
+    if (item.status === 'reject_request_approve') this.linkTo('/approve/approve-request', item._id);
     if (item.status === 'reject_qe_window_person') this.linkTo('/qe-window-person/chamber', item._id);
     if (item.status === 'reject_qe_engineer') this.linkTo('/qe-engineer/approve-request', item._id);
     // if (item.status === 'qe_department_head') this.linkTo('/qe-window-person/report', item._id);

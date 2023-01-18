@@ -91,8 +91,10 @@ export class SheetStep1Component implements OnInit {
     if (this.data) {
       this.requestForm.patchValue({ ...this.data })
     }
-    const tempId: any = localStorage.getItem('_id')
-    this.userLogin = await this.$user.getUserById(tempId).toPromise()
+    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    this.userLogin = JSON.parse(userLoginStr)
+    // const tempId: any = localStorage.getItem('_id')
+    // this.userLogin = await this.$user.getUserById(tempId).toPromise()
 
   }
 

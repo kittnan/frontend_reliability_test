@@ -8,13 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./manage.component.scss']
 })
 export class ManageComponent implements OnInit {
- 
-  constructor(){
+
+  constructor(
+  ) {
 
   }
 
   ngOnInit(): void {
-    
   }
 
 }

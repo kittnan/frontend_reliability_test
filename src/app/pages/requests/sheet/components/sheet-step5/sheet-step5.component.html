@@ -1,17 +1,14 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap">
 
-    <div fxFlex="100" fxLayoutAlign="center stretch">
-        <mat-form-field *ngIf="userLogin" appearance="fill" fxFlex="30" fxFlex.sm="100">
+    <div fxFlex="100" fxLayoutAlign="space-around stretch">
+        <mat-form-field *ngIf="userLogin" appearance="legacy" fxFlex="30" fxFlex.sm="100">
             <mat-label>Requester Name</mat-label>
-            <input matInput [(ngModel)]="userLogin.name" [readonly]="true">
+            <input matInput value="{{userLogin.name|uppercase}}" [readonly]="true">
         </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex="30" fxFlex.sm="100">
+        <mat-form-field appearance="legacy" fxFlex="30" fxFlex.sm="100">
             <mat-label>Requester Date</mat-label>
-            <input matInput [value]="date|date:'d/M/y'" [readonly]="true">
+            <input matInput [value]="date|date:'d-MMM-y'" [readonly]="true">
         </mat-form-field>
-    </div>
-
-    <div fxFlex="100" fxLayoutAlign="center stretch">
         <mat-form-field appearance="fill" fxFlex="30" fxFlex.sm="100">
             <mat-label>User Approve</mat-label>
             <mat-select [(ngModel)]="selected" [compareWith]="objectComparisonFunction">

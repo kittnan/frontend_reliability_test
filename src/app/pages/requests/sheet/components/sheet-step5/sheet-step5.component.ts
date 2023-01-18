@@ -52,13 +52,24 @@ export class SheetStep5Component implements OnInit {
   }
 
   async getUserApprove() {
-    const _id: any = localStorage.getItem("_id")
-    this.userLogin = await this._user.getUserById(_id).toPromise();
+    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    this.userLogin = JSON.parse(userLoginStr)
     const section = [this.userLogin.section]
     const temp_section = JSON.stringify(section)
     const level = [this.authorize]
     const temp_level = JSON.stringify(level)
     this.userApprove = await this._user.getUserBySection(temp_section, temp_level).toPromise();
+    this.userApprove = this.userApprove.map((user: any) => {
+      const sptName: string[] = user.name.trim().split(' ')
+      const fName: string = sptName[0]
+      const lName: string = sptName.length > 1 ? '-' + sptName[2].split('')[0] : ''
+      return {
+        ...user,
+        name: `${fName}-${lName}`
+      }
+    })
+    this.selected = this.userApprove[0]
+
   }
 
   public objectComparisonFunction = function (option: any, value: any): boolean {

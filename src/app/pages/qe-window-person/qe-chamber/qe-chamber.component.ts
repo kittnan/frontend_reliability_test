@@ -92,8 +92,10 @@ export class QeChamberComponent implements OnInit {
     private _approve: ApproveService,
     private $user: UserHttpService
   ) {
-    const id: any = localStorage.getItem('_id')
-    this.$user.getUserById(id).subscribe(res => this.userLogin = res)
+    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    this.userLogin = JSON.parse(userLoginStr)
+    // const id: any = localStorage.getItem('_id')
+    // this.$user.getUserById(id).subscribe(res => this.userLogin = res)
   }
   ngOnInit(): void {
     this.getUserApprove()
@@ -150,6 +152,15 @@ export class QeChamberComponent implements OnInit {
     const level = [this.authorize]
     const temp_level = JSON.stringify(level)
     this.userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
+    this.userApprove = this.userApprove.map((user: any) => {
+      const sptName: string[] = user.name.trim().split(' ')
+      const fName: string = sptName[0]
+      const lName: string = sptName.length > 1 ? '-' + sptName[2].split('')[0] : ''
+      return {
+        ...user,
+        name: `${fName}-${lName}`
+      }
+    })
     this.approve.patchValue(this.userApprove[0])
   }
 

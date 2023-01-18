@@ -153,8 +153,8 @@ export class ApproveService {
       this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id)
 
       setTimeout(() => {
-        Swal.fire('SUCCESS', '', 'success')
         this._loading.stopAll()
+        Swal.fire('SUCCESS', '', 'success')
         this.link(prevUser.authorize)
       }, 1000);
 

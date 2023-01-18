@@ -46,8 +46,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private _qenInspectionTable: GenInspectionTableService,
   ) {
     this.$operateItems.get().subscribe(res => this.operateItems = res);
-    const id: any = localStorage.getItem('_id')
-    this.$user.getUserById(id).subscribe(res => this.userLogin = res)
+    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    this.userLogin = JSON.parse(userLoginStr)
+    // const id: any = localStorage.getItem('_id')
+    // this.$user.getUserById(id).subscribe(res => this.userLogin = res)
 
   }
 

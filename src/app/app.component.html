@@ -5,23 +5,29 @@
             <button mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-            <img src="../assets/oven.png" alt="" style="width: 50px; height: 50px; margin: auto;">
+            <img src="assets/oven.png" alt="" style="width: 50px; height: 50px; margin: auto;">
             <h1 class="example-app-name">
                 Reliability Test
             </h1>
             <span class="example-spacer"></span>
-            <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <span class="material-icons-outlined">
-          account_circle
-        </span>
 
-      </button>
-            <span>{{userLogin |uppercase}}</span>
-            <button (click)="onLogout()" mat-icon-button class="example-icon" style="margin-left: 5px;" aria-label="Example icon-button with share icon">
-        <span class="material-icons-outlined">
-          logout
-        </span>
-      </button>
+            <div style="font-size: 15px; letter-spacing: 1px;">
+
+                <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+          <span class="material-icons-outlined">
+            account_circle
+          </span>
+
+        </button>
+                <span>{{userLogin |uppercase}}</span>
+                <button (click)="onLogout()" mat-icon-button class="example-icon" style="margin-left: 5px;" aria-label="Example icon-button with share icon">
+          <span class="material-icons-outlined">
+            logout
+          </span>
+        </button>
+            </div>
+
+
         </mat-toolbar>
 
         <mat-sidenav-container class="sidenav-container">
@@ -41,7 +47,6 @@
                             <ul style="list-style: none; padding: 0;">
                                 <li *ngFor="let item of side.items; let i=index">
                                     <a mat-list-item routerLinkActive="active" [routerLink]="item.path">
-                                        <!-- <a mat-list-item (click)="snav.toggle()" routerLinkActive="active" [routerLink]="item.path"> -->
                                         <span class="material-icons-outlined">
                       {{item.icon}}
                     </span>
@@ -61,12 +66,24 @@
                 <router-outlet></router-outlet>
             </mat-sidenav-content>
         </mat-sidenav-container>
+
+
+
     </div>
+    <footer>
+        <p>
+            Services Tel: 1800, 1801 About: IT-SD, Kyocera Thailand © 2023
+        </p>
+    </footer>
+
+
 </ng-container>
 
 <ng-container *ngIf="!loginStatus">
     <router-outlet></router-outlet>
 </ng-container>
+
+
 
 
 <ngx-ui-loader></ngx-ui-loader>
