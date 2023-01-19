@@ -178,6 +178,15 @@ export class TableRequestComponent implements OnInit {
     })
 
   }
+  onClickViewNewTab(item: any) {
+    const url = this.router.serializeUrl(this.router.createUrlTree(['/reliability/view-page'], {
+      queryParams: {
+        id: item._id
+      }
+    }));
+    window.open(url, '_blank');
+
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

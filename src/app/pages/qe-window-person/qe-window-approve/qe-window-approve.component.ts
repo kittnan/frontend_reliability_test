@@ -77,7 +77,7 @@ export class QeWindowApproveComponent implements OnInit {
       const lName: string = sptName.length > 1 ? '-' + sptName[2].split('')[0] : ''
       return {
         ...user,
-        name: `${fName}-${lName}`
+        name: `${fName}${lName}`
       }
     })
     this.approve.patchValue(this.userApprove[0])

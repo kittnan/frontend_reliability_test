@@ -4,6 +4,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent {
   constructor(
     changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
     private swUpdate: SwUpdate,
-    private _router: Router
+    private _router: Router,
+    private _loading: NgxUiLoaderService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -257,10 +259,12 @@ export class AppComponent {
       showCancelButton: true
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
+        this._loading.start()
         localStorage.clear()
-        this._router.navigate([environment.BASE]).then(() => {
-          window.location.reload();
-        });
+        location.href = environment.BASE
+        // this._router.navigate([environment.BASE]).then(() => {
+        //   window.location.reload();
+        // });
       }
     })
   }

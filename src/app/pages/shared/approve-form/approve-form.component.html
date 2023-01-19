@@ -19,7 +19,7 @@
     </span>
     APPROVE
   </button>
-    <button *ngIf="data.status=='qe_window_person_report'" fxFlex="30" mat-flat-button color="primary" (click)="onApprove()">
+    <button *ngIf="data.status=='qe_window_person_report'" fxFlex="30" mat-flat-button color="primary" (click)="onApprove()" [disabled]="disable">
     <span class="material-icons-outlined">
       done_all
     </span>

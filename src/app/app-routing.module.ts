@@ -1,3 +1,4 @@
+import { ViewPageComponent } from './pages/view-page/view-page.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminGuard } from './guards/admin.guard';
@@ -56,6 +57,10 @@ const routes: Routes = [
     path: 'qe-section-head',
     loadChildren: () => QeSectionHeadModule,
     canActivate: [QeSectionHeadGuard]
+  },
+  {
+    path: 'view-page',
+    component: ViewPageComponent
   },
 
   {

@@ -74,7 +74,7 @@ export class QeSectionHeadApproveComponent implements OnInit {
       const lName: string = sptName.length > 1 ? '-' + sptName[2].split('')[0] : ''
       return {
         ...user,
-        name: `${fName}-${lName}`
+        name: `${fName}${lName}`
       }
     })
     const qe_window_person = this.data.step5.find((u: any) => u.level == 3)

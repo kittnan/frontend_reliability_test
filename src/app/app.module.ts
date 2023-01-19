@@ -1,3 +1,5 @@
+import { SharedModule } from './pages/shared/shared.module';
+import { ViewPageComponent } from './pages/view-page/view-page.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -16,12 +18,12 @@ import {
   NgxUiLoaderConfig
 } from "ngx-ui-loader";
 import { HttpClientModule } from '@angular/common/http';
-import { QeWindowPersonComponent } from './pages/qe-window-person/qe-window-person.component';
+// import { QeWindowPersonComponent } from './pages/qe-window-person/qe-window-person.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 
-const ngxUiLoaderConfig: NgxUiLoaderConfig ={
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#673ab7",
   "bgsOpacity": 0.5,
   "bgsPosition": "bottom-right",
@@ -58,7 +60,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig ={
     LoginComponent,
     NotFoundComponent,
     FooterComponent,
-    QeWindowPersonComponent,
+    // QeWindowPersonComponent,
+    ViewPageComponent
 
   ],
   imports: [
@@ -70,14 +73,14 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig ={
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
+    SharedModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-      ServiceWorkerModule.register('ngsw-worker.js', {
-        enabled: environment.production,
-        // Register the ServiceWorker as soon as the application is stable
-        // or after 30 seconds (whichever comes first).
-        registrationStrategy: 'registerWhenStable:30000'
-      })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
 
 
   ],

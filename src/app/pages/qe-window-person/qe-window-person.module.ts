@@ -1,3 +1,4 @@
+import { QeWindowPersonComponent } from './qe-window-person.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -19,6 +20,7 @@ import { QeChamberPlanningDetailComponent } from './qe-chamber/qe-chamber-planni
 
 @NgModule({
   declarations: [
+    QeWindowPersonComponent,
     QeApproveManageComponent,
     QeWindowApproveComponent,
     QeWindowReportComponent,

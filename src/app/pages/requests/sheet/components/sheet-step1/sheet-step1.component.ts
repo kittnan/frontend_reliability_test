@@ -44,7 +44,7 @@ export class SheetStep1Component implements OnInit {
     concernCustomerDate: new FormControl(''),
     reportRequireDate: new FormControl(''),
     sampleSentToQE_withinDate: new FormControl(''),
-    modelNo: new FormControl(''),
+    modelNo: new FormControl('', Validators.required),
     modelName: new FormControl(''),
     lotNo: new FormControl(''),
     size: new FormControl(''),
@@ -122,6 +122,7 @@ export class SheetStep1Component implements OnInit {
     this.fileUpload.nativeElement.value = ""
     setTimeout(() => {
       this.fileProgress = false
+      Swal.fire('ATTACH FILE SUCCESS', '', 'success')
     }, 1000);
   }
 

@@ -20,6 +20,7 @@ export class ApproveFormComponent implements OnInit {
   @Input() back: boolean = true
   @Input() data: any
   @Input() userApprove: any
+  @Input() disable: boolean = true
 
   userLogin: any
 

@@ -25,6 +25,8 @@ export class QeWindowReportComponent implements OnInit {
   authorize = 'qe_engineer'
   userApprove: any = [];
   approve = new FormControl(null, Validators.required)
+
+  disableBtn: boolean = true
   constructor(
     private route: ActivatedRoute,
     private _router: Router,
@@ -76,7 +78,7 @@ export class QeWindowReportComponent implements OnInit {
       const lName: string = sptName.length > 1 ? '-' + sptName[2].split('')[0] : ''
       return {
         ...user,
-        name: `${fName}-${lName}`
+        name: `${fName}${lName}`
       }
     })
     this.approve.patchValue(this.userApprove[0])
@@ -86,7 +88,10 @@ export class QeWindowReportComponent implements OnInit {
     return option._id === value._id;
   }
 
-
+  outDisable(e: any) {
+    console.log(e);
+    this.disableBtn = e
+  }
 
 
 }

@@ -23,18 +23,22 @@ export class ApproveService {
 
   async finishJob(form: any, userLogin: any) {
     this._loading.start()
-    await this.$request.update(form._id, {
+    let newForm = {
       ...form,
       status: 'finish',
       nextApprove: null
-    }).toPromise()
+    }
+
 
     const logData = {
-      formId: form._id,
+      formId: newForm._id,
       action: 'finish form',
       user: userLogin
     }
+    await this.$request.update(newForm._id, newForm).toPromise()
+    const user = newForm.step5.find((s: any) => s.level === 1)
     this.sendLog(logData)
+    this.sendMail([user.prevUser._id], newForm.status, newForm._id)
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()

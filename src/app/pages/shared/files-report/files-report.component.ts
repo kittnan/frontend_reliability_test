@@ -1,10 +1,9 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { LogFlowService } from 'src/app/http/log-flow.service';
 import { QueueService } from 'src/app/http/queue.service';
 import { ReportHttpService } from 'src/app/http/report-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
-import { QueueForm } from '../../qe-window-person/qe-chamber/qe-chamber.component';
 import { ApproveService } from '../approve-form/approve.service';
 
 @Component({
@@ -17,6 +16,8 @@ export class FilesReportComponent implements OnInit {
   @Input() queues!: any[]
   @Input() form!: any
   @Input() userLogin!: any
+
+  @Output() disable: EventEmitter<boolean> = new EventEmitter(false)
 
   files!: File[]
   fileProgress: boolean = false
@@ -32,6 +33,7 @@ export class FilesReportComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.validCompleteFile()
   }
 
 
@@ -67,6 +69,7 @@ export class FilesReportComponent implements OnInit {
             this.sendLog(logData)
             this.sendMail('uploadReport')
             setTimeout(() => {
+              this.validCompleteFile()
               this._loading.stopAll()
               Swal.fire('SUCCESS', '', 'success')
               this.fileUpload.nativeElement.value = ""
@@ -122,6 +125,7 @@ export class FilesReportComponent implements OnInit {
             this.sendMail('deleteReport')
 
             setTimeout(() => {
+              this.validCompleteFile()
               this._loading.stopAll()
               Swal.fire('SUCCESS', '', 'success')
             }, 1000);
@@ -157,6 +161,27 @@ export class FilesReportComponent implements OnInit {
     link.href = dataUrl;
     link.download = filename;
     link.click();
+  }
+
+  validCompleteFile() {
+    console.log(this.queues);
+    const reduceTimes: any = this.queues.reduce((prev: any, now: any) => {
+      prev = prev.concat(now.reportTime)
+      return prev
+    }, [])
+    console.log(reduceTimes);
+
+    const foo = reduceTimes.filter((time: any) => {
+      if (time.files.length === 0) return true
+      return false
+    })
+    console.log(foo);
+
+    if (foo.length === 0) {
+      this.disable.emit(false)
+    } else {
+      this.disable.emit(true)
+    }
   }
 
 }
