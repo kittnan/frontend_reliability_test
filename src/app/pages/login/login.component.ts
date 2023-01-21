@@ -21,9 +21,17 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('_id')) {
-      this._login.validFormId(localStorage.getItem('authorize'))
+    // const auth = localStorage.getItem('RLS_authorize')
+    // const token = localStorage.getItem('RLS_token')
+    // if (token && !auth) {
+    //   localStorage.clear()
+    //   location.reload()
+    // }
+
+    if (localStorage.getItem('RLS_id')) {
+      this._login.validFormId(localStorage.getItem('RLS_authorize'))
     }
+
   }
 
   onLogin() {

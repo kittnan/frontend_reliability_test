@@ -5,6 +5,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { UserApproveService } from 'src/app/services/user-approve.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
@@ -28,11 +29,12 @@ export class ApproveRequestComponent implements OnInit {
     private _toast: ToastService,
     private $user: UserHttpService,
     private _loading: NgxUiLoaderService,
+    private _userApprove: UserApproveService
 
   ) {
-    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    // const id: any = localStorage.getItem('_id')
+    // const id: any = localStorage.getItem('RLS_id')
     // this.$user.getUserById(id).subscribe(res => this.userLogin = res)
     this.dateNow = new Date()
   }
@@ -58,23 +60,9 @@ export class ApproveRequestComponent implements OnInit {
 
 
   async getUserApprove() {
-    const _id: any = localStorage.getItem("_id")
-    this.userLogin = await this.$user.getUserById(_id).toPromise();
-    const section = [this.userLogin.section]
-    const temp_section = JSON.stringify(section)
-    const level = [this.authorize]
-    const temp_level = JSON.stringify(level)
-    this.userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
-    this.userApprove = this.userApprove.map((user: any) => {
-      const sptName: string[] = user.name.trim().split(' ')
-      const fName: string = sptName[0]
-      const lName: string = sptName.length > 1 ? '-' + sptName[2].split('')[0] : ''
-      return {
-        ...user,
-        name: `${fName}${lName}`
-      }
-    })
-
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin')
+    this.userLogin = JSON.parse(userLoginStr)
+    this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
     this.approve.patchValue(this.userApprove[0])
   }
 

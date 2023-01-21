@@ -1,3 +1,4 @@
+import { UserApproveService } from './../../../../../services/user-approve.service';
 import { Step5HttpService } from './../../../../../http/step5-http.service';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { HttpParams } from '@angular/common/http';
@@ -32,7 +33,8 @@ export class SheetStep5Component implements OnInit {
     private $step5: Step5HttpService,
     private $request: RequestHttpService,
     private _router: Router,
-    private _approve: ApproveService
+    private _approve: ApproveService,
+    private _userApprove: UserApproveService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -52,22 +54,9 @@ export class SheetStep5Component implements OnInit {
   }
 
   async getUserApprove() {
-    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    const section = [this.userLogin.section]
-    const temp_section = JSON.stringify(section)
-    const level = [this.authorize]
-    const temp_level = JSON.stringify(level)
-    this.userApprove = await this._user.getUserBySection(temp_section, temp_level).toPromise();
-    this.userApprove = this.userApprove.map((user: any) => {
-      const sptName: string[] = user.name.trim().split(' ')
-      const fName: string = sptName[0]
-      const lName: string = sptName.length > 1 ? '-' + sptName[2].split('')[0] : ''
-      return {
-        ...user,
-        name: `${fName}${lName}`
-      }
-    })
+    this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
     this.selected = this.userApprove[0]
 
   }

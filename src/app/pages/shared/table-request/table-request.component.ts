@@ -10,6 +10,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { DialogViewComponent } from '../dialog-view/dialog-view.component';
 import { TableRequestService } from './table-request.service';
 import { interval, Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 interface ParamsForm {
@@ -55,13 +56,13 @@ export class TableRequestComponent implements OnInit {
     private dialog: MatDialog,
     private $tableRequest: TableRequestService
   ) {
-    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
   }
 
   async ngOnInit(): Promise<void> {
-    const id: any = localStorage.getItem('_id')
-    this.authorize = localStorage.getItem('authorize');
+    const id: any = localStorage.getItem('RLS_id')
+    this.authorize = localStorage.getItem('RLS_authorize');
     this.selected_status = 'ongoing';
     // if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
 
@@ -179,7 +180,7 @@ export class TableRequestComponent implements OnInit {
 
   }
   onClickViewNewTab(item: any) {
-    const url = this.router.serializeUrl(this.router.createUrlTree(['/reliability/view-page'], {
+    const url = this.router.serializeUrl(this.router.createUrlTree([environment.BASE + '/view-page'], {
       queryParams: {
         id: item._id
       }

@@ -31,8 +31,8 @@ export class AppComponent {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.userLogin = localStorage.getItem('name');
-    this.authorize = localStorage.getItem('authorize');
+    this.userLogin = localStorage.getItem('RLS_userName');
+    this.authorize = localStorage.getItem('RLS_authorize');
 
   }
 
@@ -55,7 +55,7 @@ export class AppComponent {
   }
 
   loginValid() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('RLS_token');
     if (token) {
       this.loginStatus = true;
     } else {
@@ -260,7 +260,11 @@ export class AppComponent {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         this._loading.start()
-        localStorage.clear()
+        localStorage.removeItem('RLS_token')
+        localStorage.removeItem('RLS_id')
+        localStorage.removeItem('RLS_authorize')
+        localStorage.removeItem('RLS_userName')
+        localStorage.removeItem('RLS_userLogin')
         location.href = environment.BASE
         // this._router.navigate([environment.BASE]).then(() => {
         //   window.location.reload();

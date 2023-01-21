@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { OperateGroupService } from 'src/app/http/operate-group.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { throwMatDuplicatedDrawerError } from '@angular/material/sidenav';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dialog-qe-operate',
@@ -31,12 +32,14 @@ export class DialogQeOperateComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.load = true
     if (this.data) {
-      const startDate = this.data.startDate;
-      this.startDate = startDate
+      // const d = moment(this.data.startDate).format('')
+      this.startDate = new Date().toISOString()
       // const operate = JSON.stringify(this.data.operate)
       this.getGroupReady()
-      const param = new HttpParams().set('starDate',startDate)
+      const param = new HttpParams().set('startDate', this.startDate)
       this.operateItems = await this.$operate.remain(param).toPromise()
+      console.log(this.operateItems);
+
     }
 
   }

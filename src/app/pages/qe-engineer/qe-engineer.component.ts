@@ -21,7 +21,7 @@ export class QeEngineerComponent implements OnInit {
         icon: 'home',
         title: 'manage',
       },
-      this.userLogin = localStorage.getItem('name')
+      this.userLogin = localStorage.getItem('RLS_userName')
 
     ]
   }
@@ -32,7 +32,11 @@ export class QeEngineerComponent implements OnInit {
   }
 
   onLogout() {
-    localStorage.clear()
+    localStorage.removeItem('RLS_token')
+    localStorage.removeItem('RLS_id')
+    localStorage.removeItem('RLS_authorize')
+    localStorage.removeItem('RLS_userName')
+    localStorage.removeItem('RLS_userLogin')
     this.router.navigate(['/'])
   }
 

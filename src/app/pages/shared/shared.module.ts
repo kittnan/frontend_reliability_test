@@ -34,6 +34,7 @@ import { InputAccelerationComponent } from './form-components/input-acceleration
 import { InputTimeComponent } from './form-components/input-time/input-time.component';
 import { InputCycleComponent } from './form-components/input-cycle/input-cycle.component';
 import { InputDirectionComponent } from './form-components/input-direction/input-direction.component';
+import { DialogAuthComponent } from './dialog-auth/dialog-auth.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { InputDirectionComponent } from './form-components/input-direction/input
     InputTimeComponent,
     InputCycleComponent,
     InputDirectionComponent,
+    DialogAuthComponent,
 
   ],
   imports: [

@@ -91,9 +91,9 @@ export class SheetStep1Component implements OnInit {
     if (this.data) {
       this.requestForm.patchValue({ ...this.data })
     }
-    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    // const tempId: any = localStorage.getItem('_id')
+    // const tempId: any = localStorage.getItem('RLS_id')
     // this.userLogin = await this.$user.getUserById(tempId).toPromise()
 
   }
@@ -272,7 +272,7 @@ export class SheetStep1Component implements OnInit {
 
   async insert() {
     const body = {
-      userId: localStorage.getItem('_id'),
+      userId: localStorage.getItem('RLS_id'),
       date: new Date(),
       controlNo: this.requestForm.value.controlNo,
       corporate: this.requestForm.value.corporate,

@@ -36,9 +36,9 @@ export class QeWindowApproveComponent implements OnInit {
     private $share: ShareFunctionService
 
   ) {
-    let userLoginStr: any = localStorage.getItem('reliability-userLogin')
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    // const id: any = localStorage.getItem('_id')
+    // const id: any = localStorage.getItem('RLS_id')
     // this._user.getUserById(id).subscribe(res => this.userLogin = res)
     this.dateNow = new Date()
   }

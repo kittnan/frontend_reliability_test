@@ -1,3 +1,5 @@
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAuthComponent } from './../pages/shared/dialog-auth/dialog-auth.component';
 import { v4 as uuid } from 'uuid';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -17,7 +19,8 @@ export class LoginService {
     private router: Router,
     private _toast: ToastService,
     private route: ActivatedRoute,
-    private _loading: NgxUiLoaderService
+    private _loading: NgxUiLoaderService,
+    private dialog: MatDialog
   ) { }
 
   onLogin(data: any) {
@@ -27,32 +30,53 @@ export class LoginService {
           ...res[0],
           name: this.shortName(res[0].name)
         };
-        this.setToken()
-        localStorage.setItem('_id', user._id);
-        localStorage.setItem('authorize', user.authorize);
-        localStorage.setItem('name', user.name);
-        let userLoginStr = JSON.stringify(user)
-        localStorage.setItem('reliability-userLogin', userLoginStr)
+        console.log(user);
 
+        let newAuth = ''
 
-        this._toast.success();
-        setTimeout(() => {
-          this._loading.start()
-          this.validFormId(localStorage.getItem('authorize'))
-        }, 2000);
+        if (user?.authorize.length > 1) {
+          const dialogRef = this.dialog.open(DialogAuthComponent, {
+            data: user.authorize
+          })
+          dialogRef.afterClosed().subscribe(res => {
+            newAuth = res
+            this.setAuth(user, newAuth)
+          })
+        } else {
+          newAuth = user.authorize
+          this.setAuth(user, newAuth)
+        }
+
       } else {
         this._toast.danger('login failed!!')
       }
     })
   }
 
+  private setAuth(user: any, newAuth: any) {
+    this.setToken()
+    localStorage.setItem('RLS_id', user._id);
+    localStorage.setItem('RLS_authorize', newAuth);
+    console.log(localStorage.getItem(newAuth));
+
+    localStorage.setItem('RLS_userName', user.name);
+    let userLoginStr = JSON.stringify(user)
+    localStorage.setItem('RLS_userLogin', userLoginStr)
+    this._toast.success();
+    setTimeout(() => {
+      this._loading.start()
+      this.validFormId(localStorage.getItem('RLS_authorize'))
+    }, 2000);
+
+  }
+
   private shortName(name: string) {
-    let newName: string = name.trim()
-    let sptName: string[] = newName.split(' ')
+    const sptName: string[] = name.trim().split(' ').filter((d: any) => d != '')
+
     if (sptName.length > 1) {
       const fName = sptName[0]
-      const lName = sptName[2].split('')[0]
-      return `${fName}-${lName}`
+      const lName: string = sptName.length > 1 ? '-' + sptName[1].split('')[0] : ''
+      return `${fName}${lName}`
     } else {
       return sptName[0]
     }
@@ -63,7 +87,7 @@ export class LoginService {
   }
 
   async validFormId(auth: any) {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('RLS_token')) {
       this.route.queryParams.subscribe(res => {
         const { id, status } = res
         let newUrl = ''
@@ -291,7 +315,7 @@ export class LoginService {
 
   private setToken() {
     const token = uuid()
-    localStorage.setItem('token', token)
+    localStorage.setItem('RLS_token', token)
   }
 
   getProFileById(id: string) {
