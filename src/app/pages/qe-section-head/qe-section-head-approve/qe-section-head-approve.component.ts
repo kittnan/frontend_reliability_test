@@ -18,11 +18,10 @@ export class QeSectionHeadApproveComponent implements OnInit {
 
 
   userLogin: any;
-  config_auth = 'qe_window_person'
   dateNow!: Date
 
   data: any
-  authorize = 'qe_window_person'
+  authorize = 'request'
   userApprove: any = [];
   approve = new FormControl(null, Validators.required)
   constructor(
@@ -70,7 +69,7 @@ export class QeSectionHeadApproveComponent implements OnInit {
 
 
 
-    const qe_window_person = this.data.step5.find((u: any) => u.level == 3)
+    const qe_window_person = this.data.step5.find((u: any) => u.level == 1)
     if (qe_window_person) {
       const findOld = this.userApprove.find((u: any) => u._id == qe_window_person.prevUser._id)
       const selected = findOld ? findOld : this.userApprove[0]

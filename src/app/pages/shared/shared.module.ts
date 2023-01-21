@@ -35,6 +35,7 @@ import { InputTimeComponent } from './form-components/input-time/input-time.comp
 import { InputCycleComponent } from './form-components/input-cycle/input-cycle.component';
 import { InputDirectionComponent } from './form-components/input-direction/input-direction.component';
 import { DialogAuthComponent } from './dialog-auth/dialog-auth.component';
+import { TableOperateComponent } from './table-operate/table-operate.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { DialogAuthComponent } from './dialog-auth/dialog-auth.component';
     InputCycleComponent,
     InputDirectionComponent,
     DialogAuthComponent,
+    TableOperateComponent,
 
   ],
   imports: [
@@ -105,7 +107,8 @@ import { DialogAuthComponent } from './dialog-auth/dialog-auth.component';
     InputAccelerationComponent,
     InputTimeComponent,
     InputCycleComponent,
-    InputDirectionComponent
+    InputDirectionComponent,
+    TableOperateComponent
   ]
 })
 export class SharedModule { }

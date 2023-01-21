@@ -6,8 +6,6 @@
         <div *ngIf="item.condition" fxFlex="100" class="color-primary w-7">
             <h3>
                 {{i+1}}. {{item.condition.name}}
-
-
             </h3>
 
         </div>
@@ -34,7 +32,7 @@
 
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
                 <mat-label>START DATE</mat-label>
-                <input matInput [readonly]="true" [matDatepicker]="startDate" [(ngModel)]="item.startDate" (ngModelChange)="onCal(item,i)">
+                <input matInput [readonly]="true" [matDatepicker]="startDate" [(ngModel)]="item.startDate" (dateChange)="onCal(item,i)">
                 <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                 <mat-datepicker touchUi #startDate></mat-datepicker>
             </mat-form-field>
@@ -96,6 +94,8 @@
       </button>
 
         </div>
+
+        <app-table-operate fxFlex="100" *ngIf="item.operateTable" [table]="item.operateTable" fxFlex="100"></app-table-operate>
 
         <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
 

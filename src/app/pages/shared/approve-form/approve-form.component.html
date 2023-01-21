@@ -6,20 +6,20 @@
     BACK
   </button>
 
-    <button *ngIf="reject" fxFlex="30" mat-flat-button color="warn" (click)="onReject()">
+    <button *ngIf="reject" fxFlex="30" mat-flat-button color="warn" [disabled]="validAuth()" (click)="onReject()">
     <span class="material-icons-outlined">
       close
     </span>
     REJECT
   </button>
 
-    <button *ngIf="data.status!='qe_window_person_report'" fxFlex="30" mat-flat-button color="primary" (click)="onApprove()">
+    <button *ngIf="data.status!='qe_window_person_report'" [disabled]="validAuth()" fxFlex="30" mat-flat-button color="primary" (click)="onApprove()">
     <span class="material-icons-outlined">
       done_all
     </span>
     APPROVE
   </button>
-    <button *ngIf="data.status=='qe_window_person_report'" fxFlex="30" mat-flat-button color="primary" (click)="onApprove()" [disabled]="disable">
+    <button *ngIf="data.status=='qe_window_person_report'" [disabled]="validAuth()" fxFlex="30" mat-flat-button color="primary" (click)="onApprove()" [disabled]="disable">
     <span class="material-icons-outlined">
       done_all
     </span>

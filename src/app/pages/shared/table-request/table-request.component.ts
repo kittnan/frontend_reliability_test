@@ -155,8 +155,13 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    if (item.nextApprove && item.nextApprove._id == this.userLogin._id) return false
-    return true
+    if (item.status === 'request_confirm') {
+      if (item.nextApprove && item.nextApprove._id == this.userLogin._id) return false
+      return true
+    } else {
+      if (item.nextApprove && item.nextApprove._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
+      return true
+    }
   }
 
   validAuthorize(item: any, access: any) {
@@ -203,6 +208,7 @@ export class TableRequestComponent implements OnInit {
     if (item.status === 'qe_engineer') this.linkTo('/qe-engineer/approve-request', item._id);
     if (item.status === 'qe_engineer2') this.linkTo('/qe-engineer/approve-request', item._id);
     if (item.status === 'qe_window_person_report') this.linkTo('/qe-window-person/report', item._id);
+    if (item.status === 'request_confirm') this.linkTo('/request/confirm', item._id);
 
 
     // if (item.status === 'reject_request') this.linkTo('/request/home', item._id);

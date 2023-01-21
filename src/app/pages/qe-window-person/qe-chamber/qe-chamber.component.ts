@@ -22,7 +22,8 @@ export interface QueueForm {
   model: String | null,
   chamber?: ChamberForm,
   status: String | null,
-  _id?: String | null
+  _id?: String | null,
+  operateTable?: any
 
 }
 interface ChamberForm {
@@ -100,13 +101,13 @@ export class QeChamberComponent implements OnInit {
     // this.$user.getUserById(id).subscribe(res => this.userLogin = res)
   }
   ngOnInit(): void {
-    this.getUserApprove()
     this.routeActive.queryParams.subscribe(async (params: any) => {
       const { id } = params;
       const resData = await this.$request.get_id(id).toPromise()
       this.form = resData[0]
       const temp = this.setDataTable();
       this.dataSource = temp
+      this.getUserApprove()
     })
   }
 
@@ -150,8 +151,21 @@ export class QeChamberComponent implements OnInit {
 
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-    this.approve.patchValue(this.userApprove[0])
+    console.log(this.form);
+
+    if (this.form.step5.find((s: any) => s.level === 7.3)) {
+      this.userApprove = await this._userApprove.getUserApprove(this.userLogin, ['request'])
+      const prevUser = this.form.step5.find((s: any) => s.level === 7.3)
+      if (prevUser) {
+        const select = this.userApprove.find((u: any) => u._id === prevUser.prevUser._id)
+        this.approve.patchValue(select)
+      } else {
+        this.approve.patchValue(this.userApprove[0])
+      }
+    } else {
+      this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+      this.approve.patchValue(this.userApprove[0])
+    }
 
   }
 

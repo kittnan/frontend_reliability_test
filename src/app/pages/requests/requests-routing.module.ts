@@ -1,3 +1,4 @@
+import { ConfirmComponent } from './confirm/confirm.component';
 import { SheetComponent } from './sheet/sheet.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -7,26 +8,30 @@ import { RequestsComponent } from './requests.component';
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     component: RequestsComponent,
-    children:[
+    children: [
       // {
       //   path:'home',
       //   component:HomeComponent
       // },
       {
-        path:'sheet',
-        component:SheetComponent
+        path: 'sheet',
+        component: SheetComponent
+      },
+      {
+        path: 'confirm',
+        component: ConfirmComponent
       },
 
       {
-        path:'manage',
-        component:ManageComponent
+        path: 'manage',
+        component: ManageComponent
       },
       {
-        path:'',
-        pathMatch:'full',
-        redirectTo:'manage'
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'manage'
       }
     ]
   }

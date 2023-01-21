@@ -107,7 +107,7 @@ export class ApproveFormComponent implements OnInit {
       }).then((value: SweetAlertResult) => {
         if (value.isConfirmed) {
           const findUserApprove = this.data.step5.find((s: any) => s.prevStatusForm == key)
-          console.log(findUserApprove);
+          // console.log(findUserApprove);
           this._reject.send(this.userLogin, findUserApprove, this.data, value.value, key)
         }
       })
@@ -139,6 +139,10 @@ export class ApproveFormComponent implements OnInit {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_engineer' || s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request')
     }
 
+    if (status == 'request_confirm') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
+    }
+
 
     const arrayUniqueByKey = [...new Map(request_user.map((item: any) =>
       [item['prevStatusForm'], item])).values()];
@@ -155,7 +159,15 @@ export class ApproveFormComponent implements OnInit {
   }
 
 
-
+  validAuth() {
+    if (this.data.status === 'request_confirm') {
+      if (localStorage.getItem('RLS_authorize') === 'request') return false
+      return true
+    } else {
+      if (this.data.status.includes(localStorage.getItem('RLS_authorize'))) return false
+      return true
+    }
+  }
 
 
 

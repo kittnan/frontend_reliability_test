@@ -38,7 +38,8 @@ export class RejectService {
       comment: comment,
       level: level
     }
-    this.clearStep5UpperTarget(upperLevel)
+    if (form.status !== 'request_confirm') this.clearStep5UpperTarget(upperLevel)
+    console.log('update', newForm);
     await this.$request.update(newForm._id, newForm).toPromise()
     const logData = {
       formId: newForm._id,
@@ -62,7 +63,7 @@ export class RejectService {
         },
         comment: [comment]
       }
-
+      console.log(newStep);
       await this.$step5.update(newStep._id, newStep).toPromise()
 
       setTimeout(() => {
@@ -87,6 +88,7 @@ export class RejectService {
         level: level,
         requestId: form._id,
       }
+      console.log('insert', newStep);
       await this.$step5.insert(newStep).toPromise()
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
@@ -162,6 +164,10 @@ export class RejectService {
                 if (formStatus == 'qe_section_head' && to == 'qe_engineer') {
                   return 5.4
                 }
+                else
+                  if (formStatus == 'request_confirm' && to == 'qe_window_person') {
+                    return 7.3
+                  }
     return 0
 
   }
@@ -191,6 +197,10 @@ export class RejectService {
 
     if (status == 'qe_section_head') {
       str = 'qe-section-head'
+    }
+
+    if (status == 'request_confirm') {
+      str = 'request-confirm'
     }
     this._router.navigate([`/${str}`])
   }

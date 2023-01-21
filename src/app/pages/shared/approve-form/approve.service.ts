@@ -38,7 +38,7 @@ export class ApproveService {
     await this.$request.update(newForm._id, newForm).toPromise()
     const user = newForm.step5.find((s: any) => s.level === 1)
     this.sendLog(logData)
-    this.sendMail([user.prevUser._id], newForm.status, newForm._id)
+    // this.sendMail([user.prevUser._id], newForm.status, newForm._id)
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
@@ -116,7 +116,8 @@ export class ApproveService {
           },
           level: level,
         }
-        await this.$step5.update(newStep._id, newStep).toPromise()
+        console.log('update', newStep);
+        // await this.$step5.update(newStep._id, newStep).toPromise()
       } else {
         const newStep = {
           date: new Date(),
@@ -134,7 +135,8 @@ export class ApproveService {
           level: level,
           requestId: form._id,
         }
-        await this.$step5.insert(newStep).toPromise()
+        console.log(newStep);
+        // await this.$step5.insert(newStep).toPromise()
       }
       const newForm = {
         ...form,
@@ -146,8 +148,8 @@ export class ApproveService {
         comment: comment,
         level: level
       }
-
-      const resUpdateForm: any = await this.$request.update(newForm._id, newForm).toPromise()
+      console.log('update', newForm);
+      // await this.$request.update(newForm._id, newForm).toPromise()
       const logData = {
         formId: newForm._id,
         action: newForm.status,
@@ -214,8 +216,14 @@ export class ApproveService {
       case 'qe_section_head':
         return 6
 
-      case 'qe_window_person_report':
+      case 'request_confirm':
         return 7
+
+      case 'qe_window_person_edit_plan':
+        return 6
+
+      case 'qe_window_person_report':
+        return 8
 
       case 'reject_request':
         return 1
@@ -231,6 +239,9 @@ export class ApproveService {
 
       case 'reject_qe_section_head':
         return 5
+
+      case 'reject_request_confirm':
+        return 8
 
 
       default:
@@ -257,6 +268,12 @@ export class ApproveService {
         return 'qe_section_head'
 
       case 'qe_section_head':
+        return 'request_confirm'
+
+      case 'qe_window_person_edit_plan':
+        return 'request_confirm'
+
+      case 'request_confirm':
         return 'qe_window_person_report'
 
       case 'qe_window_person_report':
@@ -276,6 +293,9 @@ export class ApproveService {
 
       case 'reject_qe_section_head':
         return 'qe_window_person'
+
+      case 'reject_request_confirm':
+        return 'qe_window_person_edit_plan'
 
       case 'reject_qe_window_person':
         return 'finish'
@@ -313,7 +333,7 @@ export class ApproveService {
     if (status == 'qe_section_head') {
       str = 'qe-section-head'
     }
-    this._router.navigate([`/${str}`])
+    // this._router.navigate([`/${str}`])
   }
 
 

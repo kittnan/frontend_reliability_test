@@ -32,34 +32,21 @@ export class DialogQeOperateComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.load = true
     if (this.data) {
-      // const d = moment(this.data.startDate).format('')
-      this.startDate = new Date().toISOString()
-      // const operate = JSON.stringify(this.data.operate)
+      this.startDate = new Date(this.data.startDate).toISOString()
+      this.getRemainOperateItems()
       this.getGroupReady()
-      const param = new HttpParams().set('startDate', this.startDate)
-      this.operateItems = await this.$operate.remain(param).toPromise()
-      console.log(this.operateItems);
-
     }
 
   }
+
+  async getRemainOperateItems() {
+    this.getGroupReady()
+    const param = new HttpParams().set('startDate', this.startDate)
+    this.operateItems = await this.$operate.remain(param).toPromise()
+    console.log(this.operateItems);
+
+  }
   async getGroupReady() {
-    // console.log(this.data);
-
-    // const groups = await this.$operateGroup.get().toPromise()
-    // for (let i = 0; i < groups.length; i++) {
-    //   const foo = await this.loopGroup(groups[i])
-    //   this.groupList.push(foo)
-    //   if (i + 1 == groups.length) {
-    //     console.log(this.groupList);
-
-    //     this.dataSource = this.groupList
-    //     setTimeout(() => {
-    //       this.load = false
-    //     }, 500);
-    //   }
-    // }
-
     const param: HttpParams = new HttpParams().set('startDate', this.startDate)
     const foo = await this.$operate.condition(param).toPromise()
     this.groupList = foo

@@ -19,7 +19,7 @@ export class DialogAddService {
       if (lastRecord && lastRecord.length > 0) {
         let temp = lastRecord[0].code.toString().split('-')
         let newCode = (parseInt(temp[1]) + 1).toString();
-        newCode = newCode.padStart(2, '0')
+        newCode = newCode.padStart(3, '0')
         return temp[0] + '-' + newCode
       } else {
         return 'THS-001'

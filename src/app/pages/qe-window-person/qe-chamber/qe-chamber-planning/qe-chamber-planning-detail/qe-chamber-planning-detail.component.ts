@@ -14,6 +14,7 @@ import { DialogQeOperateComponent } from '../../dialog-qe-operate/dialog-qe-oper
 import { QueueForm, OperateForm, TimeForm } from '../../qe-chamber.component';
 import { QeChamberService } from '../../qe-chamber.service';
 import { GenInspectionTableService } from './gen-inspection-table.service';
+import { HttpParams } from '@angular/common/http';
 @Component({
   selector: 'app-qe-chamber-planning-detail',
   templateUrl: './qe-chamber-planning-detail.component.html',
@@ -54,6 +55,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data);
+
     this.getDraft()
   }
 
@@ -130,8 +133,11 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     this.onCal(item, 0)
   }
 
-  onCal(item: QueueForm, index: number) {
+  async onCal(item: QueueForm, index: number) {
+    const startDate: any = item.startDate
     item = this.$qe_chamber.genEndDate(item)
+    const param: HttpParams = new HttpParams().set('startDate', new Date(startDate).toISOString())
+    item.operateTable = await this.$operateItems.remain(param).toPromise()
   }
 
   compareSelect(a: any, b: any) {
@@ -362,7 +368,11 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
 
 
+  async operateAll(startDate: any) {
+    const param: HttpParams = new HttpParams().set('startDate', startDate)
+    return await this.$operateItems.condition(param).toPromise()
 
+  }
 
 
 

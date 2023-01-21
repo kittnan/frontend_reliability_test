@@ -1,0 +1,38 @@
+<div fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <table fxFlex="100" *ngIf="table" style="width: -webkit-fill-available; margin: 10px 0 20px 0;">
+        <tr style="background-color: darkseagreen;">
+            <th colspan="4">
+                OPERATE TOOL ALL
+            </th>
+        </tr>
+        <tr style="background-color: darkseagreen;">
+            <th>
+                CODE
+            </th>
+            <th>
+                TYPE
+            </th>
+            <th>
+                NAME
+            </th>
+            <th>
+                REMAIN/TOTAL
+            </th>
+        </tr>
+        <tr *ngFor="let row of table; let i=index">
+            <td>
+                {{row.code |uppercase}}
+            </td>
+            <td>
+                {{row.type |uppercase}}
+            </td>
+            <td>
+                {{row.name}}
+            </td>
+            <td>
+                {{row.remain}} / {{row.stock}}
+            </td>
+        </tr>
+    </table>
+
+</div>

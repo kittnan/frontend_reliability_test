@@ -64,6 +64,13 @@ export class ApproveRequestComponent implements OnInit {
     this.userLogin = JSON.parse(userLoginStr)
     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
     this.approve.patchValue(this.userApprove[0])
+
+    const qe_window_person = this.data.step5.find((u: any) => u.level == 3)
+    if (qe_window_person) {
+      const findOld = this.userApprove.find((u: any) => u._id == qe_window_person.prevUser._id)
+      const selected = findOld ? findOld : this.userApprove[0]
+      this.approve.patchValue(selected)
+    }
   }
 
   public objectComparisonFunction = function (option: any, value: any): boolean {
