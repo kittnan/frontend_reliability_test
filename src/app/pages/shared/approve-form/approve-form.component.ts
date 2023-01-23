@@ -139,7 +139,7 @@ export class ApproveFormComponent implements OnInit {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_engineer' || s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request')
     }
 
-    if (status == 'request_confirm') {
+    if (status == 'request_confirm' || status == 'request_confirm_edited') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
     }
 

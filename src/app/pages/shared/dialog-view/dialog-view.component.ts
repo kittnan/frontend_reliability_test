@@ -10,7 +10,7 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 })
 export class DialogViewComponent implements OnInit {
 
-  foo:any
+  form: any
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _loading: NgxUiLoaderService,
@@ -19,8 +19,8 @@ export class DialogViewComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     //  (this.data);
-     const resData = await this._request.get_id(this.data._id).toPromise()
-     this.foo =resData[0];
+    const resData = await this._request.get_id(this.data._id).toPromise()
+    this.form = resData[0];
 
 
 

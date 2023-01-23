@@ -22,10 +22,7 @@
         </mat-form-field>
 
 
-        <app-approve-form fxFlex="100" [reject]="true" [userApprove]="approve.value" [data]="form"></app-approve-form>
-
-
-
+        <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve.value" [data]="form"></app-approve-form>
 
     </div>
 

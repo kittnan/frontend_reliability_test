@@ -153,9 +153,9 @@ export class QeChamberComponent implements OnInit {
     this.userLogin = JSON.parse(userLoginStr)
     console.log(this.form);
 
-    if (this.form.step5.find((s: any) => s.level === 7.3)) {
+    if (this.form.level === 7.8) {
       this.userApprove = await this._userApprove.getUserApprove(this.userLogin, ['request'])
-      const prevUser = this.form.step5.find((s: any) => s.level === 7.3)
+      const prevUser = this.form.step5.find((s: any) => s.level === 7.8)
       if (prevUser) {
         const select = this.userApprove.find((u: any) => u._id === prevUser.prevUser._id)
         this.approve.patchValue(select)
@@ -171,6 +171,11 @@ export class QeChamberComponent implements OnInit {
 
   public objectComparisonFunction = function (option: any, value: any): boolean {
     return option._id === value._id;
+  }
+
+  validReject() {
+    if (this.form.level === 7.8) return false
+    return true
   }
 
 }

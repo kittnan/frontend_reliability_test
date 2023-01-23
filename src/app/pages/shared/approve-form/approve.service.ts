@@ -26,7 +26,8 @@ export class ApproveService {
     let newForm = {
       ...form,
       status: 'finish',
-      nextApprove: null
+      level: 9,
+      nextApprove: null,
     }
 
 
@@ -35,10 +36,28 @@ export class ApproveService {
       action: 'finish form',
       user: userLogin
     }
+
+    const newStep = {
+      date: new Date(),
+      comment: [],
+      nextStatusForm: this.findNextStatus(form.status, form.level),
+      prevStatusForm: form.status,
+      nextUser: null,
+      prevUser: {
+        _id: userLogin._id,
+        name: userLogin.name
+      },
+      level: 9,
+      requestId: form._id,
+    }
+    console.log('insert step', newStep);
+    await this.$step5.insert(newStep).toPromise()
+
+    console.log('finish', newForm);
     await this.$request.update(newForm._id, newForm).toPromise()
     const user = newForm.step5.find((s: any) => s.level === 1)
     this.sendLog(logData)
-    // this.sendMail([user.prevUser._id], newForm.status, newForm._id)
+    this.sendMail([user.prevUser._id], newForm.status, newForm._id)
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
@@ -46,12 +65,16 @@ export class ApproveService {
     }, 1000);
   }
 
+
+
+
+
   async send(prevUser: any, nextUserApprove: any, form: any, comment: any) {
     this._loading.start()
-    // console.log(nextUserApprove, form, comment);
-    const nextStatusForm = this.findNextStatus(form.status)
-    // console.log(form.status, nextStatusForm);
-    const level = this.findNextLevel(form.status)
+    console.log(nextUserApprove, form, comment);
+    const nextStatusForm = this.findNextStatus(form.status, form.level)
+    console.log(form.status, nextStatusForm);
+    const level = this.findNextLevel(form.status, form.level)
 
     if (form.status == 'draft') {
       let step5Prev = this.findStep5(form.step5, 'draft')
@@ -102,7 +125,7 @@ export class ApproveService {
       const oldStep = form.step5.find((step: any) => step.nextStatusForm == nextStatusForm)
 
       if (oldStep) {
-        const newStep = {
+        const prev = {
           ...oldStep,
           date: new Date(),
           comment: [comment],
@@ -116,13 +139,13 @@ export class ApproveService {
           },
           level: level,
         }
-        console.log('update', newStep);
-        // await this.$step5.update(newStep._id, newStep).toPromise()
+        console.log('update prev step', prev);
+        await this.$step5.update(prev._id, prev).toPromise()
       } else {
         const newStep = {
           date: new Date(),
           comment: [comment],
-          nextStatusForm: this.findNextStatus(form.status),
+          nextStatusForm: this.findNextStatus(form.status, form.level),
           prevStatusForm: form.status,
           nextUser: {
             _id: nextUserApprove._id,
@@ -135,12 +158,12 @@ export class ApproveService {
           level: level,
           requestId: form._id,
         }
-        console.log(newStep);
-        // await this.$step5.insert(newStep).toPromise()
+        console.log('insert step', newStep);
+        await this.$step5.insert(newStep).toPromise()
       }
       const newForm = {
         ...form,
-        status: this.findNextStatus(form.status),
+        status: this.findNextStatus(form.status, form.level),
         nextApprove: {
           _id: nextUserApprove._id,
           name: nextUserApprove.name
@@ -148,8 +171,8 @@ export class ApproveService {
         comment: comment,
         level: level
       }
-      console.log('update', newForm);
-      // await this.$request.update(newForm._id, newForm).toPromise()
+      console.log('update request', newForm);
+      await this.$request.update(newForm._id, newForm).toPromise()
       const logData = {
         formId: newForm._id,
         action: newForm.status,
@@ -193,7 +216,7 @@ export class ApproveService {
   private findStep5(step5: any, statusForm: any) {
     return step5.find((s: any) => s.prevStatusForm == statusForm)
   }
-  private findNextLevel(status: any) {
+  private findNextLevel(status: any, level: number) {
     switch (status) {
       case 'draft':
         return 0
@@ -219,11 +242,14 @@ export class ApproveService {
       case 'request_confirm':
         return 7
 
-      case 'qe_window_person_edit_plan':
-        return 6
+      case 'request_confirm_edited':
+        return 7
 
       case 'qe_window_person_report':
-        return 8
+        return 10
+
+
+
 
       case 'reject_request':
         return 1
@@ -232,6 +258,7 @@ export class ApproveService {
         return 2
 
       case 'reject_qe_window_person':
+        if (level === 7.8) return 8
         return 3
 
       case 'reject_qe_engineer':
@@ -249,7 +276,7 @@ export class ApproveService {
     }
   }
 
-  private findNextStatus(status: any) {
+  private findNextStatus(status: any, level: any) {
     switch (status) {
 
       case 'draft':
@@ -276,6 +303,9 @@ export class ApproveService {
       case 'request_confirm':
         return 'qe_window_person_report'
 
+      case 'request_confirm_edited':
+        return 'qe_window_person_report'
+
       case 'qe_window_person_report':
         return 'finish'
 
@@ -286,6 +316,7 @@ export class ApproveService {
         return 'qe_window_person'
 
       case 'reject_qe_window_person':
+        if (level === 7.8) return 'request_confirm_edited'
         return 'qe_engineer'
 
       case 'reject_qe_engineer':
@@ -333,7 +364,9 @@ export class ApproveService {
     if (status == 'qe_section_head') {
       str = 'qe-section-head'
     }
-    // this._router.navigate([`/${str}`])
+    setTimeout(() => {
+      this._router.navigate([`/${str}`])
+    }, 1000);
   }
 
 

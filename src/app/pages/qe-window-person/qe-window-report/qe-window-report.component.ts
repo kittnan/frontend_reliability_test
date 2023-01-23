@@ -50,8 +50,6 @@ export class QeWindowReportComponent implements OnInit {
       const id = params['id']
       const resData = await this._request.get_id(id).toPromise()
       this.data = resData[0];
-      this.getUserApprove()
-
     })
 
 
@@ -64,25 +62,6 @@ export class QeWindowReportComponent implements OnInit {
   }
 
 
-  async getUserApprove() {
-    const _id: any = localStorage.getItem("_id")
-    this.userLogin = await this._user.getUserById(_id).toPromise();
-    const section = [this.userLogin.section]
-    const temp_section = JSON.stringify(section)
-    const level = [this.authorize]
-    const temp_level = JSON.stringify(level)
-    this.userApprove = await this._user.getUserBySection(temp_section, temp_level).toPromise();
-    this.userApprove = this.userApprove.map((user: any) => {
-      const sptName: string[] = user.name.trim().split(' ')
-      const fName: string = sptName[0]
-      const lName: string = sptName.length > 1 ? '-' + sptName[2].split('')[0] : ''
-      return {
-        ...user,
-        name: `${fName}${lName}`
-      }
-    })
-    this.approve.patchValue(this.userApprove[0])
-  }
 
   public objectComparisonFunction = function (option: any, value: any): boolean {
     return option._id === value._id;

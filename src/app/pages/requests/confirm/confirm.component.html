@@ -1,6 +1,7 @@
 <div *ngIf="data" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
     <div fxFlex.xl="80" fxFlex.lg="80" fxFlex="95" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="box-body">
         <app-views fxFlex="100" [formInput]="data"></app-views>
+        <app-plan-reliability-test *ngIf="data" fxFlex="100" [requestForm]="[data]" [queues]="data.table"></app-plan-reliability-test>
 
         <mat-form-field fxFlex="95" appearance="fill" style="margin-top: 30px;">
             <mat-label>SEND TO...</mat-label>

@@ -1,11 +1,11 @@
 <div *ngIf="data" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
     <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="box-body">
-        <app-step1 *ngIf="foo.step1" fxFlex="100" [(step1)]="foo.step1"></app-step1>
-        <app-step2 *ngIf="foo.step2" fxFlex="100" [(step2)]="foo.step2"></app-step2>
-        <app-step3 *ngIf="foo.step3" fxFlex="100" [(step3)]="foo.step3"></app-step3>
-        <app-step4 *ngIf="foo.step4" fxFlex="100" [(step4)]="foo.step4"></app-step4>
-        <app-step5 *ngIf="foo.step5" fxFlex="100" [(step5)]="foo.step5"></app-step5>
-        <app-plan-reliability-test fxFlex="100" *ngIf="foo &&foo.table" [requestForm]="[foo]" [queues]="foo.table"></app-plan-reliability-test>
+        <app-step1 *ngIf="form?.step1" fxFlex="100" [(step1)]="form.step1"></app-step1>
+        <app-step2 *ngIf="form?.step2" fxFlex="100" [(step2)]="form.step2"></app-step2>
+        <app-step3 *ngIf="form?.step3" fxFlex="100" [(step3)]="form.step3"></app-step3>
+        <app-step4 *ngIf="form?.step4" fxFlex="100" [(step4)]="form.step4"></app-step4>
+        <app-step5 *ngIf="form?.step5" fxFlex="100" [(step5)]="form.step5"></app-step5>
+        <app-plan-reliability-test fxFlex="100" *ngIf="form &&form.table" [requestForm]="[form]" [queues]="form.table"></app-plan-reliability-test>
     </div>
 
 </div>

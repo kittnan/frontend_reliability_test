@@ -39,7 +39,7 @@ export class RejectService {
       level: level
     }
     if (form.status !== 'request_confirm') this.clearStep5UpperTarget(upperLevel)
-    console.log('update', newForm);
+    console.log('update request', newForm);
     await this.$request.update(newForm._id, newForm).toPromise()
     const logData = {
       formId: newForm._id,
@@ -63,7 +63,7 @@ export class RejectService {
         },
         comment: [comment]
       }
-      console.log(newStep);
+      console.log('update step5', newStep);
       await this.$step5.update(newStep._id, newStep).toPromise()
 
       setTimeout(() => {
@@ -88,7 +88,7 @@ export class RejectService {
         level: level,
         requestId: form._id,
       }
-      console.log('insert', newStep);
+      console.log('insert step5', newStep);
       await this.$step5.insert(newStep).toPromise()
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
@@ -153,21 +153,33 @@ export class RejectService {
             return 4.3
           }
           else
-            if (formStatus == 'qe_section_head' && to == 'request') {
-              return 5.1
+            if (formStatus == 'qe_engineer2' && to == 'request_approve') {
+              return 5.2
             }
             else
-              if (formStatus == 'qe_section_head' && to == 'qe_window_person') {
+              if (formStatus == 'qe_engineer2' && to == 'qe_window_person') {
                 return 5.3
               }
               else
-                if (formStatus == 'qe_section_head' && to == 'qe_engineer') {
-                  return 5.4
+                if (formStatus == 'qe_section_head' && to == 'request') {
+                  return 6.1
                 }
                 else
-                  if (formStatus == 'request_confirm' && to == 'qe_window_person') {
-                    return 7.3
+                  if (formStatus == 'qe_section_head' && to == 'qe_window_person') {
+                    return 6.3
                   }
+                  else
+                    if (formStatus == 'qe_section_head' && to == 'qe_engineer') {
+                      return 6.4
+                    }
+                    else
+                      if (formStatus == 'request_confirm' && to == 'qe_window_person') {
+                        return 7.8
+                      }
+                      else
+                        if (formStatus == 'request_confirm_edited' && to == 'qe_window_person') {
+                          return 7.8
+                        }
     return 0
 
   }

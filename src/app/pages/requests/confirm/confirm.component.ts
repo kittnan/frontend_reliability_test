@@ -42,7 +42,15 @@ export class ConfirmComponent implements OnInit {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-    this.approve.patchValue(this.userApprove[0])
+
+    const prevUser = this.data.step5.find((s: any) => s.level === 3)
+    if (prevUser) {
+      const select = this.userApprove.find((u: any) => u._id === prevUser.prevUser._id)
+      this.approve.patchValue(select)
+    } else {
+      this.approve.patchValue(this.userApprove[0])
+    }
+
   }
 
   public objectComparisonFunction = function (option: any, value: any): boolean {
