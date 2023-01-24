@@ -56,8 +56,10 @@ export class ApproveService {
     console.log('finish', newForm);
     await this.$request.update(newForm._id, newForm).toPromise()
     const user = newForm.step5.find((s: any) => s.level === 1)
+    const eng = newForm.step5.find((s: any) => s.level === 4)
+    const eng2 = newForm.step5.find((s: any) => s.level === 5)
     this.sendLog(logData)
-    this.sendMail([user.prevUser._id], newForm.status, newForm._id)
+    this.sendMail([user.prevUser._id, eng._id, eng2._id], newForm.status, newForm._id)
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()

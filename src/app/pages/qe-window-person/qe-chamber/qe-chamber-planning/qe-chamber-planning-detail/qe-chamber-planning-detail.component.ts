@@ -34,7 +34,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   userLogin: any;
   @Input() data: any;
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
-
   @Output() tableChange: EventEmitter<any> = new EventEmitter()
   constructor(
     private dialog: MatDialog,
@@ -55,7 +54,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
+    // console.log(this.data);
 
     this.getDraft()
   }
@@ -68,12 +67,14 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         if (draft) {
           return {
             ...d,
-            ...draft
+            ...draft,
           }
         } else {
           return d
         }
       })
+      // console.log(this.data);
+
 
       this.requestForm = await this.$request.get_id(this.data[0].work.requestId).toPromise()
       this.mapForTable(this.data)
@@ -92,7 +93,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       })
       dialogRef.afterClosed().subscribe(async res => {
         if (res) {
-          console.log(res);
+          // console.log(res);
 
           item.chamber = res
         }
@@ -135,9 +136,11 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   async onCal(item: QueueForm, index: number) {
     const startDate: any = item.startDate
-    item = this.$qe_chamber.genEndDate(item)
-    const param: HttpParams = new HttpParams().set('startDate', new Date(startDate).toISOString())
-    item.operateTable = await this.$operateItems.remain(param).toPromise()
+    if (startDate) {
+      item = this.$qe_chamber.genEndDate(item)
+      const param: HttpParams = new HttpParams().set('startDate', new Date(startDate).toISOString())
+      item.operateTable = await this.$operateItems.remain(param).toPromise()
+    }
   }
 
   compareSelect(a: any, b: any) {
@@ -179,6 +182,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         this.deleteQueue(item)
+        this.getOperateToolTableAll(item, item.startDate)
       }
     })
   }
@@ -194,25 +198,84 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }
   }
 
-  onDraft(item: QueueForm, index: number) {
+  onDraft(item: QueueForm, index: number, startDate: any) {
     Swal.fire({
       title: 'Do you want to save?',
       icon: 'question',
       showCancelButton: true
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        const body = [item]
-        // if (item._id) {
-        //   this.onEdit(item._id, item, index)
-        // } else {
-        //   this.onInsert(body, index)
-        // }
-        this.insertDirect(body, index)
+        // const body = [item]
+        // // console.log(body);
+
+
+
+        this.validRemainOperate(item, startDate, index)
       }
     })
 
   }
 
+  async getOperateToolTableAll(item: any, startDate: any) {
+    const param: HttpParams = new HttpParams().set('startDate', new Date(startDate).toISOString())
+    item.operateTable = await this.$operateItems.remain(param).toPromise()
+    return item.operateTable
+  }
+
+  async validRemainOperate(item: any, startDate: any, index: any) {
+    item.operateTable = await this.getOperateToolTableAll(item, startDate)
+    const operateUse = item.operate
+    const attachment: any = item.operateTable.find((t: any) => t.code === operateUse.attachment.code)
+    const checker: any = item.operateTable.find((t: any) => t.code === operateUse.checker.code)
+    const power: any = item.operateTable.find((t: any) => t.code === operateUse.power.code)
+    const obj = {
+      data: {
+        attachment: 0,
+        checker: 0,
+        power: 0,
+      },
+      status: true
+    }
+    obj.data.attachment = attachment.remain
+    obj.data.checker = checker.remain
+    obj.data.power = power.remain
+
+    if ((attachment?.remain - operateUse?.attachment?.qty) < 0) {
+      obj.status = false;
+    }
+    if ((checker?.remain - operateUse?.checker?.qty) < 0) {
+      obj.status = false;
+    }
+    if ((power?.remain - operateUse?.power?.qty) < 0) {
+      obj.status = false;
+    }
+    if (obj.status) {
+      // if (item._id) {
+      //   this.onEdit(item._id, item, index)
+      // } else {
+      //   this.onInsert(item, index)
+      // }
+      this.insertDirect([item], index)
+    } else {
+      const html = `
+      <p>
+        attachment remain: ${obj.data.attachment}
+      </p>
+      <p>
+        checker remain: ${obj.data.checker}
+      </p>
+      <p>
+        power remain: ${obj.data.power}
+      </p>`
+      Swal.fire({
+        title: `Operate tool!!`,
+        icon: 'error',
+        html: html
+      })
+    }
+  }
+
+  // ! ยังไม่ใช้
   async onInsert(item: any, index: number) {
     const r_checkQueue = await this.$queue.check(item).toPromise()
     if (r_checkQueue.status) {
@@ -292,6 +355,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }
 
   }
+  // ! ยังไม่ใช้
 
   async insertDirect(item: any, index: number) {
     const newItem = item[0]
@@ -300,16 +364,19 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       if (r_update && r_update.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
         this.mapForTable(this.data)
+        this.data[index].operateTable = await this.getOperateToolTableAll(newItem, newItem.startDate)
 
       } else {
         Swal.fire('', '', 'error')
       }
     } else {
       const r_insert = await this.$queue.insert(newItem).toPromise()
-      console.log(r_insert);
+      // console.log(r_insert);
       this.data[index] = r_insert[0]
       Swal.fire('SUCCESS', '', 'success')
       this.mapForTable(this.data)
+      this.data[index].operateTable = await this.getOperateToolTableAll(newItem, newItem.startDate)
+
     }
   }
 

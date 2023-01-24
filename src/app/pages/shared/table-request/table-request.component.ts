@@ -155,12 +155,17 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    if (item.status === 'request_confirm') {
+    if (item.status === 'request_confirm' || item.status === 'draft') {
       if (item.nextApprove && item.nextApprove._id == this.userLogin._id) return false
       return true
     } else {
-      if (item.nextApprove && item.nextApprove._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
-      return true
+      if (item.status === 'qe_engineer' || item.status === 'qe_engineer2') {
+        if (item.status === localStorage.getItem('RLS_authorize')) return false
+        return true
+      } else {
+        if (item.nextApprove && item.nextApprove._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
+        return true
+      }
     }
   }
 

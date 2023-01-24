@@ -18,7 +18,7 @@ export class QeChamberPlanningComponent implements OnInit {
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   dataSource: any;
-  displayedColumns = [ 'condition', 'userRequest', 'requestDate', 'sendDate', 'operate', 'qty'];
+  displayedColumns = ['condition', 'userRequest', 'requestDate', 'sendDate', 'operate', 'qty'];
   chamberTable!: QueueForm[]
   constructor(
     private dialog: MatDialog,
@@ -67,7 +67,7 @@ export class QeChamberPlanningComponent implements OnInit {
 
   createPlaning() {
     this.chamberTable = this.data.map((selected: any) => {
-      console.log(selected);
+      // console.log(selected);
 
       const temp: QueueForm = {
         startDate: null,
@@ -90,7 +90,7 @@ export class QeChamberPlanningComponent implements OnInit {
           value: selected.condition.value
         },
         model: selected.step1.modelNo,
-        status:'draft'
+        status: 'draft'
       }
       return temp
     })

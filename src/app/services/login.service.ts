@@ -30,7 +30,7 @@ export class LoginService {
           ...res[0],
           name: this.shortName(res[0].name)
         };
-        console.log(user);
+        // console.log(user);
 
         let newAuth = ''
 
@@ -57,7 +57,7 @@ export class LoginService {
     this.setToken()
     localStorage.setItem('RLS_id', user._id);
     localStorage.setItem('RLS_authorize', newAuth);
-    console.log(localStorage.getItem(newAuth));
+    // console.log(localStorage.getItem(newAuth));
 
     localStorage.setItem('RLS_userName', user.name);
     let userLoginStr = JSON.stringify(user)
@@ -92,7 +92,7 @@ export class LoginService {
         const { id, status } = res
         let newUrl = ''
         if (id) {
-          console.log(1);
+          // console.log(1);
 
           switch (status) {
             case 'request_approve':
@@ -177,7 +177,7 @@ export class LoginService {
           //   window.location.reload()
           // })
         } else {
-          console.log(2);
+          // console.log(2);
 
           if (auth == 'admin') {
             newUrl = "/admin"
@@ -217,7 +217,7 @@ export class LoginService {
   }
 
   validPermissionRequest(auth: any) {
-    console.log(auth);
+    // console.log(auth);
     switch (auth) {
       case 'request':
         const url = '/request/sheet'
@@ -241,7 +241,7 @@ export class LoginService {
 
   }
   validPermissionQEWindowChamber(auth: any) {
-    console.log(auth);
+    // console.log(auth);
     switch (auth) {
       case 'qe_window_person':
         const url = '/qe-window-person/chamber'
@@ -253,7 +253,7 @@ export class LoginService {
     }
   }
   validPermissionQEWindowReport(auth: any) {
-    console.log(auth);
+    // console.log(auth);
     switch (auth) {
       case 'qe_window_person':
         const url = '/qe-window-person/report'
@@ -265,7 +265,7 @@ export class LoginService {
     }
   }
   validPermissionQEEngineer(auth: any) {
-    console.log(auth);
+    // console.log(auth);
     switch (auth) {
       case 'qe_engineer':
         const url = '/qe-engineer/approve-request'
@@ -277,7 +277,7 @@ export class LoginService {
     }
   }
   validPermissionQEEngineer2(auth: any) {
-    console.log('validPermissionQEEngineer2');
+    // console.log('validPermissionQEEngineer2');
     switch (auth) {
       case 'qe_engineer2':
         const url = '/qe-engineer/approve-request'
@@ -289,7 +289,7 @@ export class LoginService {
     }
   }
   validPermissionQESectionHead(auth: any) {
-    console.log(auth);
+    // console.log(auth);
     switch (auth) {
       case 'qe_section_head':
         const url = '/qe-section-head/approve-request'

@@ -1,9 +1,6 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
     <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap" class="box-body mtb-4 form-grey">
-        <app-step1 fxFlex="100" [step1]="form.step1"></app-step1>
-        <app-step2 fxFlex="100" [step2]="form.step2"></app-step2>
-        <app-step3 fxFlex="100" [step3]="form.step3"></app-step3>
-        <app-step4 fxFlex="100" [step4]="form.step4"></app-step4>
+        <app-views fxFlex="100" [formInput]="form"></app-views>
 
         <mat-divider fxFlex="100" style="margin: 20px 0;"></mat-divider>
 

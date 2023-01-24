@@ -151,7 +151,7 @@ export class QeChamberComponent implements OnInit {
 
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    console.log(this.form);
+    // console.log(this.form);
 
     if (this.form.level === 7.8) {
       this.userApprove = await this._userApprove.getUserApprove(this.userLogin, ['request'])

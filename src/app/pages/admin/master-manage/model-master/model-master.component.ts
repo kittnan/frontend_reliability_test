@@ -32,7 +32,7 @@ export class ModelMasterComponent implements OnInit {
   async getMaster() {
     const resData = await this._master_service.getModelMaster().toPromise()
     this.dataSource = new MatTableDataSource(resData)
-    this.displayedColumns = ['no', 'modelName','modelNo','size','customer','operateGroupCode','action']
+    this.displayedColumns = ['no', 'modelNo', 'modelName', 'size', 'customer', 'operateGroupCode', 'action']
     this.tableConfig()
   }
 

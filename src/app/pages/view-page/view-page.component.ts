@@ -25,7 +25,7 @@ export class ViewPageComponent implements OnInit {
       const id = params['id']
       const resData = await this.$request.get_id(id).toPromise()
       this.data = resData[0]
-      console.log(this.data);
+      // console.log(this.data);
 
     })
   }

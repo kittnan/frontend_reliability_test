@@ -6,6 +6,7 @@
         <app-step4 *ngIf="form?.step4" fxFlex="100" [(step4)]="form.step4"></app-step4>
         <app-step5 *ngIf="form?.step5" fxFlex="100" [(step5)]="form.step5"></app-step5>
         <app-plan-reliability-test fxFlex="100" *ngIf="form &&form.table" [requestForm]="[form]" [queues]="form.table"></app-plan-reliability-test>
+        <app-comment fxFlex="100" [comment]="form.comment"></app-comment>
     </div>
 
 </div>

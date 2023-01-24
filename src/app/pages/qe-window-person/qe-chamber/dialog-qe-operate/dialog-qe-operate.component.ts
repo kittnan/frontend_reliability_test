@@ -43,7 +43,7 @@ export class DialogQeOperateComponent implements OnInit {
     this.getGroupReady()
     const param = new HttpParams().set('startDate', this.startDate)
     this.operateItems = await this.$operate.remain(param).toPromise()
-    console.log(this.operateItems);
+    // console.log(this.operateItems);
 
   }
   async getGroupReady() {

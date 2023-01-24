@@ -33,7 +33,7 @@
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
                 <mat-label>START DATE</mat-label>
                 <input matInput [readonly]="true" [matDatepicker]="startDate" [(ngModel)]="item.startDate" (dateChange)="onCal(item,i)">
-                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="startDate" (click)="onCal(item,i)"></mat-datepicker-toggle>
                 <mat-datepicker touchUi #startDate></mat-datepicker>
             </mat-form-field>
 
@@ -192,7 +192,7 @@
 
         </div>
         <div fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
-            <button color="primary" mat-button (click)="onDraft(item,i)">
+            <button color="primary" mat-button (click)="onDraft(item,i,item.startDate)">
         <span class="material-icons-outlined">
           save
         </span>
@@ -211,6 +211,7 @@
 
     <app-plan-reliability-test *ngIf="tableData" fxFlex="100" [requestForm]="requestForm" [queues]="tableData">
     </app-plan-reliability-test>
+
 
 
 </div>

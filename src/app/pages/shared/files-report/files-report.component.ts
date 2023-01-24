@@ -142,8 +142,10 @@ export class FilesReportComponent implements OnInit {
   sendMail(action: any) {
     if (!!this.form) {
       const nextUser = this.form?.step5?.find((item: any) => item.prevStatusForm === "request")
+      const eng = this.form?.step5?.find((item: any) => item.prevStatusForm === "qe_engineer")
+      const eng2 = this.form?.step5?.find((item: any) => item.prevStatusForm === "qe_engineer2")
       if (!!nextUser) {
-        this._approve.sendMail([nextUser.prevUser._id], action, this.form._id)
+        this._approve.sendMail([nextUser.prevUser._id, eng._id, eng2._id], action, this.form._id)
       } else {
         console.error('not found user')
       }

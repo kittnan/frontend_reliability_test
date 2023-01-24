@@ -68,7 +68,7 @@ export class QeWindowReportComponent implements OnInit {
   }
 
   outDisable(e: any) {
-    console.log(e);
+    // console.log(e);
     this.disableBtn = e
   }
 

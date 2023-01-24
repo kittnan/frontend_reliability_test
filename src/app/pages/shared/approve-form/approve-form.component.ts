@@ -107,7 +107,7 @@ export class ApproveFormComponent implements OnInit {
       }).then((value: SweetAlertResult) => {
         if (value.isConfirmed) {
           const findUserApprove = this.data.step5.find((s: any) => s.prevStatusForm == key)
-          // console.log(findUserApprove);
+          // // console.log(findUserApprove);
           this._reject.send(this.userLogin, findUserApprove, this.data, value.value, key)
         }
       })

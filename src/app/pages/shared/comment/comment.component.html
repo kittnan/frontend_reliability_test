@@ -1,0 +1,24 @@
+<div fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+    <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider>
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+            <span class="box-title">
+        Comment
+      </span>
+        </div>
+
+
+        <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+            <span *ngIf="comment" style="white-space: pre-line;">
+        {{comment}}
+      </span>
+            <span *ngIf="!comment">
+        No comment.
+      </span>
+        </div>
+
+    </div>
+</div>
