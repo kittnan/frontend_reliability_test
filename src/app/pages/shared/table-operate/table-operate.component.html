@@ -1,38 +1,33 @@
-<div fxLayoutAlign="start stretch" fxLayout="row wrap">
-    <table fxFlex="100" *ngIf="table" style="width: -webkit-fill-available; margin: 10px 0 20px 0;">
-        <tr style="background-color: darkseagreen;">
-            <th colspan="4">
-                OPERATE TOOL ALL
-            </th>
-        </tr>
-        <tr style="background-color: darkseagreen;">
-            <th>
-                CODE
-            </th>
-            <th>
-                TYPE
-            </th>
-            <th>
-                NAME
-            </th>
-            <th>
-                REMAIN/TOTAL
-            </th>
-        </tr>
-        <tr *ngFor="let row of table; let i=index">
-            <td>
-                {{row.code |uppercase}}
-            </td>
-            <td>
-                {{row.type |uppercase}}
-            </td>
-            <td>
-                {{row.name}}
-            </td>
-            <td>
-                {{row.remain}} / {{row.stock}}
-            </td>
-        </tr>
-    </table>
+<div fxLayoutAlign="start stretch" fxLayout="row wrap" style="overflow: auto;">
+    <table fxFlex="100" mat-table matSort [dataSource]="dataSource">
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> NO </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
 
+        <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CODE </th>
+            <td mat-cell *matCellDef="let element"> {{element.code |uppercase}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> NAME </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TYPE </th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TOTAL </th>
+            <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator fxFlex="100" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>

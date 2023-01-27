@@ -35,7 +35,7 @@ export class TableRequestComponent implements OnInit {
   selected_status = 'ongoing'
   requests: any = []
 
-  displayedColumns: string[] = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'btn'];
+  displayedColumns: string[] = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'userApprove', 'edit', 'btn'];
   pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -118,13 +118,23 @@ export class TableRequestComponent implements OnInit {
     }
     this.params.status = JSON.stringify(status)
 
-    const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
-    const resData = await this.$request.table(param).toPromise()
-    // const resData = await this.$tableRequest.getTable(this.params)
-    const resultMap: any = await this.mapRows(resData)
-    this.presentCount = resultMap.length
-    this.dataSource = new MatTableDataSource(resultMap);
-    this.setOption();
+    if (localStorage.getItem('RLS_authorize') === 'admin') {
+      const param: HttpParams = new HttpParams().set('status', statusStr)
+      const resData = await this.$request.tableAdmin(param).toPromise()
+      const resultMap: any = await this.mapRows(resData)
+      this.presentCount = resultMap.length
+      this.dataSource = new MatTableDataSource(resultMap);
+      this.setOption();
+    } else {
+      const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
+      const resData = await this.$request.table(param).toPromise()
+      // const resData = await this.$tableRequest.getTable(this.params)
+      const resultMap: any = await this.mapRows(resData)
+      this.presentCount = resultMap.length
+      this.dataSource = new MatTableDataSource(resultMap);
+      this.setOption();
+    }
+
   }
   private mapRows(data: any) {
     return new Promise(resolve => {

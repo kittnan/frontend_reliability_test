@@ -39,7 +39,7 @@ export class RejectService {
       level: level
     }
     if (form.status !== 'request_confirm') this.clearStep5UpperTarget(upperLevel)
-    console.log('update request', newForm);
+    // console.log('update request', newForm);
     await this.$request.update(newForm._id, newForm).toPromise()
     const logData = {
       formId: newForm._id,
@@ -63,7 +63,7 @@ export class RejectService {
         },
         comment: [comment]
       }
-      console.log('update step5', newStep);
+      // console.log('update step5', newStep);
       await this.$step5.update(newStep._id, newStep).toPromise()
 
       setTimeout(() => {
@@ -88,7 +88,7 @@ export class RejectService {
         level: level,
         requestId: form._id,
       }
-      console.log('insert step5', newStep);
+      // console.log('insert step5', newStep);
       await this.$step5.insert(newStep).toPromise()
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
@@ -123,7 +123,7 @@ export class RejectService {
       formId: formId
     }
     const resSendMail = await this.$sendMail.send(body).toPromise()
-    console.log(resSendMail);
+    // console.log(resSendMail);
     const logData = {
       formId: formId,
       action: `send mail ${status}`,
@@ -135,7 +135,7 @@ export class RejectService {
 
 
   private findNextLevel(formStatus: any, to: any) {
-    console.log(formStatus, to);
+    // console.log(formStatus, to);
 
     if (formStatus == 'request_approve' && to == 'request') {
       return 2.1

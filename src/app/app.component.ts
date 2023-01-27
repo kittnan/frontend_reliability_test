@@ -66,6 +66,31 @@ export class AppComponent {
   onAccess() {
     if (this.authorize == 'admin') {
       this.sideItems = [
+
+        {
+          title: 'dashboard',
+          icon: 'dashboard',
+          items: [
+            {
+              path: '/dashboard',
+              icon: 'dashboard',
+              title: 'main'
+            },
+
+          ]
+        },
+        {
+          title: 'request',
+          icon: 'feed',
+          items: [
+            {
+              path: '/admin/request-manage',
+              icon: 'feed',
+              title: 'manage'
+            },
+
+          ]
+        },
         {
           title: 'master',
           icon: 'discount',
@@ -155,11 +180,7 @@ export class AppComponent {
           title: 'request',
           icon: 'feed',
           items: [
-            // {
-            //   path: '/request/request-sheet',
-            //   icon: 'post_add',
-            //   title: 'new request'
-            // },
+
             {
               path: '/request/sheet',
               icon: 'post_add',

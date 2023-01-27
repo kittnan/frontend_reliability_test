@@ -52,6 +52,11 @@ export class RequestHttpService {
       params: param
     })
   }
+  tableAdmin(param: any) {
+    return this.http.get(`${this.URL}/request_form/tableShowAdmin/`, {
+      params: param
+    })
+  }
   tableCount(param: any) {
     return this.http.get(`${this.URL}/request_form/tableShowCount/`, {
       params: param

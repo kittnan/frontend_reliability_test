@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 // import { QeWindowPersonComponent } from './pages/qe-window-person/qe-window-person.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -61,7 +62,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NotFoundComponent,
     FooterComponent,
     // QeWindowPersonComponent,
-    ViewPageComponent
+    ViewPageComponent,
+    DashboardComponent
 
   ],
   imports: [

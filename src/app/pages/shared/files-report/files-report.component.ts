@@ -166,18 +166,18 @@ export class FilesReportComponent implements OnInit {
   }
 
   validCompleteFile() {
-    console.log(this.queues);
+    // console.log(this.queues);
     const reduceTimes: any = this.queues.reduce((prev: any, now: any) => {
       prev = prev.concat(now.reportTime)
       return prev
     }, [])
-    console.log(reduceTimes);
+    // console.log(reduceTimes);
 
     const foo = reduceTimes.filter((time: any) => {
       if (time.files.length === 0) return true
       return false
     })
-    console.log(foo);
+    // console.log(foo);
 
     if (foo.length === 0) {
       this.disable.emit(false)

@@ -1,10 +1,7 @@
-table,
-th,
-td {
-    border: 1px solid black;
-    padding: 10px;
+table {
+    background-color: initial;
 }
 
-table {
-    border-collapse: collapse;
+::ng-deep .mat-paginator {
+    background-color: initial;
 }

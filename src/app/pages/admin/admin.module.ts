@@ -34,6 +34,8 @@ import { TableComponent } from './chamber/table/table.component';
 import { DialogAddComponent } from './chamber/table/dialog-add/dialog-add.component';
 import { FunctionChamberComponent } from './master-manage/function-chamber/function-chamber.component';
 import { DialogFunctionChamberComponent } from './master-manage/function-chamber/dialog-function-chamber/dialog-function-chamber.component';
+import { RequestComponent } from './request/request.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -66,6 +68,7 @@ import { DialogFunctionChamberComponent } from './master-manage/function-chamber
     DialogAddComponent,
     FunctionChamberComponent,
     DialogFunctionChamberComponent,
+    RequestComponent,
   ],
   imports: [
     CommonModule,
@@ -74,7 +77,8 @@ import { DialogFunctionChamberComponent } from './master-manage/function-chamber
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ]
 })
 export class AdminModule { }

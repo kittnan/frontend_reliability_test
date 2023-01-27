@@ -1,0 +1,81 @@
+<div fxLayoutAlign="center stretch" fxLayout="row wrap" class="over-flow">
+
+    <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+        <div fxFlex.lg="80" fxFlex.xl="70" fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
+
+            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-evenly start">
+                <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-evenly start">
+
+                    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" class="card-head">
+                        <span class="material-icons-outlined" style="font-size: 100px;"> dashboard </span>
+                        <p id="text"> dashboard reliability </p>
+                    </div>
+
+                    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between start">
+                        <div fxFlex="45" class="card-head card-head-item">
+                            <mat-card class="demo-inline-calendar-card">
+                                <mat-calendar [(selected)]="date" (selectedChange)="changeDate()"></mat-calendar>
+                            </mat-card>
+                        </div>
+                        <div fxFlex="25" class="card-head card-head-item">
+
+                            <mat-card class="example-card">
+                                <mat-card-header>
+                                    <mat-card-title>DST</mat-card-title>
+                                    <mat-card-subtitle>remain request</mat-card-subtitle>
+                                </mat-card-header>
+                                <div style="background-color: rgb(163, 163, 163); height: 11rem;" fxLayoutAlign="center center">
+                                    <span class="text-number"> 10 </span>
+                                </div>
+                                <mat-card-content>
+                                    <p>
+                                        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
+                                    </p>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-button>LIKE</button>
+                                    <button mat-button>SHARE</button>
+                                </mat-card-actions>
+                            </mat-card>
+
+                        </div>
+                        <div fxFlex="25" class="card-head card-head-item">
+                            <mat-card class="example-card">
+                                <mat-card-header>
+                                    <mat-card-title>AMT</mat-card-title>
+                                    <mat-card-subtitle>remain request</mat-card-subtitle>
+                                </mat-card-header>
+                                <div style="background-color: rgb(163, 163, 163); height: 11rem;" fxLayoutAlign="center center">
+                                    <span class="text-number"> 12 </span>
+                                </div>
+                                <mat-card-content>
+                                    <p>
+                                        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
+                                    </p>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-button>LIKE</button>
+                                    <button mat-button>SHARE</button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap" style="padding: 0 0 2rem 0;">
+        <div fxFlex.lg="80" fxFlex.xl="70" fxFlex="100" fxLayoutAlign="space-evenly center" fxLayout="row wrap" class="card-body">
+            <span fxFlex="100" style="font-size: 20px; font-weight: bolder;" fxLayoutAlign="center center">OPERATE ITEM
+        ALL</span>
+            <app-table-operate fxFlex="100" *ngIf="item" [table]="item"></app-table-operate>
+        </div>
+    </div>
+
+
+</div>

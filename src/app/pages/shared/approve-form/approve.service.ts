@@ -50,10 +50,10 @@ export class ApproveService {
       level: 9,
       requestId: form._id,
     }
-    console.log('insert step', newStep);
+    // console.log('insert step', newStep);
     await this.$step5.insert(newStep).toPromise()
 
-    console.log('finish', newForm);
+    // console.log('finish', newForm);
     await this.$request.update(newForm._id, newForm).toPromise()
     const user = newForm.step5.find((s: any) => s.level === 1)
     const eng = newForm.step5.find((s: any) => s.level === 4)
@@ -73,9 +73,9 @@ export class ApproveService {
 
   async send(prevUser: any, nextUserApprove: any, form: any, comment: any) {
     this._loading.start()
-    console.log(nextUserApprove, form, comment);
+    // console.log(nextUserApprove, form, comment);
     const nextStatusForm = this.findNextStatus(form.status, form.level)
-    console.log(form.status, nextStatusForm);
+    // console.log(form.status, nextStatusForm);
     const level = this.findNextLevel(form.status, form.level)
 
     if (form.status == 'draft') {
@@ -141,7 +141,7 @@ export class ApproveService {
           },
           level: level,
         }
-        console.log('update prev step', prev);
+        // console.log('update prev step', prev);
         await this.$step5.update(prev._id, prev).toPromise()
       } else {
         const newStep = {
@@ -160,7 +160,7 @@ export class ApproveService {
           level: level,
           requestId: form._id,
         }
-        console.log('insert step', newStep);
+        // console.log('insert step', newStep);
         await this.$step5.insert(newStep).toPromise()
       }
       const newForm = {
@@ -173,7 +173,7 @@ export class ApproveService {
         comment: comment,
         level: level
       }
-      console.log('update request', newForm);
+      // console.log('update request', newForm);
       await this.$request.update(newForm._id, newForm).toPromise()
       const logData = {
         formId: newForm._id,
@@ -205,7 +205,7 @@ export class ApproveService {
       formId: formId
     }
     const resSendMail = await this.$sendMail.send(body).toPromise()
-    console.log(resSendMail);
+    // console.log(resSendMail);
     const logData = {
       formId: formId,
       action: `send mail ${status}`,

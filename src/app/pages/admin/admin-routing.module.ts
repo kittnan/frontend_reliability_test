@@ -1,3 +1,4 @@
+import { RequestComponent } from './request/request.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
@@ -66,6 +67,10 @@ const routes: Routes = [
       {
         path: 'operate-items',
         component: ItemsComponent
+      },
+      {
+        path: 'request-manage',
+        component: RequestComponent
       },
       {
         path: '',

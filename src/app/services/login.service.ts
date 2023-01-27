@@ -14,6 +14,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class LoginService {
 
   URL: string = environment.API
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -35,8 +36,11 @@ export class LoginService {
         let newAuth = ''
 
         if (user?.authorize.length > 1) {
+          const auth = user.authorize.sort()
           const dialogRef = this.dialog.open(DialogAuthComponent, {
-            data: user.authorize
+            data: auth,
+            hasBackdrop: true,
+            disableClose: true
           })
           dialogRef.afterClosed().subscribe(res => {
             newAuth = res

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminGuard } from './guards/admin.guard';
 import { ApproveGuard } from './guards/approve.guard';
-import { QeDepartmentHeadGuard } from './guards/qe-department-head.guard';
 import { QeEngineerGuard } from './guards/qe-engineer.guard';
 import { QeSectionHeadGuard } from './guards/qe-section-head.guard';
 import { QeWindowPersonGuard } from './guards/qe-window-person.guard';
@@ -15,6 +14,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { QeEngineerModule } from './pages/qe-engineer/qe-engineer.module';
 import { QeSectionHeadModule } from './pages/qe-section-head/qe-section-head.module';
 import { QeWindowPersonModule } from './pages/qe-window-person/qe-window-person.module';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -61,6 +61,10 @@ const routes: Routes = [
   {
     path: 'view-page',
     component: ViewPageComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
   },
 
   {
