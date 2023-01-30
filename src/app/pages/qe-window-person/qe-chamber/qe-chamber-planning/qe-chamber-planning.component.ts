@@ -73,6 +73,7 @@ export class QeChamberPlanningComponent implements OnInit {
         startDate: null,
         endDate: null,
         inspectionTime: this._qe_chamber.genInspectionTime(selected.condition.data.inspection),
+        reportQE: this._qe_chamber.genInspectionTime(selected.condition.data.inspection),
         reportTime: this._qe_chamber.genInspectionTime(selected.condition.data.report),
         operate: {
           attachment: {},

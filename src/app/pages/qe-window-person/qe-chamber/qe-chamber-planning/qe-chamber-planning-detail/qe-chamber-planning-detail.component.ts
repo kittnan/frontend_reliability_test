@@ -135,6 +135,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async onCal(item: QueueForm, index: number) {
+    console.log(item);
+
     const startDate: any = item.startDate
     if (startDate) {
       item = this.$qe_chamber.genEndDate(item)
@@ -206,11 +208,12 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         // const body = [item]
-        // // console.log(body);
-
-
-
-        this.validRemainOperate(item, startDate, index)
+        console.log(item);
+        if (item.operate?.status) {
+          this.validRemainOperate(item, startDate, index)
+        } else {
+          this.insertDirect([item], index)
+        }
       }
     })
 
@@ -401,7 +404,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       temp.push(now.condition.name)
       return temp
     }, [])
-    const receive = header.map((h: any) => moment(this.requestForm[0].step1.sampleSentToQE_withinDate).format('ddd, D/M/YY h:mm a'))
+    const receive = header.map((h: any) => moment(this.requestForm[0].step1.sampleSentToQE_withinDate).format('ddd, D-MMM-YY,h:mm a'))
     const times_inspection = await this.mapTime(data, 'inspectionTime')
     const times_report = await this.mapTime(data, 'reportTime')
     const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, data, header, 'inspectionTime', times_report)
@@ -411,6 +414,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       data: table_inspection
     }
     this.emit()
+    console.log(this.data)
 
   }
 

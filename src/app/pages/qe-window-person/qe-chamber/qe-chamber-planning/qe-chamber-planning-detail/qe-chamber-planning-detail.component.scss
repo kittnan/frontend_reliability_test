@@ -20,7 +20,7 @@ td {
 }
 
 .b-left-red {
-    border-left: 20px solid rgb(241, 125, 125)
+    border-left: 20px solid rgb(241, 125, 125);
 }
 
 .b-left-green {
@@ -34,9 +34,12 @@ td {
 
 .green {
     background-color: rgb(118, 255, 118);
-    ;
 }
 
 ::ng-deep.mat-stroked-button {
     margin: 5px 0;
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+    text-transform: uppercase !important;
 }

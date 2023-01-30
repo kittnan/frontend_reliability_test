@@ -177,6 +177,18 @@ export class AppComponent {
     if (this.authorize == 'request') {
       this.sideItems = [
         {
+          title: 'dashboard',
+          icon: 'dashboard',
+          items: [
+            {
+              path: '/dashboard',
+              icon: 'dashboard',
+              title: 'main'
+            },
+
+          ]
+        },
+        {
           title: 'request',
           icon: 'feed',
           items: [
@@ -199,6 +211,18 @@ export class AppComponent {
     if (this.authorize == 'request_approve') {
       this.sideItems = [
         {
+          title: 'dashboard',
+          icon: 'dashboard',
+          items: [
+            {
+              path: '/dashboard',
+              icon: 'dashboard',
+              title: 'main'
+            },
+
+          ]
+        },
+        {
           title: 'request',
           icon: 'feed',
           items: [
@@ -213,6 +237,18 @@ export class AppComponent {
     }
     if (this.authorize == 'qe_window_person') {
       this.sideItems = [
+        {
+          title: 'dashboard',
+          icon: 'dashboard',
+          items: [
+            {
+              path: '/dashboard',
+              icon: 'dashboard',
+              title: 'main'
+            },
+
+          ]
+        },
         {
           title: 'request',
           icon: 'feed',
@@ -229,6 +265,18 @@ export class AppComponent {
     if (this.authorize == 'qe_engineer' || this.authorize == 'qe_engineer2') {
       this.sideItems = [
         {
+          title: 'dashboard',
+          icon: 'dashboard',
+          items: [
+            {
+              path: '/dashboard',
+              icon: 'dashboard',
+              title: 'main'
+            },
+
+          ]
+        },
+        {
           title: 'request',
           icon: 'feed',
           items: [
@@ -243,6 +291,18 @@ export class AppComponent {
     }
     if (this.authorize == 'qe_section_head') {
       this.sideItems = [
+        {
+          title: 'dashboard',
+          icon: 'dashboard',
+          items: [
+            {
+              path: '/dashboard',
+              icon: 'dashboard',
+              title: 'main'
+            },
+
+          ]
+        },
         {
           title: 'request',
           icon: 'feed',

@@ -31,21 +31,28 @@
             </mat-form-field>
 
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
-                <mat-label>START DATE</mat-label>
+                <mat-label>date inspection initial </mat-label>
                 <input matInput [readonly]="true" [matDatepicker]="startDate" [(ngModel)]="item.startDate" (dateChange)="onCal(item,i)">
                 <mat-datepicker-toggle matSuffix [for]="startDate" (click)="onCal(item,i)"></mat-datepicker-toggle>
                 <mat-datepicker touchUi #startDate></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
-                <mat-label>TIME</mat-label>
+                <mat-label>time start inspection initial </mat-label>
                 <mat-select (selectionChange)="onSelectHour(item,$event)">
                     <mat-option *ngFor="let h of hourList; let i=index" [value]="h">{{h}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill" *ngFor="let time of item.inspectionTime; let indexTime=index">
-                <mat-label>AT TIME {{time.at}} (hr)</mat-label>
+                <mat-label *ngIf="time.at=='0'">timing inspection initial</mat-label>
+                <mat-label *ngIf="time.at!='0'">timing inspection {{time.at}} (hr)</mat-label>
+                <input matInput type="number" [(ngModel)]="time.hr" (ngModelChange)="onCal(item,i)">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill" *ngFor="let time of item.reportQE; let indexTime=index">
+                <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
+                <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
                 <input matInput type="number" [(ngModel)]="time.hr" (ngModelChange)="onCal(item,i)">
             </mat-form-field>
 
@@ -61,15 +68,11 @@
 
         <mat-divider fxFlex="100" class="mtb-4"></mat-divider>
         <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
-
             <button mat-stroked-button color="primary" (click)="dialogChamber(item)">
         {{i+1}}.2 CHAMBER
         <mat-icon>fact_check</mat-icon>
       </button>
-
-
         </div>
-
         <div fxFlex="100" fxLayoutAlign="start  stretch" fxLayout="row wrap">
 
             <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
@@ -95,7 +98,7 @@
 
         </div>
 
-        <app-table-operate fxFlex="100" *ngIf="item.operateTable" [table]="item.operateTable" fxFlex="100"></app-table-operate>
+        <app-table-operate fxFlex="100" *ngIf="item.operate.status && item.operateTable" [table]="item.operateTable" fxFlex="100"></app-table-operate>
 
         <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
 

@@ -15,6 +15,7 @@ export interface QueueForm {
   startDate: Date | null,
   endDate: Date | null,
   inspectionTime: TimeForm[] | null,
+  reportQE: TimeForm[] | null,
   reportTime: TimeForm[] | null,
   work: WorkForm | null,
   condition: ConditionForm | null,
@@ -113,6 +114,8 @@ export class QeChamberComponent implements OnInit {
 
   emitted(item: any) {
     this.chamberTable = item
+    console.log(this.chamberTable);
+
   }
 
   setDataTable() {

@@ -10,6 +10,16 @@ export class GenInspectionTableService {
   constructor() { }
 
   genTable(times: any, data: any, header: any, key: any, times_report: any) {
+    console.log('times', times);
+    console.log('data', data);
+    console.log('header', header);
+    console.log('key', key);
+    console.log('times_report', times_report);
+
+
+  }
+
+  genTable2(times: any, data: any, header: any, key: any, times_report: any) {
     return new Promise(resolve => {
       this.timeReport = times_report
       let arr_table: any[] = []
@@ -70,12 +80,12 @@ export class GenInspectionTableService {
   }
 
   private mapCol(foundItem: any, time: any, data: any, timeReport: any) {
-    const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D/MMM/YY h:mm a') : '-'
-    const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D/MMM/YY h:mm a') : '-'
+    const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
+    const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
 
     const report = timeReport.find((t: any) => t.at == time.at)
-    let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D/MMM/YY h:mm a') : '-'
+    let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
 
     let inspec_arr: any[] = [[], [], []]
     if (foundItem && time.at == 0 && time.at != -1) {
@@ -100,7 +110,7 @@ export class GenInspectionTableService {
           }
           else
             if (time.at == -1) {
-              const d_end = data?.endDate ? moment(data.endDate).format('ddd, D/MMM/YY h:mm a') : '-'
+              const d_end = data?.endDate ? moment(data.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
               inspec_arr[0].push([d_end])
             }
 
