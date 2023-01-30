@@ -3,6 +3,7 @@ import { HttpParams } from '@angular/common/http';
 import { OperateItemsHttpService } from './../../http/operate-items-http.service';
 import { Component, OnInit } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { RequestHttpService } from 'src/app/http/request-http.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +13,12 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class DashboardComponent implements OnInit {
   date: any = new Date()
   item: any
-
+  corporate: any
   interval$!: Subscription;
   constructor(
     private $operate: OperateItemsHttpService,
-    private _loading: NgxUiLoaderService
+    private _loading: NgxUiLoaderService,
+    private $request: RequestHttpService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -52,7 +54,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async getData() {
-    const res = await this.$operate.remain(new HttpParams().set('startDate', new Date(this.date).toISOString())).toPromise()
+    const param: HttpParams = new HttpParams().set('startDate', new Date(this.date).toISOString())
+    const res = await this.$operate.remain(param).toPromise()
     this.item = res.map((t: any, i: any) => {
       return {
         position: i + 1,
@@ -62,6 +65,8 @@ export class DashboardComponent implements OnInit {
         total: ` ${t.remain} / ${t.stock}`
       }
     })
+
+    this.corporate = await this.$request.corporateRemain(param).toPromise()
 
   }
 

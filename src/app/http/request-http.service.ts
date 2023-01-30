@@ -62,5 +62,10 @@ export class RequestHttpService {
       params: param
     })
   }
+  corporateRemain(param: any) {
+    return this.http.get(`${this.URL}/request_form/corporateRemain/`, {
+      params: param
+    })
+  }
 
 }

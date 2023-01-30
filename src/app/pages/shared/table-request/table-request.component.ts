@@ -259,11 +259,17 @@ export class TableRequestComponent implements OnInit {
 
 
 
-  doo() {
-    (this.paginator);
-    (this.sort);
-    this.params.skip = (this.paginator.pageSize * this.paginator.pageIndex).toString()
-    this.params.limit = this.paginator.pageSize.toString()
-    this.onSelectStatus()
+  htmlStatus(status: string) {
+    switch (status) {
+      case 'qe_window_person_report':
+        return 'MAKE_REPORT'
+
+      case 'qe_window_person_edit_plan':
+        return 'EDIT_REPORT'
+
+      default:
+        return status.toUpperCase()
+        break;
+    }
   }
 }

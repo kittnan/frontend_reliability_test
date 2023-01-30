@@ -19,6 +19,7 @@ export class InputOperateComponent implements OnInit {
     },
   ]
   @Input() form: any = null
+  @Input() disable: any = false
   @Output() formChange = new EventEmitter();
   constructor() { }
 
@@ -26,9 +27,9 @@ export class InputOperateComponent implements OnInit {
 
   }
   emit() {
-    this.formChange.emit({operate:this.form})
+    this.formChange.emit({ operate: this.form })
   }
-  public objectComparisonFunction = function( option:any, value:any ) : boolean {
+  public objectComparisonFunction = function (option: any, value: any): boolean {
     return option.text === value.text;
   }
 }

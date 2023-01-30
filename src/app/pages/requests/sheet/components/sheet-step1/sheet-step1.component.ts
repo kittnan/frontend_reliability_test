@@ -35,34 +35,34 @@ export class SheetStep1Component implements OnInit {
     _id: new FormControl(null),
     requestId: new FormControl(''),
     controlNo: new FormControl(null, Validators.required),
-    corporate: new FormControl(''),
-    requestStatus: new FormControl('normal'),
-    department: new FormControl(''),
-    requestDate: new FormControl<String | Date | null>(null),
+    corporate: new FormControl('', Validators.required),
+    requestStatus: new FormControl('normal', Validators.required),
+    department: new FormControl('', Validators.required),
+    requestDate: new FormControl<String | Date | null>(null, Validators.required),
+    sampleSentToQE_withinDate: new FormControl<String | Date | null>(null, Validators.required),
     concernShipmentDate: new FormControl(''),
     inputToProductionDate: new FormControl(''),
     concernCustomerDate: new FormControl(''),
     reportRequireDate: new FormControl(''),
-    sampleSentToQE_withinDate: new FormControl(''),
     modelNo: new FormControl('', Validators.required),
-    modelName: new FormControl(''),
-    lotNo: new FormControl(''),
-    size: new FormControl(''),
-    customer: new FormControl(''),
-    sampleDescription: new FormControl(''),
+    modelName: new FormControl('', Validators.required),
+    lotNo: new FormControl('', Validators.required),
+    size: new FormControl('', Validators.required),
+    customer: new FormControl('', Validators.required),
+    sampleDescription: new FormControl('', Validators.required),
     files: new FormControl(<any>[]),
     upload: new FormControl()
   })
 
   corporate: any[] = [
     {
+      name: 'DST',
+      value: 'dst'
+    },
+    {
       name: 'AMT',
       value: 'amt'
     },
-    {
-      name: 'DST',
-      value: 'dst'
-    }
   ]
   models: ModelNo[] = []
   departments: any[] = []

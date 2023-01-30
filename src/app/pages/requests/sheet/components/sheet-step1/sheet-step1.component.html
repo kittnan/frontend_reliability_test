@@ -68,16 +68,24 @@
             <mat-label>Department</mat-label>
             <mat-select formControlName="department" name="department" (selectionChange)="onSelectCorporate()">
                 <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">
-                    {{department.name}}</mat-option>
+                    {{department.name |uppercase}}</mat-option>
             </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">
             <mat-label>Request Date</mat-label>
-            <input formControlName="requestDate" matInput [matDatepicker]="picker1" [readonly]="true" (click)="picker1.open()">
+            <input [disabled]="true" formControlName="requestDate" matInput [matDatepicker]="picker1" [readonly]="true" (click)="picker1.open()">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start" class="mb-10">
+            <mat-label>Sample send to QE within date</mat-label>
+            <input formControlName="sampleSentToQE_withinDate" matInput [matDatepicker]="picker6" (click)="picker6.open()">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+            <mat-datepicker #picker6></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">
@@ -112,13 +120,7 @@
             <mat-datepicker #picker5></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start" class="mb-10">
-            <mat-label>Sample send to QE within date</mat-label>
-            <input formControlName="sampleSentToQE_withinDate" matInput [matDatepicker]="picker6" (click)="picker6.open()">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
-            <mat-datepicker #picker6></mat-datepicker>
-        </mat-form-field>
+
 
 
         <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">

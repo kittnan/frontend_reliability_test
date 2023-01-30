@@ -13,3 +13,11 @@ th {
 .section {
     list-style: none;
 }
+
+li {
+    padding-left: 10px;
+}
+
+::ng-deep .mat-checkbox-disabled .mat-checkbox-label {
+    color: currentColor;
+}

@@ -19,28 +19,33 @@ export class HeatShockComponent implements OnInit {
       tempVar: ''
     },
     operate: {
-      text: 'operate',
+      text: 'no-operate',
       value: false
     },
     sample: '',
     qty: '',
     inspection: [0],
     report: [0],
-    time:'',
-    cycle:'',
+    time: '',
+    cycle: '',
 
 
   }
   constructor() { }
 
   ngOnInit(): void {
-    if(this.data){
-      this.form = {...this.data}
+    if (this.data) {
+      this.form = {
+        ...this.data, operate: {
+          text: 'no-operate',
+          value: false
+        }
+      }
     }
   }
 
   emit(e: any) {
-    this.form = { ...this.form,...e }
+    this.form = { ...this.form, ...e }
     this.dataChange.emit(this.form)
 
   }

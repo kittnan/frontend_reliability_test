@@ -1,10 +1,10 @@
 <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
     <span class="material-icons-outlined">
-        build
-    </span>
+    build
+  </span>
     <mat-form-field fxFlex="90" appearance="fill">
         <mat-label>Operate</mat-label>
-        <mat-select [(ngModel)]="form" (ngModelChange)="emit()" [compareWith]="objectComparisonFunction">
+        <mat-select [disabled]="disable" [(ngModel)]="form" (ngModelChange)="emit()" [compareWith]="objectComparisonFunction">
 
             <mat-option *ngFor="let item of items" [value]="item">
                 {{item.text |uppercase}}
