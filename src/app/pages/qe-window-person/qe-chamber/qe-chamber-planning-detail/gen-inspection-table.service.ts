@@ -7,20 +7,67 @@ import * as moment from 'moment';
 export class GenInspectionTableService {
 
   timeReport: any
+  timeReportQE: any
   constructor() { }
 
-  genTable(times: any, data: any, header: any, key: any, times_report: any) {
-    console.log('times', times);
-    console.log('data', data);
-    console.log('header', header);
-    console.log('key', key);
-    console.log('times_report', times_report);
+  genTable2(times: any, dataArr: any, header: any, key: any, times_report: any, receive: any) {
+    console.log(receive);
 
+    // let rows: any[] = []
+    // for (let i_time = 0; i_time < times.length; i_time++) {
+    //   this.createRow(times[i_time], header, dataArr, i_time, rows.length)
+    // }
+  }
+
+  private createRow(time: any, header: string[], dataArr: any[], i_time: number, prevRowLen: number) {
+    // * 6 row
+    const numRows = 6
+    for (let i_row = 1; i_row <= numRows; i_row++) {
+      console.log(i_row);
+      let cols: any[] = []
+      if (i_row === 1) {
+        if (time.at === 0) {
+          cols.push(...[
+            {
+              text: 'Sample Receive',
+              class: ''
+            }, ...this.genHeader(header, dataArr)
+          ])
+        }
+      }
+      if (i_row === 2) {
+
+      }
+      if (i_row === 3) {
+
+      }
+      if (i_row === 4) {
+
+      }
+      if (i_row === 5) {
+
+      }
+      if (i_row === 6) {
+
+      }
+    }
 
   }
 
-  genTable2(times: any, data: any, header: any, key: any, times_report: any) {
+  genHeader(header: string[], dataArr: any[]) {
+    header.map((h: any) => {
+      const item = dataArr.find((d: any) => d.condition.name.toLowerCase() === h.toLowerCase())
+      return {
+        // text: item.
+      }
+    })
+    return []
+  }
+
+  genTable(times: any, data: any, header: any, key: any, times_report: any) {
     return new Promise(resolve => {
+      console.log(data);
+
       this.timeReport = times_report
       let arr_table: any[] = []
       for (let i = 0; i < times.length; i++) {
@@ -47,13 +94,13 @@ export class GenInspectionTableService {
       text = 'report'
     }
     if (at == 0) {
-      arr.push(['Inspection of Initial', text])
+      arr.push(['Inspection of Initial', text, 'QE report'])
       arr.push(['Input to Chamber'])
       arr.push(['-'])
     } else
       if (at != 0 && at != -1) {
         arr.push([`${at}hrs`])
-        arr.push([`Inspection after ${at}hrs`, text])
+        arr.push([`Inspection after ${at}hrs`, text, 'QE report'])
         arr.push(['Input to Chamber'])
         arr.push(['-'])
       } else
@@ -80,12 +127,14 @@ export class GenInspectionTableService {
   }
 
   private mapCol(foundItem: any, time: any, data: any, timeReport: any) {
+    console.log("🚀 ~ file: gen-inspection-table.service.ts:130 ~ GenInspectionTableService ~ mapCol ~ time", time)
     const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
 
     const report = timeReport.find((t: any) => t.at == time.at)
     let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
+    // let reportQE =
 
     let inspec_arr: any[] = [[], [], []]
     if (foundItem && time.at == 0 && time.at != -1) {

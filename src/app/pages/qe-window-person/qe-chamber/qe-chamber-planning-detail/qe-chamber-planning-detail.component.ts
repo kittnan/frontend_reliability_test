@@ -1,4 +1,3 @@
-import { async } from '@angular/core/testing';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,12 +8,12 @@ import { QueueService } from 'src/app/http/queue.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
-import { DialogQeChamberComponent } from '../../dialog-qe-chamber/dialog-qe-chamber.component';
-import { DialogQeOperateComponent } from '../../dialog-qe-operate/dialog-qe-operate.component';
-import { QueueForm, OperateForm, TimeForm } from '../../qe-chamber.component';
-import { QeChamberService } from '../../qe-chamber.service';
+import { DialogQeChamberComponent } from '../components/dialog-qe-chamber/dialog-qe-chamber.component';
+import { QueueForm, OperateForm, TimeForm } from '../qe-chamber.component';
+import { QeChamberService } from '../qe-chamber.service';
 import { GenInspectionTableService } from './gen-inspection-table.service';
 import { HttpParams } from '@angular/common/http';
+import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
 @Component({
   selector: 'app-qe-chamber-planning-detail',
   templateUrl: './qe-chamber-planning-detail.component.html',
@@ -414,7 +413,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       data: table_inspection
     }
     this.emit()
-    console.log(this.data)
+    // console.log(this.data)
 
   }
 

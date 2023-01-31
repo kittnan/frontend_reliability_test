@@ -2,8 +2,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { DialogQeChamberComponent } from '../dialog-qe-chamber/dialog-qe-chamber.component';
-import { DialogQeOperateComponent } from '../dialog-qe-operate/dialog-qe-operate.component';
+import { DialogQeChamberComponent } from '../components/dialog-qe-chamber/dialog-qe-chamber.component';
+import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
 import { QueueForm } from '../qe-chamber.component';
 import { QeChamberService } from '../qe-chamber.service';
 
@@ -95,6 +95,7 @@ export class QeChamberPlanningComponent implements OnInit {
       }
       return temp
     })
+    console.log("🚀 ~ file: qe-chamber-planning.component.ts:99 ~ QeChamberPlanningComponent ~ createPlaning ~ this.chamberTable", this.chamberTable)
     this.dataChange.emit(this.chamberTable)
   }
 
