@@ -21,6 +21,7 @@ export class DialogViewComponent implements OnInit {
     //  (this.data);
     const resData = await this._request.get_id(this.data._id).toPromise()
     this.form = resData[0];
+    console.log(this.form);
 
 
 

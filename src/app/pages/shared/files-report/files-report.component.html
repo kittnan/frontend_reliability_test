@@ -13,21 +13,13 @@
             <thead>
                 <tr>
                     <th colspan="2">
-                        <strong>
-              {{queue.condition.name}}
-            </strong>
+                        <strong> {{queue.condition.name}} </strong>
                     </th>
                 </tr>
                 <tr>
+                    <th> <span> TIME </span> </th>
                     <th>
-                        <span>
-              TIME
-            </span>
-                    </th>
-                    <th>
-                        <span>
-              FILE
-            </span>
+                        <span> FILE </span>
                     </th>
 
                 </tr>
@@ -35,11 +27,9 @@
             <tbody>
                 <tr *ngFor="let time of queue.reportTime; let i_time=index">
                     <td>
-                        <span>
-              Report At {{time.at}}
-              <input hidden type="file" #fileUpload multiple
+                        <span> Report At {{time.at}} <input hidden type="file" #fileUpload multiple
                 (change)="onUploadFile($event,time,queue.work.controlNo,i_queue);">
-              <button mat-button color="accent" (click)="fileUpload.click()" title="UPLOAD">
+              <button *ngIf="show" mat-button color="accent" (click)="fileUpload.click()" title="UPLOAD">
                 <span class="material-icons-outlined">
                   cloud_upload
                 </span>
@@ -72,7 +62,7 @@
                     </span>
 
                   </button>
-                                    <button mat-button color="warn" (click)="onDelete(file,time,i_queue)" title="DELETE">
+                                    <button *ngIf="show" mat-button color="warn" (click)="onDelete(file,time,i_queue)" title="DELETE">
                     <span class="material-icons-outlined">
                       delete
                     </span>

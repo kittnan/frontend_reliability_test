@@ -30,6 +30,8 @@
                 <input matInput [(ngModel)]="item.work.qty" [readonly]="true">
             </mat-form-field>
 
+            <mat-divider fxFlex="100"></mat-divider>
+            <h4 fxFlex="100">Inspection Initial</h4>
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
                 <mat-label>date inspection initial </mat-label>
                 <input matInput [readonly]="true" [matDatepicker]="startDate" [(ngModel)]="item.startDate" (dateChange)="onCal(item,i)">
@@ -44,17 +46,28 @@
                 </mat-select>
             </mat-form-field>
 
+            <mat-divider fxFlex="100"></mat-divider>
+            <h4 fxFlex="100">Inspection Time</h4>
+
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill" *ngFor="let time of item.inspectionTime; let indexTime=index">
                 <mat-label *ngIf="time.at=='0'">timing inspection initial</mat-label>
                 <mat-label *ngIf="time.at!='0'">timing inspection {{time.at}} (hr)</mat-label>
                 <input matInput type="number" [(ngModel)]="time.hr" (ngModelChange)="onCal(item,i)">
             </mat-form-field>
 
+            <mat-divider fxFlex="100"></mat-divider>
+            <h4 fxFlex="100">Report QE Time</h4>
+
+
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill" *ngFor="let time of item.reportQE; let indexTime=index">
                 <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
                 <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
                 <input matInput type="number" [(ngModel)]="time.hr" (ngModelChange)="onCal(item,i)">
             </mat-form-field>
+
+            <mat-divider fxFlex="100"></mat-divider>
+            <h4 fxFlex="100">End Time</h4>
+
 
             <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="legacy">
                 <mat-label>END DATE</mat-label>
@@ -98,7 +111,7 @@
 
         </div>
 
-        <app-table-operate fxFlex="100" *ngIf="item.operate.status && item.operateTable" [table]="item.operateTable" fxFlex="100"></app-table-operate>
+        <app-table-operate fxFlex="100" *ngIf="item.operate.status && item.operateTable" [table]="item.operateTable" class="mat-elevation-z1" style="padding: 10px 5px; margin-bottom: 10px;"></app-table-operate>
 
         <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
 

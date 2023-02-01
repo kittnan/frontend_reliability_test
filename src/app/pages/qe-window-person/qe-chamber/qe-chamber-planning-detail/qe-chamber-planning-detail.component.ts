@@ -53,9 +53,29 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(this.data);
-
     this.getDraft()
+    this.loopData()
+  }
+
+  async loopData() {
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i]?.operate?.status) {
+        const date = this.data[i]?.startDate ? new Date(this.data[i].startDate) : new Date()
+        const param: HttpParams = new HttpParams().set('startDate', date.toISOString())
+        const res = await this.$operateItems.remain(param).toPromise()
+        this.data[i]['operateTable'] = res.map((t: any, i: any) => {
+          return {
+            position: i + 1,
+            code: t.code,
+            type: t.type,
+            name: t.name,
+            used: t.stock - t.remain,
+            remain: t.remain,
+            total: t.stock,
+          }
+        })
+      }
+    }
   }
 
   async getDraft() {
@@ -207,7 +227,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         // const body = [item]
-        console.log(item);
+        // console.log(item);
         if (item.operate?.status) {
           this.validRemainOperate(item, startDate, index)
         } else {
@@ -406,10 +426,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     const receive = header.map((h: any) => moment(this.requestForm[0].step1.sampleSentToQE_withinDate).format('ddd, D-MMM-YY,h:mm a'))
     const times_inspection = await this.mapTime(data, 'inspectionTime')
     const times_report = await this.mapTime(data, 'reportTime')
-    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, data, header, 'inspectionTime', times_report)
+    // const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, times_report, receive, ['condition', ...header])
+    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, data, header, 'inspectionTime', times_report, ['Sample Receive', ...receive])
     this.tableData = {
       header: header,
-      receive: receive,
       data: table_inspection
     }
     this.emit()

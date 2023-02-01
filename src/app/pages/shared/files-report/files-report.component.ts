@@ -16,6 +16,7 @@ export class FilesReportComponent implements OnInit {
   @Input() queues!: any[]
   @Input() form!: any
   @Input() userLogin!: any
+  @Input() show: any = true
 
   @Output() disable: EventEmitter<boolean> = new EventEmitter(false)
 

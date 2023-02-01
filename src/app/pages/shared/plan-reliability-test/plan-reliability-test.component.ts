@@ -21,21 +21,10 @@ export class PlanReliabilityTestComponent implements OnInit {
     return step5.find((item: any) => item.level == 1).prevUser.name || ''
   }
 
-  renderColor(i: any) {
-    // if (i < 2) {
-    //   return false
-    // }
-    // if (i == 2) {
-    //   this.count = 2
-    // }
-
-    // const sum = i - this.count
-    // if (sum >= 3) {
-    //   this.count = i
-    //   this.countClass = !this.countClass
-    // }
-    // return this.countClass
-    return false
+  htmlRowClass(row_i: number) {
+    if (row_i + 1 === this.queues.data.length) return 'row-end'
+    if ((row_i + 1) % 4 === 0) return 'row-space'
+    return 'row-normal'
   }
 
 

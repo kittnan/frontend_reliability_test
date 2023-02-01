@@ -41,5 +41,10 @@ td {
 }
 
 ::ng-deep .mat-form-field-label-wrapper {
-    text-transform: uppercase !important;
+    text-transform: capitalize !important;
+    // font-weight: bold;
+}
+
+::ng-deep .mat-divider {
+    margin: 10px 0;
 }

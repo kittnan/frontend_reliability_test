@@ -8,33 +8,61 @@ export class GenInspectionTableService {
 
   timeReport: any
   timeReportQE: any
+
+  inspecTime: any
+  reportTime: any
+  receive: any
+  header: any
   constructor() { }
 
-  genTable2(times: any, dataArr: any, header: any, key: any, times_report: any, receive: any) {
+  genTable2(inspecTime: any, reportTime: any, receive: any, header: any) {
+    console.clear()
+    console.log(inspecTime);
+    console.log(reportTime);
     console.log(receive);
+    console.log(header);
+    this.inspecTime = inspecTime
+    this.reportTime = reportTime
+    this.receive = receive
+    this.header = header
+    for (let i_inspec = 0; i_inspec < inspecTime.length; i_inspec++) {
+      this.createRow(inspecTime[i_inspec])
+    }
 
-    // let rows: any[] = []
-    // for (let i_time = 0; i_time < times.length; i_time++) {
-    //   this.createRow(times[i_time], header, dataArr, i_time, rows.length)
-    // }
+
   }
 
-  private createRow(time: any, header: string[], dataArr: any[], i_time: number, prevRowLen: number) {
+  private createRow(inspec: any) {
+    console.log(inspec);
+
     // * 6 row
     const numRows = 6
     for (let i_row = 1; i_row <= numRows; i_row++) {
-      console.log(i_row);
+      // console.log(i_row);
+      // const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
+      // const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
+      // const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
       let cols: any[] = []
       if (i_row === 1) {
-        if (time.at === 0) {
-          cols.push(...[
-            {
-              text: 'Sample Receive',
-              class: ''
-            }, ...this.genHeader(header, dataArr)
-          ])
-        }
+
+        if (inspec.at === 0) {
+          cols.push(
+            ['sample receive', ...this.receive]
+          )
+        } else
+          if (inspec.at === -1) {
+            cols.push(
+              ['end date', 'date']
+            )
+          }
+          else {
+            cols.push([
+              `${inspec.at}hrs`, ''
+            ])
+          }
+
       }
+
       if (i_row === 2) {
 
       }
@@ -64,9 +92,8 @@ export class GenInspectionTableService {
     return []
   }
 
-  genTable(times: any, data: any, header: any, key: any, times_report: any) {
+  genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[]) {
     return new Promise(resolve => {
-      console.log(data);
 
       this.timeReport = times_report
       let arr_table: any[] = []
@@ -81,7 +108,9 @@ export class GenInspectionTableService {
         })
         arr_table.push(...row)
         if (times.length == i + 1) {
-          resolve(arr_table)
+          let newReceive = receive.map((r: any) => [r])
+          const res = [newReceive, ...arr_table]
+          resolve(res)
         }
       }
     })
@@ -89,18 +118,16 @@ export class GenInspectionTableService {
   }
   private genColHead(at: any, times_report: any) {
     let arr: any[] = []
-    let text = ''
     if (times_report.find((t: any) => t.at == at)) {
-      text = 'report'
     }
     if (at == 0) {
-      arr.push(['Inspection of Initial', text, 'QE report'])
+      arr.push(['Inspection of Initial', 'Report', 'QE Report'])
       arr.push(['Input to Chamber'])
       arr.push(['-'])
     } else
       if (at != 0 && at != -1) {
         arr.push([`${at}hrs`])
-        arr.push([`Inspection after ${at}hrs`, text, 'QE report'])
+        arr.push([`Inspection after ${at}hrs`, 'Report', 'QE Report'])
         arr.push(['Input to Chamber'])
         arr.push(['-'])
       } else
@@ -127,24 +154,33 @@ export class GenInspectionTableService {
   }
 
   private mapCol(foundItem: any, time: any, data: any, timeReport: any) {
-    console.log("🚀 ~ file: gen-inspection-table.service.ts:130 ~ GenInspectionTableService ~ mapCol ~ time", time)
+
     const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
 
     const report = timeReport.find((t: any) => t.at == time.at)
     let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
-    // let reportQE =
+
+    const dataReportQE = data.reportQE
+    const foundReportQE = report ? dataReportQE.find((t: any) => t.at === foundItem?.at) : null
+    const endDateReportQE = foundReportQE?.endDate ? moment(foundReportQE.startDate).add(foundReportQE.hr, 'hour').format('ddd, D-MMM-YY,h:mm a') : '-'
+
+    // console.log(foundItem);
+    // console.log(timeReport);
+    // console.log(dataReportQE);
+
+
 
     let inspec_arr: any[] = [[], [], []]
     if (foundItem && time.at == 0 && time.at != -1) {
-      inspec_arr[0].push(reportDate ? [between, reportDate] : between)
+      inspec_arr[0].push(reportDate ? [between, reportDate, endDateReportQE] : between)
       inspec_arr[1].push([end])
       inspec_arr[2].push(['-'])
     } else
       if (foundItem && time.at != 0 && time.at != -1) {
         inspec_arr[0].push([start])
-        inspec_arr[1].push(reportDate ? [between, reportDate] : between)
+        inspec_arr[1].push(reportDate ? [between, reportDate, endDateReportQE] : between)
         inspec_arr[2].push([end])
       } else
         if (!foundItem && time.at == 0 && time.at != -1) {

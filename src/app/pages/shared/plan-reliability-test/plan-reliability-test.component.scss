@@ -24,7 +24,7 @@ thead th {
     /* for Safari */
     position: sticky;
     top: 0;
-    background: #FFF;
+    background: #fff;
 }
 
 thead th:first-child {
@@ -37,7 +37,7 @@ tbody {
     /* for Safari */
     position: sticky;
     left: 0;
-    background: #FFF;
+    background: #fff;
 }
 
 .text-over {
@@ -64,3 +64,15 @@ ul {
 .bg-grey {
     background-color: rgb(201, 200, 200);
 }
+
+.row-end {
+    background-color: rgb(141 218 148);
+    font-weight: bolder;
+}
+
+.row-space {
+    background-color: rgb(191 238 195);
+    color: rgb(191 238 195);
+}
+
+.row-normal {}

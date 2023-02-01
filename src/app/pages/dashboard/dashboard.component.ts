@@ -62,7 +62,9 @@ export class DashboardComponent implements OnInit {
         code: t.code,
         type: t.type,
         name: t.name,
-        total: ` ${t.remain} / ${t.stock}`
+        used: t.stock - t.remain,
+        remain: t.remain,
+        total: t.stock,
       }
     })
 

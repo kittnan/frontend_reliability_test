@@ -14,8 +14,13 @@ export class UserApproveService {
   async getUserApprove(userLogin: any, authorize: any) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     userLogin = JSON.parse(userLoginStr)
+
     const section = [userLogin.section]
-    const temp_section = JSON.stringify(section)
+    let temp_section = JSON.stringify(section)
+    if (authorize === 'qe_window_person') {
+      temp_section = '[]'
+    }
+
     const level = [authorize]
     const temp_level = JSON.stringify(level)
     let userApprove = []

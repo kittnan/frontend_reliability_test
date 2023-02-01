@@ -42,7 +42,9 @@
 
                 <ng-container matColumnDef="userApprove">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> USER APPROVE </th>
-                    <td mat-cell *matCellDef="let row"> {{row.nextApprove.name |uppercase}} </td>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row?.nextApprove?.name">{{row.nextApprove.name |uppercase}}</span>
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="edit">
@@ -87,7 +89,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
                 <tr class="mat-row" *matNoDataRow>
-                    <td class="mat-cell" colspan="4">No data </td>
+                    <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data </td>
                 </tr>
             </table>
 
