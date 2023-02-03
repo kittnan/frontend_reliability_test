@@ -114,7 +114,7 @@ export class QeChamberComponent implements OnInit {
 
   emitted(item: any) {
     this.chamberTable = item
-    console.log(this.chamberTable);
+    // console.log(this.chamberTable);
 
   }
 

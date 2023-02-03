@@ -57,7 +57,7 @@
 }
 
 .mat-sidenav {
-    background-color: #dfdfdf;
+    background-color: #dfdfdfba;
 }
 
 .mat-expansion-panel {
@@ -66,8 +66,8 @@
 
 ::ng-deep .mat-toolbar.mat-primary {
     color: #000;
-    background-color: #9ada80;
-    border-bottom: 1px solid black;
+    background-color: #ffffffab;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
 }
 
 .mat-list-item:hover {

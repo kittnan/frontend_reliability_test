@@ -1,22 +1,25 @@
 <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch" class="over-flow">
 
-    <div fxFlex="60" fxLayout="row wrap" fxLayoutAlign="center stretch" class="box-body">
+    <div fxFlex.gt-md="60" fxFlex="70" fxLayout="row wrap" fxLayoutAlign="center stretch" class="content-item mt-2">
 
+        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+            <span class="box-title"> Item Operate Manage </span>
+        </div>
         <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end stretch">
             <button mat-button color="primary" (click)="openDialog();">
-                <span class="material-icons-outlined">
-                    playlist_add
-                </span>
-                <span>
-                    NEW ITEM
-                </span>
-            </button>
+        <span class="material-icons-outlined">
+          playlist_add
+        </span>
+        <span>
+          NEW ITEM
+        </span>
+      </button>
         </div>
 
         <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch">
             <mat-form-field fxFlex="100" appearance="fill">
                 <mat-label>Search</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Type..." #input>
+                <input matInput (keyup)="applyFilter($event)" #input>
             </mat-form-field>
 
             <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch" class="">
@@ -63,20 +66,20 @@
                     </ng-container>
 
                     <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
-                        <td mat-cell *matCellDef="let row" style="text-align: center;">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let row">
 
                             <button mat-icon-button color="primary" (click)="onEdit(row)" style="margin-right: 10px;">
-                                <span class="material-icons-outlined">
-                                    edit
-                                </span>
-                            </button>
+                <span class="material-icons-outlined">
+                  edit
+                </span>
+              </button>
 
                             <button mat-icon-button color="warn" (click)="onDelete(row)">
-                                <span class="material-icons-outlined">
-                                    delete
-                                </span>
-                            </button>
+                <span class="material-icons-outlined">
+                  delete
+                </span>
+              </button>
 
                         </td>
                     </ng-container>

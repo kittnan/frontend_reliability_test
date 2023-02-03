@@ -1,8 +1,6 @@
 <div *ngIf="data" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="">
+    <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="content">
         <app-views fxFlex="100" [formInput]="data"></app-views>
-        <app-plan-reliability-test fxFlex="100" *ngIf="data &&data.table" [requestForm]="[data]" [queues]="data.table"></app-plan-reliability-test>
-        <app-files-report fxFlex="100" [form]="data" [queues]="data.queues" [show]="false"></app-files-report>
     </div>
 
 </div>

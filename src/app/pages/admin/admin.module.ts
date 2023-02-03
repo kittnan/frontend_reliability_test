@@ -9,7 +9,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogAddUserComponent } from './user-manage/dialog-add-user/dialog-add-user.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MasterManageComponent } from './master-manage/master-manage.component';
 import { DepartmentComponent } from './master-manage/department/department.component';
 import { DialogDepartmentComponent } from './master-manage/department/dialog-department/dialog-department.component';
 import { ModelMasterComponent } from './master-manage/model-master/model-master.component';
@@ -43,7 +42,6 @@ import { SharedModule } from '../shared/shared.module';
     AdminComponent,
     UserManageComponent,
     DialogAddUserComponent,
-    MasterManageComponent,
     DepartmentComponent,
     DialogDepartmentComponent,
     ModelMasterComponent,

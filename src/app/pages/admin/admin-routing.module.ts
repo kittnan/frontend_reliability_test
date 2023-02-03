@@ -6,7 +6,6 @@ import { TableComponent } from './chamber/table/table.component';
 import { AuthorizeMasterComponent } from './master-manage/authorize-master/authorize-master.component';
 import { DepartmentComponent } from './master-manage/department/department.component';
 import { FunctionChamberComponent } from './master-manage/function-chamber/function-chamber.component';
-// import { MasterManageComponent } from './master-manage/master-manage.component';
 import { ModelMasterComponent } from './master-manage/model-master/model-master.component';
 import { SectionMasterComponent } from './master-manage/section-master/section-master.component';
 import { TestPurposeMasterComponent } from './master-manage/test-purpose-master/test-purpose-master.component';
@@ -24,10 +23,7 @@ const routes: Routes = [
         path: 'user-manage',
         component: UserManageComponent
       },
-      // {
-      //   path: 'master-manage',
-      //   component: MasterManageComponent
-      // },
+
       {
         path: 'department',
         component: DepartmentComponent

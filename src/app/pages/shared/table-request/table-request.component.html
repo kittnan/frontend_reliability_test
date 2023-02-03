@@ -1,7 +1,11 @@
-<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" class="over-flow">
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" class="over-flow ">
 
 
-    <div fxFlex="95" fxFlex.xl="70" fxFlex.lg="80" fxLayout="row wrap" fxLayoutAlign="center start" class="box-body">
+    <div fxFlex="95" fxFlex.xl="70" fxFlex.lg="80" fxLayout="row wrap" fxLayoutAlign="center start" class="content-item mt-2">
+
+        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+            <span class="box-title"> Table Request </span>
+        </div>
         <mat-form-field fxFlex="100" appearance="fill">
             <mat-label>Status</mat-label>
             <mat-select [(ngModel)]="selected_status" (selectionChange)="onSelectStatus()">

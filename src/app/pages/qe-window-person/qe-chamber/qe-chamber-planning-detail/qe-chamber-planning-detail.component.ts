@@ -154,7 +154,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async onCal(item: QueueForm, index: number) {
-    console.log(item);
+    // console.log(item);
 
     const startDate: any = item.startDate
     if (startDate) {

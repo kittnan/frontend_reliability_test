@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   date: any = new Date()
   item: any
   corporate: any
+  section: any
   interval$!: Subscription;
   constructor(
     private $operate: OperateItemsHttpService,
@@ -55,6 +56,12 @@ export class DashboardComponent implements OnInit {
 
   async getData() {
     const param: HttpParams = new HttpParams().set('startDate', new Date(this.date).toISOString())
+    this.getCorporateData(param)
+    this.getSectionData(param)
+    this.getOperateItem(param)
+  }
+
+  async getOperateItem(param: HttpParams) {
     const res = await this.$operate.remain(param).toPromise()
     this.item = res.map((t: any, i: any) => {
       return {
@@ -67,9 +74,13 @@ export class DashboardComponent implements OnInit {
         total: t.stock,
       }
     })
+  }
 
+  async getCorporateData(param: HttpParams) {
     this.corporate = await this.$request.corporateRemain(param).toPromise()
-
+  }
+  async getSectionData(param: HttpParams) {
+    this.corporate = await this.$request.sectionRemain(param).toPromise()
   }
 
 }

@@ -7,7 +7,7 @@
         <app-step5 *ngIf="form?.step5" fxFlex="100" [(step5)]="form.step5"></app-step5>
         <app-plan-reliability-test fxFlex="100" *ngIf="form &&form.table" [requestForm]="[form]" [queues]="form.table"></app-plan-reliability-test>
         <app-comment fxFlex="100" [comment]="form.comment"></app-comment>
-        <app-files-report [form]="form" [queues]="form.queues" [show]="false"></app-files-report>
+        <app-files-report fxFlex="100" [form]="form" [queues]="form.queues" [show]="false"></app-files-report>
     </div>
 
 </div>

@@ -67,5 +67,10 @@ export class RequestHttpService {
       params: param
     })
   }
+  sectionRemain(param: any) {
+    return this.http.get(`${this.URL}/request_form/sectionRemain/`, {
+      params: param
+    })
+  }
 
 }

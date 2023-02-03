@@ -16,11 +16,11 @@ export class GenInspectionTableService {
   constructor() { }
 
   genTable2(inspecTime: any, reportTime: any, receive: any, header: any) {
-    console.clear()
-    console.log(inspecTime);
-    console.log(reportTime);
-    console.log(receive);
-    console.log(header);
+    // console.clear()
+    // console.log(inspecTime);
+    // console.log(reportTime);
+    // console.log(receive);
+    // console.log(header);
     this.inspecTime = inspecTime
     this.reportTime = reportTime
     this.receive = receive
@@ -33,7 +33,7 @@ export class GenInspectionTableService {
   }
 
   private createRow(inspec: any) {
-    console.log(inspec);
+    // console.log(inspec);
 
     // * 6 row
     const numRows = 6
