@@ -22,6 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { CorporateComponent } from './pages/dashboard/components/corporate/corporate.component';
+import { SectionComponent } from './pages/dashboard/components/section/section.component';
+import { DialyRemainComponent } from './pages/dashboard/components/dialy-remain/dialy-remain.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -63,7 +66,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FooterComponent,
     // QeWindowPersonComponent,
     ViewPageComponent,
-    DashboardComponent
+    DashboardComponent,
+    CorporateComponent,
+    SectionComponent,
+    DialyRemainComponent
 
   ],
   imports: [

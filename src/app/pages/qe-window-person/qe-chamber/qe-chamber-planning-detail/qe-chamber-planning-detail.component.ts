@@ -241,7 +241,18 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   async getOperateToolTableAll(item: any, startDate: any) {
     const param: HttpParams = new HttpParams().set('startDate', new Date(startDate).toISOString())
     item.operateTable = await this.$operateItems.remain(param).toPromise()
-    return item.operateTable
+    return item.operateTable.map((t: any, i: any) => {
+      return {
+        position: i + 1,
+        code: t.code,
+        type: t.type,
+        name: t.name,
+        used: t.stock - t.remain,
+        remain: t.remain,
+        total: t.stock,
+      }
+    })
+
   }
 
   async validRemainOperate(item: any, startDate: any, index: any) {
@@ -252,15 +263,14 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     const power: any = item.operateTable.find((t: any) => t.code === operateUse.power.code)
     const obj = {
       data: {
-        attachment: 0,
-        checker: 0,
-        power: 0,
+        attachment: attachment.remain || 0,
+        checker: checker.remain || 0,
+        power: power.remain || 0,
       },
       status: true
     }
-    obj.data.attachment = attachment.remain
-    obj.data.checker = checker.remain
-    obj.data.power = power.remain
+
+
 
     if ((attachment?.remain - operateUse?.attachment?.qty) < 0) {
       obj.status = false;

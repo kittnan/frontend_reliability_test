@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
     this.corporate = await this.$request.corporateRemain(param).toPromise()
   }
   async getSectionData(param: HttpParams) {
-    this.corporate = await this.$request.sectionRemain(param).toPromise()
+    this.section = await this.$request.sectionRemain(param).toPromise()
   }
 
 }

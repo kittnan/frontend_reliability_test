@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let time of queue.reportTime; let i_time=index">
+                <tr *ngFor="let time of queue.reportQE ; let i_time=index">
                     <td>
                         <span> Report At {{time.at}} <input hidden type="file" #fileUpload multiple
                 (change)="onUploadFile($event,time,queue.work.controlNo,i_queue);">

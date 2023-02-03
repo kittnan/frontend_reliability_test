@@ -28,7 +28,7 @@
     font-variant: small-caps;
     text-align: center;
     font-size: 60px;
-    letter-spacing: 6px;
+    letter-spacing: 3px;
     word-spacing: 3px;
     // background-color: rgb(84, 84, 84);
     text-shadow: rgb(0, 148, 158) 2px 2px 2px;
@@ -59,15 +59,22 @@
     font-size: 9rem;
 }
 
-.line-body {
-    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: rgb(255, 255, 255, 0.712);
-    padding: 10px;
-    // margin: 30px 0;
-    height: 100%;
+.card-text-title {
+    // display: block;
+    position: relative;
+    margin: 40px 0;
+    background-color: red;
 }
 
-::ng-deep .mat-card-header .mat-card-subtitle:not(:first-child) {
-    text-transform: capitalize;
+.title {
+    font-size: 30px;
+    /* Abs positioning makes it not take up vert space */
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Border is the new background */
+    background: none;
+    /* Rotate from top left corner (not default) */
+    transform-origin: 0 0;
+    transform: rotate(90deg);
 }

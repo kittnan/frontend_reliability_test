@@ -1,0 +1,19 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <!-- <div fxFlex="23" class="card-body">
+        <h2>SECTION</h2>
+    </div> -->
+    <ng-container *ngFor="let cor of section; let i=index">
+        <div fxFlex="23" class="card-head card-head-item">
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <mat-card-title>{{cor.name|uppercase}}</mat-card-title>
+                    <mat-card-subtitle>remain request</mat-card-subtitle>
+                </mat-card-header>
+                <div style="background-color: rgb(163, 163, 163); height: 11rem;" fxLayoutAlign="center center">
+                    <span class="text-number"> {{cor.value}} </span>
+                </div>
+            </mat-card>
+
+        </div>
+    </ng-container>
+</div>

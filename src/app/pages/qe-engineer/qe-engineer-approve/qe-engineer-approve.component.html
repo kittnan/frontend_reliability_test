@@ -1,16 +1,10 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="box-body">
+    <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
         <app-views fxFlex="100" *ngIf="data" [formInput]="data"></app-views>
-
-
-
-
         <app-plan-reliability-test *ngIf="data" fxFlex="100" [requestForm]="[data]" [queues]="data.table">
         </app-plan-reliability-test>
 
-
-
-        <mat-form-field fxFlex="95" appearance="fill" style="margin-top: 30px;">
+        <mat-form-field fxFlex="100" appearance="fill" class="content-item">
             <mat-label>SEND TO...</mat-label>
             <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
                 <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">

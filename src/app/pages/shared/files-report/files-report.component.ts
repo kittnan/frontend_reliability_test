@@ -169,7 +169,8 @@ export class FilesReportComponent implements OnInit {
   validCompleteFile() {
     // console.log(this.queues);
     const reduceTimes: any = this.queues.reduce((prev: any, now: any) => {
-      prev = prev.concat(now.reportTime)
+      prev = prev.concat(now.reportQE
+      )
       return prev
     }, [])
     // console.log(reduceTimes);

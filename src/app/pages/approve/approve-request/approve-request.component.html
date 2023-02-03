@@ -1,8 +1,8 @@
 <div *ngIf="data" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div fxFlex.xl="80" fxFlex.lg="80" fxFlex="95" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="box-body">
+    <div fxFlex.xl="80" fxFlex.lg="80" fxFlex="95" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
         <app-views *ngIf="data" fxFlex="100" [formInput]="data"></app-views>
 
-        <mat-form-field fxFlex="95" appearance="fill" style="margin-top: 30px;">
+        <mat-form-field fxFlex="100" appearance="fill" class="content-item">
             <mat-label>SEND TO...</mat-label>
             <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
                 <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">

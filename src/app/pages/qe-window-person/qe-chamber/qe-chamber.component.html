@@ -1,15 +1,13 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap" class="box-body mtb-4 form-grey">
+    <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap" class=" mtb-4 form-grey">
         <app-views fxFlex="100" [formInput]="form"></app-views>
-
-        <mat-divider fxFlex="100" style="margin: 20px 0;"></mat-divider>
 
         <app-qe-chamber-planning fxFlex="100" [data]="dataSource" (dataChange)="emitted($event)"></app-qe-chamber-planning>
         <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(data)]="chamberTable" (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)">
         </app-qe-chamber-planning-detail>
 
 
-        <mat-form-field fxFlex="100" appearance="fill" style="margin-top: 30px;">
+        <mat-form-field fxFlex="100" appearance="fill" class="content-item">
             <mat-label>SEND TO...</mat-label>
             <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
                 <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
