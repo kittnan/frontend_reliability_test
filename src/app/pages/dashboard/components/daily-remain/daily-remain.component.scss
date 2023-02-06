@@ -1,0 +1,38 @@
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: end;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.text-1 {
+  font-weight: bold;
+  // font-size: large;
+}
+
+.text-2 {
+  font-weight: bold;
+  // font-size: medium;
+}
+
+.text-3 {
+  font-size: x-large;
+  font-weight: bolder;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+  color: rgb(49, 49, 235);
+}
+
+.mat-yellow {
+  background-color: #ffc62f;
+}
+
+.mat-expansion-panel {
+  background-color: rgba(255, 255, 255, 0.712);
+}

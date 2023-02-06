@@ -24,7 +24,8 @@ import { environment } from '../environments/environment';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CorporateComponent } from './pages/dashboard/components/corporate/corporate.component';
 import { SectionComponent } from './pages/dashboard/components/section/section.component';
-import { DialyRemainComponent } from './pages/dashboard/components/dialy-remain/dialy-remain.component';
+import { DailyRemainComponent } from './pages/dashboard/components/daily-remain/daily-remain.component';
+import { TableChamberComponent } from './pages/dashboard/components/table-chamber/table-chamber.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -69,7 +70,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DashboardComponent,
     CorporateComponent,
     SectionComponent,
-    DialyRemainComponent
+    DailyRemainComponent,
+    TableChamberComponent,
 
   ],
   imports: [

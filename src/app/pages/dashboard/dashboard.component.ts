@@ -15,6 +15,8 @@ export class DashboardComponent implements OnInit {
   item: any
   corporate: any
   section: any
+  dailyRemain: any
+  chamber: any
   interval$!: Subscription;
   constructor(
     private $operate: OperateItemsHttpService,
@@ -59,6 +61,8 @@ export class DashboardComponent implements OnInit {
     this.getCorporateData(param)
     this.getSectionData(param)
     this.getOperateItem(param)
+    this.getDailyRemainData()
+    this.getChamberData(param)
   }
 
   async getOperateItem(param: HttpParams) {
@@ -81,6 +85,12 @@ export class DashboardComponent implements OnInit {
   }
   async getSectionData(param: HttpParams) {
     this.section = await this.$request.sectionRemain(param).toPromise()
+  }
+  async getChamberData(param: HttpParams) {
+    this.chamber = await this.$request.chamberRemain(param).toPromise()
+  }
+  async getDailyRemainData() {
+    this.dailyRemain = await this.$request.dailyRemain().toPromise()
   }
 
 }

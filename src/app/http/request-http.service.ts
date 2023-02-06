@@ -72,5 +72,13 @@ export class RequestHttpService {
       params: param
     })
   }
+  dailyRemain() {
+    return this.http.get(`${this.URL}/request_form/dailyRemain/`)
+  }
+  chamberRemain(param: any) {
+    return this.http.get(`${this.URL}/request_form/chamberRemain/`, {
+      params: param
+    })
+  }
 
 }

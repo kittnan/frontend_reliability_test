@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialyRemainComponent } from './dialy-remain.component';
+import { TableChamberComponent } from './table-chamber.component';
 
-describe('DialyRemainComponent', () => {
-  let component: DialyRemainComponent;
-  let fixture: ComponentFixture<DialyRemainComponent>;
+describe('TableChamberComponent', () => {
+  let component: TableChamberComponent;
+  let fixture: ComponentFixture<TableChamberComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialyRemainComponent ]
+      declarations: [ TableChamberComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DialyRemainComponent);
+    fixture = TestBed.createComponent(TableChamberComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

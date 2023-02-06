@@ -1,0 +1,59 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mt-2">
+
+  <mat-accordion fxFlex="100" class="example-headers-align" multi>
+
+    <mat-expansion-panel disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="text-3"> daily remain {{dailyRemain.length}}</span>
+        </mat-panel-title>
+        <mat-panel-description>
+          <button mat-stroked-button color="primary" (click)="openAll()">Expand All</button>
+          <button mat-stroked-button color="accent" (click)="closeAll()">Collapse All</button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <ng-container *ngFor="let item of dailyRemain; let i=index">
+      <mat-expansion-panel (click)="onClickExpand(i)" [expanded]="stageExpand(i)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <button mat-flat-button color="">
+              <span class="text-1">{{item.controlNo}}</span>
+            </button>
+            <button mat-flat-button color="">
+              <span class="text-1">{{item.userName}}</span>
+            </button>
+            <button mat-flat-button color="">
+              <span class="text-1">{{item.userSection}}</span>
+            </button>
+          </mat-panel-title>
+          <mat-panel-description fxLayoutAlign="space-around stretch">
+
+            <button mat-flat-button color="primary">
+              <span class="text-2">{{item.model}} | {{item.size}} | {{item.customer}}</span>
+            </button>
+            <button mat-flat-button color="accent">
+              <span class="text-2">{{item.schedule[0].endDate | date:'hh:mm a'}}</span>
+            </button>
+            <button fxFlex="20" mat-flat-button [class]="htmlTimeCSS(item.schedule[0].diff)">
+              <span class="text-2">{{ htmlTime(item.schedule[0].diff)}}</span>
+            </button>
+            <button fxFlex="20" mat-flat-button color="warn">
+              <span *ngIf="item.schedule[0].report" class="text-2">REPORT</span>
+              <span *ngIf="!item.schedule[0].report" class="text-2">-</span>
+            </button>
+
+            <mat-icon>zoom_in</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-step3 [step3]="item.testingType"></app-step3>
+        <app-step4 [step4]="item.testingCondition"></app-step4>
+
+      </mat-expansion-panel>
+    </ng-container>
+
+
+
+  </mat-accordion>
+</div>

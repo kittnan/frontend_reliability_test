@@ -1,52 +1,68 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="over-flow">
 
-    <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
-        <div fxFlex.lg="80" fxFlex.xl="70" fxFlex="98" fxLayoutAlign="start center" fxLayout="row wrap">
+  <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+    <div fxFlex.lg="80" fxFlex.xl="70" fxFlex="98" fxLayoutAlign="start center" fxLayout="row wrap">
 
 
-            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" class="card-head">
-                <span class="material-icons-outlined" style="font-size: 100px;"> dashboard </span>
-                <p id="text"> dashboard reliability </p>
-            </div>
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" class="card-head">
+        <span class="material-icons-outlined" style="font-size: 100px;"> dashboard </span>
+        <p id="text"> dashboard reliability </p>
+      </div>
 
-            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between start">
-                <div fxFlex="40" class="card-head card-head-item">
-                    <mat-card class="demo-inline-calendar-card">
-                        <mat-calendar [(selected)]="date" (selectedChange)="changeDate()"></mat-calendar>
-                    </mat-card>
-                </div>
-
-                <app-corporate fxFlex="58" [corporate]="corporate"></app-corporate>
-                <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
-                    <mat-divider fxFlex="80"></mat-divider>
-                </div>
-                <app-section fxFlex="100" [section]="section"></app-section>
-                <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
-                    <mat-divider fxFlex="80"></mat-divider>
-
-                </div>
-
-            </div>
-
-            <div fxFlex="100">
-
-            </div>
-
-            <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap" style="padding: 0 0 2rem 0; margin-top: 30px;">
-                <div fxFlex="100" fxLayoutAlign="space-evenly center" fxLayout="row wrap" class="card-body">
-                    <span fxFlex="100" style="font-size: 20px; font-weight: bolder;" fxLayoutAlign="center center">OPERATE
-            ITEM
-            ALL</span>
-                    <app-table-operate fxFlex="100" *ngIf="item" [table]="item"></app-table-operate>
-                </div>
-            </div>
-
-
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between start">
+        <div fxFlex="40" class="card-head card-head-item">
+          <mat-card class="demo-inline-calendar-card">
+            <mat-calendar [(selected)]="date" (selectedChange)="changeDate()"></mat-calendar>
+          </mat-card>
         </div>
 
+        <app-corporate fxFlex="58" [corporate]="corporate"></app-corporate>
 
+        <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
+          <mat-divider fxFlex="80"></mat-divider>
+        </div>
 
+        <app-section fxFlex="100" [section]="section"></app-section>
 
+        <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
+          <mat-divider fxFlex="80"></mat-divider>
+        </div>
+
+      </div>
+
+      <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+        <app-daily-remain fxFlex="100" *ngIf="dailyRemain" [dailyRemain]="dailyRemain"></app-daily-remain>
+
+      </div>
+
+      <div fxFlex="100" fxLayoutAlign="center center" class="line-body mt-2">
+        <mat-divider fxFlex="80"></mat-divider>
+      </div>
+
+      <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+        style="padding: 0 0 2rem 0; margin-top: 30px;">
+        <div fxFlex="100" fxLayoutAlign="space-evenly center" fxLayout="row wrap" class="card-body">
+          <span fxFlex="100" style="font-size: 20px; font-weight: bolder;" fxLayoutAlign="center center">
+            Chamber</span>
+          <app-table-chamber fxFlex="100" *ngIf="chamber" [data]="chamber"></app-table-chamber>
+        </div>
+      </div>
+
+      <div fxFlex="100" fxLayoutAlign="center center" class="line-body mt-2">
+        <mat-divider fxFlex="80"></mat-divider>
+      </div>
+
+      <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+        style="padding: 0 0 2rem 0; margin-top: 30px;">
+        <div fxFlex="100" fxLayoutAlign="space-evenly center" fxLayout="row wrap" class="card-body">
+          <span fxFlex="100" style="font-size: 20px; font-weight: bolder;" fxLayoutAlign="center center">OPERATE
+            ITEM
+            ALL</span>
+          <app-table-operate fxFlex="100" *ngIf="item" [table]="item"></app-table-operate>
+        </div>
+      </div>
 
 
     </div>
+
+  </div>
