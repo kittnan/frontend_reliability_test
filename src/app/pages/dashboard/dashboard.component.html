@@ -1,7 +1,7 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="over-flow">
 
   <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
-    <div fxFlex.lg="80" fxFlex.xl="70" fxFlex="98" fxLayoutAlign="start center" fxLayout="row wrap">
+    <div fxFlex.lg="90" fxFlex.xl="90" fxFlex="98" fxLayoutAlign="start center" fxLayout="row wrap">
 
 
       <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" class="card-head">
@@ -10,13 +10,13 @@
       </div>
 
       <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between start">
-        <div fxFlex="40" class="card-head card-head-item">
+        <div fxFlex="30" class="card-head card-head-item">
           <mat-card class="demo-inline-calendar-card">
             <mat-calendar [(selected)]="date" (selectedChange)="changeDate()"></mat-calendar>
           </mat-card>
         </div>
 
-        <app-corporate fxFlex="58" [corporate]="corporate"></app-corporate>
+        <app-corporate fxFlex="68" [corporate]="corporate"></app-corporate>
 
         <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
           <mat-divider fxFlex="80"></mat-divider>

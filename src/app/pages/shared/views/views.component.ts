@@ -11,6 +11,14 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class ViewsComponent implements OnInit {
 
   @Input() formInput: any
+  @Input() show1: any = true
+  @Input() show2: any = true
+  @Input() show3: any = true
+  @Input() show4: any = true
+  @Input() show5: any = true
+  @Input() showComment: any = true
+  @Input() showTest: any = true
+  @Input() showReport: any = true
   form: any;
   step1: any
   step2: any

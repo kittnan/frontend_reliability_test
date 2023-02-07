@@ -1,24 +1,27 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap" class=" mtb-4 form-grey">
-        <app-views fxFlex="100" [formInput]="form"></app-views>
+  <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+    class=" mtb-4 form-grey">
+    <app-views [showTest]="false" fxFlex="100" [formInput]="form"></app-views>
 
-        <app-qe-chamber-planning fxFlex="100" [data]="dataSource" (dataChange)="emitted($event)"></app-qe-chamber-planning>
-        <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(data)]="chamberTable" (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)">
-        </app-qe-chamber-planning-detail>
-
-
-        <mat-form-field fxFlex="100" appearance="fill" class="content-item">
-            <mat-label>SEND TO...</mat-label>
-            <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
-                <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
-                    {{item.name|uppercase}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <app-qe-chamber-planning fxFlex="100" [data]="dataSource" (dataChange)="emitted($event)"></app-qe-chamber-planning>
+    <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(data)]="chamberTable"
+      (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)">
+    </app-qe-chamber-planning-detail>
 
 
-        <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve.value" [data]="form"></app-approve-form>
+    <mat-form-field fxFlex="100" appearance="fill" class="content-item">
+      <mat-label>SEND TO...</mat-label>
+      <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
+        <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
+          {{item.name|uppercase}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    </div>
+
+    <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve.value"
+      [data]="form"></app-approve-form>
+
+  </div>
 
 </div>

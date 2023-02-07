@@ -1,3 +1,4 @@
+import { UserHttpService } from 'src/app/http/user-http.service';
 import { SendMailService } from './../../../http/send-mail.service';
 import { LogFlowService } from './../../../http/log-flow.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -18,7 +19,8 @@ export class ApproveService {
     private _loading: NgxUiLoaderService,
     private _router: Router,
     private $log: LogFlowService,
-    private $sendMail: SendMailService
+    private $sendMail: SendMailService,
+    private $user: UserHttpService
   ) { }
 
   async finishJob(form: any, userLogin: any) {
@@ -115,7 +117,8 @@ export class ApproveService {
         user: prevUser
       }
       this.sendLog(logData)
-      this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id)
+      const toList = [newForm.nextApprove._id]
+      this.sendMail(toList, newForm.status, newForm._id)
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
         this._loading.stopAll()
@@ -181,7 +184,12 @@ export class ApproveService {
         user: prevUser
       }
       this.sendLog(logData)
-      this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id)
+      let toList = [newForm.nextApprove._id]
+      if (newForm.status === 'qe_window_person') {
+        const reUser = await this.$user.getQE().toPromise()
+        toList = reUser
+      }
+      this.sendMail(toList, newForm.status, newForm._id)
 
       setTimeout(() => {
         this._loading.stopAll()

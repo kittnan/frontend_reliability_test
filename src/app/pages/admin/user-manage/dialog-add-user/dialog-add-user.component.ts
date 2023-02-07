@@ -22,7 +22,7 @@ export class DialogAddUserComponent implements OnInit {
     password: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.email, Validators.required]),
-    authorize: new FormControl('', Validators.required),
+    authorize: new FormControl<any[] | string | null | undefined>([], Validators.required),
     department: new FormControl('', Validators.required),
     section: new FormControl('', Validators.required),
     createdBy: new FormControl('system', Validators.required),
@@ -45,6 +45,7 @@ export class DialogAddUserComponent implements OnInit {
 
     this.$master_service.getAuthorizeMaster().subscribe(res => {
       this.authorizes = res
+      this.authorizes = this.authorizes.sort((a, b) => a.name > b.name ? 1 : -1);
     })
 
 
@@ -57,7 +58,7 @@ export class DialogAddUserComponent implements OnInit {
         email: this.data.email,
         department: this.data.department,
         section: this.data.section,
-        authorize: this.data.authorize[0],
+        authorize: [...this.data.authorize],
         createdBy: this.data.createdBy,
       })
       this._id = this.data._id
@@ -107,5 +108,6 @@ export class DialogAddUserComponent implements OnInit {
     this.departmentList = await this.$master_service.getDepartmentMaster().toPromise()
     this.sectionList = await this.$master_service.getSectionMaster().toPromise()
   }
+
 
 }

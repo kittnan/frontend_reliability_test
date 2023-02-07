@@ -30,5 +30,8 @@ export class UserHttpService {
   deleteUser(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/user/delete/${id}`)
   }
+  getQE(): Observable<any> {
+    return this.http.get(`${this.URL}/user/qe`)
+  }
 
 }
