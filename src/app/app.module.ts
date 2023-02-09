@@ -26,6 +26,7 @@ import { CorporateComponent } from './pages/dashboard/components/corporate/corpo
 import { SectionComponent } from './pages/dashboard/components/section/section.component';
 import { DailyRemainComponent } from './pages/dashboard/components/daily-remain/daily-remain.component';
 import { TableChamberComponent } from './pages/dashboard/components/table-chamber/table-chamber.component';
+import { TableOperateRemainComponent } from './pages/dashboard/components/table-operate-remain/table-operate-remain.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -72,6 +73,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SectionComponent,
     DailyRemainComponent,
     TableChamberComponent,
+    TableOperateRemainComponent,
 
   ],
   imports: [

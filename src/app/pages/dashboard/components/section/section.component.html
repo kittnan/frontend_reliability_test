@@ -1,9 +1,9 @@
-<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-  <!-- <div fxFlex="23" class="card-body">
-        <h2>SECTION</h2>
-    </div> -->
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" fxLayoutGap="30">
+  <div fxFlex="5" fxLayout="row wrap" fxLayoutAlign="center center" class="text-vertical ">
+    <h2>SECTION</h2>
+  </div>
   <ng-container *ngFor="let cor of section; let i=index">
-    <div fxFlex="23" class="card-head card-head-item">
+    <div fxFlex="15" class="card-head card-head-item">
       <mat-card class="example-card">
         <mat-card-header>
           <mat-card-title>{{cor.name|uppercase}}</mat-card-title>

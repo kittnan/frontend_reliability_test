@@ -5,18 +5,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-table-chamber',
-  templateUrl: './table-chamber.component.html',
-  styleUrls: ['./table-chamber.component.scss']
+  selector: 'app-table-operate-remain',
+  templateUrl: './table-operate-remain.component.html',
+  styleUrls: ['./table-operate-remain.component.scss']
 })
-export class TableChamberComponent implements OnInit {
+export class TableOperateRemainComponent implements OnInit {
+
   @Input() data: any
   displayedColumns!: string[]
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
   constructor() { }
 
   ngOnInit(): void {
@@ -27,17 +27,19 @@ export class TableChamberComponent implements OnInit {
     this.createCol(maxQueue)
     this.createData(maxQueue)
   }
+
   createCol(maxQueue: number) {
-    this.displayedColumns = ['code', 'name', 'usedPercent']
+    this.displayedColumns = ['code', 'type', 'name']
     for (let i = 1; i <= maxQueue; i++) {
       this.displayedColumns.push(`queue${i}`)
     }
   }
   createData(maxQueue: number) {
     const newData = this.data.map((d: any) => {
+      d.code = d.code.toUpperCase()
       for (let i = 1; i <= maxQueue; i++) {
         if (d.queue[i - 1]) {
-          d[`queue${i}`] = `${d.queue[i - 1].work.controlNo} ➤ ${d.queue[i - 1].work.qty}pcs. ➤ ${moment(d.queue[i - 1].endDate).format('D-MMM-YYYY, hh:mm a')}`
+          d[`queue${i}`] = `${d.queue[i - 1].chamber} ➤ ${d.queue[i - 1].controlNo} ➤ ${d.queue[i - 1].qty}pcs. ➤ ${moment(d.queue[i - 1].endDate).format('D-MMM-YYYY, hh:mm a')}`
         } else {
           d[`queue${i}`] = null
         }
@@ -46,6 +48,7 @@ export class TableChamberComponent implements OnInit {
     })
     this.dataSource = new MatTableDataSource(newData)
   }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -58,7 +61,5 @@ export class TableChamberComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-
 
 }

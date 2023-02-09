@@ -1,6 +1,6 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="over-flow">
 
-  <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+  <div id="top" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
     <div fxFlex.lg="90" fxFlex.xl="90" fxFlex="98" fxLayoutAlign="start center" fxLayout="row wrap">
 
 
@@ -9,60 +9,79 @@
         <p id="text"> dashboard reliability </p>
       </div>
 
-      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between start">
-        <div fxFlex="30" class="card-head card-head-item">
+      <div id="corporate" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-evenly center" fxLayoutGap="30">
+        <div fxFlex="20" class="card-head card-head-item">
           <mat-card class="demo-inline-calendar-card">
             <mat-calendar [(selected)]="date" (selectedChange)="changeDate()"></mat-calendar>
           </mat-card>
         </div>
-
-        <app-corporate fxFlex="68" [corporate]="corporate"></app-corporate>
-
-        <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
-          <mat-divider fxFlex="80"></mat-divider>
-        </div>
-
-        <app-section fxFlex="100" [section]="section"></app-section>
-
-        <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
-          <mat-divider fxFlex="80"></mat-divider>
-        </div>
-
+        <app-corporate fxFlex="78" *ngIf="corporate && corporate.length!=0" [corporate]="corporate"></app-corporate>
       </div>
 
-      <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
-        <app-daily-remain fxFlex="100" *ngIf="dailyRemain" [dailyRemain]="dailyRemain"></app-daily-remain>
 
+      <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
+        <mat-divider fxFlex="80"></mat-divider>
+      </div>
+
+      <app-section id="section" fxFlex="100" *ngIf="section && section.length!=0" [section]="section"></app-section>
+
+      <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
+        <mat-divider fxFlex="80"></mat-divider>
+      </div>
+
+
+      <div id="daily" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+        <app-daily-remain fxFlex="100" *ngIf="dailyRemain " [dailyRemain]="dailyRemain"></app-daily-remain>
       </div>
 
       <div fxFlex="100" fxLayoutAlign="center center" class="line-body mt-2">
         <mat-divider fxFlex="80"></mat-divider>
       </div>
 
-      <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
-        style="padding: 0 0 2rem 0; margin-top: 30px;">
-        <div fxFlex="100" fxLayoutAlign="space-evenly center" fxLayout="row wrap" class="card-body">
-          <span fxFlex="100" style="font-size: 20px; font-weight: bolder;" fxLayoutAlign="center center">
-            Chamber</span>
-          <app-table-chamber fxFlex="100" *ngIf="chamber" [data]="chamber"></app-table-chamber>
-        </div>
-      </div>
+
+      <app-table-chamber id="chamber" fxFlex="100" *ngIf="chamber && chamber.length!=0" [data]="chamber"
+        class="mt-3"></app-table-chamber>
 
       <div fxFlex="100" fxLayoutAlign="center center" class="line-body mt-2">
         <mat-divider fxFlex="80"></mat-divider>
       </div>
 
-      <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
-        style="padding: 0 0 2rem 0; margin-top: 30px;">
-        <div fxFlex="100" fxLayoutAlign="space-evenly center" fxLayout="row wrap" class="card-body">
-          <span fxFlex="100" style="font-size: 20px; font-weight: bolder;" fxLayoutAlign="center center">OPERATE
-            ITEM
-            ALL</span>
-          <app-table-operate fxFlex="100" *ngIf="item" [table]="item"></app-table-operate>
-        </div>
-      </div>
-
+      <app-table-operate-remain id="operate" fxFlex="100" *ngIf="operate && operate.length!=0"
+        [data]="operate"></app-table-operate-remain>
 
     </div>
 
   </div>
+
+  <div class="overlay">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="scrollTo('top')">
+      <mat-icon>arrow_drop_up</mat-icon>
+      <span>GO TOP</span>
+    </button>
+    <button mat-menu-item (click)="scrollTo('corporate')">
+      <mat-icon>sell</mat-icon>
+      <span>CORPORATE</span>
+    </button>
+    <button mat-menu-item (click)="scrollTo('section')">
+      <mat-icon>sell</mat-icon>
+      <span>SECTION</span>
+    </button>
+    <button mat-menu-item (click)="scrollTo('daily')">
+      <mat-icon>sell</mat-icon>
+      <span>DAILY REMAIN</span>
+    </button>
+    <button mat-menu-item (click)="scrollTo('chamber')">
+      <mat-icon>sell</mat-icon>
+      <span>CHAMBER</span>
+    </button>
+    <button mat-menu-item (click)="scrollTo('operate')">
+      <mat-icon>sell</mat-icon>
+      <span>OPERATE</span>
+    </button>
+  </mat-menu>

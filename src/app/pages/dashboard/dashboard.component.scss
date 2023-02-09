@@ -71,3 +71,21 @@
 ::ng-deep .mat-card-header .mat-card-subtitle:not(:first-child) {
   text-transform: capitalize;
 }
+.overlay {
+  position: fixed;
+  z-index: 999;
+  width: 50px;
+  height: 50px;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #4192fba8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  transition: ease all 0.5s;
+}
+.overlay:hover {
+  transition: ease all 0.5s;
+  background-color: #4192fb;
+}

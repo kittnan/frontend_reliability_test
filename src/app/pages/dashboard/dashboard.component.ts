@@ -1,9 +1,11 @@
+import { TableOperateRemainComponent } from './components/table-operate-remain/table-operate-remain.component';
 import { interval, Subscription } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { OperateItemsHttpService } from './../../http/operate-items-http.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
+import { TableChamberComponent } from './components/table-chamber/table-chamber.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +19,11 @@ export class DashboardComponent implements OnInit {
   section: any
   dailyRemain: any
   chamber: any
+  operate: any
   interval$!: Subscription;
+
+  @ViewChild(TableOperateRemainComponent) childOperate!: TableOperateRemainComponent;
+  @ViewChild(TableChamberComponent) childChamber!: TableChamberComponent;
   constructor(
     private $operate: OperateItemsHttpService,
     private _loading: NgxUiLoaderService,
@@ -31,7 +37,7 @@ export class DashboardComponent implements OnInit {
   }
 
   setIntervalUpdate() {
-    this.interval$ = interval(60000).subscribe(res => this.getData())
+    this.interval$ = interval(10000).subscribe(res => this.getData())
   }
   clearInterval() {
     this.interval$.unsubscribe()
@@ -60,9 +66,10 @@ export class DashboardComponent implements OnInit {
     const param: HttpParams = new HttpParams().set('startDate', new Date(this.date).toISOString())
     this.getCorporateData(param)
     this.getSectionData(param)
-    this.getOperateItem(param)
+    // this.getOperateItem(param)
     this.getDailyRemainData()
     this.getChamberData(param)
+    this.getOperateData(param)
   }
 
   async getOperateItem(param: HttpParams) {
@@ -88,9 +95,27 @@ export class DashboardComponent implements OnInit {
   }
   async getChamberData(param: HttpParams) {
     this.chamber = await this.$request.chamberRemain(param).toPromise()
+    if (this.childChamber) {
+      this.childChamber.ngOnInit()
+      this.childChamber.ngAfterViewInit()
+    }
+
+  }
+  async getOperateData(param: HttpParams) {
+    this.operate = await this.$request.operateRemain(param).toPromise()
+    if (this.childOperate) {
+      this.childOperate.ngOnInit()
+      this.childOperate.ngAfterViewInit()
+    }
   }
   async getDailyRemainData() {
     this.dailyRemain = await this.$request.dailyRemain().toPromise()
   }
+
+  scrollTo(id: string) {
+    let elem = document.getElementById(id) as HTMLElement
+    elem.scrollIntoView()
+  }
+
 
 }

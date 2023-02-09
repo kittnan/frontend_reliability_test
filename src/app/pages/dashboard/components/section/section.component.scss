@@ -1,80 +1,80 @@
 .card-head {
-    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    // background-color: rgb(221, 255, 179);
-    background-color: rgba(255, 255, 255, 0.712);
-    padding: 20px;
-    margin: 30px 0;
+  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  // background-color: rgb(221, 255, 179);
+  background-color: rgba(255, 255, 255, 0.712);
+  padding: 20px;
+  margin: 30px 0;
 }
 
 .card-body {
-    box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: rgb(255, 255, 255, 0.712);
-    padding: 20px;
-    // margin: 30px 0;
-    height: 100%;
+  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255, 0.712);
+  padding: 20px;
+  // margin: 30px 0;
+  height: 100%;
 }
 
 .card-head-item {
-    // height: 170px;
-    overflow: auto;
+  // height: 170px;
+  overflow: auto;
 }
 
 #text {
-    font-family: verdana;
-    // text-decoration: overline;
-    text-transform: capitalize;
-    font-variant: small-caps;
-    text-align: center;
-    font-size: 60px;
-    letter-spacing: 3px;
-    word-spacing: 3px;
-    // background-color: rgb(84, 84, 84);
-    text-shadow: rgb(0, 148, 158) 2px 2px 2px;
-    line-height: normal;
+  font-family: verdana;
+  // text-decoration: overline;
+  text-transform: capitalize;
+  font-variant: small-caps;
+  text-align: center;
+  font-size: 60px;
+  letter-spacing: 3px;
+  word-spacing: 3px;
+  // background-color: rgb(84, 84, 84);
+  text-shadow: rgb(0, 148, 158) 2px 2px 2px;
+  line-height: normal;
 }
 
 .material-icons-outlined {
-    color: rgb(0 161 255);
+  color: rgb(0 161 255);
 }
 
 .demo-inline-calendar-card {
-    min-width: 100px;
-    box-shadow: none;
-    background-color: initial;
+  min-width: 100px;
+  box-shadow: none;
+  background-color: initial;
 }
 
 ::ng-deep .mat-card {
-    min-height: 300px;
+  min-height: 300px;
 }
 
 .example-card {
-    max-width: 400px;
-    background-color: initial;
-    box-shadow: none;
+  max-width: 400px;
+  background-color: initial;
+  box-shadow: none;
 }
 
 .text-number {
-    font-size: 9rem;
+  font-size: 9rem;
 }
 
 .card-text-title {
-    // display: block;
-    position: relative;
-    margin: 40px 0;
-    background-color: red;
+  // display: block;
+  position: relative;
+  margin: 40px 0;
+  background-color: red;
 }
 
 .title {
-    font-size: 30px;
-    /* Abs positioning makes it not take up vert space */
-    position: absolute;
-    top: 0;
-    left: 0;
-    /* Border is the new background */
-    background: none;
-    /* Rotate from top left corner (not default) */
-    transform-origin: 0 0;
-    transform: rotate(90deg);
+  font-size: 30px;
+  /* Abs positioning makes it not take up vert space */
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Border is the new background */
+  background: none;
+  /* Rotate from top left corner (not default) */
+  transform-origin: 0 0;
+  transform: rotate(90deg);
 }

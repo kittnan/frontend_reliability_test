@@ -62,6 +62,10 @@ export class RequestHttpService {
       params: param
     })
   }
+
+
+
+  // * dashboard
   corporateRemain(param: any) {
     return this.http.get(`${this.URL}/request_form/corporateRemain/`, {
       params: param
@@ -80,5 +84,12 @@ export class RequestHttpService {
       params: param
     })
   }
+  operateRemain(param: any) {
+    return this.http.get(`${this.URL}/request_form/operateRemain/`, {
+      params: param
+    })
+  }
+  // * dashboard
+
 
 }

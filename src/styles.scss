@@ -293,3 +293,35 @@ td.mat-column-star {
   width: 20px;
   padding-right: 8px !important;
 }
+
+// TODO dashboard
+.text-vertical {
+  position: relative;
+  padding: 0;
+  margin-right: 10px;
+  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  // background-color: rgb(221, 255, 179);
+  background-color: rgba(255, 255, 255, 0.712);
+  padding: 20px;
+  margin: 30px 0;
+  border-left: 10px solid #4192fb;
+}
+.text-vertical h2 {
+  writing-mode: vertical-rl;
+  position: absolute;
+  line-height: 1;
+  color: #808080;
+  font-size: 58px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.card-table {
+  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  // background-color: rgb(221, 255, 179);
+  background-color: rgba(255, 255, 255, 0.712);
+  padding: 20px;
+  margin: 30px 0;
+}

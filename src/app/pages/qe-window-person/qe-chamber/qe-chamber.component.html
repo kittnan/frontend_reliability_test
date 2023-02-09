@@ -1,7 +1,7 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
   <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
     class=" mtb-4 form-grey">
-    <app-views [showTest]="false" fxFlex="100" [formInput]="form"></app-views>
+    <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="form"></app-views>
 
     <app-qe-chamber-planning fxFlex="100" [data]="dataSource" (dataChange)="emitted($event)"></app-qe-chamber-planning>
     <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(data)]="chamberTable"
