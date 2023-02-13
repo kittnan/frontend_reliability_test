@@ -27,7 +27,7 @@ export class DailyRemainComponent implements OnInit {
       str = str.split('.')
       const h = str[0]
       let m: any = Math.ceil((Number(str[1]) / 10) * 6)
-      return `${h} ${m}  hr ${actionText}`
+      return `${h}hr ${m}min ${actionText}`
     } else {
       return `${min} min ${actionText}`
     }

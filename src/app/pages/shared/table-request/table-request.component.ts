@@ -152,7 +152,9 @@ export class TableRequestComponent implements OnInit {
 
   rowUserRequest(item: any) {
     const resultFind = item.step5.find((i: any) => i.level == 1)
-    return resultFind.prevUser.name
+    if (resultFind?.prevUser?.name) return resultFind.prevUser.name
+    return ''
+
   }
 
 

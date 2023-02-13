@@ -164,7 +164,10 @@ export class GenInspectionTableService {
 
     const dataReportQE = data.reportQE
     const foundReportQE = report ? dataReportQE.find((t: any) => t.at === foundItem?.at) : null
-    const endDateReportQE = foundReportQE?.endDate ? moment(foundReportQE.startDate).add(foundReportQE.hr, 'hour').format('ddd, D-MMM-YY,h:mm a') : '-'
+    const startReportQE = foundReportQE?.startDate ? moment(foundReportQE.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
+    const endDateReportQE = foundReportQE?.endDate ? moment(foundReportQE.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
+    const betweenReportQE = startReportQE == '-' ? ' - ' : `${startReportQE} ➝ ${endDateReportQE}`
+    // const endDateReportQE = foundReportQE?.endDate ? moment(foundReportQE.startDate).add(foundReportQE.hr, 'hour').format('ddd, D-MMM-YY,h:mm a') : '-'
 
     // console.log(foundItem);
     // console.log(timeReport);
@@ -174,13 +177,13 @@ export class GenInspectionTableService {
 
     let inspec_arr: any[] = [[], [], []]
     if (foundItem && time.at == 0 && time.at != -1) {
-      inspec_arr[0].push(reportDate ? [between, reportDate, endDateReportQE] : between)
+      inspec_arr[0].push(reportDate ? [between, reportDate, betweenReportQE] : between)
       inspec_arr[1].push([end])
       inspec_arr[2].push(['-'])
     } else
       if (foundItem && time.at != 0 && time.at != -1) {
         inspec_arr[0].push([start])
-        inspec_arr[1].push(reportDate ? [between, reportDate, endDateReportQE] : between)
+        inspec_arr[1].push(reportDate ? [between, reportDate, betweenReportQE] : between)
         inspec_arr[2].push([end])
       } else
         if (!foundItem && time.at == 0 && time.at != -1) {

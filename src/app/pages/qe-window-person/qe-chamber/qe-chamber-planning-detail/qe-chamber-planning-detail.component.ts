@@ -14,6 +14,7 @@ import { QeChamberService } from '../qe-chamber.service';
 import { GenInspectionTableService } from './gen-inspection-table.service';
 import { HttpParams } from '@angular/common/http';
 import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
+import { DialogDateComponent } from '../components/dialog-date/dialog-date.component';
 @Component({
   selector: 'app-qe-chamber-planning-detail',
   templateUrl: './qe-chamber-planning-detail.component.html',
@@ -24,13 +25,15 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   hourList: any[] = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
   ]
-  operateItems: any[] = []
+  // operateItems: any[] = []
   requestForm: any
   tableSource: any
 
   tableData: any = null
 
   userLogin: any;
+
+  dateNow = new Date()
   @Input() data: any;
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
   @Output() tableChange: EventEmitter<any> = new EventEmitter()
@@ -44,7 +47,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private $user: UserHttpService,
     private _qenInspectionTable: GenInspectionTableService,
   ) {
-    this.$operateItems.get().subscribe(res => this.operateItems = res);
+    // this.$operateItems.get().subscribe(res => this.operateItems = res);
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
     // const id: any = localStorage.getItem('RLS_id')
@@ -54,28 +57,15 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDraft()
-    this.loopData()
   }
 
   async loopData() {
     for (let i = 0; i < this.data.length; i++) {
       if (this.data[i]?.operate?.status) {
-        const date = this.data[i]?.startDate ? new Date(this.data[i].startDate) : new Date()
-        const param: HttpParams = new HttpParams().set('startDate', date.toISOString())
-        const res = await this.$operateItems.remain(param).toPromise()
-        this.data[i]['operateTable'] = res.map((t: any, i: any) => {
-          return {
-            position: i + 1,
-            code: t.code,
-            type: t.type,
-            name: t.name,
-            used: t.stock - t.remain,
-            remain: t.remain,
-            total: t.stock,
-          }
-        })
+        this.data[i]['operateTable'] = await this.getOperateToolTableAll(this.data[i].startDate)
       }
     }
+    console.log(this.data);
   }
 
   async getDraft() {
@@ -152,15 +142,41 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     item.startDate = moment(item.startDate).set('hour', e.value).toDate()
     this.onCal(item, 0)
   }
+  onSelectHourEndDate(time: any, item: QueueForm, i: any, e: any) {
+    time.endDate = moment(time.endDate).set('hour', e.value).toDate()
+    const startMo = moment(new Date(time.startDate))
+    const endMo = moment(new Date(time.endDate))
+    time.hr = moment(endMo).diff(startMo, 'hour')
+
+    // this.onCal(item, i)
+  }
 
   async onCal(item: QueueForm, index: number) {
-    // console.log(item);
-
     const startDate: any = item.startDate
     if (startDate) {
       item = this.$qe_chamber.genEndDate(item)
-      const param: HttpParams = new HttpParams().set('startDate', new Date(startDate).toISOString())
-      item.operateTable = await this.$operateItems.remain(param).toPromise()
+
+      item.operateTable = await this.getOperateToolTableAll(startDate)
+      console.log('new Cal', item);
+
+    }
+  }
+
+
+  openDialogCalendar(time: any, item: QueueForm, i: any, indexTime: any) {
+    if (time?.startDate) {
+      const dialogRef = this.dialog.open(DialogDateComponent, {
+        height: '500px',
+        width: '500px',
+        data: time
+      })
+      dialogRef.afterClosed().subscribe(res => {
+        if (res) {
+          time = res
+          time.h = null
+          // this.onCal(item, i)
+        }
+      })
     }
   }
 
@@ -203,7 +219,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         this.deleteQueue(item)
-        this.getOperateToolTableAll(item, item.startDate)
+
+
       }
     })
   }
@@ -214,6 +231,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       if (r_delete && r_delete.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
         delete item._id
+        this.getDraft()
+        this.getOperateToolTableAll(item.startDate)
       }
     } else {
     }
@@ -227,7 +246,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         // const body = [item]
-        // console.log(item);
+        console.log(item);
         if (item.operate?.status) {
           this.validRemainOperate(item, startDate, index)
         } else {
@@ -238,10 +257,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   }
 
-  async getOperateToolTableAll(item: any, startDate: any) {
+  async getOperateToolTableAll(startDate: any) {
     const param: HttpParams = new HttpParams().set('startDate', new Date(startDate).toISOString())
-    item.operateTable = await this.$operateItems.remain(param).toPromise()
-    return item.operateTable.map((t: any, i: any) => {
+    const resOperate = await this.$operateItems.remain(param).toPromise()
+    const mapOperate = resOperate.map((t: any, i: any) => {
       return {
         position: i + 1,
         code: t.code,
@@ -252,11 +271,12 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         total: t.stock,
       }
     })
+    return mapOperate
 
   }
 
   async validRemainOperate(item: any, startDate: any, index: any) {
-    item.operateTable = await this.getOperateToolTableAll(item, startDate)
+    item.operateTable = await this.getOperateToolTableAll(startDate)
     const operateUse = item.operate
     const attachment: any = item.operateTable.find((t: any) => t.code === operateUse.attachment.code)
     const checker: any = item.operateTable.find((t: any) => t.code === operateUse.checker.code)
@@ -287,6 +307,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       // } else {
       //   this.onInsert(item, index)
       // }
+      console.log(item);
+
       this.insertDirect([item], index)
     } else {
       const html = `
@@ -396,7 +418,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       if (r_update && r_update.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
         this.mapForTable(this.data)
-        this.data[index].operateTable = await this.getOperateToolTableAll(newItem, newItem.startDate)
+        this.data[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
 
       } else {
         Swal.fire('', '', 'error')
@@ -407,7 +429,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       this.data[index] = r_insert[0]
       Swal.fire('SUCCESS', '', 'success')
       this.mapForTable(this.data)
-      this.data[index].operateTable = await this.getOperateToolTableAll(newItem, newItem.startDate)
+      this.data[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
 
     }
   }
@@ -415,13 +437,25 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
 
   showOperateItemChecker(operateItems: any) {
-    return operateItems.filter((item: any) => item.type === 'checker')
+    if (operateItems && operateItems.length > 0) {
+      return operateItems.filter((item: any) => item.type === 'checker')
+    } else {
+      return []
+    }
   }
   showOperateItemPower(operateItems: any) {
-    return operateItems.filter((item: any) => item.type === 'power')
+    if (operateItems && operateItems.length > 0) {
+      return operateItems.filter((item: any) => item.type === 'power')
+    } else {
+      return []
+    }
   }
   showOperateItemAttachment(operateItems: any) {
-    return operateItems.filter((item: any) => item.type === 'attachment')
+    if (operateItems && operateItems.length > 0) {
+      return operateItems.filter((item: any) => item.type === 'attachment')
+    } else {
+      return []
+    }
   }
 
 
@@ -442,6 +476,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       header: header,
       data: table_inspection
     }
+    this.loopData()
     this.emit()
     // console.log(this.data)
 
@@ -474,7 +509,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   }
 
-
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    return day !== 0
+  };
 
 
 

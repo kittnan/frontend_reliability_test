@@ -33,14 +33,14 @@
               <span class="text-2">{{item.model}} | {{item.size}} | {{item.customer}}</span>
             </button>
             <button mat-flat-button color="accent">
-              <span class="text-2">{{item.schedule[0].endDate | date:'hh:mm a'}}</span>
+              <span class="text-2">{{item.schedule[0]?.endDate | date:'hh:mm a'}}</span>
             </button>
-            <button fxFlex="20" mat-flat-button [class]="htmlTimeCSS(item.schedule[0].diff)">
-              <span class="text-2">{{ htmlTime(item.schedule[0].diff)}}</span>
+            <button fxFlex="20" mat-flat-button [class]="htmlTimeCSS(item.schedule[0]?.diff)">
+              <span class="text-2">{{ htmlTime(item.schedule[0]?.diff)}}</span>
             </button>
             <button fxFlex="20" mat-flat-button color="warn">
-              <span *ngIf="item.schedule[0].report" class="text-2">REPORT</span>
-              <span *ngIf="!item.schedule[0].report" class="text-2">-</span>
+              <span *ngIf="item.schedule[0]?.report" class="text-2">REPORT</span>
+              <span *ngIf="!item.schedule[0]?.report" class="text-2">-</span>
             </button>
 
             <mat-icon>zoom_in</mat-icon>

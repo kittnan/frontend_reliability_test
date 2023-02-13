@@ -1,91 +1,92 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .example-is-mobile .example-toolbar {
-    position: fixed;
-    /* Make sure the toolbar will stay on top of the content as it scrolls past. */
-    z-index: 2;
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
 }
 
 .example-spacer {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .example-sidenav-container {
-    /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
        causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
-    flex: 1;
+  flex: 1;
 }
 
 .example-is-mobile .example-sidenav-container {
-    /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
        `<body>` to be our scrolling element for mobile layouts. */
-    flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .material-icons-outlined {
-    padding: 0 10px 4px 0;
+  padding: 0 10px 4px 0;
 }
 
 .side-title-head {
-    font-size: 17px;
-    font-weight: 700;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .side-title-sub {
-    font-size: 14px;
-    font-weight: 600;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .active {
-    color: #55b130;
+  color: #55b130;
 }
 
 .mat-list-base {
-    padding: 0;
+  padding: 0;
 }
 
 .mat-sidenav {
-    background-color: #dfdfdfba;
+  background-color: #dfdfdfba;
 }
 
 .mat-expansion-panel {
-    background-color: #ffffffc2;
+  background-color: #ffffffc2;
 }
 
 ::ng-deep .mat-toolbar.mat-primary {
-    color: #000;
-    background-color: #ffffffab;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+  color: #000;
+  background-color: #ffffffab;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.18);
 }
 
 .mat-list-item:hover {
-    background: rgb(145 236 127 / 14%);
+  background: rgb(145 236 127 / 14%);
 }
 
 footer {
-    background-color: #9ada80;
-    height: 15px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    z-index: 999;
-    text-align: right;
+  background-color: initial;
+  height: 15px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  z-index: 999;
+  text-align: right;
 }
 
 footer p {
-    font-size: 10px;
-    margin-right: 10px;
-    color: #3b3b3b;
+  font-size: 10px;
+  margin-right: 10px;
+  color: #3b3b3b;
 }

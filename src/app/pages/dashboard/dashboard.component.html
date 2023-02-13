@@ -5,7 +5,8 @@
 
 
       <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" class="card-head">
-        <span class="material-icons-outlined" style="font-size: 100px;"> dashboard </span>
+        <img src="assets/chart2.gif" alt="">
+        <!-- <span class="material-icons-outlined" style="font-size: 100px;"> dashboard </span> -->
         <p id="text"> dashboard reliability </p>
       </div>
 
@@ -15,7 +16,7 @@
             <mat-calendar [(selected)]="date" (selectedChange)="changeDate()"></mat-calendar>
           </mat-card>
         </div>
-        <app-corporate fxFlex="78" *ngIf="corporate && corporate.length!=0" [corporate]="corporate"></app-corporate>
+        <app-corporate fxFlex="77" *ngIf="corporate && corporate.length!=0" [corporate]="corporate"></app-corporate>
       </div>
 
 

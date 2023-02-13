@@ -16,6 +16,7 @@ import { QeChamberPlanningComponent } from './qe-chamber/qe-chamber-planning/qe-
 import { QeChamberPlanningDetailComponent } from './qe-chamber/qe-chamber-planning-detail/qe-chamber-planning-detail.component';
 import { DialogQeChamberComponent } from './qe-chamber/components/dialog-qe-chamber/dialog-qe-chamber.component';
 import { DialogQeOperateComponent } from './qe-chamber/components/dialog-qe-operate/dialog-qe-operate.component';
+import { DialogDateComponent } from './qe-chamber/components/dialog-date/dialog-date.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { DialogQeOperateComponent } from './qe-chamber/components/dialog-qe-oper
     DialogQeOperateComponent,
     QeChamberPlanningComponent,
     QeChamberPlanningDetailComponent,
+    DialogDateComponent,
   ],
   imports: [
     CommonModule,
