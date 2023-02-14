@@ -25,7 +25,7 @@ export class DialogDateComponent implements OnInit {
   }
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
-    return day !== 0
+    return day !== 0 && day !== 6;
   };
 
 }

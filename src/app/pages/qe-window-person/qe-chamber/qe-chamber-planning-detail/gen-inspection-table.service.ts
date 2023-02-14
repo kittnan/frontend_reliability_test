@@ -1,3 +1,4 @@
+import { TimeForm } from './../qe-chamber.component';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
@@ -6,96 +7,11 @@ import * as moment from 'moment';
 })
 export class GenInspectionTableService {
 
-  timeReport: any
-  timeReportQE: any
-
-  inspecTime: any
-  reportTime: any
-  receive: any
-  header: any
   constructor() { }
 
-  genTable2(inspecTime: any, reportTime: any, receive: any, header: any) {
-    // console.clear()
-    // console.log(inspecTime);
-    // console.log(reportTime);
-    // console.log(receive);
-    // console.log(header);
-    this.inspecTime = inspecTime
-    this.reportTime = reportTime
-    this.receive = receive
-    this.header = header
-    for (let i_inspec = 0; i_inspec < inspecTime.length; i_inspec++) {
-      this.createRow(inspecTime[i_inspec])
-    }
-
-
-  }
-
-  private createRow(inspec: any) {
-    // console.log(inspec);
-
-    // * 6 row
-    const numRows = 6
-    for (let i_row = 1; i_row <= numRows; i_row++) {
-      // console.log(i_row);
-      // const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
-      // const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
-      // const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
-      let cols: any[] = []
-      if (i_row === 1) {
-
-        if (inspec.at === 0) {
-          cols.push(
-            ['sample receive', ...this.receive]
-          )
-        } else
-          if (inspec.at === -1) {
-            cols.push(
-              ['end date', 'date']
-            )
-          }
-          else {
-            cols.push([
-              `${inspec.at}hrs`, ''
-            ])
-          }
-
-      }
-
-      if (i_row === 2) {
-
-      }
-      if (i_row === 3) {
-
-      }
-      if (i_row === 4) {
-
-      }
-      if (i_row === 5) {
-
-      }
-      if (i_row === 6) {
-
-      }
-    }
-
-  }
-
-  genHeader(header: string[], dataArr: any[]) {
-    header.map((h: any) => {
-      const item = dataArr.find((d: any) => d.condition.name.toLowerCase() === h.toLowerCase())
-      return {
-        // text: item.
-      }
-    })
-    return []
-  }
 
   genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[]) {
     return new Promise(resolve => {
-
-      this.timeReport = times_report
       let arr_table: any[] = []
       for (let i = 0; i < times.length; i++) {
         const foo = this.map_data(times[i], data, header, key)
@@ -184,7 +100,9 @@ export class GenInspectionTableService {
       if (foundItem && time.at != 0 && time.at != -1) {
         inspec_arr[0].push([start])
         inspec_arr[1].push(reportDate ? [between, reportDate, betweenReportQE] : between)
-        inspec_arr[2].push([end])
+
+        inspec_arr[2].push([time.at == timeReport[timeReport.length - 1].at ? '-' : end])
+        // inspec_arr[2].push([end])
       } else
         if (!foundItem && time.at == 0 && time.at != -1) {
           inspec_arr[0].push(['-'])

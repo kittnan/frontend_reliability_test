@@ -18,7 +18,8 @@
 
     </div>
 
-    <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+    <div *ngIf="requestForm && requestForm.length!=0" fxFlex="100" fxLayoutAlign="space-between stretch"
+      fxLayout="row wrap">
 
       <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.condition" appearance="legacy">
         <mat-label>Condition Name</mat-label>
@@ -32,30 +33,43 @@
 
       <mat-divider fxFlex="100"></mat-divider>
       <h4 fxFlex="100">Inspection Initial</h4>
-      <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
-        <mat-label>date inspection initial </mat-label>
-        <input matInput [readonly]="true" [min]="dateNow" [matDatepickerFilter]="myFilter" [matDatepicker]="startDate"
-          [(ngModel)]="item.startDate" (dateChange)="onCal(item,i)">
-        <mat-datepicker-toggle matSuffix [for]="startDate" (click)="onCal(item,i)"></mat-datepicker-toggle>
-        <mat-datepicker touchUi #startDate></mat-datepicker>
-      </mat-form-field>
 
       <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
+        <mat-label>date inspection initial</mat-label>
+        <input matInput [readonly]="true" type="text" value="{{item.startDate|date:'M/d/YYYY, hh:mm a'}}"
+          (click)="openDialogInitial(item)">
+      </mat-form-field>
+      <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
         <mat-label>time start inspection initial </mat-label>
-        <mat-select (selectionChange)="onSelectHour(item,$event)">
+        <mat-select [(ngModel)]="item.h" (selectionChange)="onSelectHour(item,$event)">
           <mat-option *ngFor="let h of hourList; let i=index" [value]="h">{{h}}</mat-option>
         </mat-select>
       </mat-form-field>
 
+
+
       <mat-divider fxFlex="100"></mat-divider>
       <h4 fxFlex="100">Inspection Time</h4>
 
-      <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill"
-        *ngFor="let time of item.inspectionTime; let indexTime=index">
-        <mat-label *ngIf="time.at=='0'">timing inspection initial</mat-label>
-        <mat-label *ngIf="time.at!='0'">timing inspection {{time.at}} (hr)</mat-label>
-        <input matInput type="number" [(ngModel)]="time.hr" (ngModelChange)="onCal(item,i)">
-      </mat-form-field>
+      <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+        <div fxFlex="45" fxFlex.lt-md="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
+          *ngFor="let time of item.inspectionTime; let indexTime=index">
+          <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+            <mat-label *ngIf="time.at=='0'">date inspection initial</mat-label>
+            <mat-label *ngIf="time.at!='0'">date inspection {{time.at}} (hr)</mat-label>
+            <input matInput [readonly]="true" type="text" value="{{time.startDate|date:'M/d/YYYY, hh:mm a'}}">
+          </mat-form-field>
+          <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+            <mat-label *ngIf="time.at=='0'">timing inspection initial</mat-label>
+            <mat-label *ngIf="time.at!='0'">timing inspection {{time.at}} (hr)</mat-label>
+            <input matInput type="number" [(ngModel)]="time.hr" (ngModelChange)="onCal(item,i)">
+          </mat-form-field>
+
+        </div>
+      </div>
+
+
+
 
       <mat-divider fxFlex="100"></mat-divider>
       <h4 fxFlex="100">End Time</h4>
@@ -70,192 +84,193 @@
       <h4 fxFlex="100">Report QE Time</h4>
 
 
-      <!-- <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill"
-        *ngFor="let time of item.reportQE; let indexTime=index">
-        <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
-        <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
-        <input matInput type="number" [(ngModel)]="time.hr" (ngModelChange)="onCal(item,i)">
-      </mat-form-field> -->
-
-      <ng-container *ngFor="let time of item.reportQE; let indexTime=index">
-
-        <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
-          <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
-          <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
-          <input matInput [readonly]="true" type="text" value="{{time.endDate|date:'M/d/YYYY, hh:mm a'}}"
-            (click)="openDialogCalendar(time,item,i,indexTime)">
-        </mat-form-field>
-        <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
-          <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
-          <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
-          <mat-select (selectionChange)="onSelectHourEndDate(time,item,i,$event)" [(ngModel)]="time.h">
-            <mat-option *ngFor="let h of hourList; let i=index" [value]="h">{{h}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </ng-container>
-
-
-
-
-    </div>
-
-
-
-    <mat-divider fxFlex="100" class="mtb-4"></mat-divider>
-    <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
-      <button mat-stroked-button color="primary" (click)="dialogChamber(item)">
-        {{i+1}}.2 CHAMBER
-        <mat-icon>fact_check</mat-icon>
-      </button>
-    </div>
-    <div fxFlex="100" fxLayoutAlign="start  stretch" fxLayout="row wrap">
-
-      <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
-        <mat-label>CHAMBER CODE</mat-label>
-        <input matInput [(ngModel)]="item.chamber.code" [readonly]="true">
-      </mat-form-field>
-      <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
-        <mat-label>CHAMBER NAME</mat-label>
-        <input matInput [(ngModel)]="item.chamber.name" [readonly]="true">
-      </mat-form-field>
-
-    </div>
-
-
-    <mat-divider fxFlex="100" class="mtb-4"></mat-divider>
-
-    <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-
-      <button mat-stroked-button color="primary" [disabled]="!item.operate.status" (click)="dialogOperate(item)">
-        {{i+1}}.3 OPERATE
-        <mat-icon>fact_check</mat-icon>
-      </button>
-
-    </div>
-
-    <app-table-operate fxFlex="100" *ngIf="item.operate.status && item.operateTable" [table]="item.operateTable"
-      class="mat-elevation-z1" style="padding: 10px 5px; margin-bottom: 10px;"></app-table-operate>
-
-    <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
 
       <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-        <div *ngIf="item.operate && item.operate.checker" fxFlex="30" fxFlex.lt-md="100" fxLayoutAlign="start stretch"
-          fxLayout="row wrap">
-          <p>CHECKER</p>
+        <div fxFlex="45" fxFlex.lt-md="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
+          *ngFor="let time of item.reportQE; let indexTime=index">
 
-          <mat-form-field fxFlex="100" appearance="fill">
-            <mat-label>SELECT</mat-label>
-            <mat-select [compareWith]="compareSelect" (selectionChange)="onSelectChecker($event,item.operate)">
-              <mat-option *ngFor="let it of showOperateItemChecker(item.operateTable); let i=index" [value]="it">
-                {{it.name}} ({{it.code|uppercase}}), ( {{it.remain}} / {{it.total}} pcs.)
-              </mat-option>
+          <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+            <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
+            <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
+            <input matInput [readonly]="true" type="text" value="{{time.endDate|date:'M/d/YYYY, hh:mm a'}}"
+              (click)="openDialogCalendar(time,item,i,indexTime)">
+          </mat-form-field>
+          <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+            <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
+            <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
+            <mat-select (selectionChange)="onSelectHourEndDate(time,item,i,$event)" [(ngModel)]="time.h">
+              <mat-option *ngFor="let h of hourList; let i=index" [value]="h">{{h}}</mat-option>
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field fxFlex="100" appearance="legacy">
-            <mat-label>CODE</mat-label>
-            <input matInput [(ngModel)]="item.operate.checker.code" [readonly]="true"
-              style="text-transform: uppercase;">
-          </mat-form-field>
-
-          <mat-form-field fxFlex="100" appearance="legacy">
-            <mat-label>CHECKER NAME</mat-label>
-            <input matInput [(ngModel)]="item.operate.checker.name" [readonly]="true">
-          </mat-form-field>
-
-          <mat-form-field fxFlex="100" appearance="fill">
-            <mat-label>CHECKER QTY</mat-label>
-            <input matInput type="number" min="0" [(ngModel)]="item.operate.checker.qty">
-          </mat-form-field>
 
         </div>
 
-        <div *ngIf="item.operate && item.operate.power" fxFlex="30" fxFlex.lt-md="100" fxLayoutAlign="start stretch"
-          fxLayout="row wrap">
 
-          <p>POWER</p>
 
-          <mat-form-field fxFlex="100" appearance="fill">
-            <mat-label>SELECT</mat-label>
-            <mat-select [compareWith]="compareSelect" (selectionChange)="onSelectPower($event,item.operate)">
-              <mat-option *ngFor="let it of showOperateItemPower(item.operateTable); let i=index" [value]="it">
-                {{it.name}} ({{it.code|uppercase}}), ( {{it.remain}} / {{it.total}} pcs.)
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
 
-          <mat-form-field fxFlex="100" appearance="legacy">
-            <mat-label>CODE</mat-label>
-            <input matInput [(ngModel)]="item.operate.power.code" [readonly]="true" style="text-transform: uppercase;">
-          </mat-form-field>
 
-          <mat-form-field fxFlex="100" appearance="legacy">
-            <mat-label>CHECKER NAME</mat-label>
-            <input matInput [(ngModel)]="item.operate.power.name" [readonly]="true">
-          </mat-form-field>
+      </div>
 
-          <mat-form-field fxFlex="100" appearance="fill">
-            <mat-label>CHECKER QTY</mat-label>
-            <input matInput type="number" min="0" [(ngModel)]="item.operate.power.qty">
-          </mat-form-field>
 
+
+      <mat-divider fxFlex="100" class="mtb-4"></mat-divider>
+      <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
+        <button mat-stroked-button color="primary" (click)="dialogChamber(item)">
+          {{i+1}}.2 CHAMBER
+          <mat-icon>fact_check</mat-icon>
+        </button>
+      </div>
+      <div fxFlex="100" fxLayoutAlign="start  stretch" fxLayout="row wrap">
+
+        <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
+          <mat-label>CHAMBER CODE</mat-label>
+          <input matInput [(ngModel)]="item.chamber.code" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
+          <mat-label>CHAMBER NAME</mat-label>
+          <input matInput [(ngModel)]="item.chamber.name" [readonly]="true">
+        </mat-form-field>
+
+      </div>
+
+
+      <mat-divider fxFlex="100" class="mtb-4"></mat-divider>
+
+      <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+        <button mat-stroked-button color="primary" [disabled]="!item.operate.status" (click)="dialogOperate(item)">
+          {{i+1}}.3 OPERATE
+          <mat-icon>fact_check</mat-icon>
+        </button>
+
+      </div>
+
+      <app-table-operate fxFlex="100" *ngIf="item.operate.status && item.operateTable" [table]="item.operateTable"
+        class="mat-elevation-z1" style="padding: 10px 5px; margin-bottom: 10px;"></app-table-operate>
+
+      <div *ngIf="item.operate.status" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+
+        <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+          <div *ngIf="item.operate && item.operate.checker" fxFlex="30" fxFlex.lt-md="100" fxLayoutAlign="start stretch"
+            fxLayout="row wrap">
+            <p>CHECKER</p>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+              <mat-label>SELECT</mat-label>
+              <mat-select [compareWith]="compareSelect" (selectionChange)="onSelectChecker($event,item.operate)">
+                <mat-option *ngFor="let it of showOperateItemChecker(item.operateTable); let i=index" [value]="it">
+                  {{it.name}} ({{it.code|uppercase}}), ( {{it.remain}} / {{it.total}} pcs.)
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-label>CODE</mat-label>
+              <input matInput [(ngModel)]="item.operate.checker.code" [readonly]="true"
+                style="text-transform: uppercase;">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-label>CHECKER NAME</mat-label>
+              <input matInput [(ngModel)]="item.operate.checker.name" [readonly]="true">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+              <mat-label>CHECKER QTY</mat-label>
+              <input matInput type="number" min="0" [(ngModel)]="item.operate.checker.qty">
+            </mat-form-field>
+
+          </div>
+
+          <div *ngIf="item.operate && item.operate.power" fxFlex="30" fxFlex.lt-md="100" fxLayoutAlign="start stretch"
+            fxLayout="row wrap">
+
+            <p>POWER</p>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+              <mat-label>SELECT</mat-label>
+              <mat-select [compareWith]="compareSelect" (selectionChange)="onSelectPower($event,item.operate)">
+                <mat-option *ngFor="let it of showOperateItemPower(item.operateTable); let i=index" [value]="it">
+                  {{it.name}} ({{it.code|uppercase}}), ( {{it.remain}} / {{it.total}} pcs.)
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-label>CODE</mat-label>
+              <input matInput [(ngModel)]="item.operate.power.code" [readonly]="true"
+                style="text-transform: uppercase;">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-label>CHECKER NAME</mat-label>
+              <input matInput [(ngModel)]="item.operate.power.name" [readonly]="true">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+              <mat-label>CHECKER QTY</mat-label>
+              <input matInput type="number" min="0" [(ngModel)]="item.operate.power.qty">
+            </mat-form-field>
+
+          </div>
+
+          <div *ngIf="item.operate && item.operate.attachment" fxFlex="30" fxFlex.lt-md="100"
+            fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+            <p>ATTACHMENT</p>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+              <mat-label>SELECT</mat-label>
+              <mat-select [compareWith]="compareSelect" (selectionChange)="onSelectAttachment($event,item.operate)">
+                <mat-option *ngFor="let it of showOperateItemAttachment(item.operateTable); let i=index" [value]="it">
+                  {{it.name}} ({{it.code|uppercase}}), ( {{it.remain}} / {{it.total}} pcs.)
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-label>CODE</mat-label>
+              <input matInput [(ngModel)]="item.operate.attachment.code" [readonly]="true"
+                style="text-transform: uppercase;">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-label>CHECKER NAME</mat-label>
+              <input matInput [(ngModel)]="item.operate.attachment.name" [readonly]="true">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" appearance="fill">
+              <mat-label>CHECKER QTY</mat-label>
+              <input matInput type="number" min="0" [(ngModel)]="item.operate.attachment.qty">
+            </mat-form-field>
+
+          </div>
         </div>
 
-        <div *ngIf="item.operate && item.operate.attachment" fxFlex="30" fxFlex.lt-md="100"
-          fxLayoutAlign="start stretch" fxLayout="row wrap">
+      </div>
+      <div fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
+        <button color="primary" mat-button [disabled]="item._id" (click)="onDraft(item,i,item.startDate)">
+          <span class="material-icons-outlined">
+            save
+          </span>
+          SAVE DRAFT
+        </button>
+        <button mat-button [disabled]="!item._id" (click)="onDelete(item,i)">
+          <span class="material-icons-outlined">
+            delete_outline
+          </span>
+          DELETE DRAFT
+        </button>
 
-          <p>ATTACHMENT</p>
-
-          <mat-form-field fxFlex="100" appearance="fill">
-            <mat-label>SELECT</mat-label>
-            <mat-select [compareWith]="compareSelect" (selectionChange)="onSelectAttachment($event,item.operate)">
-              <mat-option *ngFor="let it of showOperateItemAttachment(item.operateTable); let i=index" [value]="it">
-                {{it.name}} ({{it.code|uppercase}}), ( {{it.remain}} / {{it.total}} pcs.)
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field fxFlex="100" appearance="legacy">
-            <mat-label>CODE</mat-label>
-            <input matInput [(ngModel)]="item.operate.attachment.code" [readonly]="true"
-              style="text-transform: uppercase;">
-          </mat-form-field>
-
-          <mat-form-field fxFlex="100" appearance="legacy">
-            <mat-label>CHECKER NAME</mat-label>
-            <input matInput [(ngModel)]="item.operate.attachment.name" [readonly]="true">
-          </mat-form-field>
-
-          <mat-form-field fxFlex="100" appearance="fill">
-            <mat-label>CHECKER QTY</mat-label>
-            <input matInput type="number" min="0" [(ngModel)]="item.operate.attachment.qty">
-          </mat-form-field>
-
-        </div>
       </div>
 
     </div>
-    <div fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
-      <button color="primary" mat-button (click)="onDraft(item,i,item.startDate)">
-        <span class="material-icons-outlined">
-          save
-        </span>
-        SAVE DRAFT
-      </button>
-      <button mat-button (click)="onDelete(item,i)">
-        <span class="material-icons-outlined">
-          delete_outline
-        </span>
-        DELETE DRAFT
-      </button>
 
-    </div>
+    <app-plan-reliability-test *ngIf="tableData" fxFlex="100" class="mt-3" [requestForm]="requestForm"
+      [queues]="tableData">
+    </app-plan-reliability-test>
+
+
 
   </div>
-
-  <app-plan-reliability-test *ngIf="tableData" fxFlex="100" [requestForm]="requestForm" [queues]="tableData">
-  </app-plan-reliability-test>
-
-
-
-</div>

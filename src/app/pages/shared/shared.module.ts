@@ -38,6 +38,7 @@ import { InputDirectionComponent } from './form-components/input-direction/input
 import { DialogAuthComponent } from './dialog-auth/dialog-auth.component';
 import { TableOperateComponent } from './table-operate/table-operate.component';
 import { CommentComponent } from './comment/comment.component';
+import { QeReceiveComponent } from './qe-receive/qe-receive.component';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { CommentComponent } from './comment/comment.component';
     DialogAuthComponent,
     TableOperateComponent,
     CommentComponent,
+    QeReceiveComponent,
 
   ],
   imports: [
@@ -112,7 +114,8 @@ import { CommentComponent } from './comment/comment.component';
     InputCycleComponent,
     InputDirectionComponent,
     TableOperateComponent,
-    CommentComponent
+    CommentComponent,
+    QeReceiveComponent
   ]
 })
 export class SharedModule { }

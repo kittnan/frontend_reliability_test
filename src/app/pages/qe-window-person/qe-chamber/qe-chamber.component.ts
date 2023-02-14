@@ -106,6 +106,8 @@ export class QeChamberComponent implements OnInit {
       const { id } = params;
       const resData = await this.$request.get_id(id).toPromise()
       this.form = resData[0]
+      console.log(this.form);
+
       const temp = this.setDataTable();
       this.dataSource = temp
       this.getUserApprove()
@@ -179,6 +181,10 @@ export class QeChamberComponent implements OnInit {
   validReject() {
     if (this.form.level === 7.8) return false
     return true
+  }
+
+  qeReceiveEmit(e_form: any) {
+    this.form = e_form
   }
 
 }

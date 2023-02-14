@@ -15,6 +15,7 @@ import { GenInspectionTableService } from './gen-inspection-table.service';
 import { HttpParams } from '@angular/common/http';
 import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
 import { DialogDateComponent } from '../components/dialog-date/dialog-date.component';
+import { DialogDateStartInspectionComponent } from '../components/dialog-date-start-inspection/dialog-date-start-inspection.component';
 @Component({
   selector: 'app-qe-chamber-planning-detail',
   templateUrl: './qe-chamber-planning-detail.component.html',
@@ -28,12 +29,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   // operateItems: any[] = []
   requestForm: any
   tableSource: any
-
   tableData: any = null
-
   userLogin: any;
-
   dateNow = new Date()
+  minDateInitial = new Date()
   @Input() data: any;
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
   @Output() tableChange: EventEmitter<any> = new EventEmitter()
@@ -86,6 +85,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
 
       this.requestForm = await this.$request.get_id(this.data[0].work.requestId).toPromise()
+      this.minDateInitial = new Date(this.requestForm[0].qeReceive.date)
       this.mapForTable(this.data)
     }
   }
@@ -109,7 +109,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
       })
     } else {
-      Swal.fire('PLEASE SELECT DATE START!!!', '', 'warning')
+      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning')
+
     }
 
   }
@@ -133,7 +134,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         }
       })
     } else {
-      Swal.fire('PLEASE SELECT DATE START!!!', '', 'warning')
+      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning')
     }
 
   }
@@ -162,6 +163,21 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }
   }
 
+  openDialogInitial(item: any) {
+    const dialogRef = this.dialog.open(DialogDateStartInspectionComponent, {
+      height: '500px',
+      width: '500px',
+      data: item
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        item.startDate = res.startDate
+        item.h = null
+        this.onCal(item, 0)
+      }
+    })
+  }
+
 
   openDialogCalendar(time: any, item: QueueForm, i: any, indexTime: any) {
     if (time?.startDate) {
@@ -177,6 +193,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
           // this.onCal(item, i)
         }
       })
+    } else {
+      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning')
     }
   }
 
@@ -467,7 +485,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       temp.push(now.condition.name)
       return temp
     }, [])
-    const receive = header.map((h: any) => moment(this.requestForm[0].step1.sampleSentToQE_withinDate).format('ddd, D-MMM-YY,h:mm a'))
+    const receive = header.map((h: any) => this.requestForm[0].qeReceive?.date ? moment(this.requestForm[0].qeReceive.date).format('ddd, D-MMM-YY,h:mm a') : '-')
     const times_inspection = await this.mapTime(data, 'inspectionTime')
     const times_report = await this.mapTime(data, 'reportTime')
     // const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, times_report, receive, ['condition', ...header])

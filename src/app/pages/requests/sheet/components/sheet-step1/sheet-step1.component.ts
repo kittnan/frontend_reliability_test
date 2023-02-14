@@ -278,7 +278,11 @@ export class SheetStep1Component implements OnInit {
       corporate: this.requestForm.value.corporate,
       status: 'draft',
       table: {},
-      nextApprove: this.userLogin
+      nextApprove: this.userLogin,
+      qeReceive: {
+        date: null,
+        qty: null
+      }
     }
     const resDraft = await this.$request.draft(body).toPromise()
     let resUpload = []

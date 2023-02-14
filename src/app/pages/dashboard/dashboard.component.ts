@@ -53,12 +53,12 @@ export class DashboardComponent implements OnInit {
   }
 
   changeDate() {
-    this.clearInterval()
+    // this.clearInterval()
     this._loading.start()
     this.getData()
     setTimeout(() => {
       this._loading.stopAll()
-      this.setIntervalUpdate()
+      // this.setIntervalUpdate()
     }, 1000);
   }
 

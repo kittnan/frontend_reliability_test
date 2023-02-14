@@ -1,0 +1,42 @@
+<div fxLayoutAlign="start stretch" fxLayout="row wrap" class="content-item">
+
+
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+      <span class="box-title">
+        QE Receive
+      </span>
+    </div>
+
+
+    <div *ngIf="form " class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+      <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
+        <mat-label>qty</mat-label>
+        <input matInput type="number" [(ngModel)]="form.qeReceive.qty">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
+        <mat-label>date</mat-label>
+        <input matInput [matDatepicker]="picker" [min]="minDate" readonly="true" [(ngModel)]="form.qeReceive.date">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+
+    </div>
+
+    <div fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
+      <button color="primary" mat-button (click)="onDraft()">
+        <span class="material-icons-outlined">
+          save
+        </span>
+        SAVE DRAFT
+      </button>
+
+    </div>
+
+
+  </div>
+</div>
