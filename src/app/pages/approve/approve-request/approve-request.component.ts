@@ -1,12 +1,11 @@
+import { ApproverForm } from './../../admin/approver/dialog-approver/dialog-approver.component';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { UserApproveService } from 'src/app/services/user-approve.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'app-approve-request',
@@ -21,13 +20,18 @@ export class ApproveRequestComponent implements OnInit {
   data: any
   authorize = 'qe_window_person'
   userApprove: any = [];
-  approve = new FormControl(null, Validators.required)
+  approve: ApproverForm = {
+    groupList: null,
+    groupStatus: null,
+    level: null,
+    name: null,
+    selected: null,
+    status: null
+  }
+  approver: any
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private $request: RequestHttpService,
-    private _toast: ToastService,
-    private $user: UserHttpService,
     private _loading: NgxUiLoaderService,
     private _userApprove: UserApproveService
 
@@ -63,13 +67,28 @@ export class ApproveRequestComponent implements OnInit {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-    this.approve.patchValue(this.userApprove[0])
+    this.approver = await this._userApprove.approver(this.authorize, this.data.level, this.userLogin)
+    if (this.approver && this.approver.groupStatus) {
+      this.userApprove = [this.approver.selected]
+      this.approve = this.approver
+    } else {
+      this.approve = {
+        groupList: this.approver ? this.approver.groupList : [],
+        groupStatus: null,
+        level: this.data.level,
+        name: null,
+        selected: this.checkPrevApprove(this.data, 2) ? true : this.userApprove[0],
+        status: this.data.status
+      }
+    }
+  }
 
-    const qe_window_person = this.data.step5.find((u: any) => u.level == 3)
-    if (qe_window_person) {
-      const findOld = this.userApprove.find((u: any) => u._id == qe_window_person.prevUser._id)
-      const selected = findOld ? findOld : this.userApprove[0]
-      this.approve.patchValue(selected)
+  private checkPrevApprove(data: any, level: number) {
+    const prevUserApprove = data.step5.find((s: any) => s.level == level)
+    if (prevUserApprove) {
+      return prevUserApprove
+    } else {
+      return null
     }
   }
 

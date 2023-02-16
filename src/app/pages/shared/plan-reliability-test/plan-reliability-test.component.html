@@ -1,82 +1,84 @@
-<div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap" class="content-item">
+<div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap" class="content-item" id="excel">
 
-    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-        <span class="box-title">
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <span class="box-title">
       Request Detail
     </span>
-    </div>
+    <!-- <button (click)="downLoadExcel()">OKOKOKO</button> -->
+  </div>
 
-    <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="box-table ">
-        <table fxFlex="auto">
-            <tr>
-                <th colspan="3" class="text-over s-20">
-                    <p>Over All Plan Reliability Test</p>
-                    <p>Control No. {{requestForm[0].step1.controlNo}}</p>
-                </th>
-            </tr>
-            <tr>
-                <th width="33%">Model No. </th>
-                <th width="33%">Model Name </th>
-                <th width="33">Requestor </th>
-            </tr>
-            <tr>
-                <th>{{requestForm[0].step1.modelNo}}</th>
-                <th>{{requestForm[0].step1.modelName }}</th>
-                <th>{{htmlUserRequest(requestForm[0].step5) |uppercase}}</th>
-            </tr>
-        </table>
+  <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="box-table ">
+    <table fxFlex="auto">
+      <tr>
+        <th colspan="3" class="text-over s-20">
+          <p>Over All Plan Reliability Test</p>
+          <p>Control No. {{requestForm[0].step1.controlNo}}</p>
+        </th>
+      </tr>
+      <tr>
+        <th width="33%">Model No. </th>
+        <th width="33%">Model Name </th>
+        <th width="33">Requestor </th>
+      </tr>
+      <tr>
+        <th>{{requestForm[0].step1.modelNo}}</th>
+        <th>{{requestForm[0].step1.modelName }}</th>
+        <th>{{htmlUserRequest(requestForm[0].step5) |uppercase}}</th>
+      </tr>
+    </table>
 
-        <table fxFlex="100">
-            <thead>
-                <tr>
-                    <th [attr.colspan]="queues.header.length +1" class="upper-text" style="background-color: rgb(141 218 148)">
-                        <h1 style="margin: 0;">Inspection & Report Result</h1>
-                    </th>
-                </tr>
-                <tr>
-                    <th width="10%" class="upper-text c-blue" style="background-color: rgb(191 238 195)">
-                        Condition
-                    </th>
-                    <ng-container>
-                        <th width="10%" *ngFor="let head of queues.header; let i=index" class="upper-text c-blue" style="background-color: rgb(191, 238, 195);">
-                            {{head |uppercase}}
-                        </th>
-                    </ng-container>
-                </tr>
-            </thead>
+    <table fxFlex="100">
+      <thead>
+        <tr>
+          <th [attr.colspan]="queues.header.length +1" class="upper-text" style="background-color: rgb(141 218 148)">
+            <h1 style="margin: 0;">Inspection & Report Result</h1>
+          </th>
+        </tr>
+        <tr>
+          <th width="10%" class="upper-text c-blue" style="background-color: rgb(191 238 195)">
+            Condition
+          </th>
+          <ng-container>
+            <th width="10%" *ngFor="let head of queues.header; let i=index" class="upper-text c-blue"
+              style="background-color: rgb(191, 238, 195);">
+              {{head |uppercase}}
+            </th>
+          </ng-container>
+        </tr>
+      </thead>
 
-            <tbody>
-                <ng-container *ngFor="let row of queues.data; let i_row=index">
+      <tbody>
+        <ng-container *ngFor="let row of queues.data; let i_row=index">
 
-                    <tr align="center" [class]="htmlRowClass(i_row)">
-                        <ng-container *ngFor="let col of row; let i_col=index">
-                            <th *ngIf="i_col==0">
-                                <ul>
-                                    <li *ngFor="let c of col; let i_c=index">
-                                        <span *ngIf="i_c==0"> {{c }} </span>
-                                        <span *ngIf="i_c==1" style="color: red;"> {{c }} </span>
-                                        <span *ngIf="i_c==2" style="color: rgb(57, 112, 230);"> {{c }} </span>
-                                    </li>
-                                </ul>
-                            </th>
-                            <td *ngIf="i_col!=0">
-                                <ul>
-                                    <li *ngFor="let c of col; let i_c=index">
-                                        <span *ngIf="i_c==0"> {{c }} </span>
-                                        <span *ngIf="i_c==1" style="color: red;"> {{c}} </span>
-                                        <span *ngIf="i_c==2" style="color: rgb(57, 112, 230);"> {{c }} </span>
-                                    </li>
-                                </ul>
-                            </td>
-                        </ng-container>
-                    </tr>
+          <tr align="center" [class]="htmlRowClass(i_row)">
+            <ng-container *ngFor="let col of row; let i_col=index">
+              <th *ngIf="i_col==0">
+                <ul>
+                  <li *ngFor="let c of col; let i_c=index">
+                    <span *ngIf="i_c==0"> {{c }} </span>
+                    <span *ngIf="i_c==1" style="color: red;"> {{c }} </span>
+                    <span *ngIf="i_c==2" style="color: rgb(57, 112, 230);"> {{c }} </span>
+                  </li>
+                </ul>
+              </th>
+              <td *ngIf="i_col!=0">
+                <ul>
+                  <li *ngFor="let c of col; let i_c=index">
+                    <span *ngIf="i_c==0"> {{c }} </span>
+                    <span *ngIf="i_c==1" style="color: red;"> {{c}} </span>
+                    <span *ngIf="i_c==2" style="color: rgb(57, 112, 230);"> {{c }} </span>
+                  </li>
+                </ul>
+              </td>
+            </ng-container>
+          </tr>
 
-                </ng-container>
+        </ng-container>
 
-            </tbody>
+      </tbody>
 
-        </table>
+    </table>
 
-    </div>
+  </div>
 
 </div>

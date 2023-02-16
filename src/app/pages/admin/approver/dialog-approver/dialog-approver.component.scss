@@ -1,0 +1,13 @@
+:ng--deep .mat-dialog-content {
+  display: flex !important;
+}
+.link {
+  color: blue;
+  cursor: pointer;
+}
+.link:hover {
+  color: red;
+}
+.link:hover::after {
+  content: "✖";
+}

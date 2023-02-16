@@ -13,6 +13,7 @@ import { TestingTypeMasterComponent } from './master-manage/testing-type-master/
 import { GroupComponent } from './operate/group/group.component';
 import { ItemsComponent } from './operate/items/items.component';
 import { UserManageComponent } from './user-manage/user-manage.component';
+import { ApproverComponent } from './approver/approver.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,10 @@ const routes: Routes = [
       {
         path: 'request-manage',
         component: RequestComponent
+      },
+      {
+        path: 'approver',
+        component: ApproverComponent
       },
       {
         path: '',

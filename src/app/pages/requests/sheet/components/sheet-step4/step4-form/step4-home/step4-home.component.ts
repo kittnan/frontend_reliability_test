@@ -19,7 +19,8 @@ interface ConditionListForm {
 export class Step4HomeComponent implements OnInit {
 
   @Input() formId: any
-  @Input() conditionForm: any
+  @Input() conditionForm: any = []
+  tempConditionForm: any = []
   @Output() conditionFormChange = new EventEmitter();
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
@@ -33,6 +34,7 @@ export class Step4HomeComponent implements OnInit {
     detail: '',
 
   }
+  chamber: string | null = null
   constructor(
     private $master: MasterHttpService,
     private $step3: Step3HttpService
@@ -41,12 +43,7 @@ export class Step4HomeComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const params: HttpParams = new HttpParams().set('requestId', this.formId)
-    const step3 = await this.$step3.get(params).toPromise()
-    let step3ListSelected = []
-    if (step3.length > 0) {
-      step3ListSelected = step3[0].data[0].list
-    }
+
 
     this.conditionList = await this.$master.getFunctionChamber().toPromise()
     this.conditionList = this.conditionList.map((con: ConditionListForm) => {
@@ -55,49 +52,87 @@ export class Step4HomeComponent implements OnInit {
         disable: false
       }
     })
-    if (this.conditionForm) {
-      this.conditions = this.conditionForm
+    this.tempConditionForm = [...this.conditionForm]
+    this.conditions = this.conditionForm
+
+    if (this.conditionForm && this.conditionForm.length > 0) {
+      if (this.conditions && this.conditions.length > 0 && this.conditions[0].value === 0) {
+        this.chamber = 'no'
+      }
+      if (this.conditions && this.conditions.length > 0 && this.conditions[0].value !== 0) {
+        this.chamber = 'yes'
+      }
       this.inspection = this.conditionForm[0]?.data.inspectionDetail ? this.conditionForm[0].data.inspectionDetail : this.inspection
       this.emit()
     }
   }
 
-  checkDisable(item: ConditionListForm, step3ListSelected: any[]) {
+  async onSelectChamber() {
+    if (this.tempConditionForm && this.tempConditionForm.length === 0) {
+      this.noConditionOld()
+    } else {
+      this.conditionOld()
+    }
 
-    if (item.value == 1) {
-      alert('1')
-      const foo = step3ListSelected.find((foo: any) => foo.name.toLowerCase().includes('low'))
-      if (foo) return false
-      return true
-    } else
-      if (
-        item.value == 2 ||
-        item.value == 3 ||
-        item.value == 4
-      ) {
-        alert('234')
-
-        if (step3ListSelected.find((foo: any) => foo.name.toLowerCase().includes('high temp'))) return false
-        return true
-      } else
-        if (item.value == 5) {
-          alert('5')
-
-          if (step3ListSelected.find((foo: any) =>
-            foo.name.toLowerCase().includes('high') &&
-            foo.name.toLowerCase().includes('low')
-          )) return false
-          return true
-        } else
-          if (item.value == 6) {
-            alert('6')
-
-            if (step3ListSelected.find((foo: any) => foo.name.toLowerCase().includes('shock'))) return false
-            return true
-          } else {
-            return true
-          }
   }
+
+  async noConditionOld() {
+    this.conditions = []
+    if (this.chamber == 'yes') {
+      const params: HttpParams = new HttpParams().set('requestId', this.formId)
+      const step3 = await this.$step3.get(params).toPromise()
+      const filterOven = step3[0]?.data?.find((d: any) => d.checked && d.groupName == 'Oven')
+      this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => f.name == con.name && f.checked))
+    }
+
+    if (this.chamber == 'no') {
+      this.conditions.push({
+        data: {
+          qty: 0,
+          reportStatus: true,
+          detailTest: '',
+          inspection: [0],
+          report: [0]
+        },
+        name: 'No Chamber',
+        value: 0,
+
+      })
+    }
+    this.emit()
+  }
+
+  async conditionOld() {
+    this.conditions = [...this.tempConditionForm]
+    if (this.chamber == 'yes') {
+      if (this.conditions[0]?.value === 0) this.conditions = []
+      const params: HttpParams = new HttpParams().set('requestId', this.formId)
+      const step3 = await this.$step3.get(params).toPromise()
+      const filterOven = step3[0]?.data?.find((d: any) => d.checked && d.groupName == 'Oven')
+      this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => f.name == con.name && f.checked))
+    }
+
+    if (this.chamber == 'no') {
+      if (this.conditions[0]?.value !== 0) {
+        this.conditions = []
+        this.conditions.push({
+          data: {
+            qty: 0,
+            reportStatus: true,
+            detailTest: '',
+            inspection: [0],
+            report: [0]
+          },
+          name: 'No Chamber',
+          value: 0,
+
+        })
+      }
+
+    }
+    this.emit()
+  }
+
 
   async onSelected() {
     this.conditions.push({
@@ -137,7 +172,7 @@ export class Step4HomeComponent implements OnInit {
         }
       }, inspectionDetail: {}
     })
-    this.emit()
+    // this.emit()
     setTimeout(() => {
       this.selected = 0;
     }, 100);
@@ -158,7 +193,13 @@ export class Step4HomeComponent implements OnInit {
   }
 
   async emit() {
-    const dataEmit = await this.mapData(this.conditions, this.inspection)
+    // console.log(this.conditions, this.inspection);
+    let dataEmit: any
+
+    dataEmit = await this.mapData(this.conditions, this.inspection)
+
+    // console.log(dataEmit);
+
     this.conditionFormChange.emit(dataEmit)
   }
 
@@ -180,25 +221,34 @@ export class Step4HomeComponent implements OnInit {
   mapData(conditions: any, inspection: any) {
     return new Promise(resolve => {
       const result = conditions.map((condition: any) => {
-        const data = condition.data;
-        data['inspectionDetail'] = inspection
+        if (this.chamber == 'no') {
+          return {
+            ...condition
+          }
 
-        const sumStr = this.sumString(condition)
+        } else {
+          const data = condition.data;
+          data['inspectionDetail'] = inspection
 
-        const dataT = {
-          name: sumStr || '',
-          operate: data.operate,
-          inspectionDetail: data.inspectionDetail,
-          inspection: data.inspection,
-          report: data.report,
-          sample: data.sample,
-          qty: data.qty
+          const sumStr = this.sumString(condition)
+
+          const dataT = {
+            name: sumStr || '',
+            operate: data.operate,
+            inspectionDetail: data.inspectionDetail,
+            inspection: data.inspection,
+            report: data.report,
+            sample: data.sample,
+            qty: data.qty
+          }
+          return {
+            ...condition,
+            dataTable: dataT,
+            inspectionDetail: dataT.inspectionDetail
+          }
         }
-        return {
-          ...condition,
-          dataTable: dataT,
-          inspectionDetail:dataT.inspectionDetail
-        }
+
+
       })
       resolve(result)
     })

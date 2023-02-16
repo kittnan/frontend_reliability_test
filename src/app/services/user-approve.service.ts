@@ -1,5 +1,8 @@
+import { ApproverHttpService } from './../http/approver-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { Injectable } from '@angular/core';
+import { ApproverForm } from '../pages/admin/approver/dialog-approver/dialog-approver.component';
+import { E } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +10,8 @@ import { Injectable } from '@angular/core';
 export class UserApproveService {
 
   constructor(
-    private $user: UserHttpService
+    private $user: UserHttpService,
+    private $approver: ApproverHttpService
   ) { }
 
 
@@ -38,4 +42,18 @@ export class UserApproveService {
 
     return userApprove
   }
+
+  async approver(auth: string, formLevel: any, userLogin: any) {
+    console.log("🚀 ~ file: user-approve.service.ts:47 ~ UserApproveService ~ approver ~ form", formLevel)
+    const approver = await this.$approver.get().toPromise()
+    if (approver && approver.length != 0) {
+      const useApprover = approver.find((ap: any) => ap.level == formLevel)
+      return useApprover
+
+    }
+    return undefined
+  }
+
+
+
 }

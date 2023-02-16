@@ -114,24 +114,26 @@
 
 
 
-      <mat-divider fxFlex="100" class="mtb-4"></mat-divider>
-      <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
-        <button mat-stroked-button color="primary" (click)="dialogChamber(item)">
-          {{i+1}}.2 CHAMBER
-          <mat-icon>fact_check</mat-icon>
-        </button>
-      </div>
-      <div fxFlex="100" fxLayoutAlign="start  stretch" fxLayout="row wrap">
+      <mat-divider *ngIf="item.condition.value!=0" fxFlex="100" class="mtb-4"></mat-divider>
+      <div *ngIf="item.condition.value!=0" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
+          <button mat-stroked-button color="primary" (click)="dialogChamber(item)">
+            {{i+1}}.2 CHAMBER
+            <mat-icon>fact_check</mat-icon>
+          </button>
+        </div>
+        <div fxFlex="100" fxLayoutAlign="start  stretch" fxLayout="row wrap">
 
-        <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
-          <mat-label>CHAMBER CODE</mat-label>
-          <input matInput [(ngModel)]="item.chamber.code" [readonly]="true">
-        </mat-form-field>
-        <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
-          <mat-label>CHAMBER NAME</mat-label>
-          <input matInput [(ngModel)]="item.chamber.name" [readonly]="true">
-        </mat-form-field>
+          <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
+            <mat-label>CHAMBER CODE</mat-label>
+            <input matInput [(ngModel)]="item.chamber.code" [readonly]="true">
+          </mat-form-field>
+          <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
+            <mat-label>CHAMBER NAME</mat-label>
+            <input matInput [(ngModel)]="item.chamber.name" [readonly]="true">
+          </mat-form-field>
 
+        </div>
       </div>
 
 

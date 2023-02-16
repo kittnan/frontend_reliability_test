@@ -1,3 +1,4 @@
+import { ApproverForm } from './../../../../admin/approver/dialog-approver/dialog-approver.component';
 import { UserApproveService } from './../../../../../services/user-approve.service';
 import { Step5HttpService } from './../../../../../http/step5-http.service';
 import { CdkStepper } from '@angular/cdk/stepper';
@@ -7,7 +8,6 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { Router } from '@angular/router';
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import { UserHttpService } from 'src/app/http/user-http.service';
 import { ApproveService } from 'src/app/pages/shared/approve-form/approve.service';
 
 @Component({
@@ -21,15 +21,23 @@ export class SheetStep5Component implements OnInit {
   date: Date = new Date()
 
   userApprove: any[] = [];
-  selected: any
   authorize = 'request_approve'
   resStep5: any[] = []
   form: any
   request: any
+  approve: ApproverForm = {
+    groupList: null,
+    groupStatus: null,
+    level: null,
+    name: null,
+    selected: null,
+    status: null
+  }
+  approver: any
+
   constructor(
     private _stepper: CdkStepper,
     private _loading: NgxUiLoaderService,
-    private _user: UserHttpService,
     private $step5: Step5HttpService,
     private $request: RequestHttpService,
     private _router: Router,
@@ -38,28 +46,59 @@ export class SheetStep5Component implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getUserApprove()
     if (this.formId) {
       this.request = await this.$request.get_id(this.formId).toPromise()
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       this.resStep5 = await this.$step5.get(params).toPromise()
-      const level2 = this.resStep5.find((s: any) => s.level == 2)
+      // const level2 = this.resStep5.find((s: any) => s.level == 2)
 
-      this.form = level2
-      if (level2) {
-        const temp = this.userApprove.find((u: any) => u._id == level2.userId)
-        this.selected = temp
-      }
+      // this.form = level2
+      // if (level2) {
+      //   const temp = this.userApprove.find((u: any) => u._id == level2.userId)
+      //   this.approve = temp
+      // }
     }
+    this.getUserApprove()
   }
+
 
   async getUserApprove() {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-    this.selected = this.userApprove[0]
+    this.approver = await this._userApprove.approver(this.authorize, 0, this.userLogin)
+    if (this.approver && this.approver.groupStatus) {
+      this.userApprove = [this.approver.selected]
+      this.approve = this.approver
+    } else {
+      this.approve = {
+        groupList: this.approver ? this.approver.groupList : [],
+        groupStatus: null,
+        level: this.form?.level ? this.form.level : null,
+        name: null,
+        selected: this.checkPrevApprove(this.form, 2) ? this.checkPrevApprove(this.form, 2) : this.userApprove[0],
+        status: this.form?.status ? this.form.status : null
+      }
+      console.log(this.approve);
 
+    }
   }
+
+  private checkPrevApprove(data: any, level: number) {
+    const prevUserApprove = data?.step5?.find((s: any) => s.level == level)
+    if (prevUserApprove) {
+      return prevUserApprove
+    } else {
+      return null
+    }
+  }
+  // async getUserApprove() {
+  //   let userLoginStr: any = localStorage.getItem('RLS_userLogin')
+  //   this.userLogin = JSON.parse(userLoginStr)
+  //   this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+  //   this.selected = this.userApprove[0]
+
+  // }
 
   public objectComparisonFunction = function (option: any, value: any): boolean {
     return option._id === value._id;
@@ -92,74 +131,11 @@ export class SheetStep5Component implements OnInit {
       showCancelButton: true
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this._approve.send(this.userLogin, this.selected, this.request[0], value.value)
+        this._approve.send(this.userLogin, this.approve, this.request[0], value.value)
       }
     })
   }
 
-
-
-
-
-  async update(commentText: any) {
-    let level1 = this.resStep5.find((s: any) => s.level == 1)
-    level1 = {
-      ...level1,
-      dateApprove: new Date(),
-      statusApprove: true,
-      comment: level1.comment && level1.comment.length > 0 ? [...level1.comment, commentText] : [commentText]
-    }
-    const resUpdateStep = await this.$step5.update(level1._id, level1).toPromise()
-    const requestUpdate = {
-      ...this.request,
-      nextApprove: this.selected,
-      status: 'request'
-    }
-    const resUpdateForm = await this.$request.update(this.formId, requestUpdate).toPromise()
-    setTimeout(() => {
-      Swal.fire('SUCCESS', '', 'success')
-      this._loading.stopAll()
-      this._router.navigate(['/request'])
-    }, 1000);
-  }
-
-
-  async insert(commentText: any) {
-    const params: HttpParams = new HttpParams().set('requestId', this.formId)
-    this.resStep5 = await this.$step5.get(params).toPromise()
-    let level1 = this.resStep5.find((s: any) => s.level == 1)
-    level1 = {
-      ...level1,
-      dateApprove: new Date(),
-      statusApprove: true,
-      comment: level1.comment && level1.comment.length > 0 ? [...level1.comment, commentText] : [commentText]
-    }
-    const resUpdateStep = await this.$step5.update(level1._id, level1).toPromise()
-    const nextApprove = {
-      authorize: 'request_approve',
-      comment: [],
-      dateApprove: null,
-      dateReject: null,
-      level: 2,
-      requestId: this.formId,
-      statusApprove: false,
-      userId: this.selected._id,
-      userName: this.selected.name
-    }
-    const resInsert = await this.$step5.insert(nextApprove).toPromise()
-    const requestUpdate = {
-      ...this.request,
-      nextApprove: this.selected,
-      status: 'request'
-    }
-    const resUpdateForm = await this.$request.update(this.formId, requestUpdate).toPromise()
-    setTimeout(() => {
-      Swal.fire('SUCCESS', '', 'success')
-      this._loading.stopAll()
-      this._router.navigate(['/request'])
-    }, 1000);
-
-  }
   onBack() {
     this._stepper.previous();
   }

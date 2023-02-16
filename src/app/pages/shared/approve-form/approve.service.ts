@@ -61,7 +61,7 @@ export class ApproveService {
     const eng = newForm.step5.find((s: any) => s.level === 4)
     const eng2 = newForm.step5.find((s: any) => s.level === 5)
     this.sendLog(logData)
-    this.sendMail([user.prevUser._id, eng._id, eng2._id], newForm.status, newForm._id)
+    this.sendMail([user.prevUser._id, eng._id, eng2._id], newForm.status, newForm._id, [])
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
@@ -80,6 +80,7 @@ export class ApproveService {
     // console.log(form.status, nextStatusForm);
     const level = this.findNextLevel(form.status, form.level)
 
+    // TODO draft
     if (form.status == 'draft') {
       let step5Prev = this.findStep5(form.step5, 'draft')
       step5Prev = {
@@ -89,8 +90,8 @@ export class ApproveService {
         nextStatusForm: 'request_approve',
         prevStatusForm: 'request',
         nextUser: {
-          _id: nextUserApprove._id,
-          name: nextUserApprove.name
+          _id: nextUserApprove.selected._id,
+          name: nextUserApprove.selected.name
         },
         prevUser: {
           _id: prevUser._id,
@@ -102,12 +103,14 @@ export class ApproveService {
         ...form,
         status: 'request_approve',
         nextApprove: {
-          _id: nextUserApprove._id,
-          name: nextUserApprove.name
+          _id: nextUserApprove.selected._id,
+          name: nextUserApprove.selected.name
         },
         comment: comment,
         level: level
       }
+
+      // console.log(newForm);
 
       const resUpdateStep5: any = await this.$step5.update(step5Prev._id, step5Prev).toPromise()
       const resUpdateForm: any = await this.$request.update(newForm._id, newForm).toPromise()
@@ -118,12 +121,17 @@ export class ApproveService {
       }
       this.sendLog(logData)
       const toList = [newForm.nextApprove._id]
-      this.sendMail(toList, newForm.status, newForm._id)
+      this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);
+
+
+      // TODO draft
+
+
     } else {
 
 
@@ -135,8 +143,8 @@ export class ApproveService {
           date: new Date(),
           comment: [comment],
           nextUser: {
-            _id: nextUserApprove._id,
-            name: nextUserApprove.name
+            _id: nextUserApprove.selected._id,
+            name: nextUserApprove.selected.name
           },
           prevUser: {
             _id: prevUser._id,
@@ -153,8 +161,8 @@ export class ApproveService {
           nextStatusForm: this.findNextStatus(form.status, form.level),
           prevStatusForm: form.status,
           nextUser: {
-            _id: nextUserApprove._id,
-            name: nextUserApprove.name
+            _id: nextUserApprove.selected._id,
+            name: nextUserApprove.selected.name
           },
           prevUser: {
             _id: prevUser._id,
@@ -170,8 +178,8 @@ export class ApproveService {
         ...form,
         status: this.findNextStatus(form.status, form.level),
         nextApprove: {
-          _id: nextUserApprove._id,
-          name: nextUserApprove.name
+          _id: nextUserApprove.selected._id,
+          name: nextUserApprove.selected.name
         },
         comment: comment,
         level: level
@@ -189,7 +197,7 @@ export class ApproveService {
         const reUser = await this.$user.getQE().toPromise()
         toList = reUser
       }
-      this.sendMail(toList, newForm.status, newForm._id)
+      this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
 
       setTimeout(() => {
         this._loading.stopAll()
@@ -206,11 +214,12 @@ export class ApproveService {
     this.$log.insertLogFlow(data).subscribe(res => console.log(res))
   }
 
-  async sendMail(to: any[], status: string, formId: string) {
+  async sendMail(to: any[], status: string, formId: string, cc: string[]) {
     const body = {
       to: to,
       status: status,
-      formId: formId
+      formId: formId,
+      cc: cc
     }
     const resSendMail = await this.$sendMail.send(body).toPromise()
     // console.log(resSendMail);
@@ -229,7 +238,7 @@ export class ApproveService {
   private findNextLevel(status: any, level: number) {
     switch (status) {
       case 'draft':
-        return 0
+        return 1
 
       case 'request':
         return 1

@@ -158,7 +158,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       item = this.$qe_chamber.genEndDate(item)
 
       item.operateTable = await this.getOperateToolTableAll(startDate)
-      console.log('new Cal', item);
+      // console.log('new Cal', item);
 
     }
   }
@@ -264,12 +264,18 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         // const body = [item]
-        console.log(item);
-        if (item.operate?.status) {
-          this.validRemainOperate(item, startDate, index)
-        } else {
+        // console.log(item);
+
+        if (item.condition?.value == 0) {
           this.insertDirect([item], index)
+        } else {
+          if (item.operate?.status) {
+            this.validRemainOperate(item, startDate, index)
+          } else {
+            this.insertDirect([item], index)
+          }
         }
+
       }
     })
 
@@ -325,7 +331,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       // } else {
       //   this.onInsert(item, index)
       // }
-      console.log(item);
+      // console.log(item);
 
       this.insertDirect([item], index)
     } else {
@@ -442,6 +448,14 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         Swal.fire('', '', 'error')
       }
     } else {
+
+      if (newItem.condition?.value == 0) {
+        newItem.chamber = {
+          "code": null,
+          "name": null
+        }
+      }
+
       const r_insert = await this.$queue.insert(newItem).toPromise()
       // console.log(r_insert);
       this.data[index] = r_insert[0]

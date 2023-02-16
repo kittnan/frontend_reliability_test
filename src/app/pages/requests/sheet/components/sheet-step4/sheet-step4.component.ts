@@ -4,6 +4,7 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { Step3HttpService } from 'src/app/http/step3-http.service';
 
 @Component({
   selector: 'app-sheet-step4',
@@ -19,15 +20,21 @@ export class SheetStep4Component implements OnInit {
   constructor(
     private _stepper: CdkStepper,
     private _loading: NgxUiLoaderService,
-    private $step4: Step4HttpService
+    private $step4: Step4HttpService,
+    private $step3: Step3HttpService
   ) { }
 
   async ngOnInit() {
     if (this.formId) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      const resGet = await this.$step4.get(params).toPromise();
-      if (resGet && resGet.length > 0) {
-        this.conditionForm = resGet[0]
+      // const resStep3 = await this.$step3.get(params).toPromise();
+      // console.log("🚀 ~ file: sheet-step4.component.ts:31 ~ SheetStep4Component ~ ngOnInit ~ resStep3", resStep3)
+      const resStep4 = await this.$step4.get(params).toPromise();
+      // console.log("🚀 ~ file: sheet-step4.component.ts:33 ~ SheetStep4Component ~ ngOnInit ~ resStep4", resStep4)
+      console.log(resStep4);
+
+      if (resStep4 && resStep4.length > 0) {
+        this.conditionForm = resStep4[0]
       }
 
     }
@@ -35,7 +42,13 @@ export class SheetStep4Component implements OnInit {
 
   onConditionForm() {
     // this.conditionForm.data = this.data
-    this.table = this.conditionForm.data
+    // console.log(this.conditionForm);
+    const foo = this.conditionForm.data.find((d: any) => d.value == 0)
+    if (foo) {
+      this.table = []
+    } else {
+      this.table = this.conditionForm.data
+    }
   }
 
   onNext() {

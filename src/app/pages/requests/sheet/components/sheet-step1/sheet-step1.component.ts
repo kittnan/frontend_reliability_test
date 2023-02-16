@@ -69,6 +69,7 @@ export class SheetStep1Component implements OnInit {
   fileProgress = false
   tempUpload: any[] = []
   userLogin: any
+  minDate: Date = new Date()
   constructor(
     private _request: RequestSheetService,
     private _loading: NgxUiLoaderService,
@@ -97,6 +98,12 @@ export class SheetStep1Component implements OnInit {
     // this.userLogin = await this.$user.getUserById(tempId).toPromise()
 
   }
+
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  };
 
 
   onSelectModelNo() {
@@ -277,6 +284,7 @@ export class SheetStep1Component implements OnInit {
       controlNo: this.requestForm.value.controlNo,
       corporate: this.requestForm.value.corporate,
       status: 'draft',
+      level: 0,
       table: {},
       nextApprove: this.userLogin,
       qeReceive: {
@@ -331,9 +339,30 @@ export class SheetStep1Component implements OnInit {
       this._stepper.next()
     }, 1000);
   }
-  onBack() {
-    this.router.navigate(['/request/manage']);
+  onCancel() {
+    Swal.fire({
+      title: 'Do you want to cancel?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((ans: SweetAlertResult) => {
+      if (ans.isConfirmed) {
+        this.cancelRequest()
+      }
+    })
   }
+
+  async cancelRequest() {
+    try {
+      await this.$request.update(this.formId, { status: 'cancel' }).toPromise()
+      Swal.fire('SUCCESS', '', 'success')
+      setTimeout(() => {
+        this.router.navigate(['/request/manage']);
+      }, 1000);
+    } catch (error) {
+      Swal.fire('Something it wrong!!!', '', 'error')
+    }
+  }
+
   sendLog(data: any) {
     this.$log.insertLogFlow(data).subscribe(res => console.log(res))
   }

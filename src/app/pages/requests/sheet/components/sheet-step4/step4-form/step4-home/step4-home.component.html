@@ -1,40 +1,80 @@
 <div fxLayoutAlign="space-around stretch" fxLayout="row wrap">
-    <mat-form-field appearance="fill" fxFlex="100">
-        <mat-label>Select Condition</mat-label>
-        <mat-select [(ngModel)]="selected" (ngModelChange)="onSelected()">
-            <mat-option [value]="0">
-                -
-            </mat-option>
-            <mat-option *ngFor="let item of conditionList; let i=index" [value]="item">
-                {{i+1}}.{{item.name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
 
-    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mat-elevation-z1" style="padding: 20px; margin: 10px 0;" *ngFor="let con of conditions; let i=index">
-        <h4 fxFlex="100">
-            {{i+1}}.{{con.name}}
-            <button mat-button color="primary" (click)="onDelete(i)">
-                <span class="material-icons-outlined cursor" style="font-size: 30px;" >
-                    delete
-                </span>
-            </button>
-        </h4>
-        <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <app-low-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===1"></app-low-temp-form>
-            <app-high-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===2"></app-high-temp-form>
-            <app-high-temp-humi-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===3"></app-high-temp-humi-form>
-            <app-high-temp-humi-vibration-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===4"></app-high-temp-humi-vibration-form>
-            <app-high-low fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===5"></app-high-low>
-            <app-heat-shock fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)" *ngIf="con.value===6"></app-heat-shock>
-        </div>
+  <mat-radio-group fxFlex="100" aria-label="Select an option" [(ngModel)]="chamber" (ngModelChange)="onSelectChamber()">
+    <mat-radio-button value="yes">chamber</mat-radio-button>
+    <mat-radio-button value="no">no chamber</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-divider *ngIf="chamber" fxFlex="100" style="margin: 10px 0;"></mat-divider>
+
+  <mat-form-field *ngIf="chamber && chamber==='yes'" appearance="fill" fxFlex="100">
+    <mat-label>Select Condition</mat-label>
+    <mat-select [(ngModel)]="selected" (ngModelChange)="onSelected()">
+      <mat-option [value]="0">
+        -
+      </mat-option>
+      <mat-option *ngFor="let item of conditionList; let i=index" [value]="item">
+        {{i+1}}.{{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container *ngIf="chamber && chamber==='yes'">
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mat-elevation-z1"
+      style="padding: 20px; margin: 10px 0;" *ngFor="let con of conditions; let i=index">
+      <h4 fxFlex="100">
+        {{i+1}}.{{con.name}}
+        <button mat-button color="primary" (click)="onDelete(i)">
+          <span class="material-icons-outlined cursor" style="font-size: 30px;">
+            delete
+          </span>
+        </button>
+      </h4>
+      <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <app-low-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===1"></app-low-temp-form>
+        <app-high-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===2"></app-high-temp-form>
+        <app-high-temp-humi-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===3"></app-high-temp-humi-form>
+        <app-high-temp-humi-vibration-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===4"></app-high-temp-humi-vibration-form>
+        <app-high-low fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===5"></app-high-low>
+        <app-heat-shock fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===6"></app-heat-shock>
+      </div>
     </div>
+  </ng-container>
 
 
-    <app-inspection-form fxFlex="100" [(inspection)]="inspection.name" [(inspectionDetail)]="inspection.detail" (inspectionChange)="onInspectionDetail()" (inspectionDetailChange)="onInspectionDetail()" class="mat-elevation-z1" style="padding: 20px; margin: 10px 0;">
-    </app-inspection-form>
+
+  <app-inspection-form *ngIf="chamber && chamber==='yes'" fxFlex="100" [(inspection)]="inspection.name"
+    [(inspectionDetail)]="inspection.detail" (inspectionChange)="onInspectionDetail()"
+    (inspectionDetailChange)="onInspectionDetail()" class="mat-elevation-z1" style="padding: 20px; margin: 10px 0;">
+  </app-inspection-form>
+
+  <ng-container *ngIf="chamber && chamber==='no'">
+    <div *ngIf="conditions[0]?.data" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <mat-form-field fxFlex="45" appearance="fill">
+        <mat-label>Qty</mat-label>
+        <input matInput type="number" [(ngModel)]="conditions[0].data.qty" (ngModelChange)="emit()">
+      </mat-form-field>
+      <mat-radio-group fxFlex="45" [(ngModel)]="conditions[0].data.reportStatus" appearance="fill"
+        (ngModelChange)="emit()">
+        <mat-radio-button [value]="true">report</mat-radio-button>
+        <mat-radio-button [value]="false">no report</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field fxFlex="45" appearance="fill">
+        <mat-label>Detail test</mat-label>
+        <textarea matInput rows="3" [(ngModel)]="conditions[0].data.detailTest" (ngModelChange)="emit()"></textarea>
+      </mat-form-field>
+    </div>
+  </ng-container>
 
 
-    <mat-divider fxFlex="100" style="margin: 10px 0;"></mat-divider>
+
+  <mat-divider fxFlex="100" style="margin: 10px 0;"></mat-divider>
 
 </div>

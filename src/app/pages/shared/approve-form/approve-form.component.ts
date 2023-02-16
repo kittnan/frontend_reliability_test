@@ -3,8 +3,6 @@ import { ApproveService } from './approve.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RequestHttpService } from 'src/app/http/request-http.service';
-import { UserApproveHttpService } from 'src/app/http/user-approve-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
@@ -107,7 +105,6 @@ export class ApproveFormComponent implements OnInit {
       }).then((value: SweetAlertResult) => {
         if (value.isConfirmed) {
           const findUserApprove = this.data.step5.find((s: any) => s.prevStatusForm == key)
-          // // console.log(findUserApprove);
           this._reject.send(this.userLogin, findUserApprove, this.data, value.value, key)
         }
       })

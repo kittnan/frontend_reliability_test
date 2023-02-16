@@ -1,6 +1,6 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
   <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
-    class=" mtb-4 form-grey">
+    class=" mtb-4 ">
     <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="form"></app-views>
 
     <app-qe-receive fxFlex="100" [form]="form" (formChange)="qeReceiveEmit($event)"></app-qe-receive>

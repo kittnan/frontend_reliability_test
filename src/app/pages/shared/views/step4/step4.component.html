@@ -1,20 +1,20 @@
 <div fxLayoutAlign="start stretch" fxLayout="row wrap" class="content-item">
-    <!-- <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider> -->
+  <!-- <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider> -->
+
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
     <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-
-        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <span class="box-title">
+      <span class="box-title">
         Testing Condition
       </span>
-        </div>
-
-        <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-
-            <app-condition-table fxFlex="100" [(data)]="step4.data"></app-condition-table>
-        </div>
-
     </div>
+
+    <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+
+      <app-condition-table *ngIf="step4?.data" fxFlex="100" [(data)]="step4.data"></app-condition-table>
+    </div>
+
+  </div>
 
 
 </div>

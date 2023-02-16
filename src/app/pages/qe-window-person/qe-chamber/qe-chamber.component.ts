@@ -106,8 +106,6 @@ export class QeChamberComponent implements OnInit {
       const { id } = params;
       const resData = await this.$request.get_id(id).toPromise()
       this.form = resData[0]
-      console.log(this.form);
-
       const temp = this.setDataTable();
       this.dataSource = temp
       this.getUserApprove()
@@ -116,8 +114,6 @@ export class QeChamberComponent implements OnInit {
 
   emitted(item: any) {
     this.chamberTable = item
-    // console.log(this.chamberTable);
-
   }
 
   setDataTable() {
@@ -185,6 +181,11 @@ export class QeChamberComponent implements OnInit {
 
   qeReceiveEmit(e_form: any) {
     this.form = e_form
+  }
+
+  chamberValid() {
+    if (this.form?.step4?.data?.find((d: any) => d?.value == 0)) return false
+    return true
   }
 
 }

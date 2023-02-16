@@ -171,7 +171,19 @@ export class AppComponent {
               title: 'items'
             },
           ]
-        }
+        },
+        {
+          title: 'approver',
+          icon: 'diversity_3',
+          items: [
+            {
+              path: '/admin/approver',
+              icon: 'group',
+              title: 'manage'
+            },
+
+          ]
+        },
       ];
     }
     if (this.authorize == 'request') {

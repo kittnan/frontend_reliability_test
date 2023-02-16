@@ -42,7 +42,6 @@ export class SideNavComponent implements OnInit {
     this.router.navigate(['/'])
   }
   onClickLink() {
-
   }
 
 

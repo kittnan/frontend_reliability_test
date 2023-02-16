@@ -1,32 +1,32 @@
 <div fxLayoutAlign="start stretch" fxLayout="row wrap" class="content-item">
 
-    <!-- <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider> -->
+  <!-- <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider> -->
+
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
     <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-
-        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <span class="box-title">
+      <span class="box-title">
         Testing Type
       </span>
-        </div>
-
-
-        <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-            <section fxFlex="auto" *ngFor="let group of step3.data; let i=index">
-                <mat-checkbox [disabled]="true" *ngIf="group.checked" [(ngModel)]="group.checked" color="primary">
-                    {{group.groupName}}
-                </mat-checkbox>
-                <ul *ngIf="group.checked" class="section">
-                    <li *ngFor="let list of group.list">
-                        <mat-checkbox [disabled]="true" [(ngModel)]="list.checked">
-                            {{list.name}}
-                        </mat-checkbox>
-                    </li>
-                </ul>
-            </section>
-        </div>
-
     </div>
+
+
+    <div class="box-body" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+      <section fxLayoutGap="10" *ngFor="let group of step3.data; let i=index">
+        <mat-checkbox [disabled]="true" *ngIf="group.checked" [(ngModel)]="group.checked" color="primary">
+          {{group.groupName}}
+        </mat-checkbox>
+        <ul *ngIf="group.checked" class="section">
+          <li *ngFor="let list of group.list">
+            <mat-checkbox [disabled]="true" [(ngModel)]="list.checked">
+              {{list.name}}
+            </mat-checkbox>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+  </div>
 
 
 

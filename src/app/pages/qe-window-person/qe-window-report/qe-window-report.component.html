@@ -1,14 +1,12 @@
 <div *ngIf="data" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="box-body">
-        <app-views fxFlex="100" [formInput]="data"></app-views>
+  <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mtb-4">
+    <app-views fxFlex="100" [formInput]="data" [showReport]="false"></app-views>
+    <app-files-report fxFlex="100" [queues]="data.queues" [form]="data" [userLogin]="userLogin"
+      (disable)="outDisable($event)"> </app-files-report>
 
-        <app-plan-reliability-test *ngIf="data" fxFlex="100" [requestForm]="[data]" [queues]="data.table">
-        </app-plan-reliability-test>
+    <app-approve-form fxFlex="100" [reject]="false" [back]="false" [data]="data" [disable]="disableBtn"
+      style="margin-top: 20px;"></app-approve-form>
 
-        <app-files-report fxFlex="100" [queues]="data.queues" [form]="data" [userLogin]="userLogin" (disable)="outDisable($event)"> </app-files-report>
-
-        <app-approve-form fxFlex="100" [reject]="false" [back]="false" [data]="data" [disable]="disableBtn" style="margin-top: 20px;"></app-approve-form>
-
-    </div>
+  </div>
 
 </div>

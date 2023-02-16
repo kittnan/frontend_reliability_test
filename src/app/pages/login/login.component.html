@@ -1,41 +1,41 @@
 <div class="container" fxLayout="row wrap" fxLayoutAlign="center center">
-    <div class="card">
-        <div class="card-head" fxLayout="row wrap" fxLayoutAlign="center center">
+  <div fxFlex="80" fxFlex.gt-lg="33" fxFlex.gt-md="50" class="card">
+    <div class="card-head" fxLayout="row wrap" fxLayoutAlign="center center">
 
-            <!-- <div fxFlex="100" fxLayoutAlign="center center">
+      <!-- <div fxFlex="100" fxLayoutAlign="center center">
 
         <span fxFlex="100" class="card-title2" fxLayoutAlign="center center">
 
         </span>
       </div> -->
-            <div fxFlex="100" fxLayoutAlign="center center" style="text-align: center;">
-                <span fxFlex="100" class="card-title2" fxLayoutAlign="center center">
+      <div fxFlex="100" fxLayoutAlign="center center" style="text-align: center;">
+        <!-- <span fxFlex="100" class="card-title2" fxLayoutAlign="center center">
           RELIABILITY CONTROL SYSTEM
-        </span>
-            </div>
-        </div>
+        </span> -->
+        <img src="assets/login.png" alt="" width="100%">
+      </div>
+    </div>
 
+    <form [formGroup]="LoginForm" (submit)="onLogin()" class="card-body" fxLayout="row wrap"
+      fxLayoutAlign="center center">
+      <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="" formControlName="username">
+      </mat-form-field>
+      <mat-form-field fxFlex="100" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="" formControlName="password">
+      </mat-form-field>
 
-
-        <form [formGroup]="LoginForm" (submit)="onLogin()" class="card-body" fxLayout="row wrap" fxLayoutAlign="center center">
-            <mat-form-field fxFlex="100" appearance="fill">
-                <mat-label>Username</mat-label>
-                <input matInput placeholder="" formControlName="username">
-            </mat-form-field>
-            <mat-form-field fxFlex="100" appearance="fill">
-                <mat-label>Password</mat-label>
-                <input matInput type="password" placeholder="" formControlName="password">
-            </mat-form-field>
-
-            <div class="card-footer" fxLayoutAlign="center center">
-                <button type="submit" mat-raised-button fxFlex="100" style="margin-top: 10px;">
+      <div class="card-footer" fxLayoutAlign="center center">
+        <button type="submit" mat-raised-button fxFlex="100" style="margin-top: 10px;">
           LOGIN <span class="material-icons-outlined">
             lock_open
           </span>
 
         </button>
-            </div>
-        </form>
+      </div>
+    </form>
 
-    </div>
+  </div>
 </div>

@@ -1,8 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { MasterHttpService } from 'src/app/http/master-http.service';
-import { ChamberTableComponent } from '../chamber-table/chamber-table.component';
 
 @Component({
   selector: 'app-condition-table',
@@ -16,15 +12,12 @@ export class ConditionTableComponent implements OnInit {
   @Input() click: any
   @Output() clickChange: EventEmitter<any> = new EventEmitter();
   constructor(
-    private $master: MasterHttpService,
-    private dialog: MatDialog,
-    private router: Router
-  ) { }
+  ) {
+  }
 
   displayedColumns: string[] = ['item', 'condition', 'operate', 'inspectionDetail', 'inspection', 'report', 'sample', 'qty'];
 
   ngOnInit(): void {
-
   }
   getRowSpan(action: string, index: number) {
     if (action == 'row') {
@@ -39,6 +32,11 @@ export class ConditionTableComponent implements OnInit {
   }
   trimStr(item: string) {
     return item.trim()
+  }
+
+  checkData() {
+    if (this.data[0].value === 0) return false
+    return true
   }
 
 

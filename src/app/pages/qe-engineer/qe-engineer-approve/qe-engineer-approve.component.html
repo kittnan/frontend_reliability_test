@@ -1,22 +1,22 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
-        <app-views fxFlex="100" *ngIf="data" [formInput]="data"></app-views>
-        <app-plan-reliability-test *ngIf="data" fxFlex="100" [requestForm]="[data]" [queues]="data.table">
-        </app-plan-reliability-test>
+  <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
+    <app-views fxFlex="100" *ngIf="data" [formInput]="data"></app-views>
+    <!-- <app-plan-reliability-test *ngIf="data" fxFlex="100" [requestForm]="[data]" [queues]="data.table">
+        </app-plan-reliability-test> -->
 
-        <mat-form-field fxFlex="100" appearance="fill" class="content-item">
-            <mat-label>SEND TO...</mat-label>
-            <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
-                <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
-                    {{item.name|uppercase}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-form-field fxFlex="100" appearance="fill" class="content-item">
+      <mat-label>SEND TO...</mat-label>
+      <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
+        <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
+          {{item.name|uppercase}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <app-approve-form *ngIf="data" fxFlex="100" [reject]="true" [userApprove]="approve.value" [data]="data">
-        </app-approve-form>
+    <app-approve-form *ngIf="data" fxFlex="100" [reject]="true" [userApprove]="approve.value" [data]="data">
+    </app-approve-form>
 
 
-    </div>
+  </div>
 
 </div>

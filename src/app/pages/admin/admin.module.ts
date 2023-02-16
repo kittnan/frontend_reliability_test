@@ -35,6 +35,8 @@ import { FunctionChamberComponent } from './master-manage/function-chamber/funct
 import { DialogFunctionChamberComponent } from './master-manage/function-chamber/dialog-function-chamber/dialog-function-chamber.component';
 import { RequestComponent } from './request/request.component';
 import { SharedModule } from '../shared/shared.module';
+import { ApproverComponent } from './approver/approver.component';
+import { DialogApproverComponent } from './approver/dialog-approver/dialog-approver.component';
 
 
 @NgModule({
@@ -67,6 +69,8 @@ import { SharedModule } from '../shared/shared.module';
     FunctionChamberComponent,
     DialogFunctionChamberComponent,
     RequestComponent,
+    ApproverComponent,
+    DialogApproverComponent,
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,3 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,9 +25,19 @@ export class QeChamberPlanningComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // console.log(this.data);
+
     if (this.data) {
-      this.dataSource = new MatTableDataSource(this.data)
-      this.createPlaning()
+
+      if (this.data[0]?.step4?.data[0]?.value == 0) {
+        this.displayedColumns = []
+        this.createPlainingNoChamber()
+      } else {
+        this.dataSource = new MatTableDataSource(this.data)
+        this.createPlaning()
+      }
+
+
     }
   }
 
@@ -95,8 +104,37 @@ export class QeChamberPlanningComponent implements OnInit {
       }
       return temp
     })
-    console.log("🚀 ~ file: qe-chamber-planning.component.ts:99 ~ QeChamberPlanningComponent ~ createPlaning ~ this.chamberTable", this.chamberTable)
+    // console.log("🚀 ~ file: qe-chamber-planning.component.ts:99 ~ QeChamberPlanningComponent ~ createPlaning ~ this.chamberTable", this.chamberTable)
     this.dataChange.emit(this.chamberTable)
+  }
+  createPlainingNoChamber() {
+    // console.log(this.data);
+    const tempData = this.data[0]
+    const bodyEmit = {
+      startDate: null,
+      endDate: null,
+      inspectionTime: this._qe_chamber.genInspectionTime(tempData.condition.data.inspection),
+      reportQE: this._qe_chamber.genInspectionTime(tempData.condition.data.report),
+      reportTime: this._qe_chamber.genInspectionTime(tempData.condition.data.report),
+      operate: {
+        attachment: {},
+        checker: {},
+        power: {},
+        status: false
+      },
+      work: {
+        requestId: tempData.step1.requestId,
+        qty: tempData.condition.data.qty,
+        controlNo: tempData.step1.controlNo,
+      },
+      condition: {
+        name: 'No Chamber',
+        value: tempData.condition.value
+      },
+      model: tempData.step1.modelNo,
+      status: 'draft'
+    }
+    this.dataChange.emit([bodyEmit])
   }
 
 }
