@@ -24,7 +24,6 @@ export class SheetStep5Component implements OnInit {
   authorize = 'request_approve'
   resStep5: any[] = []
   form: any
-  request: any
   approve: ApproverForm = {
     groupList: null,
     groupStatus: null,
@@ -37,19 +36,18 @@ export class SheetStep5Component implements OnInit {
 
   constructor(
     private _stepper: CdkStepper,
-    private _loading: NgxUiLoaderService,
     private $step5: Step5HttpService,
     private $request: RequestHttpService,
-    private _router: Router,
     private _approve: ApproveService,
     private _userApprove: UserApproveService
   ) { }
 
   async ngOnInit(): Promise<void> {
     if (this.formId) {
-      this.request = await this.$request.get_id(this.formId).toPromise()
-      const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      this.resStep5 = await this.$step5.get(params).toPromise()
+      const resForm = await this.$request.get_id(this.formId).toPromise()
+      this.form = resForm[0]
+      // const params: HttpParams = new HttpParams().set('requestId', this.formId)
+      // this.resStep5 = await this.$step5.get(params).toPromise()
       // const level2 = this.resStep5.find((s: any) => s.level == 2)
 
       // this.form = level2
@@ -71,23 +69,22 @@ export class SheetStep5Component implements OnInit {
       this.userApprove = [this.approver.selected]
       this.approve = this.approver
     } else {
+      const select = this.checkPrevApprove(this.form, 1)
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
         groupStatus: null,
         level: this.form?.level ? this.form.level : null,
         name: null,
-        selected: this.checkPrevApprove(this.form, 2) ? this.checkPrevApprove(this.form, 2) : this.userApprove[0],
+        selected: select ? select : this.userApprove[0],
         status: this.form?.status ? this.form.status : null
       }
-      console.log(this.approve);
-
     }
   }
 
   private checkPrevApprove(data: any, level: number) {
     const prevUserApprove = data?.step5?.find((s: any) => s.level == level)
     if (prevUserApprove) {
-      return prevUserApprove
+      return this.userApprove.find((u: any) => u._id == prevUserApprove.nextUser._id)
     } else {
       return null
     }
@@ -112,7 +109,8 @@ export class SheetStep5Component implements OnInit {
     }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
         if (this.formId) {
-          this.request = await this.$request.get_id(this.formId).toPromise()
+          const resForm = await this.$request.get_id(this.formId).toPromise()
+          this.form = resForm[0]
         }
         this.comment()
       }
@@ -131,7 +129,7 @@ export class SheetStep5Component implements OnInit {
       showCancelButton: true
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this._approve.send(this.userLogin, this.approve, this.request[0], value.value)
+        this._approve.send(this.userLogin, this.approve, this.form, value.value)
       }
     })
   }

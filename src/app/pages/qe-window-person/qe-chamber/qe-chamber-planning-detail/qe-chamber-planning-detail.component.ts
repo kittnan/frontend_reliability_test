@@ -499,18 +499,21 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       temp.push(now.condition.name)
       return temp
     }, [])
+    // console.log(data, header);
+
     const receive = header.map((h: any) => this.requestForm[0].qeReceive?.date ? moment(this.requestForm[0].qeReceive.date).format('ddd, D-MMM-YY,h:mm a') : '-')
     const times_inspection = await this.mapTime(data, 'inspectionTime')
     const times_report = await this.mapTime(data, 'reportTime')
     // const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, times_report, receive, ['condition', ...header])
     const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, data, header, 'inspectionTime', times_report, ['Sample Receive', ...receive])
+
     this.tableData = {
       header: header,
       data: table_inspection
     }
     this.loopData()
     this.emit()
-    // console.log(this.data)
+    console.log(this.data)
 
   }
 

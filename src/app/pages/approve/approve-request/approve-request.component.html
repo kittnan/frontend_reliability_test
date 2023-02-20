@@ -1,6 +1,6 @@
-<div *ngIf="data" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
+<div *ngIf="form" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
   <div fxFlex.xl="80" fxFlex.lg="80" fxFlex="95" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
-    <app-views *ngIf="data" fxFlex="100" [showReport]="false" [formInput]="data"></app-views>
+    <app-views *ngIf="form" fxFlex="100" [showReport]="false" [showTest]="false" [formInput]="form"></app-views>
 
     <mat-form-field fxFlex="100" appearance="fill" class="content-item">
       <mat-label>SEND TO...</mat-label>
@@ -10,7 +10,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <app-approve-form fxFlex="100" [reject]="true" [userApprove]="approve" [data]="data"></app-approve-form>
+    <app-approve-form fxFlex="100" [reject]="true" [userApprove]="approve" [data]="form"></app-approve-form>
   </div>
 
 </div>

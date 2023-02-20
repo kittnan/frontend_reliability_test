@@ -3,8 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import { UserHttpService } from 'src/app/http/user-http.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { UserApproveService } from 'src/app/services/user-approve.service';
 
 @Component({
@@ -17,7 +15,7 @@ export class ApproveRequestComponent implements OnInit {
   userLogin: any;
   dateNow!: Date
 
-  data: any
+  form: any
   authorize = 'qe_window_person'
   userApprove: any = [];
   approve: ApproverForm = {
@@ -48,7 +46,7 @@ export class ApproveRequestComponent implements OnInit {
     this.route.queryParams.subscribe(async params => {
       const id = params['id']
       const resData = await this.$request.get_id(id).toPromise()
-      this.data = resData[0]
+      this.form = resData[0]
       this.getUserApprove()
 
     })
@@ -67,18 +65,19 @@ export class ApproveRequestComponent implements OnInit {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-    this.approver = await this._userApprove.approver(this.authorize, this.data.level, this.userLogin)
+    this.approver = await this._userApprove.approver(this.authorize, this.form.level, this.userLogin)
     if (this.approver && this.approver.groupStatus) {
       this.userApprove = [this.approver.selected]
       this.approve = this.approver
     } else {
+      const select = this.checkPrevApprove(this.form, 2)
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
         groupStatus: null,
-        level: this.data.level,
+        level: this.form?.level ? this.form.level : null,
         name: null,
-        selected: this.checkPrevApprove(this.data, 2) ? true : this.userApprove[0],
-        status: this.data.status
+        selected: select ? select : this.userApprove[0],
+        status: this.form?.status ? this.form.status : null
       }
     }
   }
@@ -86,7 +85,7 @@ export class ApproveRequestComponent implements OnInit {
   private checkPrevApprove(data: any, level: number) {
     const prevUserApprove = data.step5.find((s: any) => s.level == level)
     if (prevUserApprove) {
-      return prevUserApprove
+      return this.userApprove.find((u: any) => u._id == prevUserApprove.nextUser._id)
     } else {
       return null
     }

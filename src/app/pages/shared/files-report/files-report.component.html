@@ -1,90 +1,90 @@
 <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="content-item">
 
 
-    <h4 fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-        <span class="box-title">
+  <h4 fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <span class="box-title">
       UPLOAD REPORT
     </span>
-    </h4>
-    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="box-table">
-        <table fxFlex="100" *ngFor="let queue of queues; let i_queue=index">
-            <colgroup width="20%"></colgroup>
-            <thead>
-                <tr>
-                    <th colspan="2">
-                        <strong> {{queue.condition.name}} </strong>
-                    </th>
-                </tr>
-                <tr>
-                    <th> <span> TIME </span> </th>
-                    <th>
-                        <span> FILE </span>
-                    </th>
+  </h4>
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="box-table">
+    <table fxFlex="100" *ngFor="let queue of queues; let i_queue=index">
+      <colgroup width="20%"></colgroup>
+      <thead>
+        <tr>
+          <th colspan="2">
+            <strong> {{queue.condition.name}} </strong>
+          </th>
+        </tr>
+        <tr>
+          <th> <span> TIME </span> </th>
+          <th>
+            <span> FILE </span>
+          </th>
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let time of queue.reportQE ; let i_time=index">
-                    <td>
-                        <span> Report At {{time.at}} <input hidden type="file" #fileUpload multiple
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let time of queue.reportQE ; let i_time=index">
+          <td>
+            <span> Report At {{time.at}} <input hidden type="file" #fileUpload multiple
                 (change)="onUploadFile($event,time,queue.work.controlNo,i_queue);">
               <button *ngIf="show" mat-button color="accent" (click)="fileUpload.click()" title="UPLOAD">
                 <span class="material-icons-outlined">
                   cloud_upload
                 </span>
 
-                        </button>
-                        </span>
-                    </td>
-                    <td>
+              </button>
+            </span>
+          </td>
+          <td>
 
-                        <ng-container *ngIf="time.files.length>0; else elseTemplate">
-                            <div fxLayout="row wrap" fxLayoutAlign="start stretch" *ngFor="let file of time.files">
-                                <div fxFlex="80" fxLayout="row wrap" fxLayoutAlign="start stretch">
-                                    <mat-icon fxFlex="10" fxLayoutAlign="center center" matListItemIcon>folder</mat-icon>
-                                    <span fxFlex="90" fxLayoutAlign="start center" matListItemTitle> {{file.name}} (
+            <ng-container *ngIf="time.files.length>0; else elseTemplate">
+              <div fxLayout="row wrap" fxLayoutAlign="start stretch" *ngFor="let file of time.files">
+                <div fxFlex="80" fxLayout="row wrap" fxLayoutAlign="start stretch">
+                  <mat-icon fxFlex="10" fxLayoutAlign="center center" matListItemIcon>folder</mat-icon>
+                  <span fxFlex="90" fxLayoutAlign="start center" matListItemTitle> {{file.name}} (
                     {{file.size|fileSize}}
                     )
 
                   </span>
-                                    <div fxFlexOffset="10" matListItemLine>UPLOAD DATE: {{file.date | date:'dd-MMM-YYYY, HH:mm'}}</div>
+                  <div fxFlexOffset="10" matListItemLine>UPLOAD DATE: {{file.date | date:'dd-MMM-YYYY, HH:mm'}}</div>
 
-                                </div>
+                </div>
 
-                                <div fxFlex="20" fxLayout="row wrap" fxLayoutAlign="space-around center">
+                <div fxFlex="20" fxLayout="row wrap" fxLayoutAlign="space-around center">
 
 
 
-                                    <button mat-button color="primary" (click)="download(file.path,file.name)" title="DOWNLOAD">
+                  <button mat-button color="primary" (click)="download(file.path,file.name)" title="DOWNLOAD">
                     <span class="material-icons-outlined">
                       cloud_download
                     </span>
 
                   </button>
-                                    <button *ngIf="show" mat-button color="warn" (click)="onDelete(file,time,i_queue)" title="DELETE">
+                  <button *ngIf="show" mat-button color="warn" (click)="onDelete(file,time,i_queue)" title="DELETE">
                     <span class="material-icons-outlined">
                       delete
                     </span>
 
                   </button>
-                                </div>
+                </div>
 
-                            </div>
-                        </ng-container>
-                        <ng-template #elseTemplate>
+              </div>
+            </ng-container>
+            <ng-template #elseTemplate>
 
-                        </ng-template>
-
-
+            </ng-template>
 
 
-                    </td>
 
-                </tr>
-            </tbody>
-        </table>
 
-    </div>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
 
 
 </div>

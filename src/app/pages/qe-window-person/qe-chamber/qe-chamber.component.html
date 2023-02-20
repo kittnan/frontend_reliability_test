@@ -13,16 +13,15 @@
 
     <mat-form-field fxFlex="100" appearance="fill" class="content-item">
       <mat-label>SEND TO...</mat-label>
-      <mat-select [compareWith]="objectComparisonFunction" [formControl]="approve">
+      <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
         <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
-          {{item.name|uppercase}}
+          {{approve.groupStatus? approve.name: item.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
 
-    <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve.value"
-      [data]="form"></app-approve-form>
+    <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form"></app-approve-form>
 
   </div>
 

@@ -1,3 +1,4 @@
+import { UserApproveService } from 'src/app/services/user-approve.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { LogFlowService } from 'src/app/http/log-flow.service';
@@ -30,7 +31,8 @@ export class FilesReportComponent implements OnInit {
     private $queue: QueueService,
     private _loading: NgxUiLoaderService,
     private _approve: ApproveService,
-    private $log: LogFlowService
+    private $log: LogFlowService,
+    private _userApprove: UserApproveService
   ) { }
 
   ngOnInit(): void {
@@ -140,13 +142,26 @@ export class FilesReportComponent implements OnInit {
       }
     })
   }
-  sendMail(action: any) {
+  async sendMail(action: any) {
     if (!!this.form) {
       const nextUser = this.form?.step5?.find((item: any) => item.prevStatusForm === "request")
-      const eng = this.form?.step5?.find((item: any) => item.prevStatusForm === "qe_engineer")
-      const eng2 = this.form?.step5?.find((item: any) => item.prevStatusForm === "qe_engineer2")
+      let approver = await this._userApprove.approver('', 7, this.userLogin)
+      let newApprover
+      if (approver) {
+        newApprover = {
+          ...approver,
+          selected: approver.groupStatus ? approver.selected : nextUser.prevUser,
+          groupList: approver.groupList.map((g: any) => g._id)
+        }
+      } else {
+        newApprover = {
+          selected: nextUser.prevUser,
+          groupList: []
+        }
+      }
+
       if (!!nextUser) {
-        this._approve.sendMail([nextUser.prevUser._id, eng._id, eng2._id], action, this.form._id, [])
+        this._approve.sendMail([newApprover.selected._id], action, this.form._id, newApprover.groupList)
       } else {
         console.error('not found user')
       }

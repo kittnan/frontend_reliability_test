@@ -1,13 +1,14 @@
+import { ApproverForm } from './../../admin/approver/dialog-approver/dialog-approver.component';
 import { UserApproveService } from './../../../services/user-approve.service';
-import { UserHttpService } from 'src/app/http/user-http.service';
-import { ApproveService } from 'src/app/pages/shared/approve-form/approve.service';
+
+
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { QueueService } from 'src/app/http/queue.service';
+
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
-import { FormControl, Validators } from '@angular/forms';
+
+
 
 
 
@@ -83,17 +84,22 @@ export class QeChamberComponent implements OnInit {
   table: any
   nextApprove: any
   userLogin: any;
-  approve = new FormControl(null, Validators.required)
   authorize = 'qe_engineer'
   userApprove: any = [];
 
+  approve: ApproverForm = {
+    groupList: null,
+    groupStatus: null,
+    level: null,
+    name: null,
+    selected: null,
+    status: null
+  }
+  approver: any
 
   constructor(
     private routeActive: ActivatedRoute,
     private $request: RequestHttpService,
-    private $queue: QueueService,
-    private _approve: ApproveService,
-    private $user: UserHttpService,
     private _userApprove: UserApproveService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
@@ -148,26 +154,56 @@ export class QeChamberComponent implements OnInit {
 
   }
 
-  async getUserApprove() {
+  // async getUserApprove() {
 
+  //   let userLoginStr: any = localStorage.getItem('RLS_userLogin')
+  //   this.userLogin = JSON.parse(userLoginStr)
+  //   // console.log(this.form);
+
+  //   if (this.form.level === 7.8) {
+  //     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, ['request'])
+  //     const prevUser = this.form.step5.find((s: any) => s.level === 7.8)
+  //     if (prevUser) {
+  //       const select = this.userApprove.find((u: any) => u._id === prevUser.prevUser._id)
+  //       this.approve.patchValue(select)
+  //     } else {
+  //       this.approve.patchValue(this.userApprove[0])
+  //     }
+  //   } else {
+  //     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+  //     this.approve.patchValue(this.userApprove[0])
+  //   }
+
+  // }
+
+  async getUserApprove() {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    // console.log(this.form);
-
-    if (this.form.level === 7.8) {
-      this.userApprove = await this._userApprove.getUserApprove(this.userLogin, ['request'])
-      const prevUser = this.form.step5.find((s: any) => s.level === 7.8)
-      if (prevUser) {
-        const select = this.userApprove.find((u: any) => u._id === prevUser.prevUser._id)
-        this.approve.patchValue(select)
-      } else {
-        this.approve.patchValue(this.userApprove[0])
-      }
+    this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+    this.approver = await this._userApprove.approver(this.authorize, this.form.level, this.userLogin)
+    if (this.approver && this.approver.groupStatus) {
+      this.userApprove = [this.approver.selected]
+      this.approve = this.approver
     } else {
-      this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-      this.approve.patchValue(this.userApprove[0])
+      const select = this.checkPrevApprove(this.form, 3)
+      this.approve = {
+        groupList: this.approver ? this.approver.groupList : [],
+        groupStatus: null,
+        level: this.form?.level ? this.form.level : null,
+        name: null,
+        selected: select ? select : this.userApprove[0],
+        status: this.form?.status ? this.form.status : null
+      }
     }
+  }
 
+  private checkPrevApprove(data: any, level: number) {
+    const prevUserApprove = data.step5.find((s: any) => s.level == level)
+    if (prevUserApprove) {
+      return this.userApprove.find((u: any) => u._id == prevUserApprove.nextUser._id)
+    } else {
+      return null
+    }
   }
 
   public objectComparisonFunction = function (option: any, value: any): boolean {

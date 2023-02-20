@@ -39,6 +39,7 @@ import { DialogAuthComponent } from './dialog-auth/dialog-auth.component';
 import { TableOperateComponent } from './table-operate/table-operate.component';
 import { CommentComponent } from './comment/comment.component';
 import { QeReceiveComponent } from './qe-receive/qe-receive.component';
+import { ConditionTableNoChamberComponent } from './condition-table-no-chamber/condition-table-no-chamber.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { QeReceiveComponent } from './qe-receive/qe-receive.component';
     TableOperateComponent,
     CommentComponent,
     QeReceiveComponent,
+    ConditionTableNoChamberComponent,
 
   ],
   imports: [

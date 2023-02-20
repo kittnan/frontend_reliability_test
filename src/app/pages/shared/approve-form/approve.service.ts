@@ -1,3 +1,4 @@
+import { UserApproveService } from 'src/app/services/user-approve.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { SendMailService } from './../../../http/send-mail.service';
 import { LogFlowService } from './../../../http/log-flow.service';
@@ -20,11 +21,11 @@ export class ApproveService {
     private _router: Router,
     private $log: LogFlowService,
     private $sendMail: SendMailService,
-    private $user: UserHttpService
+    private _userApprove: UserApproveService
   ) { }
 
   async finishJob(form: any, userLogin: any) {
-    this._loading.start()
+    // this._loading.start()
     let newForm = {
       ...form,
       status: 'finish',
@@ -52,16 +53,31 @@ export class ApproveService {
       level: 9,
       requestId: form._id,
     }
-    // console.log('insert step', newStep);
     await this.$step5.insert(newStep).toPromise()
 
-    // console.log('finish', newForm);
     await this.$request.update(newForm._id, newForm).toPromise()
     const user = newForm.step5.find((s: any) => s.level === 1)
-    const eng = newForm.step5.find((s: any) => s.level === 4)
-    const eng2 = newForm.step5.find((s: any) => s.level === 5)
+    // const eng = newForm.step5.find((s: any) => s.level === 4)
+    // const eng2 = newForm.step5.find((s: any) => s.level === 5)
     this.sendLog(logData)
-    this.sendMail([user.prevUser._id, eng._id, eng2._id], newForm.status, newForm._id, [])
+
+
+    let approver = await this._userApprove.approver('', 9, {})
+    let newApprover
+    if (approver) {
+      newApprover = {
+        ...approver,
+        selected: approver.groupStatus ? approver.selected : user.prevUser,
+        groupList: approver.groupList.map((g: any) => g._id)
+      }
+    } else {
+      newApprover = {
+        selected: user.prevUser,
+        groupList: []
+      }
+    }
+
+    this.sendMail([newApprover.selected._id], newForm.status, newForm._id, newApprover.groupList)
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()
@@ -120,7 +136,7 @@ export class ApproveService {
         user: prevUser
       }
       this.sendLog(logData)
-      const toList = [newForm.nextApprove._id]
+      const toList = [nextUserApprove.selected._id]
       this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
       setTimeout(() => {
         Swal.fire('SUCCESS', '', 'success')
@@ -192,11 +208,7 @@ export class ApproveService {
         user: prevUser
       }
       this.sendLog(logData)
-      let toList = [newForm.nextApprove._id]
-      if (newForm.status === 'qe_window_person') {
-        const reUser = await this.$user.getQE().toPromise()
-        toList = reUser
-      }
+      let toList = [nextUserApprove.selected._id]
       this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
 
       setTimeout(() => {
@@ -360,29 +372,32 @@ export class ApproveService {
   private link(status: any) {
     let str = ''
 
-    if (status == 'request') {
+    let loginAuth = localStorage.getItem('RLS_authorize')
+
+    if (loginAuth == 'request') {
       str = 'request'
     }
 
-    if (status == 'request_approve') {
+    if (loginAuth == 'request_approve') {
       str = 'approve'
     }
 
-    if (status == 'qe_window_person') {
+    if (loginAuth == 'qe_window_person') {
       str = 'qe-window-person'
     }
 
-    if (status == 'qe_engineer') {
+    if (loginAuth == 'qe_engineer') {
       str = 'qe-engineer'
     }
 
-    if (status == 'qe_engineer2') {
+    if (loginAuth == 'qe_engineer2') {
       str = 'qe-engineer'
     }
 
-    if (status == 'qe_section_head') {
+    if (loginAuth == 'qe_section_head') {
       str = 'qe-section-head'
     }
+
     setTimeout(() => {
       this._router.navigate([`/${str}`])
     }, 1000);

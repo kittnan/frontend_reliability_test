@@ -2,7 +2,7 @@ import { RejectService } from './reject.service';
 import { ApproveService } from './approve.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
@@ -27,7 +27,8 @@ export class ApproveFormComponent implements OnInit {
     private _user: UserHttpService,
     private _approve: ApproveService,
     private _loading: NgxUiLoaderService,
-    private _reject: RejectService
+    private _reject: RejectService,
+    private route: ActivatedRoute
 
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
@@ -105,7 +106,7 @@ export class ApproveFormComponent implements OnInit {
       }).then((value: SweetAlertResult) => {
         if (value.isConfirmed) {
           const findUserApprove = this.data.step5.find((s: any) => s.prevStatusForm == key)
-          this._reject.send(this.userLogin, findUserApprove, this.data, value.value, key)
+          this._reject.sendReject(this.userLogin, findUserApprove, this.data, value.value, key)
         }
       })
 
@@ -161,8 +162,13 @@ export class ApproveFormComponent implements OnInit {
       if (localStorage.getItem('RLS_authorize') === 'request') return false
       return true
     } else {
-      if (this.data.status.includes(localStorage.getItem('RLS_authorize'))) return false
-      return true
+      if (this.data.status.includes('qe_engineer')) {
+        if (this.data.status == localStorage.getItem('RLS_authorize')) return false
+        return true
+      } else {
+        if (this.data.status.includes(localStorage.getItem('RLS_authorize'))) return false
+        return true
+      }
     }
   }
 

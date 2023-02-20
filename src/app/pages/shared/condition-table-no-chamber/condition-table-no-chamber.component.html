@@ -1,0 +1,17 @@
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start stretch" style="overflow: auto;">
+  <table fxFlex="100">
+    <tr>
+      <th>Qty</th>
+      <th>Report</th>
+      <th>Detail Test</th>
+    </tr>
+    <tr>
+      <td>{{data[0].data.qty}}</td>
+      <td>
+        <span *ngIf="data[0].data.reportStatus">Yes</span>
+        <span *ngIf="!data[0].data.reportStatus">No</span>
+      </td>
+      <td>{{data[0].data.detailTest}}</td>
+    </tr>
+  </table>
+</div>

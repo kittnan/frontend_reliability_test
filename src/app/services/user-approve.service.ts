@@ -1,8 +1,6 @@
 import { ApproverHttpService } from './../http/approver-http.service';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { Injectable } from '@angular/core';
-import { ApproverForm } from '../pages/admin/approver/dialog-approver/dialog-approver.component';
-import { E } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +19,7 @@ export class UserApproveService {
 
     const section = [userLogin.section]
     let temp_section = JSON.stringify(section)
-    if (authorize === 'qe_window_person') {
+    if (authorize === 'qe_window_person' || authorize === 'request') {
       temp_section = '[]'
     }
 

@@ -22,7 +22,7 @@ export class RejectService {
     private $sendMail: SendMailService
   ) { }
 
-  async send(prevUser: any, nextUserApprove: any, form: any, comment: any, rejectToStatus: any) {
+  async sendReject(prevUser: any, nextUserApprove: any, form: any, comment: any, rejectToStatus: any) {
     this._loading.start()
     const targetStep5 = form.step5.find((s: any) => s.prevStatusForm == rejectToStatus)
     const upperLevel = form.step5.filter((s: any) => Number(s.level) >= targetStep5.level)
@@ -47,7 +47,7 @@ export class RejectService {
       user: prevUser
     }
     this.sendLog(logData)
-    this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id)
+    this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id, [])
     const oldStepReject = form.step5.find((step: any) => step.level == level)
     if (oldStepReject) {
       const newStep = {
@@ -116,11 +116,13 @@ export class RejectService {
     }
   }
 
-  async sendMail(to: any[], status: string, formId: string) {
+  async sendMail(to: any[], status: string, formId: string, cc: string[]) {
     const body = {
       to: to,
       status: status,
-      formId: formId
+      formId: formId,
+      cc: cc
+
     }
     const resSendMail = await this.$sendMail.send(body).toPromise()
     // console.log(resSendMail);

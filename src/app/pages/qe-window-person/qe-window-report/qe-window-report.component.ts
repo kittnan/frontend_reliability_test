@@ -3,10 +3,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import { UserHttpService } from 'src/app/http/user-http.service';
-import { ShareFunctionService } from 'src/app/services/share-function.service';
-import { ToastService } from 'src/app/services/toast.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'app-qe-window-report',
@@ -29,12 +25,8 @@ export class QeWindowReportComponent implements OnInit {
   disableBtn: boolean = true
   constructor(
     private route: ActivatedRoute,
-    private _router: Router,
     private _request: RequestHttpService,
-    private _toast: ToastService,
-    private _user: UserHttpService,
     private _loading: NgxUiLoaderService,
-    private $share: ShareFunctionService
 
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
