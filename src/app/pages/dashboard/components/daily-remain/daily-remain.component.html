@@ -21,7 +21,7 @@
               <span class="text-1">{{item.controlNo}}</span>
             </button>
             <button mat-flat-button color="">
-              <span class="text-1">{{item.userName}}</span>
+              <span class="text-1">{{htmlUsername(item.userName)}}</span>
             </button>
             <button mat-flat-button color="">
               <span class="text-1">{{item.userSection}}</span>
@@ -33,10 +33,10 @@
               <span class="text-2">{{item.model}} | {{item.size}} | {{item.customer}}</span>
             </button>
             <button mat-flat-button color="accent">
-              <span class="text-2">{{item.schedule[0]?.startDate | date:'hh:mm a'}}</span>
+              <span class="text-2">{{htmlAt(item.schedule[0]?.at)}}</span>
             </button>
-            <button fxFlex="20" mat-flat-button [class]="htmlTimeCSS(item.schedule[0]?.diff)">
-              <span class="text-2">{{ htmlTime(item.schedule[0]?.diff)}}</span>
+            <button mat-flat-button [class]="htmlTimeCSS(item.schedule[0]?.diff)">
+              <span class="text-2">{{ item.purpose || '-'}}</span>
             </button>
             <button fxFlex="20" mat-flat-button color="warn">
               <span *ngIf="item.schedule[0]?.report" class="text-2">REPORT</span>

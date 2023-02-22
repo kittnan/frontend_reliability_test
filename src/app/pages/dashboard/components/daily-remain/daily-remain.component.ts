@@ -20,22 +20,32 @@ export class DailyRemainComponent implements OnInit {
 
   }
 
-  htmlTime(min: number) {
-    let actionText = min < 0 ? 'ago' : 'more`'
-    if (Math.abs(min) >= 60) {
-      let str: any = (Math.abs(min) / 60).toFixed(2).toString()
-      str = str.split('.')
-      const h = str[0]
-      let m: any = Math.ceil((Number(str[1]) / 10) * 6)
-      return `${h}hr ${m}min ${actionText}`
-    } else {
-      return `${Math.abs(min)} min ${actionText}`
-    }
+  // htmlTime(min: number) {
+  //   let actionText = min < 0 ? 'ago' : 'more`'
+  //   if (Math.abs(min) >= 60) {
+  //     let str: any = (Math.abs(min) / 60).toFixed(2).toString()
+  //     str = str.split('.')
+  //     const h = str[0]
+  //     let m: any = Math.ceil((Number(str[1]) / 10) * 6)
+  //     return `${h}hr ${m}min ${actionText}`
+  //   } else {
+  //     return `${Math.abs(min)} min ${actionText}`
+  //   }
+
+  // }
+  htmlUsername(username: string) {
+    let strSplit = username.trim().split(' ')
+    if (strSplit.length != 0) return `${strSplit[0]}-${strSplit[1].split('')[0]}`
+    return ''
 
   }
   htmlTimeCSS(min: number) {
     if (min < 0) return 'mat-yellow'
     return 'mat-primary'
+  }
+  htmlAt(at: number) {
+    if (at === 0) return 'Initial'
+    return `${at} HR`
   }
   onClickExpand(i: any) {
     if (this.keepStage.length === 0) {

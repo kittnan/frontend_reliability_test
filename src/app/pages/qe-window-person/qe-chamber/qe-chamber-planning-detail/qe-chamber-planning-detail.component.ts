@@ -64,7 +64,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         this.data[i]['operateTable'] = await this.getOperateToolTableAll(this.data[i].startDate)
       }
     }
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   async getDraft() {
@@ -513,7 +513,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }
     this.loopData()
     this.emit()
-    console.log(this.data)
+    // console.log(this.data)
 
   }
 

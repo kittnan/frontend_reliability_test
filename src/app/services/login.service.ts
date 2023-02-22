@@ -99,6 +99,14 @@ export class LoginService {
           // console.log(1);
 
           switch (status) {
+
+            case 'request_confirm':
+              this.validPermissionRequestConfirm(auth)
+              break;
+            case 'request_confirm_edited':
+              this.validPermissionRequestConfirm(auth)
+              break;
+
             case 'request_approve':
               this.validPermissionApprove(auth)
               break;
@@ -225,6 +233,18 @@ export class LoginService {
     switch (auth) {
       case 'request':
         const url = '/request/sheet'
+        this.goLink(url)
+        break;
+
+      default: this.viewPage()
+        break;
+    }
+  }
+  validPermissionRequestConfirm(auth: any) {
+    // console.log(auth);
+    switch (auth) {
+      case 'request':
+        const url = '/request/confirm'
         this.goLink(url)
         break;
 

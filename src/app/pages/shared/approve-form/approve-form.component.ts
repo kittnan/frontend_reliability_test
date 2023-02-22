@@ -162,12 +162,17 @@ export class ApproveFormComponent implements OnInit {
       if (localStorage.getItem('RLS_authorize') === 'request') return false
       return true
     } else {
-      if (this.data.status.includes('qe_engineer')) {
-        if (this.data.status == localStorage.getItem('RLS_authorize')) return false
+      if (this.data.status.includes('qe_engineer2')) {
+        if (localStorage.getItem('RLS_authorize') == 'qe_engineer2') return false
         return true
       } else {
-        if (this.data.status.includes(localStorage.getItem('RLS_authorize'))) return false
-        return true
+        if (this.data.status.includes('qe_engineer')) {
+          if (localStorage.getItem('RLS_authorize') == 'qe_engineer') return false
+          return true
+        } else {
+          if (this.data.status.includes(localStorage.getItem('RLS_authorize'))) return false
+          return true
+        }
       }
     }
   }

@@ -7,10 +7,12 @@ import * as moment from 'moment';
 })
 export class GenInspectionTableService {
 
+  chamber: Boolean = true
   constructor() { }
 
 
   genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[]) {
+    if (data[0].condition.value == 0) this.chamber = false
     return new Promise(resolve => {
       let arr_table: any[] = []
       for (let i = 0; i < times.length; i++) {
@@ -76,13 +78,15 @@ export class GenInspectionTableService {
     const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
 
     const report = timeReport.find((t: any) => t.at == time.at)
-    let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
+    let reportDate = report?.endDate ? 'Yes' : 'No'
+    // let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
 
     const dataReportQE = data.reportQE
     const foundReportQE = report ? dataReportQE.find((t: any) => t.at === foundItem?.at) : null
     const startReportQE = foundReportQE?.startDate ? moment(foundReportQE.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const endDateReportQE = foundReportQE?.endDate ? moment(foundReportQE.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
-    const betweenReportQE = startReportQE == '-' ? ' - ' : `${startReportQE} ➝ ${endDateReportQE}`
+    const betweenReportQE = endDateReportQE ? `${endDateReportQE}` : '-'
+    // const betweenReportQE = startReportQE == '-' ? ' - ' : `${startReportQE} ➝ ${endDateReportQE}`
     // const endDateReportQE = foundReportQE?.endDate ? moment(foundReportQE.startDate).add(foundReportQE.hr, 'hour').format('ddd, D-MMM-YY,h:mm a') : '-'
 
     // console.log(foundItem);
@@ -94,12 +98,14 @@ export class GenInspectionTableService {
     let inspec_arr: any[] = [[], [], []]
     if (foundItem && time.at == 0 && time.at != -1) {
       inspec_arr[0].push(reportDate ? [between, reportDate, betweenReportQE] : between)
-      inspec_arr[1].push([end])
+      this.chamber ? inspec_arr[1].push([end]) : inspec_arr[1].push(['-'])
+      // inspec_arr[1].push([end])
       inspec_arr[2].push(['-'])
     } else
       if (foundItem && time.at != 0 && time.at != -1) {
         inspec_arr[0].push([start])
         inspec_arr[1].push(reportDate ? [between, reportDate, betweenReportQE] : between)
+
 
         inspec_arr[2].push([time.at == timeReport[timeReport.length - 1].at ? '-' : end])
         // inspec_arr[2].push([end])

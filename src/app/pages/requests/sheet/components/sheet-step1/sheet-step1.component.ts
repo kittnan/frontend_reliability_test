@@ -6,7 +6,7 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RequestSheetService } from '../../request-sheet.service';
@@ -26,6 +26,7 @@ export interface ModelNo {
 })
 export class SheetStep1Component implements OnInit {
   @Input() formId: any
+  @Output() formIdChange: EventEmitter<any> = new EventEmitter()
   @Input() data: any
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
@@ -74,7 +75,8 @@ export class SheetStep1Component implements OnInit {
     private _request: RequestSheetService,
     private _loading: NgxUiLoaderService,
     private _stepper: CdkStepper,
-    private router: Router,
+    private _router: Router,
+    private _route: ActivatedRoute,
     private $request: RequestHttpService,
     private $master: MasterHttpService,
     private $file: FilesHttpService,
@@ -97,6 +99,15 @@ export class SheetStep1Component implements OnInit {
     // const tempId: any = localStorage.getItem('RLS_id')
     // this.userLogin = await this.$user.getUserById(tempId).toPromise()
 
+  }
+
+  setRequestId(id: string) {
+    this._router.navigate([], {
+      queryParams: {
+        id: id
+      },
+      queryParamsHandling: 'merge',
+    });
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -332,6 +343,8 @@ export class SheetStep1Component implements OnInit {
       user: this.userLogin
     }
     this.sendLog(logData)
+    this.setRequestId(resDraft[0]._id)
+    this.formIdChange.emit(resDraft[0]._id)
     setTimeout(() => {
       this.requestForm.patchValue({ _id: resInsert[0]._id })
       Swal.fire('SUCCESS', '', 'success')
@@ -356,7 +369,7 @@ export class SheetStep1Component implements OnInit {
       await this.$request.update(this.formId, { status: 'cancel' }).toPromise()
       Swal.fire('SUCCESS', '', 'success')
       setTimeout(() => {
-        this.router.navigate(['/request/manage']);
+        this._router.navigate(['/request/manage']);
       }, 1000);
     } catch (error) {
       Swal.fire('Something it wrong!!!', '', 'error')

@@ -42,7 +42,6 @@ export class UserApproveService {
   }
 
   async approver(auth: string, formLevel: any, userLogin: any) {
-    console.log("🚀 ~ file: user-approve.service.ts:47 ~ UserApproveService ~ approver ~ form", formLevel)
     const approver = await this.$approver.get().toPromise()
     if (approver && approver.length != 0) {
       const useApprover = approver.find((ap: any) => ap.level == formLevel)

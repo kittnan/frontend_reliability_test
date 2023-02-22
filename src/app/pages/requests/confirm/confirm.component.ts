@@ -57,7 +57,7 @@ export class ConfirmComponent implements OnInit {
       this.approve = this.approver
     } else {
       const select = this.checkPrevApprove(this.form, 2)
-      console.log('select', select);
+      // console.log('select', select);
 
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
@@ -73,7 +73,7 @@ export class ConfirmComponent implements OnInit {
   private checkPrevApprove(data: any, level: number) {
     const prevUserApprove = data.step5.find((s: any) => s.level == level)
     if (prevUserApprove) {
-      console.log(prevUserApprove);
+      // console.log(prevUserApprove);
 
       return this.userApprove.find((u: any) => u._id == prevUserApprove.nextUser._id)
     } else {

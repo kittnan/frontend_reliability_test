@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this._loading.start()
     this.getData()
-    // this.setIntervalUpdate()
+    this.setIntervalUpdate()
   }
 
   setIntervalUpdate() {
@@ -53,12 +53,12 @@ export class DashboardComponent implements OnInit {
   }
 
   changeDate() {
-    // this.clearInterval()
+    this.clearInterval()
     this._loading.start()
     this.getData()
     setTimeout(() => {
       this._loading.stopAll()
-      // this.setIntervalUpdate()
+      this.setIntervalUpdate()
     }, 1000);
   }
 

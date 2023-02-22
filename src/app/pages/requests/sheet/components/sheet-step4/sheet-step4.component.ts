@@ -31,7 +31,7 @@ export class SheetStep4Component implements OnInit {
       // console.log("🚀 ~ file: sheet-step4.component.ts:31 ~ SheetStep4Component ~ ngOnInit ~ resStep3", resStep3)
       const resStep4 = await this.$step4.get(params).toPromise();
       // console.log("🚀 ~ file: sheet-step4.component.ts:33 ~ SheetStep4Component ~ ngOnInit ~ resStep4", resStep4)
-      console.log(resStep4);
+      // console.log(resStep4);
 
       if (resStep4 && resStep4.length > 0) {
         this.conditionForm = resStep4[0]

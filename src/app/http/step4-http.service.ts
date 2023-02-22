@@ -11,13 +11,16 @@ export class Step4HttpService {
     private http: HttpClient
   ) { }
   get(params: any): Observable<any> {
-    return this.http.get(`${this.URL}/step4`, {params:params})
+    return this.http.get(`${this.URL}/step4`, { params: params })
   }
   insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/step4/insert`, data)
   }
   update(id: any, data: any): Observable<any> {
     return this.http.put(`${this.URL}/step4/update/${id}`, data)
+  }
+  deleteByFormId(id: any): Observable<any> {
+    return this.http.delete(`${this.URL}/step4/deleteByFormId/${id}`)
   }
 
 }

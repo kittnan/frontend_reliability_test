@@ -112,6 +112,7 @@ export class QeChamberComponent implements OnInit {
       const { id } = params;
       const resData = await this.$request.get_id(id).toPromise()
       this.form = resData[0]
+      console.log("🚀 ~ this.form:", this.form)
       const temp = this.setDataTable();
       this.dataSource = temp
       this.getUserApprove()
@@ -179,13 +180,20 @@ export class QeChamberComponent implements OnInit {
   async getUserApprove() {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+    let select
+    if (this.form.level == 7.8) {
+      this.userApprove = await this._userApprove.getUserApprove(this.userLogin, 'request')
+      const prevUser = this.form?.step5?.find((s: any) => s.level == 1)?.prevUser
+      select = this.userApprove.find((u: any) => u._id == prevUser._id)
+    } else {
+      this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+      select = this.checkPrevApprove(this.form, 3)
+    }
     this.approver = await this._userApprove.approver(this.authorize, this.form.level, this.userLogin)
     if (this.approver && this.approver.groupStatus) {
       this.userApprove = [this.approver.selected]
       this.approve = this.approver
     } else {
-      const select = this.checkPrevApprove(this.form, 3)
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
         groupStatus: null,

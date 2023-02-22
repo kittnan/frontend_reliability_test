@@ -1,3 +1,4 @@
+import { Step4HttpService } from './../../../../../http/step4-http.service';
 import { HttpParams } from '@angular/common/http';
 import { Step3HttpService } from './../../../../../http/step3-http.service';
 import { CdkStepper } from '@angular/cdk/stepper';
@@ -40,7 +41,8 @@ export class SheetStep3Component implements OnInit {
     private route: ActivatedRoute,
     private $master: MasterHttpService,
     private _requestSheet: RequestSheetService,
-    private $step3: Step3HttpService
+    private $step3: Step3HttpService,
+    private $step4: Step4HttpService
   ) { }
 
   async ngOnInit() {
@@ -50,16 +52,21 @@ export class SheetStep3Component implements OnInit {
       requestId: this.formId,
       data: resultMap
     };
-    if(this.formId){
+    if (this.formId) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const resGet: any = await this.$step3.get(params).toPromise()
       if (resGet && resGet.length > 0) {
         this.testingTypeMenu = {
           ...resGet[0]
         }
-    }
+      }
 
     }
+  }
+
+  validBtn() {
+    if (this.testingTypeMenu.data.find((d: any) => d.checked)) return false
+    return true
   }
 
   onNext() {
@@ -82,6 +89,8 @@ export class SheetStep3Component implements OnInit {
   async update() {
     this.testingTypeMenu.requestId = this.formId
     const resUpdate = await this.$step3.update(this.testingTypeMenu._id, this.testingTypeMenu).toPromise()
+    // console.log(resUpdate);
+
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()

@@ -44,6 +44,8 @@ export class Step4HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
 
+    // console.log(this.formId);
+
 
     this.conditionList = await this.$master.getFunctionChamber().toPromise()
     this.conditionList = this.conditionList.map((con: ConditionListForm) => {
@@ -62,9 +64,12 @@ export class Step4HomeComponent implements OnInit {
       if (this.conditions && this.conditions.length > 0 && this.conditions[0].value !== 0) {
         this.chamber = 'yes'
       }
+
       this.inspection = this.conditionForm[0]?.data.inspectionDetail ? this.conditionForm[0].data.inspectionDetail : this.inspection
       this.emit()
     }
+    this.onSelectChamber()
+
   }
 
   async onSelectChamber() {
@@ -82,7 +87,16 @@ export class Step4HomeComponent implements OnInit {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const step3 = await this.$step3.get(params).toPromise()
       const filterOven = step3[0]?.data?.find((d: any) => d.checked && d.groupName == 'Oven')
-      this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => f.name == con.name && f.checked))
+      // this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => {
+
+      //   if (f.name.includes('Vibration') && f.checked) {
+      //     if (con.name.includes('Vibration')) return true
+      //     return false
+      //   } else {
+      //     if (f.name == con.name && f.checked) return true
+      //     return false
+      //   }
+      // }))
     }
 
     if (this.chamber == 'no') {
@@ -109,7 +123,16 @@ export class Step4HomeComponent implements OnInit {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const step3 = await this.$step3.get(params).toPromise()
       const filterOven = step3[0]?.data?.find((d: any) => d.checked && d.groupName == 'Oven')
-      this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => f.name == con.name && f.checked))
+      // this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => {
+
+      //   if (f.name.includes('Vibration') && f.checked) {
+      //     if (con.name.includes('Vibration')) return true
+      //     return false
+      //   } else {
+      //     if (f.name == con.name && f.checked) return true
+      //     return false
+      //   }
+      // }))
     }
 
     if (this.chamber == 'no') {
@@ -132,6 +155,8 @@ export class Step4HomeComponent implements OnInit {
     }
     this.emit()
   }
+
+
 
 
   async onSelected() {
