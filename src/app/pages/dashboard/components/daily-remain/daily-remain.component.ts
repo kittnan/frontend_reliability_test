@@ -34,8 +34,8 @@ export class DailyRemainComponent implements OnInit {
 
   // }
   htmlUsername(username: string) {
-    let strSplit = username.trim().split(' ')
-    if (strSplit.length != 0) return `${strSplit[0]}-${strSplit[1].split('')[0]}`
+    let strSplit = username?.trim().split(' ')
+    if (strSplit && strSplit.length != 0) return `${strSplit[0]}-${strSplit[1].split('')[0]}`
     return ''
 
   }

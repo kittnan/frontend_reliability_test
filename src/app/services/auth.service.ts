@@ -1,14 +1,16 @@
+import { RequestHttpService } from 'src/app/http/request-http.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { UserHttpService } from '../http/user-http.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
+  filter$!: Observable<any>;
   constructor(
-    private _user_service: UserHttpService
+    private _user_service: UserHttpService,
   ) {
 
   }
@@ -61,5 +63,7 @@ export class AuthService {
       })
     })
   }
+
+
 
 }

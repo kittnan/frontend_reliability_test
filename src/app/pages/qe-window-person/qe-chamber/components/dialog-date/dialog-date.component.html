@@ -1,4 +1,3 @@
 <mat-card class="demo-inline-calendar-card">
-  <mat-calendar [minDate]="data.startDate" [(selected)]="data.endDate" [dateFilter]="myFilter"
-    (selectedChange)="onChange()"></mat-calendar>
+  <mat-calendar [(selected)]="data.endDate" [dateFilter]="myFilter" (selectedChange)="onChange()"></mat-calendar>
 </mat-card>

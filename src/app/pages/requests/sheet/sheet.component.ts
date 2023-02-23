@@ -1,6 +1,7 @@
 import { RequestHttpService } from './../../../http/request-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 interface requestForm {
@@ -22,12 +23,14 @@ export class SheetComponent implements OnInit {
   }
   constructor(
     private active: ActivatedRoute,
-    private $request: RequestHttpService
+    private $request: RequestHttpService,
+    private _loading: NgxUiLoaderService
   ) {
     this.active.queryParams.subscribe(params => this.params = params)
   }
 
   ngOnInit(): void {
+    this._loading.start()
     if (this.params && this.params['id']) {
       this.formId = this.params['id']
       this.$request.get_id(this.params['id']).subscribe(res => {
@@ -38,5 +41,10 @@ export class SheetComponent implements OnInit {
   }
   emit(e: any) {
     this.formId = e
+  }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this._loading.stopAll()
+    }, 1000);
   }
 }

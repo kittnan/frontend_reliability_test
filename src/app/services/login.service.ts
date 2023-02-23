@@ -1,3 +1,4 @@
+import { RequestHttpService } from 'src/app/http/request-http.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAuthComponent } from './../pages/shared/dialog-auth/dialog-auth.component';
 import { v4 as uuid } from 'uuid';
@@ -8,6 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ToastService } from './toast.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +23,8 @@ export class LoginService {
     private _toast: ToastService,
     private route: ActivatedRoute,
     private _loading: NgxUiLoaderService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private $request: RequestHttpService
   ) { }
 
   onLogin(data: any) {
@@ -92,105 +95,82 @@ export class LoginService {
 
   async validFormId(auth: any) {
     if (localStorage.getItem('RLS_token')) {
-      this.route.queryParams.subscribe(res => {
+      this.route.queryParams.subscribe(async res => {
         const { id, status } = res
-        let newUrl = ''
+        console.log("🚀 ~ status:", status)
+        let resRequest = []
         if (id) {
-          // console.log(1);
+          resRequest = await this.$request.get_id(id).toPromise()
+          console.log("🚀 ~ resRequest:", resRequest)
+        } else {
+          resRequest = []
+        }
 
-          switch (status) {
+        let newUrl = ''
 
-            case 'request_confirm':
-              this.validPermissionRequestConfirm(auth)
-              break;
-            case 'request_confirm_edited':
-              this.validPermissionRequestConfirm(auth)
-              break;
+        if (resRequest && resRequest.length > 0) {
+          if (resRequest[0].status == status) {
+            switch (status) {
 
-            case 'request_approve':
-              this.validPermissionApprove(auth)
-              break;
+              case 'request_confirm':
+                this.validPermissionRequestConfirm(auth)
+                break;
+              case 'request_confirm_edited':
+                this.validPermissionRequestConfirm(auth)
+                break;
 
-            case 'qe_window_person':
-              this.validPermissionQEWindowChamber(auth)
-              break;
+              case 'request_approve':
+                this.validPermissionApprove(auth)
+                break;
 
-            case 'qe_engineer':
-              this.validPermissionQEEngineer(auth)
-              break;
+              case 'qe_window_person':
+                this.validPermissionQEWindowChamber(auth)
+                break;
 
-            case 'qe_engineer2':
-              this.validPermissionQEEngineer2(auth)
-              break;
+              case 'qe_engineer':
+                this.validPermissionQEEngineer(auth)
+                break;
 
-            case 'qe_section_head':
-              this.validPermissionQESectionHead(auth)
-              break;
+              case 'qe_engineer2':
+                this.validPermissionQEEngineer2(auth)
+                break;
 
-            case 'qe_window_person_report':
-              this.validPermissionQEWindowReport(auth)
-              break;
+              case 'qe_section_head':
+                this.validPermissionQESectionHead(auth)
+                break;
 
+              case 'qe_window_person_report':
+                this.validPermissionQEWindowReport(auth)
+                break;
 
+              case 'reject_request':
+                this.validPermissionRequest(auth)
+                break;
 
+              case 'reject_request_approve':
+                this.validPermissionApprove(auth)
+                break;
 
+              case 'reject_qe_window_person':
+                this.validPermissionQEWindowChamber(auth)
+                break;
 
+              case 'reject_qe_engineer':
+                this.validPermissionQEEngineer(auth)
+                break;
 
-            case 'reject_request':
-              this.validPermissionRequest(auth)
-              break;
+              case 'reject_qe_section_head':
+                this.validPermissionQESectionHead(auth)
+                break;
 
-            case 'reject_request_approve':
-              this.validPermissionApprove(auth)
-              break;
-
-            case 'reject_qe_window_person':
-              this.validPermissionQEWindowChamber(auth)
-              break;
-
-            case 'reject_qe_engineer':
-              this.validPermissionQEEngineer(auth)
-              break;
-
-            case 'reject_qe_section_head':
-              this.validPermissionQESectionHead(auth)
-              break;
-
-            default: this.viewPage()
-              break;
+              default: this.viewPage()
+                break;
+            }
+          } else {
+            this.viewPage()
           }
 
-          // if (auth == 'admin') {
-          //   newUrl = "/admin"
-          // }
-          // if (auth == 'request') {
-          //   newUrl = "/request/sheet"
-          // }
-          // if (auth == 'request_approve') {
-          //   newUrl = "/approve/approve-request"
-          // }
-          // if (auth == 'qe_window_person') {
-          //   if (status === 'qe_window_person' || status === 'reject_qe_window_person') {
-          //     newUrl = "/qe-window-person/chamber"
-          //   } else {
-          //     newUrl = "/qe-window-person/report"
-          //   }
-          // }
-          // if (auth == 'qe_engineer') {
-          //   newUrl = "/qe-engineer/approve-request"
-          // }
-          // if (auth == 'qe_engineer2') {
-          //   newUrl = "/qe-engineer/approve-request"
-          // }
-          // if (auth == 'qe_section_head') {
-          //   newUrl = "/qe-section-head/approve-request"
-          // }
-          // this.router.navigate([newUrl], { queryParamsHandling: 'preserve' }).then((boo: any) => {
-          //   window.location.reload()
-          // })
         } else {
-          // console.log(2);
-
           if (auth == 'admin') {
             newUrl = "/admin"
           }
@@ -218,9 +198,8 @@ export class LoginService {
           this.router.navigate([newUrl]).then((boo: any) => {
             window.location.reload()
           })
+          Swal.fire('')
         }
-
-
 
       })
 

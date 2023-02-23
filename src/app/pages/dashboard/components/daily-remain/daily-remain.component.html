@@ -47,8 +47,8 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <app-step3 [step3]="item.testingType"></app-step3>
-        <app-step4 [step4]="item.testingCondition"></app-step4>
+        <app-step3 *ngIf="item.testingType" [step3]="item.testingType"></app-step3>
+        <app-step4 *ngIf="item.testingCondition" [step4]="item.testingCondition"></app-step4>
 
       </mat-expansion-panel>
     </ng-container>

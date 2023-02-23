@@ -33,7 +33,6 @@ export class DashboardComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this._loading.start()
     this.getData()
-    this.setIntervalUpdate()
   }
 
   setIntervalUpdate() {
@@ -49,6 +48,7 @@ export class DashboardComponent implements OnInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this._loading.stopAll()
+      this.setIntervalUpdate()
     }, 1000);
   }
 
@@ -63,6 +63,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async getData() {
+    // alert(this.date)
     const param: HttpParams = new HttpParams().set('startDate', new Date(this.date).toISOString())
     this.getCorporateData(param)
     this.getSectionData(param)
@@ -99,7 +100,6 @@ export class DashboardComponent implements OnInit {
       this.childChamber.ngOnInit()
       this.childChamber.ngAfterViewInit()
     }
-
   }
   async getOperateData(param: HttpParams) {
     this.operate = await this.$request.operateRemain(param).toPromise()

@@ -77,9 +77,9 @@ export class DialogAddComponent implements OnInit {
         ...this.data
       })
     } else {
-      this.form.patchValue({
-        code: await this._dialog.getChamberCode(null)
-      });
+      // this.form.patchValue({
+      //   code: await this._dialog.getChamberCode(null)
+      // });
     }
     this.mapRes()
   }

@@ -12,7 +12,7 @@
 
 
     <div class="box-body" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-      <section fxLayoutGap="10" *ngFor="let group of step3.data; let i=index">
+      <section fxLayoutGap="10" *ngFor="let group of step3?.data; let i=index">
         <mat-checkbox [disabled]="true" *ngIf="group.checked" [(ngModel)]="group.checked" color="primary">
           {{group.groupName}}
         </mat-checkbox>

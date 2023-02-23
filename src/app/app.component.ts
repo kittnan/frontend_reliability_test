@@ -1,10 +1,12 @@
+import { RequestHttpService } from 'src/app/http/request-http.service';
 import { environment } from 'src/environments/environment';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +27,10 @@ export class AppComponent {
     changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
     private swUpdate: SwUpdate,
     private _router: Router,
-    private _loading: NgxUiLoaderService
+    private _loading: NgxUiLoaderService,
+    private $request: RequestHttpService,
+    private route: ActivatedRoute,
+    private _login: LoginService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -52,6 +57,9 @@ export class AppComponent {
       console.log(this.swUpdate);
 
     }, 1000);
+
+
+
   }
 
   ngOnDestroy(): void {

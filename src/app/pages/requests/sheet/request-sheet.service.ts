@@ -52,7 +52,7 @@ export class RequestSheetService {
           const newCorporate = corporate.toUpperCase()
           const date = new Date();
           const year = date.getFullYear().toString()[2] + date.getFullYear().toString()[3];
-          const m = date.getMonth()+1;
+          const m = date.getMonth() + 1;
           const month = m.toString().length == 1 ? `0${m.toString()}` : m.toString();
           const no = '001';
           const number = `00${modelNo}`;

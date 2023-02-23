@@ -11,6 +11,7 @@ import { DialogViewComponent } from '../dialog-view/dialog-view.component';
 import { TableRequestService } from './table-request.service';
 import { interval, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 interface ParamsForm {
@@ -52,15 +53,15 @@ export class TableRequestComponent implements OnInit {
   constructor(
     private $request: RequestHttpService,
     private router: Router,
-    private _login: LoginService,
     private dialog: MatDialog,
-    private $tableRequest: TableRequestService
+    private _loading: NgxUiLoaderService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
   }
 
   async ngOnInit(): Promise<void> {
+    this._loading.start()
     const id: any = localStorage.getItem('RLS_id')
     this.authorize = localStorage.getItem('RLS_authorize');
     this.selected_status = 'ongoing';
@@ -78,6 +79,12 @@ export class TableRequestComponent implements OnInit {
     }
     this.onSelectStatus()
     this.interval$ = interval(60000).subscribe(res => this.autoFeed())
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this._loading.stopAll()
+    }, 1000);
   }
 
   ngOnDestroy(): void {
