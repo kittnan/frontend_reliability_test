@@ -71,6 +71,8 @@ export class SheetStep1Component implements OnInit {
   tempUpload: any[] = []
   userLogin: any
   minDate: Date = new Date()
+
+  params: any
   constructor(
     private _request: RequestSheetService,
     private _loading: NgxUiLoaderService,
@@ -86,6 +88,7 @@ export class SheetStep1Component implements OnInit {
     private $log: LogFlowService
   ) {
     this.requestForm.patchValue({ requestDate: new Date() });
+    this._route.queryParams.subscribe(params => this.params = params)
   }
 
   async ngOnInit() {
@@ -98,6 +101,15 @@ export class SheetStep1Component implements OnInit {
     this.userLogin = JSON.parse(userLoginStr)
     // const tempId: any = localStorage.getItem('RLS_id')
     // this.userLogin = await this.$user.getUserById(tempId).toPromise()
+
+    if (this.params && this.params['id']) {
+      this.formId = this.params['id']
+      const res: any = await this.$request.get_id(this.params['id']).toPromise()
+      this.requestForm.patchValue({
+        ...res[0].step1
+      })
+    }
+
 
   }
 
@@ -127,6 +139,9 @@ export class SheetStep1Component implements OnInit {
     })
   }
   async onSelectCorporate() {
+    this.requestForm.patchValue({
+      department: this.requestForm.value.corporate
+    })
     if (this.requestForm.controls.corporate.valid && this.requestForm.controls.modelNo.valid) {
       const runNumber: any = await this._request.setControlNo(this.requestForm.value.corporate, this.requestForm.value.modelNo)
       this.requestForm.controls.controlNo.setValue(runNumber)

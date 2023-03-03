@@ -89,6 +89,9 @@ export class RequestHttpService {
       params: param
     })
   }
+  reportStatus() {
+    return this.http.get(`${this.URL}/request_form/reportStatus/`)
+  }
   // * dashboard
 
 

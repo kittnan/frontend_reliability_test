@@ -10,9 +10,12 @@ th,
 td {
   border-left: 1px solid rgba(0, 0, 0, 0.205);
   border-right: 1px solid rgba(0, 0, 0, 0.205);
-  padding: 10px;
+  padding: 10px !important;
   white-space: nowrap;
 }
 th {
   border-top: 1px solid rgba(0, 0, 0, 0.205);
+}
+.text-vertical {
+  border-left: 10px solid #3e5168 !important;
 }

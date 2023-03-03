@@ -33,9 +33,24 @@ export class DailyRemainComponent implements OnInit {
   //   }
 
   // }
+  htmlPurpose(txt: string) {
+    if (txt) {
+      // let len = txt.length
+      // if (len > 30) {
+      //   const newTxt = txt.substring(0, 30)
+      //   return newTxt + '...'
+      // }
+      return txt
+    }
+    return '-'
+  }
   htmlUsername(username: string) {
+    // console.log(username);
+
     let strSplit = username?.trim().split(' ')
-    if (strSplit && strSplit.length != 0) return `${strSplit[0]}-${strSplit[1].split('')[0]}`
+    console.log(strSplit);
+
+    if (strSplit && strSplit.length != 0) return `${strSplit[0]}-${strSplit[strSplit.length - 1].split('')[0]}`
     return ''
 
   }

@@ -125,7 +125,7 @@ export class FilesReportComponent implements OnInit {
             }
             this.sendLog(logData)
 
-            this.sendMail('deleteReport')
+            // this.sendMail('deleteReport')
 
             setTimeout(() => {
               this.validCompleteFile()

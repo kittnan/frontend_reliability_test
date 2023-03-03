@@ -2,6 +2,20 @@
   <div fxFlex="5" fxLayout="row wrap" fxLayoutAlign="center center" class="text-vertical ">
     <h2>SECTION</h2>
   </div>
+
+  <div *ngIf="!section || section.length==0" fxFlex="15" class="card-head card-head-item">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>No data</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-header>
+      <div style="background-color: rgb(163, 163, 163); height: 11rem;" fxLayoutAlign="center center">
+        <span></span>
+      </div>
+    </mat-card>
+
+  </div>
+
   <ng-container *ngFor="let cor of section; let i=index">
     <div fxFlex="15" class="card-head card-head-item">
       <mat-card class="example-card">

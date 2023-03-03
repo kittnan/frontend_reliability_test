@@ -27,6 +27,7 @@ import { SectionComponent } from './pages/dashboard/components/section/section.c
 import { DailyRemainComponent } from './pages/dashboard/components/daily-remain/daily-remain.component';
 import { TableChamberComponent } from './pages/dashboard/components/table-chamber/table-chamber.component';
 import { TableOperateRemainComponent } from './pages/dashboard/components/table-operate-remain/table-operate-remain.component';
+import { ReportStatusComponent } from './pages/dashboard/components/report-status/report-status.component';
 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -74,6 +75,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DailyRemainComponent,
     TableChamberComponent,
     TableOperateRemainComponent,
+    ReportStatusComponent,
 
   ],
   imports: [

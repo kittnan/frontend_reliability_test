@@ -1,3 +1,4 @@
+import { DialogAuthComponent } from './pages/shared/dialog-auth/dialog-auth.component';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { environment } from 'src/environments/environment';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -7,6 +8,9 @@ import { SwUpdate } from '@angular/service-worker';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { LoginService } from './services/login.service';
+import { MatDialog } from '@angular/material/dialog';
+import { v4 as uuid } from 'uuid';
+import { ToastService } from './services/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +20,8 @@ import { LoginService } from './services/login.service';
 export class AppComponent {
   title = 'reliability';
 
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+  // mobileQuery: MediaQueryList;
+  // private _mobileQueryListener: () => void;
 
   sideItems: any
   userLogin: any = ''
@@ -26,15 +30,13 @@ export class AppComponent {
   constructor(
     changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
     private swUpdate: SwUpdate,
-    private _router: Router,
     private _loading: NgxUiLoaderService,
-    private $request: RequestHttpService,
-    private route: ActivatedRoute,
-    private _login: LoginService
+    private dialog: MatDialog,
+    private _toast: ToastService
   ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+    // this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    // this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    // this.mobileQuery.addListener(this._mobileQueryListener);
 
     this.userLogin = localStorage.getItem('RLS_userName');
     this.authorize = localStorage.getItem('RLS_authorize');
@@ -63,7 +65,45 @@ export class AppComponent {
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+    // this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  onClickChangeAccess() {
+    let userLogin: any = localStorage.getItem('RLS_userLogin')
+    userLogin = JSON.parse(userLogin)
+    let auth = userLogin.authorize.sort()
+    const dialogRef = this.dialog.open(DialogAuthComponent, {
+      data: auth,
+      hasBackdrop: true,
+      position: {
+        right: '0',
+        top: '0'
+      }
+    })
+    let newAuth: any = null
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        newAuth = res
+        this.setAuth(userLogin, newAuth)
+
+      }
+    })
+  }
+
+  private setAuth(user: any, newAuth: any) {
+    this.setToken()
+    localStorage.setItem('RLS_authorize', newAuth);
+    this._toast.success()
+    setTimeout(() => {
+      this._loading.start()
+      location.reload()
+    }, 1000);
+
+  }
+
+  private setToken() {
+    const token = uuid()
+    localStorage.setItem('RLS_token', token)
   }
 
   loginValid() {
@@ -73,6 +113,10 @@ export class AppComponent {
     } else {
       this.loginStatus = false;
     }
+  }
+
+  htmlShowAuthLogin() {
+    return localStorage.getItem('RLS_authorize')
   }
 
   onAccess() {

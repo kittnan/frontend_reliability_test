@@ -1,47 +1,47 @@
 <div fxLayoutAlign="start stretch" fxLayout="row wrap" class="content-item">
 
-    <!-- <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider> -->
+  <!-- <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider> -->
 
+
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
     <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-
-        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <span class="box-title">
+      <span class="box-title">
         User Approve
       </span>
-        </div>
+    </div>
 
-        <div class="box-body" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <div class="box-body" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
-            <ng-container *ngFor="let item of data; let i=index">
-                <div *ngIf="item.state" class="" fxFlex="30" fxFlexOffset="3" fxLayoutAlign="start stretch" fxLayout="row wrap">
-                    <div class="card mat-elevation-z2" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
-                        <div fxFlex="100" class="header">
-                            {{item.level}}.{{item.title}}
-                        </div>
-                        <div fxFlex="100" class="body">
-                            <span>
+      <ng-container *ngFor="let item of data; let i=index">
+        <div *ngIf="item.state" class="" fxFlex="30" fxFlexOffset="3" fxLayoutAlign="start stretch" fxLayout="row wrap">
+          <div class="card mat-elevation-z2" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+            <div fxFlex="100" class="header">
+              {{item.level}}.{{item.title}}
+            </div>
+            <div fxFlex="100" class="body">
+              <span>
                 {{item.prevUser.name}}
               </span>
-                        </div>
-                        <div fxFlex="100" class="date">
-                            <span *ngIf="item.date">
+            </div>
+            <div fxFlex="100" class="date">
+              <span *ngIf="item.date">
                 {{item.date | date:'dd-MMM-YYYY' }}
               </span>
-                            <span *ngIf="!item.date" class="Primary40">
+              <span *ngIf="!item.date" class="Primary40">
                 WAIT APPROVE
               </span>
-                        </div>
-                        <div fxFlex="100" class="footer">
-                            {{item.footer}}
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
-
+            </div>
+            <div fxFlex="100" class="footer">
+              {{item.footer}}
+            </div>
+          </div>
         </div>
+      </ng-container>
 
     </div>
+
+  </div>
 
 
 

@@ -117,8 +117,9 @@ export class ApproveFormComponent implements OnInit {
   }
 
   genOption(status: any) {
+    console.log("🚀 ~ status:", status)
     let request_user
-    if (status == 'request_approve') {
+    if (status == 'request_approve' || status == 'reject_request_approve') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
 
     }
@@ -140,6 +141,9 @@ export class ApproveFormComponent implements OnInit {
     if (status == 'request_confirm' || status == 'request_confirm_edited') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
     }
+
+    console.log(request_user);
+
 
 
     const arrayUniqueByKey = [...new Map(request_user.map((item: any) =>

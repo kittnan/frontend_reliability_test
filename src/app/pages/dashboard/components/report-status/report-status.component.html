@@ -1,0 +1,53 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" fxLayoutGap="30">
+  <div fxFlex="5" fxLayout="row wrap" fxLayoutAlign="center center" class="text-vertical ">
+    <h2 class="t-head">Daily Report</h2>
+  </div>
+
+  <div *ngIf="!data || data.length==0" fxFlex="92" fxLayoutAlign="start stretch" fxLayout="row wrap" class="card-table"
+    style="overflow: auto;">
+    <table fxFlex="100">
+      <tr>
+        <td>
+          no data
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div *ngIf="data && data.length>0" fxFlex="92" fxLayoutAlign="start stretch" fxLayout="row wrap" class="card-table"
+    style="overflow: auto;">
+    <mat-form-field fxFlex="100" appearance="standard">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+
+    <table fxFlex="100" mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="controlNo">
+        <th mat-header-cell *matHeaderCellDef> Control No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.controlNo}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="model">
+        <th mat-header-cell *matHeaderCellDef> Model / Size / Customer </th>
+        <td mat-cell *matCellDef="let element"> {{element.model}} / {{element.size}} / {{element.customer}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="requestor">
+        <th mat-header-cell *matHeaderCellDef> Requestor </th>
+        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter "{{input.value}}"
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator fxFlex="100" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  </div>
+</div>

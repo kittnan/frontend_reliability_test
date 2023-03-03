@@ -15,35 +15,35 @@
     </mat-expansion-panel>
     <ng-container *ngFor="let item of dailyRemain; let i=index">
       <mat-expansion-panel (click)="onClickExpand(i)" [expanded]="stageExpand(i)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <button mat-flat-button color="">
+        <mat-expansion-panel-header style="height: 85px;">
+          <mat-panel-title fxFlex="20" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+            <button mat-stroked-button fxFlex="100">
               <span class="text-1">{{item.controlNo}}</span>
             </button>
-            <button mat-flat-button color="">
+            <button mat-stroked-button fxFlex="45" color="accent">
               <span class="text-1">{{htmlUsername(item.userName)}}</span>
             </button>
-            <button mat-flat-button color="">
+            <button mat-stroked-button fxFlex="45" color="warn">
               <span class="text-1">{{item.userSection}}</span>
             </button>
           </mat-panel-title>
-          <mat-panel-description fxLayoutAlign="space-around stretch">
+          <mat-panel-description fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap" fxLayoutGap="10">
 
-            <button mat-flat-button color="primary">
+            <button mat-stroked-button fxFlex="30" color="primary">
               <span class="text-2">{{item.model}} | {{item.size}} | {{item.customer}}</span>
             </button>
-            <button mat-flat-button color="accent">
+            <button mat-stroked-button fxFlex="10" color="accent">
               <span class="text-2">{{htmlAt(item.schedule[0]?.at)}}</span>
             </button>
-            <button mat-flat-button [class]="htmlTimeCSS(item.schedule[0]?.diff)">
-              <span class="text-2">{{ item.purpose || '-'}}</span>
+            <button mat-stroked-button fxFlex="40" [class]="htmlTimeCSS(item.schedule[0]?.diff)">
+              <span class="text-2">{{ htmlPurpose(item.purpose)}}</span>
             </button>
-            <button fxFlex="20" mat-flat-button color="warn">
+            <button fxFlex="10" mat-flat-button color="warn">
               <span *ngIf="item.schedule[0]?.report" class="text-2">REPORT</span>
               <span *ngIf="!item.schedule[0]?.report" class="text-2">-</span>
             </button>
 
-            <mat-icon>zoom_in</mat-icon>
+            <mat-icon fxFlex="5">zoom_in</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
 

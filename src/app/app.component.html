@@ -1,25 +1,33 @@
 <ng-container *ngIf="loginStatus">
 
   <div class="container">
-    <mat-toolbar color="primary" class="example-toolbar">
-      <button mat-icon-button (click)="snav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <img src="assets/microwave.png" alt="" style="width: 50px; height: 50px; margin: auto;">
-      <h1 class="example-app-name">
-        Reliability Test
-      </h1>
-      <span class="example-spacer"></span>
-
-      <div style="font-size: 15px; letter-spacing: 1px;">
-
-        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-toolbar fxLayout="row wrap" fxLayoutAlign="start center" color="primary" class="example-toolbar">
+      <div fxFlex="50" fxLayoutAlign="start center">
+        <button mat-icon-button (click)="snav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <img src="assets/microwave.png" alt="" style="width: 50px; height: 50px;">
+        <h1 class="example-app-name">
+          Reliability Test
+        </h1>
+      </div>
+      <div fxFlex="50" fxLayoutAlign="end center">
+        <button mat-icon-button class="w-auto">
           <span class="material-icons-outlined">
             account_circle
           </span>
+          <span class="username">{{userLogin |uppercase}} |</span>
+        </button>
+        <button (click)="onClickChangeAccess()" mat-icon-button class="w-auto" style="margin-left: 5px;"
+          aria-label="Example icon-button with share icon">
+          <span class="material-icons-outlined">
+            sync_lock
+          </span>
+          <span class="authName">
+            {{htmlShowAuthLogin()}}
+          </span>
 
         </button>
-        <span>{{userLogin |uppercase}}</span>
         <button (click)="onLogout()" mat-icon-button class="example-icon" style="margin-left: 5px;"
           aria-label="Example icon-button with share icon">
           <span class="material-icons-outlined">
@@ -27,6 +35,12 @@
           </span>
         </button>
       </div>
+      <!-- <span class="example-spacer"></span> -->
+
+      <!-- <div style="font-size: 15px; letter-spacing: 1px;">
+
+
+      </div> -->
 
 
     </mat-toolbar>

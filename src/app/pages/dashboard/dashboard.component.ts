@@ -6,6 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { TableChamberComponent } from './components/table-chamber/table-chamber.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,13 +14,14 @@ import { TableChamberComponent } from './components/table-chamber/table-chamber.
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  date: any = new Date()
+  date: any = moment().startOf('days').toISOString()
   item: any
   corporate: any
   section: any
   dailyRemain: any
   chamber: any
   operate: any
+  reportStatus: any
   interval$!: Subscription;
 
   @ViewChild(TableOperateRemainComponent) childOperate!: TableOperateRemainComponent;
@@ -55,6 +57,7 @@ export class DashboardComponent implements OnInit {
   changeDate() {
     this.clearInterval()
     this._loading.start()
+    this.date = moment(this.date).startOf('days').toISOString()
     this.getData()
     setTimeout(() => {
       this._loading.stopAll()
@@ -64,13 +67,14 @@ export class DashboardComponent implements OnInit {
 
   async getData() {
     // alert(this.date)
-    const param: HttpParams = new HttpParams().set('startDate', new Date(this.date).toISOString())
+    const param: HttpParams = new HttpParams().set('startDate', this.date)
     this.getCorporateData(param)
     this.getSectionData(param)
     // this.getOperateItem(param)
     this.getDailyRemainData()
     this.getChamberData(param)
     this.getOperateData(param)
+    this.getReportStatus()
   }
 
   async getOperateItem(param: HttpParams) {
@@ -110,6 +114,9 @@ export class DashboardComponent implements OnInit {
   }
   async getDailyRemainData() {
     this.dailyRemain = await this.$request.dailyRemain().toPromise()
+  }
+  async getReportStatus() {
+    this.reportStatus = await this.$request.reportStatus().toPromise()
   }
 
   scrollTo(id: string) {

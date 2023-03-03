@@ -74,6 +74,8 @@ export class QeSectionHeadApproveComponent implements OnInit {
       this.approve = this.approver
     } else {
       const select = this.checkPrevApprove(this.form, 1)
+      console.log("🚀 ~ select:", select)
+      this.userApprove = [select]
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
         groupStatus: null,
