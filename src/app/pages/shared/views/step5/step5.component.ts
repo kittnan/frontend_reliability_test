@@ -32,7 +32,7 @@ export class Step5Component implements OnInit {
   mapRes(data: any) {
     return new Promise(resolve => {
       const temp = data.map((d: any) => {
-        if (d.level == 1 || d.level == 2 || d.level == 3 || d.level == 4 || d.level == 5 || d.level == 6) {
+        if (d.level == 1 || d.level == 2 || d.level == 3 || d.level == 4 || d.level == 5 || d.level == 6 || d.level == 7) {
           let footer = d.level == 1 ? 'Subchief Level Up' : 'Engineer Level Up'
           d.level == 3 ? footer = 'Staff Level Up' : footer
           return {

@@ -10,7 +10,7 @@ export class Step4Component implements OnInit {
   @Output() step4Change = new EventEmitter<any>();
 
   ngOnInit(): void {
-    console.log(this.step4);
+    // console.log(this.step4);
     this.step4.data[0].value
   }
 

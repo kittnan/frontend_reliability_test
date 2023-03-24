@@ -15,7 +15,8 @@
 
       <ng-container *ngFor="let item of data; let i=index">
         <div *ngIf="item.state" class="" fxFlex="30" fxFlexOffset="3" fxLayoutAlign="start stretch" fxLayout="row wrap">
-          <div class="card mat-elevation-z2" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
+          <div class="card mat-elevation-z2" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+            style="overflow-wrap: break-word;">
             <div fxFlex="100" class="header">
               {{item.level}}.{{item.title}}
             </div>

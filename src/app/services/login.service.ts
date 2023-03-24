@@ -69,11 +69,11 @@ export class LoginService {
     localStorage.setItem('RLS_userName', user.name);
     let userLoginStr = JSON.stringify(user)
     localStorage.setItem('RLS_userLogin', userLoginStr)
-    this._toast.success();
-    setTimeout(() => {
-      this._loading.start()
-      this.validFormId(localStorage.getItem('RLS_authorize'))
-    }, 2000);
+    // this._toast.success();
+    // setTimeout(() => {
+    this._loading.start()
+    this.validFormId(localStorage.getItem('RLS_authorize'))
+    // }, 2000);
 
   }
 
@@ -97,11 +97,11 @@ export class LoginService {
     if (localStorage.getItem('RLS_token')) {
       this.route.queryParams.subscribe(async res => {
         const { id, status } = res
-        console.log("🚀 ~ status:", status)
+        // console.log("🚀 ~ status:", status)
         let resRequest = []
         if (id) {
           resRequest = await this.$request.get_id(id).toPromise()
-          console.log("🚀 ~ resRequest:", resRequest)
+          // console.log("🚀 ~ resRequest:", resRequest)
         } else {
           resRequest = []
         }
@@ -198,7 +198,7 @@ export class LoginService {
           this.router.navigate([newUrl]).then((boo: any) => {
             window.location.reload()
           })
-          Swal.fire('')
+          // Swal.fire('')
         }
 
       })

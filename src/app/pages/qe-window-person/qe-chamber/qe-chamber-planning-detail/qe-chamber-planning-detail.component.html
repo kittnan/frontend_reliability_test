@@ -1,7 +1,7 @@
 <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
 
-  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" *ngFor="let item of data; let i=index"
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" *ngFor="let item of queues; let i=index"
     class="box-body mtb-4 b-left-red" [ngClass]="{'b-left-green': item._id}">
     <div *ngIf="item.condition" fxFlex="100" class="color-primary w-7">
       <h3>
@@ -80,37 +80,30 @@
         <input matInput [value]="item.endDate|date:'EEEE, d MMMM y, h:mm a'" [readonly]="true">
       </mat-form-field>
 
-      <mat-divider fxFlex="100"></mat-divider>
-      <h4 fxFlex="100">Report QE Time</h4>
+      <ng-container *ngIf="formInput?.step4?.data[0].data.reportStatus">
+        <mat-divider fxFlex="100"></mat-divider>
+        <h4 fxFlex="100">Report QE Time</h4>
+        <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+          <div fxFlex="45" fxFlex.lt-md="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
+            *ngFor="let time of item.reportQE; let indexTime=index">
 
-
-
-      <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-        <div fxFlex="45" fxFlex.lt-md="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
-          *ngFor="let time of item.reportQE; let indexTime=index">
-
-          <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
-            <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
-            <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
-            <input matInput [readonly]="true" type="text" value="{{time.endDate|date:'M/d/YYYY, hh:mm a'}}"
-              (click)="openDialogCalendar(time,item,i,indexTime)">
-          </mat-form-field>
-          <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
-            <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
-            <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
-            <mat-select (selectionChange)="onSelectHourEndDate(time,item,i,$event)" [(ngModel)]="time.h">
-              <mat-option *ngFor="let h of hourList; let i=index" [value]="h">{{h}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-
+            <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+              <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
+              <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
+              <input matInput [readonly]="true" type="text" value="{{time.endDate|date:'M/d/YYYY, hh:mm a'}}"
+                (click)="openDialogCalendar(time,item,i,indexTime)">
+            </mat-form-field>
+            <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+              <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
+              <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
+              <mat-select (selectionChange)="onSelectHourEndDate(time,item,i,$event)" [(ngModel)]="time.h">
+                <mat-option *ngFor="let h of hourList; let i=index" [value]="h">{{h}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
+      </ng-container>
 
-
-
-
-
-      </div>
 
 
 

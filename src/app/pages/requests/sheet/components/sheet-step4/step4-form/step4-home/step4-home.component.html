@@ -61,8 +61,7 @@
         <mat-label>Qty</mat-label>
         <input matInput type="number" [(ngModel)]="conditions[0].data.qty" (ngModelChange)="emit()">
       </mat-form-field>
-      <mat-radio-group fxFlex="45" [(ngModel)]="conditions[0].data.reportStatus" appearance="fill"
-        (ngModelChange)="emit()">
+      <mat-radio-group fxFlex="45" [(ngModel)]="conditions[0].reportStatus" appearance="fill" (ngModelChange)="emit()">
         <mat-radio-button [value]="true">report</mat-radio-button>
         <mat-radio-button [value]="false">no report</mat-radio-button>
       </mat-radio-group>

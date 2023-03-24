@@ -29,6 +29,7 @@ export class QeChamberService {
   }
   genEndDate(item: QueueForm) {
     item.inspectionTime = this.loopTime(item.inspectionTime, item.startDate)
+    // console.log("🚀 ~ item.inspectionTime:", item.inspectionTime)
     item.reportTime = this.loopReport(item.reportTime, item.inspectionTime)
     item.reportQE = this.loopReport(item.reportQE, item.inspectionTime)
     const endDate: any = this.loopSum(item.inspectionTime, item.startDate)
@@ -65,7 +66,8 @@ export class QeChamberService {
             at: t.at,
             hr: 0,
             startDate: foundItem.startDate,
-            endDate: foundItem.startDate
+            endDate: foundItem.startDate,
+            resultDetail: ''
           }
         } else {
           return {

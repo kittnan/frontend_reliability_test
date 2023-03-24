@@ -52,15 +52,15 @@ export class ApproveFormComponent implements OnInit {
         }
       })
     } else {
-      Swal.fire({
-        title: `Do you want to approve ?`,
-        icon: 'question',
-        showCancelButton: true
-      }).then(async (value: SweetAlertResult) => {
-        if (value.isConfirmed) {
-          this.comment('approve')
-        }
-      })
+      // Swal.fire({
+      //   title: `Do you want to approve ?`,
+      //   icon: 'question',
+      //   showCancelButton: true
+      // }).then(async (value: SweetAlertResult) => {
+      //   if (value.isConfirmed) {
+      this.comment('approve')
+      //   }
+      // })
 
     }
   }
@@ -117,7 +117,7 @@ export class ApproveFormComponent implements OnInit {
   }
 
   genOption(status: any) {
-    console.log("🚀 ~ status:", status)
+    // console.log("🚀 ~ status:", status)
     let request_user
     if (status == 'request_approve' || status == 'reject_request_approve') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
@@ -142,7 +142,7 @@ export class ApproveFormComponent implements OnInit {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
     }
 
-    console.log(request_user);
+    // console.log(request_user);
 
 
 

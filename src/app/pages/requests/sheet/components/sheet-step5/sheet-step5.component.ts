@@ -101,20 +101,20 @@ export class SheetStep5Component implements OnInit {
     return option._id === value._id;
   }
 
-  onNext() {
-    Swal.fire({
-      title: 'Do you want to submit?',
-      icon: 'question',
-      showCancelButton: true
-    }).then(async (value: SweetAlertResult) => {
-      if (value.isConfirmed) {
-        if (this.formId) {
-          const resForm = await this.$request.get_id(this.formId).toPromise()
-          this.form = resForm[0]
-        }
-        this.comment()
-      }
-    })
+  async onNext() {
+    // Swal.fire({
+    //   title: 'Do you want to submit?',
+    //   icon: 'question',
+    //   showCancelButton: true
+    // }).then(async (value: SweetAlertResult) => {
+    //   if (value.isConfirmed) {
+    if (this.formId) {
+      const resForm = await this.$request.get_id(this.formId).toPromise()
+      this.form = resForm[0]
+    }
+    this.comment()
+    //   }
+    // })
 
   }
 

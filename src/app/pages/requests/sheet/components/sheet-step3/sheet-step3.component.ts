@@ -92,7 +92,12 @@ export class SheetStep3Component implements OnInit {
     // console.log(resUpdate);
 
     setTimeout(() => {
-      Swal.fire('SUCCESS', '', 'success')
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);
@@ -102,7 +107,12 @@ export class SheetStep3Component implements OnInit {
     const resInsert = await this.$step3.insert(this.testingTypeMenu).toPromise()
     setTimeout(() => {
       this.testingTypeMenu._id = resInsert[0]._id
-      Swal.fire('SUCCESS', '', 'success')
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);

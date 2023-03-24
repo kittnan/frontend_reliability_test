@@ -6,8 +6,9 @@
     <app-qe-receive fxFlex="100" [form]="form" (formChange)="qeReceiveEmit($event)"></app-qe-receive>
 
     <app-qe-chamber-planning fxFlex="100" [data]="dataSource" (dataChange)="emitted($event)"></app-qe-chamber-planning>
-    <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(data)]="chamberTable"
-      (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)">
+    <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(queues)]="chamberTable"
+      (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)"
+      [formInput]="form">
     </app-qe-chamber-planning-detail>
 
 

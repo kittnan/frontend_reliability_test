@@ -8,10 +8,14 @@ import * as moment from 'moment';
 export class GenInspectionTableService {
 
   chamber: Boolean = true
+
+  reportStatus$ = false
   constructor() { }
 
 
-  genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[]) {
+  genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[], reportStatus: any) {
+    // console.log("🚀 ~ data:", data, reportStatus)
+    this.reportStatus$ = reportStatus
     if (data[0].condition.value == 0) this.chamber = false
     return new Promise(resolve => {
       let arr_table: any[] = []
@@ -78,14 +82,14 @@ export class GenInspectionTableService {
     const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
 
     const report = timeReport.find((t: any) => t.at == time.at)
-    let reportDate = report?.endDate ? 'Yes' : 'No'
+    let reportDate = this.reportStatus$ && report?.endDate ? 'Yes' : 'No'
     // let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
 
     const dataReportQE = data.reportQE
     const foundReportQE = report ? dataReportQE.find((t: any) => t.at === foundItem?.at) : null
     const startReportQE = foundReportQE?.startDate ? moment(foundReportQE.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
-    const endDateReportQE = foundReportQE?.endDate ? moment(foundReportQE.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
-    const betweenReportQE = endDateReportQE ? `${endDateReportQE}` : '-'
+    const endDateReportQE = this.reportStatus$ && foundReportQE?.endDate ? moment(foundReportQE.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
+    const betweenReportQE = this.reportStatus$ && endDateReportQE ? `${endDateReportQE}` : '-'
     // const betweenReportQE = startReportQE == '-' ? ' - ' : `${startReportQE} ➝ ${endDateReportQE}`
     // const endDateReportQE = foundReportQE?.endDate ? moment(foundReportQE.startDate).add(foundReportQE.hr, 'hour').format('ddd, D-MMM-YY,h:mm a') : '-'
 

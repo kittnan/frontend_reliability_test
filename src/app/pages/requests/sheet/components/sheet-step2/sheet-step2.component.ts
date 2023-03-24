@@ -109,8 +109,13 @@ export class SheetStep2Component implements OnInit {
     const resInsert = await this.$step2.insert(dataInsert).toPromise()
 
     setTimeout(() => {
-      this.testPurposeForm.patchValue({_id:resInsert[0]._id})
-      Swal.fire('SUCCESS', '', 'success')
+      this.testPurposeForm.patchValue({ _id: resInsert[0]._id })
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);
@@ -119,7 +124,12 @@ export class SheetStep2Component implements OnInit {
   async update() {
     const resUpdate = await this.$step2.update(this.testPurposeForm.value._id, this.testPurposeForm.value).toPromise()
     setTimeout(() => {
-      Swal.fire('SUCCESS', '', 'success')
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);

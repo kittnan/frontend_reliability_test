@@ -72,19 +72,33 @@ export class SheetStep4Component implements OnInit {
 
 
   async update() {
+    // console.log(this.conditionForm);
+
     const resUpdate = await this.$step4.update(this.conditionForm._id, this.conditionForm).toPromise()
     setTimeout(() => {
-      Swal.fire('SUCCESS', '', 'success')
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);
   }
   async insert() {
+    // console.log(this.conditionForm);
+
     this.conditionForm.requestId = this.formId
     const resInsert = await this.$step4.insert(this.conditionForm).toPromise()
     setTimeout(() => {
       this.conditionForm._id = resInsert[0]._id
-      Swal.fire('SUCCESS', '', 'success')
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);

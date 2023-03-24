@@ -296,7 +296,12 @@ export class SheetStep1Component implements OnInit {
     }
     this.sendLog(logData)
     setTimeout(() => {
-      Swal.fire('SUCCESS', '', 'success')
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);
@@ -362,7 +367,13 @@ export class SheetStep1Component implements OnInit {
     this.formIdChange.emit(resDraft[0]._id)
     setTimeout(() => {
       this.requestForm.patchValue({ _id: resInsert[0]._id })
-      Swal.fire('SUCCESS', '', 'success')
+
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this._stepper.next()
     }, 1000);

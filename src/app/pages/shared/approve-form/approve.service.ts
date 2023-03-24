@@ -79,7 +79,12 @@ export class ApproveService {
 
     this.sendMail([newApprover.selected._id], newForm.status, newForm._id, newApprover.groupList)
     setTimeout(() => {
-      Swal.fire('SUCCESS', '', 'success')
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
       this._loading.stopAll()
       this.link('qe_window_person')
     }, 1000);
@@ -139,7 +144,12 @@ export class ApproveService {
       const toList = [nextUserApprove.selected._id]
       this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
       setTimeout(() => {
-        Swal.fire('SUCCESS', '', 'success')
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);
@@ -213,7 +223,12 @@ export class ApproveService {
 
       setTimeout(() => {
         this._loading.stopAll()
-        Swal.fire('SUCCESS', '', 'success')
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
         this.link(prevUser.authorize)
       }, 1000);
 
@@ -359,8 +374,8 @@ export class ApproveService {
       case 'reject_request_confirm':
         return 'qe_window_person_edit_plan'
 
-      case 'reject_qe_window_person':
-        return 'finish'
+      // case 'reject_qe_window_person':
+      //   return 'finish'
 
       default:
         return ''

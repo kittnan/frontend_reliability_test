@@ -56,7 +56,7 @@ export class AppComponent {
     this.loginValid()
     this.onAccess()
     setTimeout(() => {
-      console.log(this.swUpdate);
+      // console.log(this.swUpdate);
 
     }, 1000);
 

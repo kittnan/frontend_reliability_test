@@ -112,7 +112,7 @@ export class QeChamberComponent implements OnInit {
       const { id } = params;
       const resData = await this.$request.get_id(id).toPromise()
       this.form = resData[0]
-      console.log("🚀 ~ this.form:", this.form)
+      // console.log("🚀 ~ this.form:", this.form)
       const temp = this.setDataTable();
       this.dataSource = temp
       this.getUserApprove()

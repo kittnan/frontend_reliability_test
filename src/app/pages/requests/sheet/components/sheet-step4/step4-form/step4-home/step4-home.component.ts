@@ -73,6 +73,7 @@ export class Step4HomeComponent implements OnInit {
   }
 
   async onSelectChamber() {
+    // alert(this.chamber)
     if (this.tempConditionForm && this.tempConditionForm.length === 0) {
       this.noConditionOld()
     } else {
@@ -82,34 +83,36 @@ export class Step4HomeComponent implements OnInit {
   }
 
   async noConditionOld() {
+    // alert('@@')
     this.conditions = []
-    if (this.chamber == 'yes') {
-      const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      const step3 = await this.$step3.get(params).toPromise()
-      const filterOven = step3[0]?.data?.find((d: any) => d.checked && d.groupName == 'Oven')
-      // this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => {
+    // if (this.chamber == 'yes') {
+    // const params: HttpParams = new HttpParams().set('requestId', this.formId)
+    // const step3 = await this.$step3.get(params).toPromise()
+    // console.log("🚀 ~ step3:", step3)
+    // const filterOven = step3[0]?.data?.find((d: any) => d.checked && d.groupName == 'Oven')
+    // this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => {
 
-      //   if (f.name.includes('Vibration') && f.checked) {
-      //     if (con.name.includes('Vibration')) return true
-      //     return false
-      //   } else {
-      //     if (f.name == con.name && f.checked) return true
-      //     return false
-      //   }
-      // }))
-    }
+    //   if (f.name.includes('Vibration') && f.checked) {
+    //     if (con.name.includes('Vibration')) return true
+    //     return false
+    //   } else {
+    //     if (f.name == con.name && f.checked) return true
+    //     return false
+    //   }
+    // }))
+    // }
 
     if (this.chamber == 'no') {
       this.conditions.push({
         data: {
-          qty: 0,
-          reportStatus: true,
+          qty: null,
           detailTest: '',
           inspection: [0],
           report: [0]
         },
         name: 'No Chamber',
         value: 0,
+        reportStatus: true,
 
       })
     }
@@ -120,9 +123,9 @@ export class Step4HomeComponent implements OnInit {
     this.conditions = [...this.tempConditionForm]
     if (this.chamber == 'yes') {
       if (this.conditions[0]?.value === 0) this.conditions = []
-      const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      const step3 = await this.$step3.get(params).toPromise()
-      const filterOven = step3[0]?.data?.find((d: any) => d.checked && d.groupName == 'Oven')
+      // const params: HttpParams = new HttpParams().set('requestId', this.formId)
+      // const step3 = await this.$step3.get(params).toPromise()
+      // const filterOven = step3[0]?.data?.find((d: any) => d.checked && d.groupName == 'Oven')
       // this.conditionList = this.conditionList.filter((con: any) => filterOven?.list?.find((f: any) => {
 
       //   if (f.name.includes('Vibration') && f.checked) {
@@ -138,17 +141,17 @@ export class Step4HomeComponent implements OnInit {
     if (this.chamber == 'no') {
       if (this.conditions[0]?.value !== 0) {
         this.conditions = []
+
         this.conditions.push({
           data: {
-            qty: 0,
-            reportStatus: true,
+            qty: null,
             detailTest: '',
             inspection: [0],
             report: [0]
           },
           name: 'No Chamber',
           value: 0,
-
+          reportStatus: true,
         })
       }
 
@@ -195,7 +198,8 @@ export class Step4HomeComponent implements OnInit {
           name: 'normal',
           value: ''
         }
-      }, inspectionDetail: {}
+      }, inspectionDetail: {},
+      reportStatus: true,
     })
     // this.emit()
     setTimeout(() => {

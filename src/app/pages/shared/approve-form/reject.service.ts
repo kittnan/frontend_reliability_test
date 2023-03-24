@@ -67,7 +67,12 @@ export class RejectService {
       await this.$step5.update(newStep._id, newStep).toPromise()
 
       setTimeout(() => {
-        Swal.fire('SUCCESS', '', 'success')
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);
@@ -91,7 +96,12 @@ export class RejectService {
       // console.log('insert step5', newStep);
       await this.$step5.insert(newStep).toPromise()
       setTimeout(() => {
-        Swal.fire('SUCCESS', '', 'success')
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);

@@ -1,3 +1,4 @@
+import { lastValueFrom } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,8 +34,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   userLogin: any;
   dateNow = new Date()
   minDateInitial = new Date()
-  @Input() data: any;
-  @Output() dataChange: EventEmitter<any> = new EventEmitter()
+  tempQueues: any[] = []
+  @Input() queues: any;
+  @Input() formInput: any;
+  @Output() queuesChange: EventEmitter<any> = new EventEmitter()
   @Output() tableChange: EventEmitter<any> = new EventEmitter()
   constructor(
     private dialog: MatDialog,
@@ -54,42 +57,53 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.getDraft()
+  async ngOnInit(): Promise<void> {
+    this.tempQueues = [...this.queues]
+    // this.getDraft()
+    console.clear()
+    console.log('form', this.formInput);
+    console.log('this.tempQueues', this.tempQueues);
+
+    if (this.queues) {
+      this.queues = await this.getQueuesDraft(this.queues)
+      console.log("🚀 ~ this.queues:", this.queues)
+      this.tableData = await this.mapForTable(this.queues)
+    }
+
+
   }
 
-  async loopData() {
-    for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i]?.operate?.status) {
-        this.data[i]['operateTable'] = await this.getOperateToolTableAll(this.data[i].startDate)
+
+
+  async getQueuesDraft(queues: any) {
+    const queueDraft = await this.$queue.getFormId(queues[0].work.requestId).toPromise()
+    console.log("🚀 ~ queueDraft:", queueDraft)
+    queues = queues.map((d: QueueForm) => {
+      const draft = queueDraft.find((draft: QueueForm) => {
+        return draft.condition?.name == d.condition?.name
+      })
+      if (draft) {
+        return {
+          ...d,
+          ...draft,
+        }
+      } else {
+        return d
+      }
+    })
+    this.requestForm = await this.$request.get_id(queues[0].work.requestId).toPromise()
+    this.minDateInitial = new Date(this.requestForm[0].qeReceive.date)
+    queues = await this.setOperateOnQueues(queues)
+    return queues
+  }
+  async setOperateOnQueues(queues: any) {
+    for (let i = 0; i < queues.length; i++) {
+      if (queues[i]?.operate?.status) {
+        queues[i]['operateTable'] = await this.getOperateToolTableAll(queues[i].startDate)
       }
     }
-    // console.log(this.data);
+    return queues
   }
-
-  async getDraft() {
-    if (this.data) {
-      const queueDraft = await this.$queue.getFormId(this.data[0].work.requestId).toPromise()
-      this.data = this.data.map((d: QueueForm) => {
-        const draft = queueDraft.find((draft: QueueForm) => draft.condition?.name == d.condition?.name)
-        if (draft) {
-          return {
-            ...d,
-            ...draft,
-          }
-        } else {
-          return d
-        }
-      })
-      // console.log(this.data);
-
-
-      this.requestForm = await this.$request.get_id(this.data[0].work.requestId).toPromise()
-      this.minDateInitial = new Date(this.requestForm[0].qeReceive.date)
-      this.mapForTable(this.data)
-    }
-  }
-
   dialogChamber(item: QueueForm) {
     if (item && item.startDate) {
       const dialogRef = this.dialog.open(DialogQeChamberComponent, {
@@ -153,6 +167,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async onCal(item: QueueForm, index: number) {
+    // console.clear()
+    // console.log("🚀 ~ !!!!!!!!!!!!!!!!item:", item)
     const startDate: any = item.startDate
     if (startDate) {
       item = this.$qe_chamber.genEndDate(item)
@@ -244,13 +260,34 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async deleteQueue(item: any) {
+    console.log(this.queues);
+
+
     if (item._id) {
+      // this.data = this.data.filter((d: any) => d != item)
       const r_delete = await this.$queue.delete(item._id).toPromise()
       if (r_delete && r_delete.acknowledged) {
-        Swal.fire('SUCCESS', '', 'success')
         delete item._id
-        this.getDraft()
+        const table = await this.mapForTable(this.queues)
+        this.requestForm[0].table = table
+        this.tableData = table
         this.getOperateToolTableAll(item.startDate)
+        const resUpdate = await lastValueFrom(this.$request.update(this.requestForm[0]._id, this.requestForm[0]))
+        // this.getQueuesDraft(this.queues)
+        Swal.fire('SUCCESS', '', 'success')
+
+
+        // this.queues = [...this.tempQueues]
+        // this.queues = await this.getQueuesDraft(this.queues)
+        // console.log("🚀 ~ this.queues:", this.queues)
+        // this.tableData = await this.mapForTable(this.queues)
+
+
+        setTimeout(() => {
+          location.reload()
+
+
+        }, 1000);
       }
     } else {
     }
@@ -368,9 +405,9 @@ export class QeChamberPlanningDetailComponent implements OnInit {
             status: 'draft'
           }
           const r_insert = await this.$queue.insert(data_insert).toPromise()
-          this.data[index] = r_insert[0]
+          this.queues[index] = r_insert[0]
           Swal.fire('SUCCESS', '', 'success')
-          this.mapForTable(this.data)
+          this.mapForTable(this.queues)
         } else {
           Swal.fire({
             html: r_checkOperate.text,
@@ -383,9 +420,9 @@ export class QeChamberPlanningDetailComponent implements OnInit {
           status: 'draft'
         }
         const r_insert = await this.$queue.insert(data_insert).toPromise()
-        this.data[index] = r_insert[0]
+        this.queues[index] = r_insert[0]
         Swal.fire('SUCCESS', '', 'success')
-        this.mapForTable(this.data)
+        this.mapForTable(this.queues)
 
       }
 
@@ -408,7 +445,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
           const r_update = await this.$queue.update(item._id, item).toPromise()
           if (r_update && r_update.acknowledged) {
             Swal.fire('SUCCESS', '', 'success')
-            this.mapForTable(this.data)
+            this.mapForTable(this.queues)
 
           } else {
             Swal.fire('', '', 'error')
@@ -423,7 +460,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         const r_update = await this.$queue.update(item._id, item).toPromise()
         if (r_update && r_update.acknowledged) {
           Swal.fire('SUCCESS', '', 'success')
-          this.mapForTable(this.data)
+          this.mapForTable(this.queues)
         } else {
           Swal.fire('', '', 'error')
         }
@@ -441,8 +478,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       const r_update = await this.$queue.update(newItem._id, newItem).toPromise()
       if (r_update && r_update.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
-        this.mapForTable(this.data)
-        this.data[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
+        this.mapForTable(this.queues)
+        this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
 
       } else {
         Swal.fire('', '', 'error')
@@ -458,10 +495,18 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
       const r_insert = await this.$queue.insert(newItem).toPromise()
       // console.log(r_insert);
-      this.data[index] = r_insert[0]
-      Swal.fire('SUCCESS', '', 'success')
-      this.mapForTable(this.data)
-      this.data[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
+      this.queues[index] = r_insert[0]
+      const table = await this.mapForTable(this.queues)
+      this.tableData = table
+      this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
+      this.requestForm[0].table = this.tableData
+      const resUpdate = await lastValueFrom(this.$request.update(this.requestForm[0]._id, this.requestForm[0]))
+      if (resUpdate && resUpdate.acknowledged) {
+        Swal.fire('SUCCESS', '', 'success')
+        setTimeout(() => {
+          // location.reload()
+        }, 1000);
+      }
 
     }
   }
@@ -493,8 +538,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
 
 
-  async mapForTable(data: any) {
-    const header = data.reduce((prev: any, now: any) => {
+  async mapForTable(queues: any) {
+    const header = queues.reduce((prev: any, now: any) => {
       const temp: any = prev
       temp.push(now.condition.name)
       return temp
@@ -502,19 +547,24 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     // console.log(data, header);
 
     const receive = header.map((h: any) => this.requestForm[0].qeReceive?.date ? moment(this.requestForm[0].qeReceive.date).format('ddd, D-MMM-YY,h:mm a') : '-')
-    const times_inspection = await this.mapTime(data, 'inspectionTime')
-    const times_report = await this.mapTime(data, 'reportTime')
+    const times_inspection = await this.mapTime(queues, 'inspectionTime')
+    const times_report = await this.mapTime(queues, 'reportTime')
     // const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, times_report, receive, ['condition', ...header])
-    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, data, header, 'inspectionTime', times_report, ['Sample Receive', ...receive])
+    // console.log('@@@@@@@@@@@@', this.formInput);
 
-    this.tableData = {
+    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, queues, header, 'inspectionTime', times_report, ['Sample Receive', ...receive], this.formInput.step4.data[0].reportStatus)
+
+    // this.tableData = {
+    //   header: header,
+    //   data: table_inspection
+    // }
+    // this.loopData()
+    // this.emit()
+    // console.log(this.data)
+    return {
       header: header,
       data: table_inspection
     }
-    this.loopData()
-    this.emit()
-    // console.log(this.data)
-
   }
 
 
@@ -533,7 +583,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   emit() {
     this.tableChange.emit(this.tableData)
-    this.dataChange.emit(this.data)
+    this.queuesChange.emit(this.queues)
   }
 
 
