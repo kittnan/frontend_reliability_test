@@ -21,6 +21,11 @@
             <mat-checkbox [disabled]="true" [(ngModel)]="list.checked">
               {{list.name}}
             </mat-checkbox>
+            <mat-form-field style="width: 100%;" *ngIf="list.description.status" class="example-full-width"
+              appearance="fill">
+              <mat-label></mat-label>
+              <textarea [disabled]="true" [(ngModel)]="list.description.value" matInput rows="3"></textarea>
+            </mat-form-field>
           </li>
         </ul>
       </section>

@@ -191,7 +191,10 @@ export class RejectService {
                       else
                         if (formStatus == 'request_confirm_edited' && to == 'qe_window_person') {
                           return 7.8
-                        }
+                        } else
+                          if (formStatus == 'request_confirm_revise' && to == 'qe_window_person') {
+                            return 11.5
+                          }
     return 0
 
   }

@@ -16,7 +16,7 @@
       <tr>
         <td *ngFor="let time of inspectionTime; let i_time=index">
           <input hidden type="file" #fileUpload multiple (change)="onUploadFile($event,time.at);">
-          <button mat-flat-button color="primary" (click)="fileUpload.click()">
+          <button *ngIf="validButton() &&show" mat-flat-button color="primary" (click)="fileUpload.click()">
             <span>
               Upload
             </span>
@@ -42,7 +42,7 @@
 
               <ng-container *ngIf="!show">
                 <td width="20%" style="text-align: center;">
-                  <button mat-stroked-button color="primary" (click)="download(file.path,file.name)">
+                  <button mat-icon-button color="primary" (click)="download(file.path,file.name)">
                     <mat-icon class="mat-18">download</mat-icon>
                   </button>
                 </td>

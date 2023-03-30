@@ -49,6 +49,10 @@ export class AuthService {
     if (localStorage.getItem('RLS_authorize') == 'qe_department_head') return true
     return false
   }
+  getAuthorizeGuest() {
+    if (localStorage.getItem('RLS_authorize') == 'guest') return true
+    return false
+  }
 
   async getUserLogin() {
     const _id: any = localStorage.getItem('RLS_id')

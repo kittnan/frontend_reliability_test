@@ -36,23 +36,39 @@ export class LoginService {
         };
         // console.log(user);
 
-        let newAuth = ''
+        if (user.authorize.find((u: any) => u == 'guest')) {
+          this.setToken()
+          localStorage.setItem('RLS_id', user._id);
+          localStorage.setItem('RLS_authorize', user.authorize[0]);
+          // console.log(localStorage.getItem(newAuth));
 
-        if (user?.authorize.length > 1) {
-          const auth = user.authorize.sort()
-          const dialogRef = this.dialog.open(DialogAuthComponent, {
-            data: auth,
-            hasBackdrop: true,
-            disableClose: true
-          })
-          dialogRef.afterClosed().subscribe(res => {
-            newAuth = res
-            this.setAuth(user, newAuth)
-          })
+          localStorage.setItem('RLS_userName', user.name);
+          let userLoginStr = JSON.stringify(user)
+          localStorage.setItem('RLS_userLogin', userLoginStr)
+          // this._toast.success();
+          // setTimeout(() => {
+          this._loading.start()
+          location.href = '/guest'
         } else {
-          newAuth = user.authorize
-          this.setAuth(user, newAuth)
+          let newAuth = ''
+          if (user?.authorize.length > 1) {
+            const auth = user.authorize.sort()
+            const dialogRef = this.dialog.open(DialogAuthComponent, {
+              data: auth,
+              hasBackdrop: true,
+              disableClose: true
+            })
+            dialogRef.afterClosed().subscribe(res => {
+              newAuth = res
+              this.setAuth(user, newAuth)
+            })
+          } else {
+            newAuth = user.authorize
+            this.setAuth(user, newAuth)
+          }
         }
+
+
 
       } else {
         this._toast.danger('login failed!!')
@@ -115,7 +131,12 @@ export class LoginService {
               case 'request_confirm':
                 this.validPermissionRequestConfirm(auth)
                 break;
+
               case 'request_confirm_edited':
+                this.validPermissionRequestConfirm(auth)
+                break;
+
+              case 'request_confirm_revise':
                 this.validPermissionRequestConfirm(auth)
                 break;
 
@@ -143,12 +164,20 @@ export class LoginService {
                 this.validPermissionQEWindowReport(auth)
                 break;
 
+              case 'qe_revise':
+                this.validPermissionQEWindowReport(auth)
+                break;
+
               case 'reject_request':
                 this.validPermissionRequest(auth)
                 break;
 
               case 'reject_request_approve':
                 this.validPermissionApprove(auth)
+                break;
+
+              case 'reject_qe_window_person':
+                this.validPermissionQEWindowChamber(auth)
                 break;
 
               case 'reject_qe_window_person':
@@ -194,6 +223,9 @@ export class LoginService {
           }
           if (auth == 'qe_department_head') {
             newUrl = "/qe-department-head"
+          }
+          if (auth == 'guest') {
+            newUrl = "/guest"
           }
           this.router.navigate([newUrl]).then((boo: any) => {
             window.location.reload()

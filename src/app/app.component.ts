@@ -32,7 +32,8 @@ export class AppComponent {
     private swUpdate: SwUpdate,
     private _loading: NgxUiLoaderService,
     private dialog: MatDialog,
-    private _toast: ToastService
+    private _toast: ToastService,
+    private _router: Router
   ) {
     // this.mobileQuery = media.matchMedia('(max-width: 600px)');
     // this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -66,6 +67,12 @@ export class AppComponent {
 
   ngOnDestroy(): void {
     // this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  bgLogin() {
+    const locationUrl = this._router.url
+    if (locationUrl.includes('login')) return 'bg-login'
+    return ''
   }
 
   onClickChangeAccess() {
@@ -392,6 +399,21 @@ export class AppComponent {
           items: [
             {
               path: '/qe-department-head',
+              icon: 'home',
+              title: 'manage',
+            }
+          ]
+        }
+      ]
+    }
+    if (this.authorize == 'guest') {
+      this.sideItems = [
+        {
+          title: 'guest',
+          icon: 'feed',
+          items: [
+            {
+              path: '/guest',
               icon: 'home',
               title: 'manage',
             }

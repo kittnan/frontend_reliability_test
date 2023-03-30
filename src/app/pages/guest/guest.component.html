@@ -57,42 +57,25 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="edit">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
-          <td mat-cell *matCellDef="let row">
-            <button mat-raised-button color="primary" [ngClass]="{foo: row.btn_text=='edit'}"
-              [disabled]="row.btn_status" (click)="onEdit(row)">
-              <span *ngIf="row.btn_text==='edit'" class="material-icons-outlined">
-                edit
-              </span>
-              <span *ngIf="row.btn_text==='approve' || row.btn_text==='revise'" class="material-icons-outlined">
-                done
-              </span>
-              <span *ngIf="row.btn_text==='finish'" class="material-icons-outlined">
-                done_all
-              </span>
-              {{row.btn_text |uppercase}}
-            </button>
-          </td>
-        </ng-container>
-
-
 
         <ng-container matColumnDef="btn">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button color="primary" (click)="onClickView(row)">
+            <button mat-icon-button color="primary" (click)="onClickView(row)" matTooltip="view request"
+              matTooltipPosition="right" matTooltipShowDelay="500">
               <span class="material-icons-outlined">
                 zoom_in
               </span>
             </button>
-            <button mat-icon-button color="primary" (click)="onClickViewNewTab(row)">
+            <button mat-icon-button color="primary" (click)="onClickViewNewTab(row)"
+              matTooltip="view request and new tab" matTooltipPosition="right" matTooltipShowDelay="500">
               <span class="material-icons-outlined">
                 open_in_new
               </span>
             </button>
 
-            <button [disabled]="row.level<7" mat-icon-button color="primary" (click)="onDownload(row)">
+            <button [disabled]="row.level<7" mat-icon-button color="primary" (click)="onDownload(row)"
+              matTooltip="download" matTooltipPosition="right" matTooltipShowDelay="500">
               <span class="material-icons-outlined">
                 file_download
               </span>

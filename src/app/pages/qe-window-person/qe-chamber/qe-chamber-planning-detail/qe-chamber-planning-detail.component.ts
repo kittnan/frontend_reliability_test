@@ -60,13 +60,13 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.tempQueues = [...this.queues]
     // this.getDraft()
-    console.clear()
-    console.log('form', this.formInput);
-    console.log('this.tempQueues', this.tempQueues);
+    // console.clear()
+    // console.log('form', this.formInput);
+    // console.log('this.tempQueues', this.tempQueues);
 
     if (this.queues) {
       this.queues = await this.getQueuesDraft(this.queues)
-      console.log("🚀 ~ this.queues:", this.queues)
+      // console.log("🚀 ~ this.queues:", this.queues)
       this.tableData = await this.mapForTable(this.queues)
     }
 
@@ -77,7 +77,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   async getQueuesDraft(queues: any) {
     const queueDraft = await this.$queue.getFormId(queues[0].work.requestId).toPromise()
-    console.log("🚀 ~ queueDraft:", queueDraft)
+    // console.log("🚀 ~ queueDraft:", queueDraft)
     queues = queues.map((d: QueueForm) => {
       const draft = queueDraft.find((draft: QueueForm) => {
         return draft.condition?.name == d.condition?.name
@@ -260,7 +260,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async deleteQueue(item: any) {
-    console.log(this.queues);
+    // console.log(this.queues);
 
 
     if (item._id) {
@@ -284,7 +284,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
 
         setTimeout(() => {
-          location.reload()
+          // location.reload()
 
 
         }, 1000);
@@ -470,7 +470,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }
 
   }
-  // ! ยังไม่ใช้
 
   async insertDirect(item: any, index: number) {
     const newItem = item[0]
@@ -501,6 +500,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
       this.requestForm[0].table = this.tableData
       const resUpdate = await lastValueFrom(this.$request.update(this.requestForm[0]._id, this.requestForm[0]))
+      this.tableChange.emit(table)
       if (resUpdate && resUpdate.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
         setTimeout(() => {

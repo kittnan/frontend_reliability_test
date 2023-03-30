@@ -1,3 +1,4 @@
+import { GuestComponent } from './pages/guest/guest.component';
 import { ViewPageComponent } from './pages/view-page/view-page.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -65,6 +66,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: 'guest',
+    component: GuestComponent
   },
 
   {

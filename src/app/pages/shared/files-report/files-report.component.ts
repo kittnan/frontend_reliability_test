@@ -356,6 +356,14 @@ export class FilesReportComponent implements OnInit {
 
   }
 
+  validButton() {
+    if (localStorage.getItem('RLS_authorize') == 'guest') {
+      return false
+    }
+    return true
+
+  }
+
 
 
 }

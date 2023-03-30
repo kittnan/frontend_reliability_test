@@ -4,6 +4,12 @@
     <span class="box-title">
       Plan Reliability Test
     </span>
+    <button *ngIf="validAuth()" mat-raised-button color="accent" (click)="onRevise()" style="margin-left: 10px;">
+      <span class="material-icons-outlined">
+        edit
+      </span>
+      REVISE
+    </button>
     <!-- <button (click)="downLoadExcel()">OKOKOKO</button> -->
   </div>
 

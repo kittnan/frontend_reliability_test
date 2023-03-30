@@ -7,7 +7,7 @@
 
 .card {
   width: 33%;
-  background-color: rgb(255 255 255 / 80%);
+  background-color: rgb(255, 255, 255);
   // background-color: rgba(255, 255, 255, 0.959);
   border-radius: 10px;
   overflow: hidden;
@@ -21,13 +21,14 @@
   padding: 20px;
   border-radius: 10px;
   // background-color: #b1e2a5;
-  background-color: #6cb8b8;
+  // background-color: #6cb8b8;
+  background-color: rgb(8, 142, 167);
 }
 
 .card-title {
   font-size: 20px;
   font-weight: 900;
-  letter-spacing: 3px;
+  letter-spacing: 5px;
 }
 
 .card-title2 {
@@ -49,3 +50,14 @@
   font-weight: 900;
   letter-spacing: 3px;
 }
+// ::ng-deep .mat-sidenav-container,
+// .container {
+//   background-image: url("/assets/bg-5.png");
+//   height: 100%;
+//   /* Center and scale the image nicely */
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   object-fit: cover;
+//   object-position: right;
+// }

@@ -77,6 +77,8 @@ export class ApproveFormComponent implements OnInit {
     }).then((value: SweetAlertResult) => {
       (value);
       if (value.isConfirmed) {
+        // console.log('@@@@@@@@@@@@@@2', this.data);
+
         if (key == 'approve') {
           this._approve.send(this.userLogin, this.userApprove, this.data, value.value)
         }
@@ -138,9 +140,10 @@ export class ApproveFormComponent implements OnInit {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_engineer' || s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request')
     }
 
-    if (status == 'request_confirm' || status == 'request_confirm_edited') {
+    if (status == 'request_confirm' || status == 'request_confirm_edited' || status == 'request_confirm_revise') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
     }
+
 
     // console.log(request_user);
 
@@ -174,8 +177,13 @@ export class ApproveFormComponent implements OnInit {
           if (localStorage.getItem('RLS_authorize') == 'qe_engineer') return false
           return true
         } else {
-          if (this.data.status.includes(localStorage.getItem('RLS_authorize'))) return false
-          return true
+          if (this.data.status.includes('qe_revise')) {
+            if (localStorage.getItem('RLS_authorize') == 'qe_window_person') return false
+            return true
+          } else {
+            if (this.data.status.includes(localStorage.getItem('RLS_authorize'))) return false
+            return true
+          }
         }
       }
     }

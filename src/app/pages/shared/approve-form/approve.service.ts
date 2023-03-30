@@ -162,6 +162,7 @@ export class ApproveService {
 
 
       const oldStep = form.step5.find((step: any) => step.nextStatusForm == nextStatusForm)
+      // console.log("🚀 ~ oldStep:", oldStep)
 
       if (oldStep) {
         const prev = {
@@ -294,6 +295,12 @@ export class ApproveService {
       case 'qe_window_person_report':
         return 10
 
+      case 'qe_revise':
+        return 12
+
+      case 'request_confirm_revise':
+        return 7
+
 
 
 
@@ -305,6 +312,7 @@ export class ApproveService {
 
       case 'reject_qe_window_person':
         if (level === 7.8) return 8
+        if (level === 11.5) return 12
         return 3
 
       case 'reject_qe_engineer':
@@ -312,6 +320,9 @@ export class ApproveService {
 
       case 'reject_qe_section_head':
         return 5
+
+      case 'reject_request_confirm':
+        return 8
 
       case 'reject_request_confirm':
         return 8
@@ -363,6 +374,7 @@ export class ApproveService {
 
       case 'reject_qe_window_person':
         if (level === 7.8) return 'request_confirm_edited'
+        if (level === 11.5) return 'request_confirm_revise'
         return 'qe_engineer'
 
       case 'reject_qe_engineer':
@@ -376,6 +388,12 @@ export class ApproveService {
 
       // case 'reject_qe_window_person':
       //   return 'finish'
+
+      case 'qe_revise':
+        return 'request_confirm_revise'
+
+      case 'request_confirm_revise':
+        return 'qe_window_person_report'
 
       default:
         return ''

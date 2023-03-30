@@ -65,12 +65,13 @@
 
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>Department</mat-label>
-      <mat-select [disabled]="true" formControlName="department" name="department"
+      <mat-label>Section</mat-label>
+      <input [readonly]="true" formControlName="department" matInput>
+      <!-- <mat-select [disabled]="true" formControlName="department" name="department"
         (selectionChange)="onSelectCorporate()">]
         <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">
           {{department.name |uppercase}}</mat-option>
-      </mat-select>
+      </mat-select> -->
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">

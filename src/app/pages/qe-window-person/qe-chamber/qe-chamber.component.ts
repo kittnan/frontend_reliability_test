@@ -186,8 +186,14 @@ export class QeChamberComponent implements OnInit {
       const prevUser = this.form?.step5?.find((s: any) => s.level == 1)?.prevUser
       select = this.userApprove.find((u: any) => u._id == prevUser._id)
     } else {
-      this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-      select = this.checkPrevApprove(this.form, 3)
+      if (this.form.status == 'qe_revise' || this.form.status == 'reject_qe_window_person') {
+        this.userApprove = await this._userApprove.getUserApprove(this.userLogin, 'request')
+        const prevUser = this.form?.step5?.find((s: any) => s.level == 1)?.prevUser
+        select = this.userApprove.find((u: any) => u._id == prevUser._id)
+      } else {
+        this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+        select = this.checkPrevApprove(this.form, 3)
+      }
     }
     this.approver = await this._userApprove.approver(this.authorize, this.form.level, this.userLogin)
     if (this.approver && this.approver.groupStatus) {
@@ -220,6 +226,8 @@ export class QeChamberComponent implements OnInit {
 
   validReject() {
     if (this.form.level === 7.8) return false
+    if (this.form.level === 11) return false
+    if (this.form.level === 11.5) return false
     return true
   }
 

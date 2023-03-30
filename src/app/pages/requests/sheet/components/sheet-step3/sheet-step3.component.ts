@@ -62,6 +62,7 @@ export class SheetStep3Component implements OnInit {
       }
 
     }
+    // console.log("🚀 ~ this.testingTypeMenu:", this.testingTypeMenu)
   }
 
   validBtn() {

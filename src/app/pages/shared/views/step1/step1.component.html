@@ -1,122 +1,122 @@
 <div *ngIf="step1" fxLayout="row wrap" fxLayoutAlign="space-between center" class="content-item">
 
-    <h1 fxFlex="100" class="control-no">CONTROL No. {{step1.controlNo}}</h1>
-    <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider>
+  <h1 fxFlex="100" class="control-no">CONTROL No. {{step1.controlNo}}</h1>
+  <mat-divider fxFlex="100" style="margin: 20px 0 ;"></mat-divider>
+
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
     <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-
-        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <span class="box-title">
+      <span class="box-title">
         Request Detail
       </span>
+    </div>
+
+    <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+        <mat-label>Request status:</mat-label>
+        <input [readonly]="true" [value]="step1.requestStatus |uppercase" matInput>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+        <mat-label>AMT/DST</mat-label>
+        <input [readonly]="true" [value]="step1.corporate |uppercase" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
+        <mat-label>Model No.</mat-label>
+        <input [readonly]="true" [value]="step1.modelNo" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
+        <mat-label>Model Name</mat-label>
+        <input [readonly]="true" [value]="step1.modelName" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
+        <mat-label>Size</mat-label>
+        <input [readonly]="true" [value]="step1.size" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
+        <mat-label>Customer</mat-label>
+        <input [readonly]="true" [value]="step1.customer" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
+        <mat-label>Lot no.</mat-label>
+        <input [readonly]="true" [value]="step1.lotNo" matInput>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
+        <mat-label>Section</mat-label>
+        <input [readonly]="true" [value]="step1.department" matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
+        <mat-label>Request Date</mat-label>
+        <input [readonly]="true" [value]="step1.requestDate|date:'d/M/y'" matInput>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
+        <mat-label>Concern Shipment Date</mat-label>
+        <input [readonly]="true" [value]="step1.concernShipmentDate|date:'d/M/y'" matInput>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+        <mat-label>Input to production date</mat-label>
+        <input [readonly]="true" [value]="step1.inputToProductionDate|date:'d/M/y'" matInput>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+        <mat-label>Concern Customer Date</mat-label>
+        <input [readonly]="true" [value]="step1.concernCustomerDate|date:'d/M/y'" matInput>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
+        <mat-label>Report Require Date</mat-label>
+        <input [readonly]="true" [value]="step1.reportRequireDate|date:'d/M/y'" matInput>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
+        <mat-label>Sample send to QE within date</mat-label>
+        <input [readonly]="true" [value]="step1.sampleSentToQE_withinDate|date:'d/M/y'" matInput>
+
+      </mat-form-field>
+
+
+      <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
+        <mat-label>Sample Description</mat-label>
+        <textarea matInput rows="5" [readonly]="true" [value]="step1.sampleDescription"></textarea>
+      </mat-form-field>
+
+      <mat-list fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 10px;">
+        <div mat-subheader style="padding-left: 0;">
+          Files
+
         </div>
-
-        <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
-                <mat-label>Request status:</mat-label>
-                <input [readonly]="true" [value]="step1.requestStatus |uppercase" matInput>
-
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
-                <mat-label>AMT/DST</mat-label>
-                <input [readonly]="true" [value]="step1.corporate |uppercase" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
-                <mat-label>Model No.</mat-label>
-                <input [readonly]="true" [value]="step1.modelNo" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
-                <mat-label>Model Name</mat-label>
-                <input [readonly]="true" [value]="step1.modelName" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
-                <mat-label>Size</mat-label>
-                <input [readonly]="true" [value]="step1.size" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
-                <mat-label>Customer</mat-label>
-                <input [readonly]="true" [value]="step1.customer" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
-                <mat-label>Lot no.</mat-label>
-                <input [readonly]="true" [value]="step1.lotNo" matInput>
-            </mat-form-field>
-
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
-                <mat-label>Department</mat-label>
-                <input [readonly]="true" [value]="step1.department" matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
-                <mat-label>Request Date</mat-label>
-                <input [readonly]="true" [value]="step1.requestDate|date:'d/M/y'" matInput>
-
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100">
-                <mat-label>Concern Shipment Date</mat-label>
-                <input [readonly]="true" [value]="step1.concernShipmentDate|date:'d/M/y'" matInput>
-
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
-                <mat-label>Input to production date</mat-label>
-                <input [readonly]="true" [value]="step1.inputToProductionDate|date:'d/M/y'" matInput>
-
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
-                <mat-label>Concern Customer Date</mat-label>
-                <input [readonly]="true" [value]="step1.concernCustomerDate|date:'d/M/y'" matInput>
-
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" style="margin-top: 20px;">
-                <mat-label>Report Require Date</mat-label>
-                <input [readonly]="true" [value]="step1.reportRequireDate|date:'d/M/y'" matInput>
-
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
-                <mat-label>Sample send to QE within date</mat-label>
-                <input [readonly]="true" [value]="step1.sampleSentToQE_withinDate|date:'d/M/y'" matInput>
-
-            </mat-form-field>
-
-
-            <mat-form-field appearance="legacy" fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 20px;">
-                <mat-label>Sample Description</mat-label>
-                <textarea matInput rows="5" [readonly]="true" [value]="step1.sampleDescription"></textarea>
-            </mat-form-field>
-
-            <mat-list fxFlex="48" fxFlex.sm="100" fxFlexAlign="start" style="margin-top: 10px;">
-                <div mat-subheader style="padding-left: 0;">
-                    Files
-
-                </div>
-                <mat-list-item *ngFor="let file of files; let i=index">
-                    <mat-icon mat-list-icon>folder</mat-icon>
-                    <div mat-line>{{file.name}} {{file.size |fileSize}}</div>
-                    <button mat-icon-button color="primary" (click)="onClickViewFile(file);">
+        <mat-list-item *ngFor="let file of files; let i=index">
+          <mat-icon mat-list-icon>folder</mat-icon>
+          <div mat-line>{{file.name}} {{file.size |fileSize}}</div>
+          <button mat-icon-button color="primary" (click)="onClickViewFile(file);">
             <span class="material-icons-outlined">
               pageview
             </span>
           </button>
 
-                </mat-list-item>
-            </mat-list>
-
-        </div>
+        </mat-list-item>
+      </mat-list>
 
     </div>
+
+  </div>
 
 
 

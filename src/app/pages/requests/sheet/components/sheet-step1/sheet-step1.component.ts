@@ -110,6 +110,9 @@ export class SheetStep1Component implements OnInit {
       })
     }
 
+    this.requestForm.patchValue({
+      department: this.userLogin.section
+    })
 
   }
 
@@ -139,9 +142,7 @@ export class SheetStep1Component implements OnInit {
     })
   }
   async onSelectCorporate() {
-    this.requestForm.patchValue({
-      department: this.requestForm.value.corporate
-    })
+
     if (this.requestForm.controls.corporate.valid && this.requestForm.controls.modelNo.valid) {
       const runNumber: any = await this._request.setControlNo(this.requestForm.value.corporate, this.requestForm.value.modelNo)
       this.requestForm.controls.controlNo.setValue(runNumber)
