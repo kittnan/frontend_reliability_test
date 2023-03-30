@@ -28,9 +28,12 @@ export class ReportStatusComponent implements OnInit {
     this.displayedColumns = ['controlNo', 'model', 'requestor']
   }
   createData() {
+    console.log(this.data);
+
     this.dataSource = new MatTableDataSource(this.data)
   }
   ngAfterViewInit() {
+
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

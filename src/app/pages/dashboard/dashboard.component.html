@@ -8,6 +8,7 @@
         <img src="assets/chart2.gif" alt="">
         <!-- <span class="material-icons-outlined" style="font-size: 100px;"> dashboard </span> -->
         <p id="text"> dashboard reliability </p>
+
       </div>
 
       <div id="corporate" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-evenly center" fxLayoutGap="30">
@@ -16,45 +17,46 @@
             <mat-calendar [(selected)]="date" (selectedChange)="changeDate()"></mat-calendar>
           </mat-card>
         </div>
-        <app-corporate fxFlex="77" *ngIf="corporate && corporate.length!=0" [corporate]="corporate"></app-corporate>
+        <app-corporate fxFlex="77" *ngIf="show&&corporate && corporate.length!=0"
+          [corporate]="corporate"></app-corporate>
       </div>
 
 
-      <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
+      <div *ngIf="show" fxFlex="100" fxLayoutAlign="center center" class="line-body">
         <mat-divider fxFlex="80"></mat-divider>
       </div>
 
-      <app-section id="section" fxFlex="100" [section]="section"></app-section>
+      <app-section *ngIf="show" id="section" fxFlex="100" [section]="section"></app-section>
 
-      <div fxFlex="100" fxLayoutAlign="center center" class="line-body">
+      <div *ngIf="show" fxFlex="100" fxLayoutAlign="center center" class="line-body">
         <mat-divider fxFlex="80"></mat-divider>
       </div>
 
 
       <div id="daily" fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap">
-        <app-daily-remain fxFlex="100" *ngIf="dailyRemain " [dailyRemain]="dailyRemain"></app-daily-remain>
+        <app-daily-remain fxFlex="100" *ngIf="dailyRemain  && show" [dailyRemain]="dailyRemain"></app-daily-remain>
       </div>
 
-      <div *ngIf="dailyRemain " fxFlex="100" fxLayoutAlign="center center" class="line-body mt-2">
+      <div *ngIf="show && dailyRemain " fxFlex="100" fxLayoutAlign="center center" class="line-body mt-2">
         <mat-divider fxFlex="80"></mat-divider>
       </div>
 
-      <app-report-status id="reportStatus" fxFlex="100" [data]="reportStatus" class="mt-3">
+      <app-report-status *ngIf="reportStatus && show" id="reportStatus" fxFlex="100" [data]="reportStatus" class="mt-3">
       </app-report-status>
 
-      <div *ngIf="reportStatus && reportStatus.length!=0" fxFlex="100" fxLayoutAlign="center center"
+      <div *ngIf="show &&reportStatus && reportStatus.length!=0" fxFlex="100" fxLayoutAlign="center center"
         class="line-body mt-2">
         <mat-divider fxFlex="80"></mat-divider>
       </div>
 
-      <app-table-chamber id="chamber" fxFlex="100" *ngIf="chamber && chamber.length!=0" [data]="chamber"
+      <app-table-chamber id="chamber" fxFlex="100" *ngIf="show &&chamber && chamber.length!=0" [data]="chamber"
         class="mt-3"></app-table-chamber>
 
-      <div fxFlex="100" fxLayoutAlign="center center" class="line-body mt-2">
+      <div *ngIf="show" fxFlex="100" fxLayoutAlign="center center" class="line-body mt-2">
         <mat-divider fxFlex="80"></mat-divider>
       </div>
 
-      <app-table-operate-remain id="operate" fxFlex="100" *ngIf="operate && operate.length!=0"
+      <app-table-operate-remain id="operate" fxFlex="100" *ngIf="show &&operate && operate.length!=0"
         [data]="operate"></app-table-operate-remain>
 
     </div>

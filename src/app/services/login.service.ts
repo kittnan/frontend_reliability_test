@@ -48,7 +48,10 @@ export class LoginService {
           // this._toast.success();
           // setTimeout(() => {
           this._loading.start()
-          location.href = '/guest'
+          // location.href = '/guest'
+          this.router.navigate(['/guest']).then((boo: any) => {
+            window.location.reload()
+          })
         } else {
           let newAuth = ''
           if (user?.authorize.length > 1) {

@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
   reportStatus: any
   interval$!: Subscription;
 
+  show = true
+
   @ViewChild(TableOperateRemainComponent) childOperate!: TableOperateRemainComponent;
   @ViewChild(TableChamberComponent) childChamber!: TableChamberComponent;
   constructor(
@@ -38,7 +40,7 @@ export class DashboardComponent implements OnInit {
   }
 
   setIntervalUpdate() {
-    this.interval$ = interval(10000).subscribe(res => this.getData())
+    this.interval$ = interval(30000).subscribe(res => this.getData())
   }
   clearInterval() {
     this.interval$.unsubscribe()
@@ -55,12 +57,14 @@ export class DashboardComponent implements OnInit {
   }
 
   changeDate() {
+    this.show = false
     this.clearInterval()
     this._loading.start()
     this.date = moment(this.date).startOf('days').toISOString()
     this.getData()
     setTimeout(() => {
       this._loading.stopAll()
+      this.show = true
       this.setIntervalUpdate()
     }, 1000);
   }
@@ -74,7 +78,7 @@ export class DashboardComponent implements OnInit {
     this.getDailyRemainData()
     this.getChamberData(param)
     this.getOperateData(param)
-    this.getReportStatus()
+    this.getReportStatus(param)
   }
 
   async getOperateItem(param: HttpParams) {
@@ -115,8 +119,17 @@ export class DashboardComponent implements OnInit {
   async getDailyRemainData() {
     this.dailyRemain = await this.$request.dailyRemain().toPromise()
   }
-  async getReportStatus() {
-    this.reportStatus = await this.$request.reportStatus().toPromise()
+  async getReportStatus(param: HttpParams) {
+    // const prevLen = this.reportStatus.length
+    const prevData = this.reportStatus ? [...this.reportStatus] : []
+    // this.reportStatus = undefined
+    const res: any = await this.$request.reportStatus(param).toPromise()
+    if (res && res.length != prevData.length) {
+      this.reportStatus = undefined
+      this.reportStatus = res
+    } else {
+      this.reportStatus = prevData
+    }
   }
 
   scrollTo(id: string) {

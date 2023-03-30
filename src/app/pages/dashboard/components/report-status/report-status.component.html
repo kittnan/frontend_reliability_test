@@ -1,6 +1,6 @@
 <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" fxLayoutGap="30">
   <div fxFlex="5" fxLayout="row wrap" fxLayoutAlign="center center" class="text-vertical ">
-    <h2 class="t-head">Daily Report</h2>
+    <h2 class="t-head">Report</h2>
   </div>
 
   <div *ngIf="!data || data.length==0" fxFlex="92" fxLayoutAlign="start stretch" fxLayout="row wrap" class="card-table"
@@ -13,7 +13,6 @@
       </tr>
     </table>
   </div>
-
   <div *ngIf="data && data.length>0" fxFlex="92" fxLayoutAlign="start stretch" fxLayout="row wrap" class="card-table"
     style="overflow: auto;">
     <mat-form-field fxFlex="100" appearance="standard">
