@@ -14,6 +14,7 @@ import { TableRequestService } from './table-request.service';
 import { interval, Subscription, lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import * as moment from 'moment';
 
 
 interface ParamsForm {
@@ -38,7 +39,7 @@ export class TableRequestComponent implements OnInit {
   selected_status = 'ongoing'
   requests: any = []
 
-  displayedColumns: string[] = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'userApprove', 'edit', 'btn'];
+  displayedColumns: string[] = ['controlNo', 'userRequest', 'requestSubject', 'modelNo', 'status', 'ongoing', 'edit', 'btn'];
   pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -69,7 +70,9 @@ export class TableRequestComponent implements OnInit {
     this.authorize = localStorage.getItem('RLS_authorize');
     this.selected_status = 'ongoing';
     // if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
-
+    if (this.authorize.includes("qe") || this.authorize.includes("admin")) {
+      this.displayedColumns = ['controlNo', 'userRequest', 'requestSubject', 'modelNo', 'status', 'userApprove', 'ongoing', 'edit', 'btn'];
+    }
     // this.userLogin = await this._login.getProFileById(id).toPromise();
     this.params = {
       userId: this.userLogin._id,
@@ -315,5 +318,18 @@ export class TableRequestComponent implements OnInit {
     }, 500);
   }
 
+  htmlOngoingTo(q: any) {
+    // console.log(q);
+    if (q && q.length > 0) {
+      const item = q[0].inspectionTime.find((i: any) => moment().isBetween(moment(i.startDate), moment(i.endDate)))
+      return item ? item.at : '-'
+
+    }
+    return '-'
+  }
+  validQE() {
+    if (this.authorize.includes('qe') || this.authorize.includes('admin')) return true
+    return false
+  }
 
 }

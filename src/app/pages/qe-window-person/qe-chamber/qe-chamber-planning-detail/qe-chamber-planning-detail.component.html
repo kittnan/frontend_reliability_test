@@ -80,7 +80,7 @@
         <input matInput [value]="item.endDate|date:'EEEE, d MMMM y, h:mm a'" [readonly]="true">
       </mat-form-field>
 
-      <ng-container *ngIf="formInput?.step4?.data[0].data.reportStatus">
+      <ng-container *ngIf="formInput?.step4?.data[0].data.report.length>0">
         <mat-divider fxFlex="100"></mat-divider>
         <h4 fxFlex="100">Report QE Time</h4>
         <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">

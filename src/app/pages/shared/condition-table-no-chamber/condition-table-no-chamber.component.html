@@ -8,8 +8,7 @@
     <tr>
       <td>{{data[0].data.qty}}</td>
       <td>
-        <span *ngIf="data[0].data.reportStatus">Yes</span>
-        <span *ngIf="!data[0].data.reportStatus">No</span>
+        {{htmlReportStatus()}}
       </td>
       <td>{{data[0].data.detailTest}}</td>
     </tr>

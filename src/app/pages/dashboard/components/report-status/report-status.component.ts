@@ -25,11 +25,9 @@ export class ReportStatusComponent implements OnInit {
     this.createData()
   }
   createCol() {
-    this.displayedColumns = ['controlNo', 'model', 'requestor']
+    this.displayedColumns = ['controlNo', 'model', 'requestor', 'nowAt']
   }
   createData() {
-    console.log(this.data);
-
     this.dataSource = new MatTableDataSource(this.data)
   }
   ngAfterViewInit() {

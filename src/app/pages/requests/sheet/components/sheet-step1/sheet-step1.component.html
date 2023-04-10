@@ -24,6 +24,11 @@
     </div>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>Request Subject</mat-label>
+      <input formControlName="requestSubject" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
       <mat-label>AMT/DST</mat-label>
       <mat-select formControlName="corporate" name="corporate" (selectionChange)="onSelectCorporate()">
         <mat-option *ngFor="let cor of corporate" [value]="cor.value">
@@ -32,7 +37,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+    <!-- <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
       <mat-label>Model No.</mat-label>
       <mat-select formControlName="modelNo" name="modelNo" (selectionChange)="onSelectModelNo(); onSelectCorporate();">
         <ng-container *ngFor="let item of models; let i=index">
@@ -41,6 +46,22 @@
           </mat-option>
         </ng-container>
       </mat-select>
+    </mat-form-field> -->
+
+    <mat-form-field fxFlex="40" fxFlex.sm="100" appearance="fill">
+      <mat-label>Model No.</mat-label>
+      <input type="text" matInput formControlName="modelNo" [matAutocomplete]="modelNoAuto"
+        (input)="onSelectModelNo();onSelectCorporate();">
+
+      <button mat-icon-button matSuffix>
+        <mat-icon color="primary">{{ requestForm.value.modelName!=''? 'verified':''}}</mat-icon>
+      </button>
+
+      <mat-autocomplete #modelNoAuto="matAutocomplete" (closed)="onSelectModelNo();onSelectCorporate()">
+        <mat-option *ngFor="let option of filteredModelOptions | async" [value]="option.modelNo">
+          {{option.modelNo}}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
@@ -129,13 +150,6 @@
     </mat-form-field>
 
 
-
-
-    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
-      <mat-label>Sample Description</mat-label>
-      <textarea matInput rows="5" formControlName="sampleDescription"></textarea>
-    </mat-form-field>
-
     <ng-container *ngIf="!data; else elseTemplate">
       <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
         <div mat-subheader style="padding-left: 0;">
@@ -195,6 +209,13 @@
 
     </ng-template>
 
+
+
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+      <mat-label>Sample Description</mat-label>
+      <textarea matInput rows="5" formControlName="sampleDescription"></textarea>
+    </mat-form-field>
 
 
 

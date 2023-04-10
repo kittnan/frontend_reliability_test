@@ -50,10 +50,11 @@
           <td mat-cell *matCellDef="let row" class="fb" [class]="row.btn_css"> {{htmlStatus(row.status)}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="userApprove">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> USER APPROVE </th>
+        <ng-container matColumnDef="ongoing">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> On going To (hrs.) </th>
           <td mat-cell *matCellDef="let row">
-            <span *ngIf="row?.nextApprove?.name">{{row.nextApprove.name |uppercase}}</span>
+            <!-- <span *ngIf="row?.nextApprove?.name">{{row.nextApprove.name |uppercase}}</span> -->
+            {{htmlOngoingTo(row.queues)}}
           </td>
         </ng-container>
 

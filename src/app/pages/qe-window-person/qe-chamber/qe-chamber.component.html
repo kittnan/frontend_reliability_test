@@ -5,24 +5,30 @@
 
     <app-qe-receive fxFlex="100" [form]="form" (formChange)="qeReceiveEmit($event)"></app-qe-receive>
 
-    <app-qe-chamber-planning fxFlex="100" [data]="dataSource" (dataChange)="emitted($event)"></app-qe-chamber-planning>
-    <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(queues)]="chamberTable"
-      (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)"
-      [formInput]="form">
-    </app-qe-chamber-planning-detail>
+    <ng-container *ngIf="form.qeReceive.qty">
+
+      <app-qe-chamber-planning fxFlex="100" [data]="dataSource"
+        (dataChange)="emitted($event)"></app-qe-chamber-planning>
+      <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(queues)]="chamberTable"
+        (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)"
+        [formInput]="form">
+      </app-qe-chamber-planning-detail>
 
 
-    <mat-form-field fxFlex="100" appearance="fill" class="content-item">
-      <mat-label>SEND TO...</mat-label>
-      <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
-        <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
-          {{approve.groupStatus? approve.name: item.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field fxFlex="100" appearance="fill" class="content-item">
+        <mat-label>SEND TO...</mat-label>
+        <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
+          <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
+            {{approve.groupStatus? approve.name: item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
-    <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form"></app-approve-form>
+      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form"></app-approve-form>
+    </ng-container>
+
+
 
   </div>
 

@@ -30,8 +30,15 @@ export class QeReceiveComponent implements OnInit {
       if (ans.isConfirmed) {
         this.$request.update(this.form._id, this.form).subscribe(res => {
           if (res) {
-            Swal.fire('Success', '', 'success')
-            this.formChange.emit(this.form)
+            Swal.fire({
+              title: 'Success',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1000
+            }).then((v: any) => {
+              location.reload()
+            })
+            // this.formChange.emit(this.form)
           }
         })
 

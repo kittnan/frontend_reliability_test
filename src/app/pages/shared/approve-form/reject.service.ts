@@ -47,7 +47,7 @@ export class RejectService {
       user: prevUser
     }
     this.sendLog(logData)
-    this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id, [])
+    this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id, [], form.controlNo)
     const oldStepReject = form.step5.find((step: any) => step.level == level)
     if (oldStepReject) {
       const newStep = {
@@ -126,7 +126,7 @@ export class RejectService {
     }
   }
 
-  async sendMail(to: any[], status: string, formId: string, cc: string[]) {
+  async sendMail(to: any[], status: string, formId: string, cc: string[], controlNo: string) {
     const body = {
       to: to,
       status: status,

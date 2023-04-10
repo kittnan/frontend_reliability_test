@@ -11,6 +11,7 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { environment } from 'src/environments/environment';
 import { DialogViewComponent } from '../shared/dialog-view/dialog-view.component';
 import { ReportService } from '../shared/table-request/report.service';
+import * as moment from 'moment';
 
 interface ParamsForm {
   userId: string,
@@ -36,7 +37,7 @@ export class GuestComponent implements OnInit {
   selected_status = 'ongoing'
   requests: any = []
 
-  displayedColumns: string[] = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'userApprove', 'btn'];
+  displayedColumns: string[] = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'ongoing', 'btn'];
   pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -170,13 +171,18 @@ export class GuestComponent implements OnInit {
       if (item.nextApprove && item.nextApprove._id == this.userLogin._id) return false
       return true
     } else {
-      if (item.status === 'qe_engineer' || item.status === 'qe_engineer2') {
-        if (item.status === localStorage.getItem('RLS_authorize')) return false
+
+      if (item.status == 'qe_revise') {
+        if (localStorage.getItem('RLS_authorize') == 'qe_window_person') return false
         return true
-      } else {
-        if (item.nextApprove && item.nextApprove._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
-        return true
-      }
+      } else
+        if (item.status === 'qe_engineer' || item.status === 'qe_engineer2') {
+          if (item.status === localStorage.getItem('RLS_authorize')) return false
+          return true
+        } else {
+          if (item.nextApprove && item.nextApprove._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
+          return true
+        }
     }
   }
 
@@ -248,10 +254,11 @@ export class GuestComponent implements OnInit {
 
 
 
+
   htmlStatus(status: string) {
     switch (status) {
       case 'qe_window_person_report':
-        return 'MAKE_REPORT'
+        return 'CONTINUE_TEST'
 
       case 'qe_window_person_edit_plan':
         return 'EDIT_REPORT'
@@ -262,6 +269,7 @@ export class GuestComponent implements OnInit {
     }
   }
 
+
   async onDownload(item: any) {
     this._loading.start()
     const res_form = await lastValueFrom(this.$request.get_id(item._id))
@@ -270,5 +278,13 @@ export class GuestComponent implements OnInit {
       this._report.genReportExcel(form)
     }, 500);
   }
+  htmlOngoingTo(q: any) {
+    // console.log(q);
+    if (q && q.length > 0) {
+      const item = q[0].inspectionTime.find((i: any) => moment().isBetween(moment(i.startDate), moment(i.endDate)))
+      return item ? item.at : '-'
 
+    }
+    return '-'
+  }
 }

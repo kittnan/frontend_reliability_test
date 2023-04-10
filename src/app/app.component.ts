@@ -251,18 +251,18 @@ export class AppComponent {
     }
     if (this.authorize == 'request') {
       this.sideItems = [
-        {
-          title: 'dashboard',
-          icon: 'dashboard',
-          items: [
-            {
-              path: '/dashboard',
-              icon: 'dashboard',
-              title: 'main'
-            },
+        // {
+        //   title: 'dashboard',
+        //   icon: 'dashboard',
+        //   items: [
+        //     {
+        //       path: '/dashboard',
+        //       icon: 'dashboard',
+        //       title: 'main'
+        //     },
 
-          ]
-        },
+        //   ]
+        // },
         {
           title: 'request',
           icon: 'feed',

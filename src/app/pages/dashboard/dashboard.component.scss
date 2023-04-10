@@ -22,7 +22,7 @@
 }
 
 #text {
-  font-family: verdana;
+  // font-family: verdana;
   // text-decoration: overline;
   text-transform: capitalize;
   font-variant: small-caps;
@@ -33,6 +33,7 @@
   // background-color: rgb(84, 84, 84);
   text-shadow: rgb(0, 148, 158) 2px 2px 2px;
   line-height: normal;
+  font-weight: 900;
 }
 
 .material-icons-outlined {

@@ -48,12 +48,12 @@ export class ReportService {
       const arrayBuffer = new Response(res).arrayBuffer();
       arrayBuffer.then(async (buff: any) => {
         await wb.xlsx.load(buff)
-        const ws1 = wb.getWorksheet('Sheet1')
+        const ws1 = wb.getWorksheet('Request')
         this.setRequest(ws1)
         await this.loopBase64(this.step1.files, wb, ws1)
 
         // * add sheet 2
-        const ws2: Worksheet = wb.addWorksheet('Sheet2', { views: [{ showGridLines: false }] })
+        const ws2: Worksheet = wb.addWorksheet('Work', { views: [{ showGridLines: false }] })
         this.sheet2.setSheet2(ws2, form)
         ws2.insertRow(5, ['INSPECTION & REPORT RESULT'])
         this.sheet2.setStyleW2(ws2)
@@ -70,7 +70,7 @@ export class ReportService {
         });
 
         // * add sheet 3
-        const ws3: Worksheet = wb.addWorksheet('Sheet3', { views: [{ showGridLines: false }] })
+        const ws3: Worksheet = wb.addWorksheet('Job', { views: [{ showGridLines: false }] })
         this.sheet3.setSheet3(ws3, form)
         this.sheet3.setStyleW3(ws3)
 
@@ -108,12 +108,13 @@ export class ReportService {
     let col = 11
     for (let i = 0; i < files.length; i++) {
       const foo = files[i].name.split('.')
-      if (foo[i] != 'png' || foo[i] != 'jpg') {
+      if (foo[foo.length - 1] != 'png' && foo[foo.length - 1] != 'jpg') {
         ws.getCell(row, col).value = files[i].path
         row += 1
       } else {
         const base64Str: any = await lastValueFrom(this.$file.base64(files[i].path))
         this.imgs.push(base64Str.data)
+
         const temp_id = wb.addImage({
           base64: base64Str.data,
           extension: 'png',

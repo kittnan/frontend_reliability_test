@@ -298,7 +298,7 @@ export class FilesReportComponent implements OnInit {
       }
 
       if (!!nextUser) {
-        this._approve.sendMail([newApprover.selected._id], action, this.form._id, newApprover.groupList)
+        this._approve.sendMail([newApprover.selected._id], action, this.form._id, newApprover.groupList, this.form.controlNo)
       } else {
         console.error('not found user')
       }

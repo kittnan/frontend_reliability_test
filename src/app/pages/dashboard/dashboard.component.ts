@@ -7,6 +7,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { TableChamberComponent } from './components/table-chamber/table-chamber.component';
 import * as moment from 'moment';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,13 @@ import * as moment from 'moment';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
+
   date: any = moment().startOf('days').toISOString()
   item: any
   corporate: any
@@ -32,7 +40,12 @@ export class DashboardComponent implements OnInit {
     private $operate: OperateItemsHttpService,
     private _loading: NgxUiLoaderService,
     private $request: RequestHttpService
-  ) { }
+  ) {
+    this.range.setValue({
+      start: new Date(moment().startOf('day').toISOString()),
+      end: new Date(moment().endOf('day').toISOString())
+    })
+  }
 
   async ngOnInit(): Promise<void> {
     this._loading.start()
@@ -57,25 +70,34 @@ export class DashboardComponent implements OnInit {
   }
 
   changeDate() {
-    this.show = false
-    this.clearInterval()
-    this._loading.start()
-    this.date = moment(this.date).startOf('days').toISOString()
-    this.getData()
-    setTimeout(() => {
-      this._loading.stopAll()
-      this.show = true
-      this.setIntervalUpdate()
-    }, 1000);
+    this.range.patchValue({
+      start: new Date(moment(this.date).startOf('day').toISOString()),
+      end: new Date(moment(this.date).endOf('day').toISOString()),
+    })
+    if (this.range.value.start && this.range.value.end) {
+      this.show = false
+      this.clearInterval()
+      this._loading.start()
+      // this.date = moment(this.date).startOf('days').toISOString()
+      this.getData()
+      setTimeout(() => {
+        this.show = true
+        this.setIntervalUpdate()
+        this._loading.stopAll()
+      }, 1000);
+    }
+
   }
 
   async getData() {
     // alert(this.date)
-    const param: HttpParams = new HttpParams().set('startDate', this.date)
+    const start = moment(this.range.value.start).startOf('day').toISOString()
+    const end = moment(this.range.value.end).endOf('day').toISOString()
+    const param: HttpParams = new HttpParams().set('startDate', start).set('endDate', end)
     this.getCorporateData(param)
     this.getSectionData(param)
     // this.getOperateItem(param)
-    this.getDailyRemainData()
+    this.getDailyRemainData(param)
     this.getChamberData(param)
     this.getOperateData(param)
     this.getReportStatus(param)
@@ -116,13 +138,18 @@ export class DashboardComponent implements OnInit {
       this.childOperate.ngAfterViewInit()
     }
   }
-  async getDailyRemainData() {
-    this.dailyRemain = await this.$request.dailyRemain().toPromise()
+  async getDailyRemainData(param: HttpParams) {
+    const prevData = this.dailyRemain ? [...this.dailyRemain] : []
+    const res: any = await this.$request.dailyRemain(param).toPromise()
+    if (res && res.length != prevData.length) {
+      this.dailyRemain = undefined
+      this.dailyRemain = res
+    } else {
+      this.dailyRemain = prevData
+    }
   }
   async getReportStatus(param: HttpParams) {
-    // const prevLen = this.reportStatus.length
     const prevData = this.reportStatus ? [...this.reportStatus] : []
-    // this.reportStatus = undefined
     const res: any = await this.$request.reportStatus(param).toPromise()
     if (res && res.length != prevData.length) {
       this.reportStatus = undefined

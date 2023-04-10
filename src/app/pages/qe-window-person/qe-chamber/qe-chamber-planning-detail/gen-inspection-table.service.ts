@@ -14,7 +14,7 @@ export class GenInspectionTableService {
 
 
   genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[], reportStatus: any) {
-    // console.log("🚀 ~ data:", data, reportStatus)
+    // console.log("🚀 ~ reportStatus:", reportStatus, reportStatus)
     this.reportStatus$ = reportStatus
     if (data[0].condition.value == 0) this.chamber = false
     return new Promise(resolve => {

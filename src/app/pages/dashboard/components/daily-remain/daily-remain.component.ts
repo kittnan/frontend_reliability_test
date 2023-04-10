@@ -35,6 +35,7 @@ export class DailyRemainComponent implements OnInit {
   // }
   htmlPurpose(txt: string) {
     if (txt) {
+
       // let len = txt.length
       // if (len > 30) {
       //   const newTxt = txt.substring(0, 30)
@@ -60,7 +61,8 @@ export class DailyRemainComponent implements OnInit {
   }
   htmlAt(at: number) {
     if (at === 0) return 'Initial'
-    return `${at} HR`
+    if (at) return `${at} HR`
+    return ''
   }
   onClickExpand(i: any) {
     if (this.keepStage.length === 0) {

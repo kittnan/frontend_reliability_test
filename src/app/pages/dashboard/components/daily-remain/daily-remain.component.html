@@ -33,7 +33,12 @@
               <span class="text-2">{{item.model}} | {{item.size}} | {{item.customer}}</span>
             </button>
             <button mat-stroked-button fxFlex="10" color="accent">
-              <span class="text-2">{{htmlAt(item.schedule[0]?.at)}}</span>
+              <!-- <span class="text-2">{{htmlAt(item.schedule[0]?.at)}}</span> -->
+              <ul>
+                <li *ngFor="let sc of item.schedule; let i=index">
+                  {{sc.at}}
+                </li>
+              </ul>
             </button>
             <button mat-stroked-button fxFlex="40" [class]="htmlTimeCSS(item.schedule[0]?.diff)">
               <span class="text-2">{{ htmlPurpose(item.purpose)}}</span>

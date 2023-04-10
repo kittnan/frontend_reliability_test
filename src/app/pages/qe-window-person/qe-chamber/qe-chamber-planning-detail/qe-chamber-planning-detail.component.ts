@@ -549,10 +549,22 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     const receive = header.map((h: any) => this.requestForm[0].qeReceive?.date ? moment(this.requestForm[0].qeReceive.date).format('ddd, D-MMM-YY,h:mm a') : '-')
     const times_inspection = await this.mapTime(queues, 'inspectionTime')
     const times_report = await this.mapTime(queues, 'reportTime')
+    // console.log("🚀 ~ times_report:", times_report)
     // const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, times_report, receive, ['condition', ...header])
     // console.log('@@@@@@@@@@@@', this.formInput);
 
-    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, queues, header, 'inspectionTime', times_report, ['Sample Receive', ...receive], this.formInput.step4.data[0].reportStatus)
+    // let reportStatus = this.formInput.step4.data[0].reportStatus
+    // if (reportStatus != true || reportStatus != false) {
+    //   reportStatus = this.formInput.step4.data[0].data.reportStatus
+    // }
+    let reportStatus = this.formInput?.step4?.data[0]?.reportStatus ? this.formInput.step4.data[0].reportStatus : this.formInput.step4.data[0].data.reportStatus
+    if (this.formInput.step4.data[0].data.report.length > 0) {
+      reportStatus = true
+    }
+    // console.log("🚀 ~ reportStatus:", reportStatus)
+
+    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, queues, header, 'inspectionTime', times_report, ['Sample Receive', ...receive], reportStatus)
+    // console.log("🚀 ~ table_inspection:", table_inspection)
 
     // this.tableData = {
     //   header: header,

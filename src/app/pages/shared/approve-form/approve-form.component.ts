@@ -190,6 +190,9 @@ export class ApproveFormComponent implements OnInit {
   }
 
 
-
+  validFinish() {
+    if (this.data.status == 'qe_window_person_report') return false
+    return true
+  }
 
 }

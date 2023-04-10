@@ -12,6 +12,7 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RequestSheetService } from '../../request-sheet.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { UserHttpService } from 'src/app/http/user-http.service';
+import { Observable, map, startWith } from 'rxjs';
 
 export interface ModelNo {
   modelNo: string;
@@ -36,6 +37,7 @@ export class SheetStep1Component implements OnInit {
     _id: new FormControl(null),
     requestId: new FormControl(''),
     controlNo: new FormControl(null, Validators.required),
+    requestSubject: new FormControl(null, Validators.required),
     corporate: new FormControl('', Validators.required),
     requestStatus: new FormControl('normal', Validators.required),
     department: new FormControl('', Validators.required),
@@ -54,6 +56,8 @@ export class SheetStep1Component implements OnInit {
     files: new FormControl(<any>[]),
     upload: new FormControl()
   })
+
+  filteredModelOptions!: Observable<any[]>;
 
   corporate: any[] = [
     {
@@ -92,7 +96,14 @@ export class SheetStep1Component implements OnInit {
   }
 
   async ngOnInit() {
+    // this.requestForm.controls.requestSubject.markAsTouched()
+    this.requestForm.markAllAsTouched()
     this.models = await this.$master.getModelMaster().toPromise()
+
+    this.filteredModelOptions = this.requestForm.controls.modelNo.valueChanges.pipe(
+      startWith(''), map((value: any) => this._filter(value || ''))
+    )
+
     this.departments = await this.$master.getDepartmentMaster().toPromise()
     if (this.data) {
       this.requestForm.patchValue({ ...this.data })
@@ -116,6 +127,11 @@ export class SheetStep1Component implements OnInit {
 
   }
 
+  private _filter(value: any): any[] {
+    const filterValue = value.toLowerCase();
+    return this.models.filter(option => option.modelNo.toLowerCase().includes(filterValue));
+  }
+
   setRequestId(id: string) {
     this._router.navigate([], {
       queryParams: {
@@ -135,20 +151,31 @@ export class SheetStep1Component implements OnInit {
   onSelectModelNo() {
     const modelNo = this.requestForm.value.modelNo
     const objModel: any = this.models.find((m: any) => m.modelNo == modelNo)
-    this.requestForm.patchValue({
-      modelName: objModel.modelName,
-      size: objModel.size,
-      customer: objModel.customer,
-    })
+    if (objModel) {
+      this.requestForm.patchValue({
+        modelName: objModel.modelName,
+        size: objModel.size,
+        customer: objModel.customer,
+      })
+    } else {
+      this.requestForm.patchValue({
+        modelName: '',
+        size: '',
+        customer: '',
+      })
+    }
   }
   async onSelectCorporate() {
-
     if (this.requestForm.controls.corporate.valid && this.requestForm.controls.modelNo.valid) {
       const runNumber: any = await this._request.setControlNo(this.requestForm.value.corporate, this.requestForm.value.modelNo)
       this.requestForm.controls.controlNo.setValue(runNumber)
     }
   }
 
+  foo() {
+    console.log('@3');
+
+  }
   onUploadFile(e: any) {
     this.fileProgress = true
     const files = e.target.files

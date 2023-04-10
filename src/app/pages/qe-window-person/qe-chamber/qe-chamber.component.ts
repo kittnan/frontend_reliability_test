@@ -187,14 +187,26 @@ export class QeChamberComponent implements OnInit {
       select = this.userApprove.find((u: any) => u._id == prevUser._id)
     } else {
       if (this.form.status == 'qe_revise' || this.form.status == 'reject_qe_window_person') {
-        this.userApprove = await this._userApprove.getUserApprove(this.userLogin, 'request')
-        const prevUser = this.form?.step5?.find((s: any) => s.level == 1)?.prevUser
-        select = this.userApprove.find((u: any) => u._id == prevUser._id)
+        if (this.form.level == 5.3 || this.form.level == 4.3) {
+          this.userApprove = await this._userApprove.getUserApprove(this.userLogin, 'qe_engineer')
+          console.log("🚀 ~ this.userApprove:", this.userApprove)
+          const prevUser = this.form?.step5?.find((s: any) => s.level == 4)?.prevUser
+          console.log("🚀 ~ prevUser:", prevUser)
+          select = this.userApprove.find((u: any) => u._id == prevUser?._id)
+          console.log("🚀 ~ select:", select)
+        } else {
+          this.userApprove = await this._userApprove.getUserApprove(this.userLogin, 'request')
+          const prevUser = this.form?.step5?.find((s: any) => s.level == 1)?.prevUser
+          select = this.userApprove.find((u: any) => u._id == prevUser._id)
+        }
+
       } else {
         this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
         select = this.checkPrevApprove(this.form, 3)
       }
     }
+
+
     this.approver = await this._userApprove.approver(this.authorize, this.form.level, this.userLogin)
     if (this.approver && this.approver.groupStatus) {
       this.userApprove = [this.approver.selected]
