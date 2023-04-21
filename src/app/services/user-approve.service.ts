@@ -27,7 +27,7 @@ export class UserApproveService {
     const temp_level = JSON.stringify(level)
     let userApprove = []
     userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
-    userApprove = userApprove.filter((u: any) => u._id != userLogin._id)
+    // userApprove = userApprove.filter((u: any) => u._id != userLogin._id)
     userApprove = userApprove.map((user: any) => {
       const sptName: string[] = user.name.trim().split(' ').filter((d: any) => d != '')
       const fName: string = sptName[0]

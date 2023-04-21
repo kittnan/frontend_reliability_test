@@ -77,7 +77,7 @@ export class ApproveService {
       }
     }
 
-    this.sendMail([newApprover.selected._id], newForm.status, newForm._id, newApprover.groupList, form.controlNo)
+    this.sendMail([newApprover.selected._id], newForm.status, newForm._id, newApprover.groupList)
     setTimeout(() => {
       Swal.fire({
         title: 'Success',
@@ -142,7 +142,7 @@ export class ApproveService {
       }
       this.sendLog(logData)
       const toList = [nextUserApprove.selected._id]
-      this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id), form.controlNo)
+      this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
       setTimeout(() => {
         Swal.fire({
           title: 'Success',
@@ -220,7 +220,7 @@ export class ApproveService {
       }
       this.sendLog(logData)
       let toList = [nextUserApprove.selected._id]
-      this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id), form.controlNo)
+      this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
 
       setTimeout(() => {
         this._loading.stopAll()
@@ -242,13 +242,12 @@ export class ApproveService {
     this.$log.insertLogFlow(data).subscribe(res => console.log(res))
   }
 
-  async sendMail(to: any[], status: string, formId: string, cc: string[], controlNo: string) {
+  async sendMail(to: any[], status: string, formId: string, cc: string[]) {
     const body = {
       to: to,
       status: status,
       formId: formId,
       cc: cc,
-      controlNo: controlNo
     }
     const resSendMail = await this.$sendMail.send(body).toPromise()
     // console.log(resSendMail);
