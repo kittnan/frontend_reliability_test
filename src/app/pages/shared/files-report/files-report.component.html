@@ -24,6 +24,15 @@
               cloud_upload
             </span>
           </button>
+          <button *ngIf="validButton() &&show" [disabled]="validButtonSendMail(time.at)" mat-flat-button color="accent"
+            (click)="sendMail('uploadReport',time.at)" style="margin-left: 10px;">
+            <span>
+              Mail
+            </span>
+            <span class="material-icons-outlined">
+              forward_to_inbox
+            </span>
+          </button>
           <table style="width: 100%;">
             <tr *ngFor="let file of time.files; let i_file=index">
               <td width="10%" style="text-align: center;">{{i_file+1}}</td>

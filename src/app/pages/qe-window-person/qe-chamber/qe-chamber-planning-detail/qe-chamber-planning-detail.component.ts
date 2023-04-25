@@ -58,6 +58,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    console.log('this.queues', this.queues);
+
     this.tempQueues = [...this.queues]
     // this.getDraft()
     // console.clear()

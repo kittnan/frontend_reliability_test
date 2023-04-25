@@ -18,7 +18,6 @@ export class ConditionTableComponent implements OnInit {
   displayedColumns: string[] = ['item', 'condition', 'operate', 'inspectionDetail', 'inspection', 'report', 'sample', 'qty'];
 
   ngOnInit(): void {
-
   }
   getRowSpan(action: string, index: number) {
     if (action == 'row') {
@@ -35,10 +34,6 @@ export class ConditionTableComponent implements OnInit {
     return item.trim()
   }
 
-  checkData() {
-    if (this.data[0].value === 0) return false
-    return true
-  }
 
 
 

@@ -17,6 +17,7 @@ export class SheetStep4Component implements OnInit {
     data: []
   }
   table: any[] = []
+  chamber: any
   constructor(
     private _stepper: CdkStepper,
     private _loading: NgxUiLoaderService,
@@ -27,12 +28,15 @@ export class SheetStep4Component implements OnInit {
   async ngOnInit() {
     if (this.formId) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      // const resStep3 = await this.$step3.get(params).toPromise();
-      // console.log("🚀 ~ file: sheet-step4.component.ts:31 ~ SheetStep4Component ~ ngOnInit ~ resStep3", resStep3)
+      const resStep3 = await this.$step3.get(params).toPromise();
       const resStep4 = await this.$step4.get(params).toPromise();
-      // console.log("🚀 ~ file: sheet-step4.component.ts:33 ~ SheetStep4Component ~ ngOnInit ~ resStep4", resStep4)
-      // console.log(resStep4);
-
+      if (resStep3 && resStep3.length > 0) {
+        if (resStep3[0].data.find((d: any) => d.checked && d.type == 'oven')) {
+          this.chamber = 'yes'
+        } else {
+          this.chamber = 'no'
+        }
+      }
       if (resStep4 && resStep4.length > 0) {
         this.conditionForm = resStep4[0]
       }
@@ -41,14 +45,7 @@ export class SheetStep4Component implements OnInit {
   }
 
   onConditionForm() {
-    // this.conditionForm.data = this.data
-    // console.log(this.conditionForm);
-    const foo = this.conditionForm.data.find((d: any) => d.value == 0)
-    if (foo) {
-      this.table = []
-    } else {
-      this.table = this.conditionForm.data
-    }
+    this.table = this.conditionForm.data
   }
 
   onNext() {
@@ -72,8 +69,6 @@ export class SheetStep4Component implements OnInit {
 
 
   async update() {
-    // console.log(this.conditionForm);
-
     const resUpdate = await this.$step4.update(this.conditionForm._id, this.conditionForm).toPromise()
     setTimeout(() => {
       Swal.fire({
@@ -87,8 +82,6 @@ export class SheetStep4Component implements OnInit {
     }, 1000);
   }
   async insert() {
-    // console.log(this.conditionForm);
-
     this.conditionForm.requestId = this.formId
     const resInsert = await this.$step4.insert(this.conditionForm).toPromise()
     setTimeout(() => {

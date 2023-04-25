@@ -32,7 +32,7 @@ export class TestingTypeMasterComponent implements OnInit {
   async getMaster() {
     const resData = await this._master_service.getTestingTypeMaster().toPromise()
     this.dataSource = new MatTableDataSource(resData)
-    this.displayedColumns = ['no', 'group','list','action']
+    this.displayedColumns = ['no', 'group', 'list', 'type', 'action']
     this.tableConfig()
   }
 

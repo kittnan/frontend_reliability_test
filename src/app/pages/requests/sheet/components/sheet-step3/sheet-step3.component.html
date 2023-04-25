@@ -1,23 +1,68 @@
 <div fxLayout="row wrap" fxLayoutAlign="space-between stretch" style="margin-top: 40px;">
-  <section fxFlex="30" fxFlex.sm="100" class="section form-grey"
-    *ngFor="let group of testingTypeMenu.data; let i=index">
-    <mat-checkbox class="example-margin" [(ngModel)]="group.checked" color="primary">
-      {{group.groupName}}
-    </mat-checkbox>
-    <ul>
-      <li *ngFor="let list of group.list">
-        <mat-checkbox [disabled]="!group.checked" [(ngModel)]="list.checked">
-          {{list.name}}
-        </mat-checkbox>
-        <mat-form-field style="width: 100%;" *ngIf="list.description.status" class="example-full-width"
-          appearance="fill">
-          <mat-label></mat-label>
-          <textarea [disabled]="!list.checked" [(ngModel)]="list.description.value" matInput rows="3"></textarea>
-        </mat-form-field>
 
-      </li>
-    </ul>
-  </section>
+  <span fxFlex="100" class="text-head c1 bl-1">
+    Oven
+  </span>
+
+  <ng-container *ngFor="let group of filterOven(); let i=index">
+    <section fxFlex="30" fxFlex.sm="100" class="section form-grey bl-1" [ngClass]="{'bl-3': group.checked}">
+      <mat-checkbox class="example-margin" [(ngModel)]="group.checked" color="primary">
+        {{group.groupName}}
+      </mat-checkbox>
+      <ul>
+        <li *ngFor="let list of group.list">
+          <mat-checkbox [disabled]="!group.checked" [(ngModel)]="list.checked">
+            {{list.name}}
+          </mat-checkbox>
+          <mat-form-field style="width: 100%;" *ngIf="list.description.status" class="example-full-width"
+            appearance="fill">
+            <mat-label></mat-label>
+            <textarea [disabled]="!list.checked" [(ngModel)]="list.description.value" matInput rows="3"></textarea>
+          </mat-form-field>
+
+        </li>
+      </ul>
+    </section>
+  </ng-container>
+
+
+  <mat-divider fxFlex="100"></mat-divider>
+
+  <span fxFlex="100" class="text-head c2 bl-2">
+    No Oven
+    <!-- <mat-checkbox class="example-margin" color="primary" (change)="onCheckAll2($event)">
+      check all
+    </mat-checkbox> -->
+  </span>
+
+
+  <ng-container *ngFor="let group of filterNoOven(); let i=index">
+
+    <section fxFlex="30" fxFlex.sm="100" class="section form-grey bl-2" [ngClass]="{'bl-4': group.checked}">
+      <mat-checkbox class="example-margin" [(ngModel)]="group.checked" color="primary">
+        {{group.groupName}}
+      </mat-checkbox>
+      <ul>
+        <li *ngFor="let list of group.list">
+          <mat-checkbox [disabled]="!group.checked" [(ngModel)]="list.checked">
+            {{list.name}}
+          </mat-checkbox>
+          <mat-form-field style="width: 100%;" *ngIf="list.description.status" class="example-full-width"
+            appearance="fill">
+            <mat-label></mat-label>
+            <textarea [disabled]="!list.checked" [(ngModel)]="list.description.value" matInput rows="3"></textarea>
+          </mat-form-field>
+
+        </li>
+      </ul>
+    </section>
+  </ng-container>
+
+
+
+  <mat-divider fxFlex="100"></mat-divider>
+
+
 </div>
 
 <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">

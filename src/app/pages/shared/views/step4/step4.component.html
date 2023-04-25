@@ -11,11 +11,10 @@
 
     <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
 
-      <app-condition-table *ngIf="step4?.data && step4?.data[0]?.value!=0" fxFlex="100"
-        [(data)]="step4.data"></app-condition-table>
-      <app-condition-table-no-chamber *ngIf="step4?.data && step4?.data[0].value==0" fxFlex="100" [(data)]="step4.data">
+      <app-condition-table *ngIf="step4?.data " fxFlex="100" [(data)]="step4.data"></app-condition-table>
+      <!-- <app-condition-table-no-chamber *ngIf="step4?.data && step4?.data[0].value==0" fxFlex="100" [(data)]="step4.data"> -->
 
-      </app-condition-table-no-chamber>
+      <!-- </app-condition-table-no-chamber> -->
     </div>
 
   </div>

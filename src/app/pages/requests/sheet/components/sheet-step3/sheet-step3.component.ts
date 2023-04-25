@@ -62,7 +62,22 @@ export class SheetStep3Component implements OnInit {
       }
 
     }
-    // console.log("🚀 ~ this.testingTypeMenu:", this.testingTypeMenu)
+  }
+
+  filterOven() {
+    const res = this.testingTypeMenu.data.filter((d: any) => d.type == 'oven')
+    return res
+  }
+  filterNoOven() {
+    const res = this.testingTypeMenu.data.filter((d: any) => d.type == 'noOven' || d.type == 'mix')
+    return res
+  }
+  onCheckAll2(key: any) {
+    const check = key.checked
+    const res = this.testingTypeMenu.data.filter((d: any) => d.type == 'noOven' || d.type == 'mix')
+    res.forEach((d: any) => {
+      d.checked = check
+    });
   }
 
   validBtn() {
@@ -89,9 +104,7 @@ export class SheetStep3Component implements OnInit {
 
   async update() {
     this.testingTypeMenu.requestId = this.formId
-    const resUpdate = await this.$step3.update(this.testingTypeMenu._id, this.testingTypeMenu).toPromise()
-    // console.log(resUpdate);
-
+    await this.$step3.update(this.testingTypeMenu._id, this.testingTypeMenu).toPromise()
     setTimeout(() => {
       Swal.fire({
         title: 'Success',

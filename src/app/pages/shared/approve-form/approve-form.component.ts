@@ -38,6 +38,7 @@ export class ApproveFormComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // const id: any = localStorage.getItem('RLS_id');
     // this.userLogin = await this._user.getUserById(id).toPromise()
+    console.log(this.data);
 
   }
   onApprove() {
@@ -191,8 +192,19 @@ export class ApproveFormComponent implements OnInit {
 
 
   validFinish() {
-    if (this.data.status == 'qe_window_person_report') return false
+    if (this.data.status == 'qe_window_person_report' && this.fullReportStatus()) return false
     return true
+  }
+  fullReportStatus() {
+    const queues = this.data.queues
+    const findReport = queues.find((q: any) => {
+      const fullReportLen = q.reportQE.length
+      const currentReportLen = q.reportQE.filter((r: any) => r.files.length != 0).length
+      if (fullReportLen == currentReportLen) return true
+      return false
+    })
+    if (findReport) return true
+    return false
   }
 
 }

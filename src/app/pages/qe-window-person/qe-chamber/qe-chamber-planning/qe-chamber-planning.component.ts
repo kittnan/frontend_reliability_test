@@ -25,20 +25,24 @@ export class QeChamberPlanningComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // console.log(this.data);
-
+    console.clear()
+    console.log(this.data);
     if (this.data) {
-
-      if (this.data[0]?.step4?.data[0]?.value == 0) {
-        this.displayedColumns = []
-        this.createPlainingNoChamber()
-      } else {
-        this.dataSource = new MatTableDataSource(this.data)
-        this.createPlaning()
-      }
-
-
+      this.genPlan(this.data)
+      this.dataSource = new MatTableDataSource(this.data)
     }
+    // if (this.data) {
+    //   if (this.data[0]?.step4?.data[0]?.value == 0) {
+    //     this.displayedColumns = []
+    //     this.createPlainingNoChamber()
+    //   } else {
+    //     this.dataSource = new MatTableDataSource(this.data)
+    //     this.createPlaning()
+    //     this.createNoOven()
+    //   }
+
+
+    // }
   }
 
   htmlUserRequest(element: any) {
@@ -74,10 +78,8 @@ export class QeChamberPlanningComponent implements OnInit {
     })
   }
 
-  createPlaning() {
-    this.chamberTable = this.data.map((selected: any) => {
-      // console.log(selected);
-
+  genPlan(data: any[]) {
+    this.chamberTable = data.map((selected: any) => {
       const temp: QueueForm = {
         startDate: null,
         endDate: null,
@@ -104,37 +106,125 @@ export class QeChamberPlanningComponent implements OnInit {
       }
       return temp
     })
-    // console.log("🚀 ~ file: qe-chamber-planning.component.ts:99 ~ QeChamberPlanningComponent ~ createPlaning ~ this.chamberTable", this.chamberTable)
     this.dataChange.emit(this.chamberTable)
   }
-  createPlainingNoChamber() {
-    // console.log(this.data);
-    const tempData = this.data[0]
-    const bodyEmit = {
-      startDate: null,
-      endDate: null,
-      inspectionTime: this._qe_chamber.genInspectionTime(tempData.condition.data.inspection),
-      reportQE: this._qe_chamber.genInspectionTime(tempData.condition.data.report),
-      reportTime: this._qe_chamber.genInspectionTime(tempData.condition.data.report),
-      operate: {
-        attachment: {},
-        checker: {},
-        power: {},
-        status: false
-      },
-      work: {
-        requestId: tempData.step1.requestId,
-        qty: tempData.condition.data.qty,
-        controlNo: tempData.step1.controlNo,
-      },
-      condition: {
-        name: 'No Chamber',
-        value: tempData.condition.value
-      },
-      model: tempData.step1.modelNo,
-      status: 'draft'
-    }
-    this.dataChange.emit([bodyEmit])
-  }
+
+  // createPlaning() {
+  //   this.chamberTable = this.data.map((selected: any) => {
+  //     // console.log(selected);
+
+  //     const temp: QueueForm = {
+  //       startDate: null,
+  //       endDate: null,
+  //       inspectionTime: this._qe_chamber.genInspectionTime(selected.condition.data.inspection),
+  //       reportQE: this._qe_chamber.genInspectionTime(selected.condition.data.report),
+  //       reportTime: this._qe_chamber.genInspectionTime(selected.condition.data.report),
+  //       operate: {
+  //         attachment: {},
+  //         checker: {},
+  //         power: {},
+  //         status: selected.condition.data.operate.value
+  //       },
+  //       work: {
+  //         requestId: selected.step1.requestId,
+  //         qty: selected.condition.data.qty,
+  //         controlNo: selected.step1.controlNo,
+  //       },
+  //       condition: {
+  //         name: selected.condition.dataTable.name,
+  //         value: selected.condition.value
+  //       },
+  //       model: selected.step1.modelNo,
+  //       status: 'draft'
+  //     }
+  //     return temp
+  //   })
+  //   // console.log("🚀 ~ file: qe-chamber-planning.component.ts:99 ~ QeChamberPlanningComponent ~ createPlaning ~ this.chamberTable", this.chamberTable)
+  //   this.dataChange.emit(this.chamberTable)
+  //   // return this.chamberTable
+  // }
+  // createPlainingNoChamber() {
+  //   // console.log(this.data);
+  //   const tempData = this.data[0]
+  //   const bodyEmit = {
+  //     startDate: null,
+  //     endDate: null,
+  //     inspectionTime: this._qe_chamber.genInspectionTime(tempData.condition.data.inspection),
+  //     reportQE: this._qe_chamber.genInspectionTime(tempData.condition.data.report),
+  //     reportTime: this._qe_chamber.genInspectionTime(tempData.condition.data.report),
+  //     operate: {
+  //       attachment: {},
+  //       checker: {},
+  //       power: {},
+  //       status: false
+  //     },
+  //     work: {
+  //       requestId: tempData.step1.requestId,
+  //       qty: tempData.condition.data.qty,
+  //       controlNo: tempData.step1.controlNo,
+  //     },
+  //     condition: {
+  //       name: 'No Chamber',
+  //       value: tempData.condition.value
+  //     },
+  //     model: tempData.step1.modelNo,
+  //     status: 'draft'
+  //   }
+  //   this.dataChange.emit([bodyEmit])
+  //   // return bodyEmit
+  // }
+
+  // createNoOven() {
+  //   console.log(this.data[0].step3.data);
+  //   const fil = this.data[0].step3.data.filter((item: any) => item.checked && item.type == 'noOven')
+  //   console.log(fil);
+  //   // fil.map((item: any) => {
+  //   //   return {
+  //   //     startDate: null,
+  //   //     endDate: null,
+  //   //     inspectionTime: [
+  //   //       {
+  //   //         at: 0,
+  //   //         startDate: null,
+  //   //         endDate: null,
+  //   //         hr: 0
+  //   //       }
+  //   //     ],
+  //   //     reportQE:  [
+  //   //       {
+  //   //         at: 0,
+  //   //         startDate: null,
+  //   //         endDate: null,
+  //   //         hr: 0
+  //   //       }
+  //   //     ],
+  //   //     reportTime:  [
+  //   //       {
+  //   //         at: 0,
+  //   //         startDate: null,
+  //   //         endDate: null,
+  //   //         hr: 0
+  //   //       }
+  //   //     ],
+  //   //     operate: {
+  //   //       attachment: {},
+  //   //       checker: {},
+  //   //       power: {},
+  //   //       status: true
+  //   //     },
+  //   //     work: {
+  //   //       requestId: this.data[0].step1.requestId,
+  //   //       qty: selected.condition.data.qty,
+  //   //       controlNo: selected.step1.controlNo,
+  //   //     },
+  //   //     condition: {
+  //   //       name: selected.condition.dataTable.name,
+  //   //       value: selected.condition.value
+  //   //     },
+  //   //     model: selected.step1.modelNo,
+  //   //     status: 'draft'
+  //   //   }
+  //   // })
+  // }
 
 }

@@ -88,8 +88,13 @@ export class FilesReportComponent implements OnInit {
       showCancelButton: true
     }).then(async (v: SweetAlertResult) => {
       if (v.isConfirmed) {
-        const files = e.target.files
-        this.upload(files, at)
+        this.showLoading('Uploading...')
+        setTimeout(() => {
+          const files = e.target.files
+          this.upload(files, at)
+        }, 500);
+      } else {
+        window.location.reload()
       }
     })
   }
@@ -110,7 +115,17 @@ export class FilesReportComponent implements OnInit {
     })
 
     await this.updateQueues(changeData_queues)
-    location.reload()
+    setTimeout(() => {
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      }).then(() => {
+        Swal.close()
+        location.reload()
+      })
+    }, 1000);
   }
 
 
@@ -141,70 +156,7 @@ export class FilesReportComponent implements OnInit {
 
   }
 
-  // onUploadFile(e: any, time: any, no: any, i_queue: any) {
-  //   Swal.fire({
-  //     title: `Do you want to upload report?`,
-  //     icon: 'question',
-  //     showCancelButton: true
-  //   }).then(async (value: SweetAlertResult) => {
-  //     if (value.isConfirmed) {
 
-  //       this._loading.start()
-  //       let runNumber = 0
-  //       const files = e.target.files
-  //       const len = time['files'] && time['files'].length > 0 ? time['files'].length : 1
-  //       runNumber = len
-  //       if (len > 1) {
-  //         const spt = time['files'][len - 1].name.split('-')
-  //         runNumber = Number(spt[6]) + 1
-  //       }
-  //       const formData: any = await this.formAppend(files, no, time, i_queue, runNumber)
-  //       const res = await this.$report.upload(formData).toPromise()
-  //       if (res && res.length > 0) {
-  //         time['files'].push(...res)
-  //         const r_update = await this.$queue.update(this.queues[i_queue]._id, this.queues[i_queue]).toPromise()
-
-  //         if (r_update && r_update.acknowledged) {
-  //           const logData = {
-  //             formId: this.form._id,
-  //             action: 'uploadReport',
-  //             user: this.userLogin
-  //           }
-  //           this.sendLog(logData)
-  //           this.sendMail('uploadReport')
-  //           setTimeout(() => {
-  //             this.validCompleteFile()
-  //             this._loading.stopAll()
-  //             Swal.fire('SUCCESS', '', 'success')
-  //             this.fileUpload.nativeElement.value = ""
-  //           }, 1000);
-  //         } else {
-  //           Swal.fire(`Can't update queue`, '', 'error')
-  //           this.fileUpload.nativeElement.value = ""
-  //         }
-  //       } else {
-  //         Swal.fire(`Can't upload files`, '', 'error')
-  //         this.fileUpload.nativeElement.value = ""
-  //       }
-  //     }
-  //   })
-  // }
-
-  // formAppend(files: any, no: any, time: any, i_queue: any, runNumber: any) {
-  //   return new Promise(resolve => {
-  //     const formData = new FormData()
-  //     for (let i = 0; i < files.length; i++) {
-  //       const r_split = files[i].name.split('.')
-  //       const type = r_split[r_split.length - 1]
-  //       let name = `${no}-${i_queue + 1}-${runNumber + i}-${time.at}hr.${type}`
-  //       formData.append('Files', files[i], name)
-  //       if (i + 1 == files.length) {
-  //         resolve(formData)
-  //       }
-  //     }
-
-  //   })
-  // }
 
   onDelete(at: number, file: any) {
     Swal.fire({
@@ -213,7 +165,7 @@ export class FilesReportComponent implements OnInit {
       showCancelButton: true
     }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this._loading.start()
+        this.showLoading('Deleting...')
         setTimeout(() => {
           this.deleteFile(at, file)
         }, 500);
@@ -238,89 +190,79 @@ export class FilesReportComponent implements OnInit {
     })
     await this.updateQueues(changeData_queues)
     await this.$report.delete(file.name).toPromise()
-    this._loading.stopAll()
-    location.reload()
+    setTimeout(() => {
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      }).then(() => {
+        Swal.close()
+        location.reload()
+      })
+    }, 1000);
+
   }
 
-  // onDelete(file: File, time: any, i_queue: any) {
-  //   Swal.fire({
-  //     title: `Do you want to delete ${file.name}?`,
-  //     icon: 'question',
-  //     showCancelButton: true
-  //   }).then(async (value: SweetAlertResult) => {
-  //     if (value.isConfirmed) {
-  //       this._loading.start()
-  //       const res = await this.$report.delete(file.name).toPromise()
-  //       if (res) {
-  //         time.files = time.files.filter((f: any) => f != file)
-  //         const r_update = await this.$queue.update(this.queues[i_queue]._id, this.queues[i_queue]).toPromise()
-  //         if (r_update && r_update.acknowledged) {
-  //           const logData = {
-  //             formId: this.form._id,
-  //             action: 'deleteReport',
-  //             user: this.userLogin
-  //           }
-  //           this.sendLog(logData)
+  async sendMail(action: any, at: any) {
+    Swal.fire({
+      title: 'Do you want to send mail?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((value: SweetAlertResult) => {
+      if (value.isConfirmed) {
+        this.showLoading('Sending...')
+        setTimeout(async () => {
+          if (!!this.form) {
+            const nextUser = this.form?.step5?.find((item: any) => item.prevStatusForm === "request")
+            let approver = await this._userApprove.approver('', 7, this.userLogin)
+            let newApprover
+            if (approver) {
+              newApprover = {
+                ...approver,
+                selected: approver.groupStatus ? approver.selected : nextUser.prevUser,
+                groupList: approver.groupList.map((g: any) => g._id)
+              }
+            } else {
+              newApprover = {
+                selected: nextUser.prevUser,
+                groupList: []
+              }
+            }
 
-  //           // this.sendMail('deleteReport')
+            if (!!nextUser) {
+              this._approve.sendMailUploadFile([newApprover.selected._id], action, this.form._id, newApprover.groupList, at)
+            } else {
+              console.error('not found user')
+            }
+          } else {
+            console.error('not found form')
+          }
+        }, 500);
 
-  //           setTimeout(() => {
-  //             this.validCompleteFile()
-  //             this._loading.stopAll()
-  //             Swal.fire('SUCCESS', '', 'success')
-  //           }, 1000);
-  //         } else {
-  //           Swal.fire(`Can't update queue`, '', 'error')
-  //         }
-  //       } else {
-  //         Swal.fire(`Can't delete file`, '', 'error')
-  //       }
-
-  //     }
-  //   })
-  // }
-  async sendMail(action: any) {
-    if (!!this.form) {
-      const nextUser = this.form?.step5?.find((item: any) => item.prevStatusForm === "request")
-      let approver = await this._userApprove.approver('', 7, this.userLogin)
-      let newApprover
-      if (approver) {
-        newApprover = {
-          ...approver,
-          selected: approver.groupStatus ? approver.selected : nextUser.prevUser,
-          groupList: approver.groupList.map((g: any) => g._id)
-        }
-      } else {
-        newApprover = {
-          selected: nextUser.prevUser,
-          groupList: []
-        }
       }
-
-      if (!!nextUser) {
-        this._approve.sendMail([newApprover.selected._id], action, this.form._id, newApprover.groupList)
-      } else {
-        console.error('not found user')
-      }
-    } else {
-      console.error('not found form')
-    }
+    })
   }
   sendLog(data: any) {
     this.$log.insertLogFlow(data).subscribe(res => console.log(res))
   }
 
   download(dataUrl: any, filename: any) {
-    this._loading.start()
+    this.showLoading('Opening...')
     setTimeout(() => {
       let link = document.createElement("a");
       link.target = '_blank'
       link.href = dataUrl;
       link.download = filename;
       link.click();
-    }, 500);
-    setTimeout(() => {
-      this._loading.stopAll()
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      }).then(() => {
+        Swal.close()
+      })
     }, 500);
   }
 
@@ -361,9 +303,32 @@ export class FilesReportComponent implements OnInit {
       return false
     }
     return true
-
+  }
+  validButtonSendMail(at: any) {
+    if (this.findFile(at)) {
+      return false
+    }
+    return true
   }
 
+  findFile(at: any) {
+    const queues: any = this.queues.find((q: any, i: number) => {
+      if (q.reportQE.find((report: any) => report.at == at && report.files.length != 0)) return true
+      return false
+    })
 
+    return queues
+  }
+
+  showLoading(text: string) {
+    Swal.fire({
+      title: text,
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      didOpen(popup) {
+        Swal.showLoading()
+      },
+    })
+  }
 
 }

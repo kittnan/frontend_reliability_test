@@ -146,36 +146,6 @@ export class QeChamberComponent implements OnInit {
 
 
 
-  validButtonSubmit() {
-    // const r_find = this.chamberTable.find((d: any) => !d._id);
-    // if (r_find) {
-    //   return true
-    // }
-    return false
-
-  }
-
-  // async getUserApprove() {
-
-  //   let userLoginStr: any = localStorage.getItem('RLS_userLogin')
-  //   this.userLogin = JSON.parse(userLoginStr)
-  //   // console.log(this.form);
-
-  //   if (this.form.level === 7.8) {
-  //     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, ['request'])
-  //     const prevUser = this.form.step5.find((s: any) => s.level === 7.8)
-  //     if (prevUser) {
-  //       const select = this.userApprove.find((u: any) => u._id === prevUser.prevUser._id)
-  //       this.approve.patchValue(select)
-  //     } else {
-  //       this.approve.patchValue(this.userApprove[0])
-  //     }
-  //   } else {
-  //     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-  //     this.approve.patchValue(this.userApprove[0])
-  //   }
-
-  // }
 
   async getUserApprove() {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
@@ -189,11 +159,8 @@ export class QeChamberComponent implements OnInit {
       if (this.form.status == 'qe_revise' || this.form.status == 'reject_qe_window_person') {
         if (this.form.level == 5.3 || this.form.level == 4.3) {
           this.userApprove = await this._userApprove.getUserApprove(this.userLogin, 'qe_engineer')
-          console.log("🚀 ~ this.userApprove:", this.userApprove)
           const prevUser = this.form?.step5?.find((s: any) => s.level == 4)?.prevUser
-          console.log("🚀 ~ prevUser:", prevUser)
           select = this.userApprove.find((u: any) => u._id == prevUser?._id)
-          console.log("🚀 ~ select:", select)
         } else {
           this.userApprove = await this._userApprove.getUserApprove(this.userLogin, 'request')
           const prevUser = this.form?.step5?.find((s: any) => s.level == 1)?.prevUser

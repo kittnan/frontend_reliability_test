@@ -16,13 +16,15 @@ export class DialogQeChamberComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private $chamber: ChamberHttpService
   ) { }
-  displayedColumns: string[] = ['action','code', 'name', 'capacity','use', 'function','remain'];
+  displayedColumns: string[] = ['action', 'code', 'name', 'capacity', 'use', 'function', 'remain'];
   rows: any
   load = false
 
   async ngOnInit(): Promise<void> {
     this.load = true
     if (this.data) {
+      console.log(this.data);
+
       const param: HttpParams = new HttpParams().set('value', this.data.value).set('startDate', this.data.startDate).set('qty', this.data.qty)
       this.rows = await this.$chamber.getReady(param).toPromise()
       setTimeout(() => {
@@ -41,11 +43,11 @@ export class DialogQeChamberComponent implements OnInit {
   }
   onSelect(e: any) {
     Swal.fire({
-      title:`Do you want to select ${e.name}?`,
-      icon:'question',
-      showCancelButton:true
-    }).then((value:SweetAlertResult)=>{
-      if(value.isConfirmed){
+      title: `Do you want to select ${e.name}?`,
+      icon: 'question',
+      showCancelButton: true
+    }).then((value: SweetAlertResult) => {
+      if (value.isConfirmed) {
         this.dialogRef.close(e)
       }
     })

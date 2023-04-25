@@ -17,7 +17,8 @@ export class RequestSheetService {
           return {
             groupName: item.group,
             checked: false,
-            list: item.list
+            list: item.list,
+            type: item.type
           }
         })
 

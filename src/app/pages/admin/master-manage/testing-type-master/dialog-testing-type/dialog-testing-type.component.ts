@@ -17,7 +17,8 @@ export class DialogTestingTypeComponent implements OnInit {
     group: new FormControl('', Validators.required),
     list: new FormArray([
       this.initListItem()
-    ])
+    ]),
+    type: new FormControl('', Validators.required)
   })
 
   constructor(
@@ -32,12 +33,13 @@ export class DialogTestingTypeComponent implements OnInit {
       this.TestingTypeForm.patchValue({
         _id: this.data._id,
         group: this.data.group,
-        list: this.setFormGroup(this.data.list)
+        list: this.setFormGroup(this.data.list),
+        type: this.data.type
       })
     }
   }
   setFormGroup(list: any) {
-    if(list){
+    if (list) {
       let c1 = this.TestingTypeForm.get('list') as FormArray;
       list.map((l: any, index: number) => {
         if (index + 1 < list.length) {
@@ -58,7 +60,7 @@ export class DialogTestingTypeComponent implements OnInit {
         // }
       })
       return list
-    }else{
+    } else {
       return []
     }
 

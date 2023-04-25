@@ -28,6 +28,7 @@ import { HighTempHumiFormComponent } from './sheet/components/sheet-step4/step4-
 import { HighTempHumiVibrationFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-humi-vibration-form/high-temp-humi-vibration-form.component';
 import { InspectionFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/inspection-form/inspection-form.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { NoOvenComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/no-oven/no-oven.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ConfirmComponent } from './confirm/confirm.component';
     HighTempHumiVibrationFormComponent,
     InspectionFormComponent,
     ConfirmComponent,
+    NoOvenComponent,
 
   ],
   imports: [

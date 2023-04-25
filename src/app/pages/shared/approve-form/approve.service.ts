@@ -259,6 +259,35 @@ export class ApproveService {
     this.sendLog(logData)
   }
 
+  async sendMailUploadFile(to: any[], status: string, formId: string, cc: string[], at: any) {
+    // Swal.showLoading()
+    // Swal.isLoading()
+    const body = {
+      to: to,
+      status: status,
+      formId: formId,
+      cc: cc,
+      at: at
+    }
+    const resSendMail = await this.$sendMail.send(body).toPromise()
+    // console.log(resSendMail);
+    const logData = {
+      formId: formId,
+      action: `send mail ${status}`,
+      detail: JSON.stringify(resSendMail)
+    }
+    this.sendLog(logData)
+    Swal.fire({
+      title: 'Success',
+      icon: 'success',
+      timer: 1000,
+      showConfirmButton: false
+    }).then(() => {
+      Swal.close()
+    })
+  }
+
+
 
   private findStep5(step5: any, statusForm: any) {
     return step5.find((s: any) => s.prevStatusForm == statusForm)

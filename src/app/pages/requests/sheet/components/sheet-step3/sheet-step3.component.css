@@ -5,3 +5,35 @@ ul {
 li {
   padding-left: 10px;
 }
+.text-head {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+}
+.c1 {
+  color: #463eff;
+}
+.c2 {
+  color: #ff6060;
+}
+.c3 {
+  color: #e72e3e;
+}
+.c4 {
+  color: #251dfc;
+}
+.bl-1 {
+  border-left: 10px solid #9a8af3a2;
+}
+.bl-2 {
+  border-left: 10px solid #f38a93a6;
+}
+.bl-3 {
+  border-left: 10px solid #251dfc;
+}
+.bl-4 {
+  border-left: 10px solid #e72e3e;
+}
+mat-divider {
+  padding: 20px 10px;
+}
