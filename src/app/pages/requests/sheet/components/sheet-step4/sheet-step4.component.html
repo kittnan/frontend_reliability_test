@@ -1,4 +1,4 @@
-<app-step4-home *ngIf="chamber" [(conditionForm)]="conditionForm.data" (conditionFormChange)="onConditionForm()"
+<app-step4-home *ngIf="chamber" [conditionForm]="conditionForm" (conditionFormChange)="onConditionForm($event)"
   [formId]="formId"></app-step4-home>
 <app-condition-table *ngIf="table.length>0" [data]="table"></app-condition-table>
 <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">

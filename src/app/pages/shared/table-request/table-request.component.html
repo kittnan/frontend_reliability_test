@@ -54,7 +54,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> On going To (hrs.) </th>
           <td mat-cell *matCellDef="let row">
             <!-- <span *ngIf="row?.nextApprove?.name">{{row.nextApprove.name |uppercase}}</span> -->
-            {{htmlOngoingTo(row.queues)}}
+            {{htmlOngoingTo(row.queues,row)}}
           </td>
         </ng-container>
 

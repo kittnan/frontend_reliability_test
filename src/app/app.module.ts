@@ -17,7 +17,7 @@ import {
   NgxUiLoaderModule,
   NgxUiLoaderConfig
 } from "ngx-ui-loader";
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 // import { QeWindowPersonComponent } from './pages/qe-window-person/qe-window-person.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -29,7 +29,12 @@ import { TableChamberComponent } from './pages/dashboard/components/table-chambe
 import { TableOperateRemainComponent } from './pages/dashboard/components/table-operate-remain/table-operate-remain.component';
 import { ReportStatusComponent } from './pages/dashboard/components/report-status/report-status.component';
 import { GuestComponent } from './pages/guest/guest.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#673ab7",
@@ -96,6 +101,13 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     })
 
 

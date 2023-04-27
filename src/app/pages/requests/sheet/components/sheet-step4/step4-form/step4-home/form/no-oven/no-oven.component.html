@@ -1,8 +1,13 @@
 <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
 
-  <mat-radio-group [(ngModel)]="form.reportStatus" appearance="fill" (ngModelChange)="emit()">
-    <mat-radio-button [value]="true">report</mat-radio-button>
-    <mat-radio-button [value]="false">no report</mat-radio-button>
+  <mat-radio-group fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(ngModel)]="form.reportStatus"
+    appearance="fill" (ngModelChange)="emit()">
+    <mat-radio-button [value]="true">
+      {{'sheet3.report' | translate}}
+    </mat-radio-button>
+    <mat-radio-button [value]="false">
+      {{'sheet3.noReport' | translate}}
+    </mat-radio-button>
   </mat-radio-group>
 
 
@@ -13,8 +18,10 @@
     (formChange)="emit2($event)"></app-input-operate>
 
   <div fxFlex="100">
-    <mat-form-field fxFlex="45" appearance="fill">
-      <mat-label>Detail test</mat-label>
+    <mat-form-field fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" appearance="fill">
+      <mat-label>
+        {{'sheet3.detailTest' | translate}}
+      </mat-label>
       <textarea matInput rows="4" [(ngModel)]="form.detailTest" (ngModelChange)="emit()"></textarea>
     </mat-form-field>
   </div>

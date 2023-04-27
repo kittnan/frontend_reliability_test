@@ -15,7 +15,10 @@ export class InputAccelerationComponent implements OnInit {
   }
 
   emit() {
-    this.formChange.emit({acceleration:this.form})
+    this.formChange.emit({ acceleration: this.form })
+  }
+  selectElem(e: any) {
+    e.srcElement.select()
   }
 
 }

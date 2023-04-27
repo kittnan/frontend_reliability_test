@@ -20,13 +20,13 @@ export class Step4HomeComponent implements OnInit {
 
   @Input() formId: any
   @Input() conditionForm: any = []
-  tempConditionForm: any = []
+  // tempConditionForm: any = []
   @Output() conditionFormChange = new EventEmitter();
-
+  data: any[] = []
   @ViewChild(MatAccordion) accordion!: MatAccordion;
-  conditionList!: ConditionListForm[]
+  condition_list!: ConditionListForm[]
   selected: any = 0;
-  conditions: any[] = [];
+  // conditions: any[] = [];
   allExpandStatus: boolean = true;
 
   inspection: any = {
@@ -43,19 +43,25 @@ export class Step4HomeComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    // console.log('conditionForm', this.conditionForm);
-
-    this.conditionList = await this.$master.getFunctionChamber().toPromise()
-    this.conditionList = this.conditionList.map((con: ConditionListForm) => {
+    console.clear()
+    this.condition_list = await this.$master.getFunctionChamber().toPromise()
+    this.condition_list = this.condition_list.map((con: ConditionListForm) => {
       return {
         ...con,
         disable: false
       }
     })
-    this.tempConditionForm = [...this.conditionForm]
-    this.conditions = this.conditionForm
-    this.inspection = this.conditionForm[0]?.data.inspectionDetail ? this.conditionForm[0].data.inspectionDetail : this.inspection
-    if (this.tempConditionForm.length > 0) {
+
+
+    // console.log("🚀 ~ this.conditionList:", this.condition_list)
+    // console.log('this.conditionForm', this.conditionForm);
+
+    // this.tempConditionForm = [...this.conditionForm]
+    // this.conditions = this.conditionForm
+    this.data = this.conditionForm.data
+    this.inspection = this.data[0]?.inspectionDetail ? this.data[0].inspectionDetail : this.inspection
+    // console.log("🚀 ~ this.inspection:", this.inspection)
+    if (this.data.length > 0) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const step3 = await this.$step3.get(params).toPromise()
       let filterOven: any[] = []
@@ -64,23 +70,48 @@ export class Step4HomeComponent implements OnInit {
       } else {
         filterOven = step3[0]?.data?.filter((d: any) => d.checked && (d.type == 'noOven' || d.type == 'mix'))
       }
-      // console.log("🚀 ~ filterOven:", filterOven)
 
-      const filteredData = this.conditions.filter((c: any) => {
-        if (c.value != 0) {
-          const ovenOption = filterOven.find((f: any) => f.type == 'oven')
-          const list = ovenOption?.list.find((l: any) => l.name == c.name)
-          if (list) return true
-          return false
-        } else {
-          const foundItem = filterOven.find((f: any) => f.groupName == c.name)
-          if (foundItem) return true
-          return false
+      filterOven = filterOven.map((f: any) => {
+        return {
+          ...f,
+          list: f.list.map((l: any) => {
+            return {
+              ...l,
+              value: this.condition_list.find((c: any) => c.name == l.name)?.value || 0
+            }
+          })
         }
       })
-      // console.log("🚀 ~ foo:", filteredData);
-      this.conditions = filteredData
+      // console.log("🚀 ~ filterOven:", filterOven)
 
+      const filteredData = filterOven.map((f: any) => {
+        if (f.type == 'oven') {
+          const item = this.data.filter((c: any) => f.list.some((l: any) => l.checked && (l.value == c.value)))
+          return item
+        } else {
+          const item = this.data.find((c: any) => f.groupName == c.name)
+          if (item) return [item]
+          return [{
+            data: {
+              qty: null,
+              detailTest: '',
+              inspection: [0],
+              report: [0],
+              reportStatus: true,
+            },
+            name: f.groupName,
+            value: 0,
+          }]
+        }
+      })
+      // concat list in  filteredData
+      let concatList = filteredData.reduce((acc: any, cur: any) => {
+        return acc.concat(cur)
+      }, [])
+      concatList = concatList.sort((a: any, b: any) => a.value - b.value)
+      console.log(concatList);
+
+      this.data = concatList
       this.emit()
     } else {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
@@ -104,14 +135,14 @@ export class Step4HomeComponent implements OnInit {
           value: 0,
         }
       })
-      this.conditions.push(...mapResult)
+      this.data.push(...mapResult)
     }
 
   }
 
 
   async onSelected() {
-    this.conditions.push({
+    this.data.push({
       ...this.selected, data: {
         lowTemp: {
           temp: '0',
@@ -173,37 +204,26 @@ export class Step4HomeComponent implements OnInit {
   }
 
   async emit() {
-    // console.log(this.conditions, this.inspection);
+    // console.log(this.data, this.inspection);
     let dataEmit: any
-
-    dataEmit = await this.mapData(this.conditions, this.inspection)
-
+    dataEmit = await this.mapData(this.data, this.inspection)
     // console.log(dataEmit);
-
-    this.conditionFormChange.emit(dataEmit)
+    this.conditionForm.data = dataEmit
+    this.conditionFormChange.emit(this.conditionForm)
   }
 
 
-  onDelete(item: any) {
-    Swal.fire({
-      title: 'Do you want to delete?',
-      icon: 'question',
-      showCancelButton: true
-    }).then((value: SweetAlertResult) => {
-      if (value.isConfirmed) {
-        this.conditions = this.conditions.filter((c: any) => c != this.conditions[item])
-        this.emit()
-      }
-    })
 
-  }
 
   mapData(conditions: any, inspection: any) {
     return new Promise(resolve => {
       const result = conditions.map((condition: any) => {
 
-        const data = condition.data;
-        data['inspectionDetail'] = inspection
+        let data = condition.data;
+        data = {
+          ...data,
+          inspectionDetail: inspection
+        }
 
         const sumStr = this.sumString(condition)
 
@@ -261,6 +281,20 @@ export class Step4HomeComponent implements OnInit {
     }
     return sumStr
 
+
+  }
+
+  onDelete(item: any) {
+    Swal.fire({
+      title: 'Do you want to delete?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((value: SweetAlertResult) => {
+      if (value.isConfirmed) {
+        this.data = this.data.filter((c: any) => c != this.data[item])
+        this.emit()
+      }
+    })
 
   }
 

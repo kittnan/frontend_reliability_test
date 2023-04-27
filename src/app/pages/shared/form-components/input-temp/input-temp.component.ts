@@ -20,11 +20,14 @@ export class InputTempComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  selectElem(e: any) {
+    e.srcElement.select()
+  }
   emit() {
-    let body :any= {}
-    if(this.icon=='ac_unit'){
+    let body: any = {}
+    if (this.icon == 'ac_unit') {
       body['lowTemp'] = this.form
-    }else{
+    } else {
       body['highTemp'] = this.form
     }
     this.formChange.emit(body)

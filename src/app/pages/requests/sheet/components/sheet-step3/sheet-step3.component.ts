@@ -43,7 +43,13 @@ export class SheetStep3Component implements OnInit {
     private _requestSheet: RequestSheetService,
     private $step3: Step3HttpService,
     private $step4: Step4HttpService
-  ) { }
+  ) {
+    this.route.queryParams.subscribe((params: any) => {
+      if (params.id) {
+        this.formId = params.id
+      }
+    })
+  }
 
   async ngOnInit() {
     const resTestingType = await this.$master.getTestingTypeMaster().toPromise();
@@ -56,9 +62,7 @@ export class SheetStep3Component implements OnInit {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const resGet: any = await this.$step3.get(params).toPromise()
       if (resGet && resGet.length > 0) {
-        this.testingTypeMenu = {
-          ...resGet[0]
-        }
+        this.testingTypeMenu = resGet[0]
       }
 
     }

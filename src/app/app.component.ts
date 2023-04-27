@@ -11,6 +11,7 @@ import { LoginService } from './services/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { v4 as uuid } from 'uuid';
 import { ToastService } from './services/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -28,12 +29,13 @@ export class AppComponent {
   authorize: any
   loginStatus: Boolean = false
   constructor(
-    changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+    private changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
     private swUpdate: SwUpdate,
     private _loading: NgxUiLoaderService,
     private dialog: MatDialog,
     private _toast: ToastService,
-    private _router: Router
+    private _router: Router,
+    private translate: TranslateService
   ) {
     // this.mobileQuery = media.matchMedia('(max-width: 600px)');
     // this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -41,6 +43,10 @@ export class AppComponent {
 
     this.userLogin = localStorage.getItem('RLS_userName');
     this.authorize = localStorage.getItem('RLS_authorize');
+
+    translate.addLangs(['en', 'th']);
+    translate.setDefaultLang('en');
+    translate.use('en');
 
   }
 
@@ -68,6 +74,23 @@ export class AppComponent {
   ngOnDestroy(): void {
     // this.mobileQuery.removeListener(this._mobileQueryListener);
   }
+  ngAfterContentChecked() {
+
+    this.changeDetectorRef.detectChanges();
+
+  }
+
+  // onTranslate() {
+  //   console.log(this.translate.currentLang);
+  //   if (this.translate.currentLang == 'th') {
+  //     this.translate.use('en');
+  //     return;
+  //   }
+  //   if (this.translate.currentLang == 'en') {
+  //     this.translate.use('th');
+  //     return;
+  //   }
+  // }
 
   bgLogin() {
     const locationUrl = this._router.url

@@ -1,12 +1,12 @@
 <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
-    <span class="material-icons-outlined">
-        water_drop
-        </span>
-    <mat-form-field fxFlex="90" appearance="fill">
-        <mat-label>Humidity</mat-label>
-        <input matInput [(ngModel)]="form" (input)="emit()">
-        <span matSuffix>
-            %RH
-        </span>
-    </mat-form-field>
+  <span class="material-icons-outlined">
+    water_drop
+  </span>
+  <mat-form-field fxFlex="90" appearance="fill">
+    <mat-label>Humidity</mat-label>
+    <input matInput [(ngModel)]="form" (input)="emit()" type="number" (click)="selectElem($event)">
+    <span matSuffix>
+      %RH
+    </span>
+  </mat-form-field>
 </div>

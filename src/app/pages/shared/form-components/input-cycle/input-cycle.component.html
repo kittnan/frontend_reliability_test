@@ -1,12 +1,12 @@
 <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
-    <span class="material-icons-outlined">
-        autorenew
+  <span class="material-icons-outlined">
+    autorenew
+  </span>
+  <mat-form-field fxFlex="90" appearance="fill">
+    <mat-label>Cycle</mat-label>
+    <input matInput [(ngModel)]="form" (ngModelChange)="emit()" type="number" (click)="selectElem($event)">
+    <span matSuffix>
+      Round
     </span>
-    <mat-form-field fxFlex="90" appearance="fill">
-        <mat-label>Cycle</mat-label>
-        <input matInput [(ngModel)]="form" (ngModelChange)="emit()">
-        <span matSuffix>
-            Round
-        </span>
-    </mat-form-field>
+  </mat-form-field>
 </div>

@@ -136,6 +136,7 @@ export class TableRequestComponent implements OnInit {
       const resData = await this.$request.tableAdmin(param).toPromise()
       const resultMap: any = await this.mapRows(resData)
       this.presentCount = resultMap.length
+      console.log(resultMap);
       this.dataSource = new MatTableDataSource(resultMap);
       this.setOption();
     } else {
@@ -144,6 +145,8 @@ export class TableRequestComponent implements OnInit {
       // const resData = await this.$tableRequest.getTable(this.params)
       const resultMap: any = await this.mapRows(resData)
       this.presentCount = resultMap.length
+
+
       this.dataSource = new MatTableDataSource(resultMap);
       this.setOption();
     }
@@ -224,11 +227,31 @@ export class TableRequestComponent implements OnInit {
     this.pageSizeOptions = [1, 5, 10, 25, 100];
   }
   onClickView(item: any) {
+    console.log(item);
+
     const dialogRef = this.dialog.open(DialogViewComponent, {
       data: item,
       width: '90%',
       height: '90%'
     })
+
+    // const foundItem = item.queues.find((i: any) => i.condition['value'] != 0)
+    // if (foundItem && foundItem?.inspectionTime.length >= 2) {
+    //   const item = foundItem.inspectionTime.find((i: any) => {
+    //     const diff = moment().diff(moment(i.startDate), 'hours')
+    //     if (diff <= 0) return true
+    //     return false
+    //   })
+    //   console.log("🚀 ~ item:", item)
+    //   if (item) {
+    //     const index = foundItem.inspectionTime.indexOf(item)
+    //     const prev = foundItem.inspectionTime[index - 1]
+    //     if (prev) {
+    //       const diff = moment().diff(moment(prev.endDate), 'hours')
+    //       if (diff > 0) return `${diff}/${item.at}`
+    //     }
+    //   }
+    // }
 
   }
   onClickViewNewTab(item: any) {
@@ -318,12 +341,34 @@ export class TableRequestComponent implements OnInit {
     }, 500);
   }
 
-  htmlOngoingTo(q: any) {
-    // console.log(q);
-    if (q && q.length > 0) {
-      const item = q[0].inspectionTime.find((i: any) => moment().isBetween(moment(i.startDate), moment(i.endDate)))
-      return item ? item.at : '-'
+  // htmlOngoingTo(q: any, item: any) {
+  //   // console.log(q);
+  //   if (q && q.length > 0 && item.status == 'qe_window_person_report') {
+  //     if (q[0].inspectionTime.length >= 2) {
+  //       const item = q[0].inspectionTime.find((i: any) => moment().isBetween(moment(i.startDate), moment(i.endDate)))
+  //       return item ? item.at : '-'
+  //     }
+  //   }
+  //   return '-'
+  // }
 
+  htmlOngoingTo(q: any, item: any) {
+    const foundItem = item.queues.find((i: any) => i.condition['value'] != 0)
+    if (foundItem && foundItem?.inspectionTime.length >= 2) {
+      const item = foundItem.inspectionTime.find((i: any) => {
+        const diff = moment().diff(moment(i.startDate), 'hours')
+        if (diff <= 0) return true
+        return false
+      })
+      // console.log("🚀 ~ item:", item)
+      if (item) {
+        const index = foundItem.inspectionTime.indexOf(item)
+        const prev = foundItem.inspectionTime[index - 1]
+        if (prev) {
+          const diff = moment().diff(moment(prev.endDate), 'hours')
+          if (diff > 0) return `${diff} / ${item.at}`
+        }
+      }
     }
     return '-'
   }
@@ -331,5 +376,15 @@ export class TableRequestComponent implements OnInit {
     if (this.authorize.includes('qe') || this.authorize.includes('admin')) return true
     return false
   }
+
+  htmlRunTime(queues: any[]) {
+    if (queues && queues.length > 0) {
+      const start = moment(queues[0].inspectionTime[0].startDate)
+      const item = moment().diff(start, 'hours')
+      return item ? item : '-'
+    }
+    return '-'
+  }
+
 
 }

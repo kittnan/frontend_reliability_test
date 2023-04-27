@@ -1,7 +1,8 @@
 import { RequestHttpService } from './../../../http/request-http.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { TranslateService } from '@ngx-translate/core';
 
 
 interface requestForm {
@@ -24,9 +25,14 @@ export class SheetComponent implements OnInit {
   constructor(
     private active: ActivatedRoute,
     private $request: RequestHttpService,
-    private _loading: NgxUiLoaderService
+    private _loading: NgxUiLoaderService,
+    public translate: TranslateService,
   ) {
     this.active.queryParams.subscribe(params => this.params = params)
+
+    translate.addLangs(['en', 'th']);
+    translate.setDefaultLang('en');
+    translate.use('en');
   }
 
   ngOnInit(): void {
@@ -38,6 +44,18 @@ export class SheetComponent implements OnInit {
       })
     }
 
+  }
+
+  onTranslate() {
+    console.log(this.translate.currentLang);
+    if (this.translate.currentLang == 'th') {
+      this.translate.use('en');
+      return;
+    }
+    if (this.translate.currentLang == 'en') {
+      this.translate.use('th');
+      return;
+    }
   }
   emit(e: any) {
     this.formId = e

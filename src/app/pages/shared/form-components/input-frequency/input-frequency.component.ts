@@ -14,7 +14,10 @@ export class InputFrequencyComponent implements OnInit {
   ngOnInit(): void {
   }
   emitForm() {
-    this.formChange.emit({frequency:this.form})
+    this.formChange.emit({ frequency: this.form })
+  }
+  selectElem(e: any) {
+    e.srcElement.select()
   }
 
 }

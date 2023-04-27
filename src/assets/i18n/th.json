@@ -1,0 +1,48 @@
+{
+  "sheet1": {
+    "requestStatus": "สถานะการร้องขอ​",
+    "requestSubject": "หัวข้อการร้องขอ​",
+    "normal": "งานปกติ",
+    "urgent": "งานด่วน",
+    "size": "ขนาดงาน",
+    "customer": "ลูกค้า",
+    "lotNo": "ล็อตการผลิต",
+    "section": "แผนก",
+    "requestDate": "วันที่ร้องขอ​",
+    "formatDate": "เดือน/วัน/ปี",
+    "sampleSendDate": "วันที่ส่งงานตัวอย่างให้ QE​",
+    "concernShipmentDate": "วันที่เกี่ยวข้องกับงานขาย​",
+    "inputToProductionDate": "วันที่อินพุตโปรดักชั่น​",
+    "concernCustomerDate": "วันที่รายงานลูกค้า​",
+    "reportRequireDate": "วันที่ต้องการผลรายงาน​",
+    "files": "ไฟล์แนบเพิ่มเติม​",
+    "files_choose": "เลือกไฟล์แนบ",
+    "sampleDescription": "รายละเอียด วัตถุประสงค์การทดสอบงาน​"
+  },
+  "sheet2": {
+    "description": "รายละเอียดเพิ่มเติม"
+  },
+  "sheet3": {
+    "report": "ต้องการรายงาน",
+    "noReport": "ไม่ต้องการรายงาน",
+    "detailTest": "รายละเอียดเงื่อนไขการทดสอบ​"
+  },
+  "Optical characteristic measurement for Sample product": "วัด optical characteristic​",
+  "Evaluation safe lauch concept ": "การประเมินงานของ Pre-launch​",
+  "Evaluate Material expire refer Request No. :": "การประเมินงานของวัตถุดิบหมดอายุ​",
+  "Evaluate Claim product No. :": "การประเมินงานของงานเคลมลูกค้า​",
+  "Evaluate New material CRR No. :": "การประเมินงานของวัตถุดิบใหม่​",
+  "Evaluate of process improvement / changing refer TBN No :": "การประเมินงานของประบวนการปรับปรุง/การเปลี่ยนเปลี่ยนต่างๆ​",
+  "Evaluate NG in process": "การประเมินงานของเสียจากกระบวนการ​",
+  "Yearly Test (Regular)": "งานทดสอบประจำปี​",
+  "EVALUATE MATERIAL NG": "การประเมินงานของวัตถุดิบเสีย​",
+  "OTHER": "อื่นๆ",
+  "header-sheet": {
+    "step1": "รายละเอียด​",
+    "step2": "วัตถุประสงค์​",
+    "step3": "ประเภท​",
+    "step4": "เงื่อนไข​",
+    "step5": "อนุมัติ​"
+  },
+  "qty": "จำนวน"
+}

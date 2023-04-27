@@ -15,7 +15,10 @@ export class InputCycleComponent implements OnInit {
   }
 
   emit() {
-    this.formChange.emit({cycle:this.form})
+    this.formChange.emit({ cycle: this.form })
+  }
+  selectElem(e: any) {
+    e.srcElement.select()
   }
 
 }

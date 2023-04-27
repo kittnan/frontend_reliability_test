@@ -7,7 +7,7 @@ import { ViewsComponent } from './views/views.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Step1Component } from './views/step1/step1.component';
 import { PipeModule } from 'src/app/pipe/pipe.module';
 import { Step2Component } from './views/step2/step2.component';
@@ -40,7 +40,11 @@ import { TableOperateComponent } from './table-operate/table-operate.component';
 import { CommentComponent } from './comment/comment.component';
 import { QeReceiveComponent } from './qe-receive/qe-receive.component';
 import { ConditionTableNoChamberComponent } from './condition-table-no-chamber/condition-table-no-chamber.component';
-
+import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -87,8 +91,15 @@ import { ConditionTableNoChamberComponent } from './condition-table-no-chamber/c
     HttpClientModule,
     PipeModule,
     RouterModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, TranslatePipe],
   exports: [
     ViewsComponent,
     TableRequestComponent,

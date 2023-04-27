@@ -13,14 +13,33 @@ export class InputTimeInspecComponent implements OnInit {
   temp!: string;
   constructor() { }
   ngOnInit(): void {
-    if(this.form.length>0){
-      this.temp = this.form.reduce((prev:any,now:any)=>{
+    if (this.form.length > 0) {
+      this.temp = this.form.reduce((prev: any, now: any) => {
         return prev += now.toString() + ','
-      },'')
+      }, '')
     }
   }
 
-  inputTime() {
+  inputTime(e: KeyboardEvent) {
+    const comma = 188
+    const backspace = 8
+    const zero = 48
+    const nine = 57
+    const tab = 9
+    const l = 37
+    const u = 38
+    const r = 39
+    const b = 40
+    const key = Number(e.keyCode)
+
+    if ((key >= zero && key <= nine) || key == comma || key == backspace || key == tab || key == l || key == u || key == r || key == b) {
+
+    } else {
+      return e.preventDefault()
+    }
+
+  }
+  cal() {
     let tempSplit: any[] = this.temp.toString().trim().split(',');
     tempSplit = tempSplit.map((t: any) => parseInt(t))
     tempSplit = tempSplit.filter((t: any) =>
@@ -30,10 +49,12 @@ export class InputTimeInspecComponent implements OnInit {
     this.form = tempSplit
     this.emit()
   }
+
   emit() {
     const body: any = {}
     body[this.title.toLowerCase()] = this.form
     this.formChange.emit(body)
   }
+
 
 }

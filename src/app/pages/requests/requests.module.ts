@@ -13,7 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ManageComponent } from './manage/manage.component';
 import { SharedModule } from '../shared/shared.module';
 import { PipeModule } from 'src/app/pipe/pipe.module';
@@ -29,7 +29,11 @@ import { HighTempHumiVibrationFormComponent } from './sheet/components/sheet-ste
 import { InspectionFormComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/inspection-form/inspection-form.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { NoOvenComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/no-oven/no-oven.component';
-
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -65,12 +69,20 @@ import { NoOvenComponent } from './sheet/components/sheet-step4/step4-form/step4
     HttpClientModule,
     SharedModule,
     PipeModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
+
 
   ],
   exports: [
 
   ],
-  providers:[
+  providers: [
 
   ]
 })

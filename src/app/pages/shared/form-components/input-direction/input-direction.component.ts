@@ -17,7 +17,10 @@ export class InputDirectionComponent implements OnInit {
   }
 
   emit() {
-    this.formChange.emit({direction:this.form})
+    this.formChange.emit({ direction: this.form })
+  }
+  selectElem(e: any) {
+    e.srcElement.select()
   }
 
 }

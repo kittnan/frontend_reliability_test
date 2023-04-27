@@ -15,7 +15,10 @@ export class InputHumiComponent implements OnInit {
   ngOnInit(): void {
   }
   emit() {
-    this.formChange.emit({humi:this.form})
+    this.formChange.emit({ humi: this.form })
+  }
+  selectElem(e: any) {
+    e.srcElement.select()
   }
 
 }

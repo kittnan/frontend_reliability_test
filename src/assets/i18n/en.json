@@ -1,0 +1,42 @@
+{
+  "sheet1": {
+    "controlNo": "CONTROL NO.",
+    "requestStatus": "Request status: ",
+    "requestSubject": "Request Subject",
+    "normal": "Normal",
+    "urgent": "Urgent",
+    "corporate": "AMT/DST",
+    "modelNo": "Model No.",
+    "modelName": "Model Name",
+    "size": "Size",
+    "customer": "Customer",
+    "lotNo": "Lot No.",
+    "section": "Section",
+    "requestDate": "Request Date",
+    "formatDate": "MM/DD/YYYY",
+    "sampleSendDate": "Sample send to QE within date",
+    "concernShipmentDate": "Concern shipment date",
+    "inputToProductionDate": "Input to production date",
+    "concernCustomerDate": "Concern customer date",
+    "reportRequireDate": "Report require date",
+    "files": "Files",
+    "files_choose": "Choose files...",
+    "sampleDescription": "Sample Description"
+  },
+  "sheet2": {
+    "description": "Description"
+  },
+  "sheet3": {
+    "report": "report",
+    "noReport": "no report",
+    "detailTest": "detail test"
+  },
+  "header-sheet": {
+    "step1": "Sheet Detail",
+    "step2": "Test Purpose",
+    "step3": "Testing Type",
+    "step4": "Testing Condition",
+    "step5": "Approve"
+  },
+  "qty": "Q'ty"
+}

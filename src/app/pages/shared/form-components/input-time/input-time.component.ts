@@ -14,7 +14,10 @@ export class InputTimeComponent implements OnInit {
   ngOnInit(): void {
   }
   emit() {
-    this.formChange.emit({time:this.form})
+    this.formChange.emit({ time: this.form })
+  }
+  selectElem(e: any) {
+    e.srcElement.select()
   }
 
 }

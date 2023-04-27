@@ -6,6 +6,7 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sheet-step2',
@@ -29,7 +30,8 @@ export class SheetStep2Component implements OnInit {
     private $master: MasterHttpService,
     private _stepper: CdkStepper,
     private _loading: NgxUiLoaderService,
-    private $step2: Step2HttpService
+    private $step2: Step2HttpService,
+    public tr: TranslateService
   ) { }
 
   async ngOnInit() {
@@ -53,6 +55,10 @@ export class SheetStep2Component implements OnInit {
         })
       }
     }
+  }
+
+  compareTranslate(item: any) {
+    return `${item}`
   }
 
   onCheckRadio(event: any, purpose: any) {

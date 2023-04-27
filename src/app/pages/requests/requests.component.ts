@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class RequestsComponent implements OnInit {
 
   constructor(
+    private cdref: ChangeDetectorRef
   ) {
 
   }
@@ -17,6 +18,11 @@ export class RequestsComponent implements OnInit {
   }
   ngOnInit(): void {
   }
+  // ngAfterContentChecked() {
+
+  //   this.cdref.detectChanges();
+
+  // }
 
 
 

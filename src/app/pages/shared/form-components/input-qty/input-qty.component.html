@@ -1,12 +1,14 @@
 <div fxFlex="100" fxLayoutAlign="space-around stretch" fxLayout="row wrap">
-    <span class="material-icons-outlined">
-        pin
-        </span>
-    <mat-form-field fxFlex="90" appearance="fill">
-        <mat-label>Q'ty</mat-label>
-        <input matInput [(ngModel)]="form" (input)="emit()">
-        <span matSuffix>
-            pcs.
-        </span>
-    </mat-form-field>
+  <span class="material-icons-outlined">
+    pin
+  </span>
+  <mat-form-field fxFlex="90" appearance="fill">
+    <mat-label>
+      {{'qty'|translate}}
+    </mat-label>
+    <input matInput id="qty" [(ngModel)]="form" (input)="emit()" type="number" (click)="selectElem($event)">
+    <span matSuffix>
+      pcs.
+    </span>
+  </mat-form-field>
 </div>

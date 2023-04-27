@@ -4,7 +4,7 @@ import { Step1HttpService } from './../../../../../http/step1-http.service';
 import { FilesHttpService } from 'src/app/http/files-http.service';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { CdkStepper } from '@angular/cdk/stepper';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -13,6 +13,7 @@ import { RequestSheetService } from '../../request-sheet.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { Observable, map, startWith } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface ModelNo {
   modelNo: string;
@@ -89,10 +90,13 @@ export class SheetStep1Component implements OnInit {
     private $step1: Step1HttpService,
     private $step5: Step5HttpService,
     private $user: UserHttpService,
-    private $log: LogFlowService
+    private $log: LogFlowService,
+    private translate: TranslateService,
   ) {
     this.requestForm.patchValue({ requestDate: new Date() });
     this._route.queryParams.subscribe(params => this.params = params)
+
+    // this.requestForm.get('requestDate')?.disable()
   }
 
   async ngOnInit() {
@@ -126,6 +130,7 @@ export class SheetStep1Component implements OnInit {
     })
 
   }
+
 
   private _filter(value: any): any[] {
     const filterValue = value.toLowerCase();
@@ -172,10 +177,7 @@ export class SheetStep1Component implements OnInit {
     }
   }
 
-  foo() {
-    console.log('@3');
 
-  }
   onUploadFile(e: any) {
     this.fileProgress = true
     const files = e.target.files

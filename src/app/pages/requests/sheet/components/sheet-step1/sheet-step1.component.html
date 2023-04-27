@@ -1,13 +1,15 @@
 <form [formGroup]="requestForm">
   <div fxLayout="row wrap" fxLayoutAlign="space-evenly center">
 
+    <!-- <button (click)="onTranslate()">FGHJK</button> -->
+
     <div fxFlex="100" class="title-head">
       <div fxLayout="row wrap" fxLayoutAlign="center start">
         <div fxFlex="40" fxFlex.sm="100">
           <h1 style="text-align: center; margin:auto; text-transform: uppercase;">Reliability Test Request Form</h1>
         </div>
         <div fxFlex="40" fxFlex.sm="100">
-          <h1 style="margin:auto;">CONTROL NO.{{this.requestForm.value.controlNo}}</h1>
+          <h1 style="margin:auto;">{{'sheet1.controlNo' | translate }}{{this.requestForm.value.controlNo}}</h1>
         </div>
       </div>
     </div>
@@ -16,20 +18,20 @@
     <mat-divider fxFlex="100" style="margin: 10px 0;"></mat-divider>
 
     <div fxFlex="40" fxFlex.sm="100" style="padding: 10px;background-color: rgba(0,0,0,.04); margin: 10px 0;">
-      <label>Request status: </label>
+      <label>{{'sheet1.requestStatus' |translate}} </label>
       <mat-radio-group formControlName="requestStatus">
-        <mat-radio-button value="normal" style="padding: 0 10px;">Normal</mat-radio-button>
-        <mat-radio-button value="urgent" style="padding: 0 10px;">Urgent</mat-radio-button>
+        <mat-radio-button value="normal" style="padding: 0 10px;">{{'sheet1.normal' | translate}}</mat-radio-button>
+        <mat-radio-button value="urgent" style="padding: 0 10px;">{{'sheet1.urgent' | translate}}</mat-radio-button>
       </mat-radio-group>
     </div>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>Request Subject</mat-label>
+      <mat-label>{{'sheet1.requestSubject' |translate}}</mat-label>
       <input formControlName="requestSubject" matInput>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>AMT/DST</mat-label>
+      <mat-label>{{'sheet1.corporate' |translate}}</mat-label>
       <mat-select formControlName="corporate" name="corporate" (selectionChange)="onSelectCorporate()">
         <mat-option *ngFor="let cor of corporate" [value]="cor.value">
           {{cor.name}}
@@ -49,7 +51,7 @@
     </mat-form-field> -->
 
     <mat-form-field fxFlex="40" fxFlex.sm="100" appearance="fill">
-      <mat-label>Model No.</mat-label>
+      <mat-label>{{'sheet1.modelNo' |translate}}</mat-label>
       <input type="text" matInput formControlName="modelNo" [matAutocomplete]="modelNoAuto"
         (input)="onSelectModelNo();onSelectCorporate();">
 
@@ -65,28 +67,28 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>Model Name</mat-label>
+      <mat-label>{{'sheet1.modelName' |translate}}</mat-label>
       <input formControlName="modelName" matInput>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>Size</mat-label>
+      <mat-label>{{'sheet1.size' |translate}}</mat-label>
       <input formControlName="size" matInput>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>Customer</mat-label>
+      <mat-label>{{'sheet1.customer' |translate}}</mat-label>
       <input formControlName="customer" matInput>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>Lot no.</mat-label>
+      <mat-label>{{'sheet1.lotNo' |translate}}</mat-label>
       <input formControlName="lotNo" matInput>
     </mat-form-field>
 
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>Section</mat-label>
+      <mat-label>{{'sheet1.section'|translate}}</mat-label>
       <input [readonly]="true" formControlName="department" matInput>
       <!-- <mat-select [disabled]="true" formControlName="department" name="department"
         (selectionChange)="onSelectCorporate()">]
@@ -96,55 +98,61 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">
-      <mat-label>Request Date</mat-label>
+      <mat-label>{{'sheet1.requestDate' |translate}}</mat-label>
       <input [disabled]="true" formControlName="requestDate" matInput [matDatepicker]="picker1" [readonly]="true"
         (click)="picker1.open()">
-      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start" class="mb-10">
-      <mat-label>Sample send to QE within date</mat-label>
+      <mat-label>{{'sheet1.sampleSendDate' |translate}}</mat-label>
       <input formControlName="sampleSentToQE_withinDate" [min]="minDate" matInput [matDatepicker]="picker6"
         (click)="picker6.open()">
-      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
       <mat-datepicker #picker6></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">
-      <mat-label>Concern Shipment Date</mat-label>
+      <mat-label>{{'sheet1.concernShipmentDate' |translate}}</mat-label>
       <input formControlName="concernShipmentDate" [min]="minDate" matInput [matDatepicker]="picker2"
         (click)="picker2.open()">
-      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">
-      <mat-label>Input to production date</mat-label>
+      <mat-label>
+        {{'sheet1.inputToProductionDate' |translate}}
+      </mat-label>
       <input formControlName="inputToProductionDate" [min]="minDate" matInput [matDatepicker]="picker3"
         (click)="picker3.open()">
-      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
       <mat-datepicker #picker3></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">
-      <mat-label>Concern Customer Date</mat-label>
+      <mat-label>
+        {{'sheet1.concernCustomerDate' |translate}}
+      </mat-label>
       <input formControlName="concernCustomerDate" [min]="minDate" matInput [matDatepicker]="picker4"
         (click)="picker4.open()">
-      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
       <mat-datepicker #picker4></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">
-      <mat-label>Report Require Date</mat-label>
+      <mat-label>
+        {{'sheet1.reportRequireDate' |translate}}
+      </mat-label>
       <input formControlName="reportRequireDate" [min]="minDate" matInput [matDatepicker]="picker5"
         (click)="picker5.open()">
-      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
       <mat-datepicker #picker5></mat-datepicker>
     </mat-form-field>
@@ -153,11 +161,13 @@
     <ng-container *ngIf="!data; else elseTemplate">
       <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
         <div mat-subheader style="padding-left: 0;">
-          Files
+          {{'sheet1.files' |translate}}
           <button *ngIf="!fileProgress" mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn"
             [ngClass]="{'primary': requestForm.controls.files.valid}" style="margin-left: 10px;"
-            (click)="fileUpload.click()">Choose
-            file...</button>
+            (click)="fileUpload.click()">
+            {{'sheet1.files_choose' |translate}}
+
+          </button>
           <mat-progress-bar *ngIf="fileProgress" mode="indeterminate"></mat-progress-bar>
           <input hidden type="file" #fileUpload multiple (change)="onUploadFile($event);">
         </div>
@@ -182,11 +192,13 @@
     <ng-template #elseTemplate>
       <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
         <div mat-subheader style="padding-left: 0;">
-          Files
+          {{'sheet1.files' |translate}}
           <button *ngIf="!fileProgress" mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn"
             [ngClass]="{'primary': requestForm.controls.files.valid}" style="margin-left: 10px;"
-            (click)="fileUpload.click()">Choose
-            file...</button>
+            (click)="fileUpload.click()">
+            {{'sheet1.files_choose' |translate}}
+
+          </button>
           <mat-progress-bar *ngIf="fileProgress" mode="indeterminate"></mat-progress-bar>
           <input hidden type="file" #fileUpload multiple (change)="onCreateFiles($event);">
         </div>
@@ -213,7 +225,10 @@
 
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
-      <mat-label>Sample Description</mat-label>
+      <mat-label>
+        {{'sheet1.sampleDescription' |translate}}
+
+      </mat-label>
       <textarea matInput rows="5" formControlName="sampleDescription"></textarea>
     </mat-form-field>
 
