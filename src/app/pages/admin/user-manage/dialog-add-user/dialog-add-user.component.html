@@ -52,13 +52,14 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field fxFlex="40" class="w-full" appearance="legacy">
+    <mat-form-field fxFlex="40" appearance="legacy">
       <mat-label>Section</mat-label>
-      <mat-select formControlName="section">
-        <mat-option *ngFor="let item of sectionList; let i=index" [value]="item.name">{{item.name}}</mat-option>
+      <mat-select formControlName="section" multiple>
+        <mat-option *ngFor="let sec of sectionList" [value]="sec.name">
+          {{sec.name |uppercase}}
+        </mat-option>
       </mat-select>
     </mat-form-field>
-
 
   </form>
 

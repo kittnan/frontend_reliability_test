@@ -14,6 +14,7 @@ export class DialogAuthComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
   }
 
   onClick(item: any) {

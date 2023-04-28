@@ -24,7 +24,7 @@ export class DialogAddUserComponent implements OnInit {
     email: new FormControl('', [Validators.email, Validators.required]),
     authorize: new FormControl<any[] | string | null | undefined>([], Validators.required),
     department: new FormControl('', Validators.required),
-    section: new FormControl('', Validators.required),
+    section: new FormControl<any[] | string | null | undefined>([], Validators.required),
     createdBy: new FormControl('system', Validators.required),
   })
 
@@ -57,7 +57,7 @@ export class DialogAddUserComponent implements OnInit {
         name: this.data.name,
         email: this.data.email,
         department: this.data.department,
-        section: this.data.section,
+        section: [...this.data.section],
         authorize: [...this.data.authorize],
         createdBy: this.data.createdBy,
       })
@@ -87,7 +87,7 @@ export class DialogAddUserComponent implements OnInit {
   }
   onSaveUser() {
     if (this.newUserForm.valid) {
-      const authorize = [this.newUserForm.value.authorize]
+      const authorize = this.newUserForm.value.authorize
       this.newUserForm.patchValue({
         createdBy: localStorage.getItem('RLS_userName')
       })
