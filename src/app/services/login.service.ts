@@ -225,6 +225,8 @@ export class LoginService {
           }
 
         } else {
+          console.log(auth);
+
           if (auth == 'admin') {
             newUrl = "/admin"
           }
