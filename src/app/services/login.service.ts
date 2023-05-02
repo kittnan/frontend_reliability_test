@@ -34,7 +34,7 @@ export class LoginService {
           ...res[0],
           name: this.shortName(res[0].name)
         };
-        // console.log(user);
+        console.log(user);
 
         if (user.authorize.find((u: any) => u == 'guest')) {
           this.setToken()
@@ -45,6 +45,7 @@ export class LoginService {
           localStorage.setItem('RLS_userName', user.name);
           let userLoginStr = JSON.stringify(user)
           localStorage.setItem('RLS_userLogin', userLoginStr)
+          localStorage.setItem('RLS_section', 'guest')
           // this._toast.success();
           // setTimeout(() => {
           this._loading.start()
@@ -63,11 +64,19 @@ export class LoginService {
             })
             dialogRef.afterClosed().subscribe(res => {
               newAuth = res
-              this.setAuth(user, newAuth)
+              if (user?.section?.length > 1) {
+                this.selectSection(user, newAuth, user.section)
+              } else {
+                this.setAuth(user, newAuth, user.section[0])
+              }
             })
           } else {
             newAuth = user.authorize
-            this.setAuth(user, newAuth)
+            if (user?.section?.length > 1) {
+              this.selectSection(user, newAuth, user.section)
+            } else {
+              this.setAuth(user, newAuth, user.section)
+            }
           }
         }
 
@@ -79,11 +88,24 @@ export class LoginService {
     })
   }
 
-  private setAuth(user: any, newAuth: any) {
+  selectSection(user: any, newAuth: any, sections: any[]) {
+    const dialogRef = this.dialog.open(DialogAuthComponent, {
+      data: sections,
+      hasBackdrop: true,
+      disableClose: true
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      const section = res
+      this.setAuth(user, newAuth, section)
+    })
+  }
+
+  private setAuth(user: any, newAuth: any, section: any) {
     this.setToken()
     localStorage.setItem('RLS_id', user._id);
     localStorage.setItem('RLS_authorize', newAuth);
     // console.log(localStorage.getItem(newAuth));
+    localStorage.setItem('RLS_section', section)
 
     localStorage.setItem('RLS_userName', user.name);
     let userLoginStr = JSON.stringify(user)

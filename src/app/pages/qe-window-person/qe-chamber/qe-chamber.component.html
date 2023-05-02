@@ -9,9 +9,9 @@
 
       <app-qe-chamber-planning fxFlex="100" [data]="dataSource"
         (dataChange)="emitted($event)"></app-qe-chamber-planning>
-      <app-qe-chamber-planning-detail *ngIf="chamberTable" fxFlex="100" [(queues)]="chamberTable"
-        (dataChange)="dataChange($event)" (tableChange)="tableChange($event)" (approveChange)="approveChange($event)"
-        [formInput]="form">
+      <app-qe-chamber-planning-detail *ngIf="chamberTable && chamberTable.length!=0" fxFlex="100"
+        [(queues)]="chamberTable" (dataChange)="dataChange($event)" (tableChange)="tableChange($event)"
+        (approveChange)="approveChange($event)" [formInput]="form">
       </app-qe-chamber-planning-detail>
 
 

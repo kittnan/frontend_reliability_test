@@ -1,0 +1,5 @@
+<mat-select [(ngModel)]="select" placeholder="">
+  <mat-option *ngFor="let item of data; let i=index" [value]="item">
+    {{item}}
+  </mat-option>
+</mat-select>

@@ -59,6 +59,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     console.log('this.queues', this.queues);
+    console.log('this.formInput', this.formInput)
 
     this.tempQueues = [...this.queues]
     // this.getDraft()
@@ -84,7 +85,20 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       const draft = queueDraft.find((draft: QueueForm) => {
         return draft.condition?.name == d.condition?.name
       })
+      console.log("🚀 ~ draft:", draft)
       if (draft) {
+        const reportQE = draft.inspectionTime.map((d: any) => {
+          const a = draft.reportQE.find((g: any) => g.at == d.at)
+          if (a) return a
+          return d
+        })
+        const reportTime = draft.inspectionTime.map((d: any) => {
+          const a = draft.reportTime.find((g: any) => g.at == d.at)
+          if (a) return a
+          return d
+        })
+        draft['reportQE'] = reportQE
+        draft['reportTime'] = reportTime
         return {
           ...d,
           ...draft,
@@ -565,7 +579,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }
     // console.log("🚀 ~ reportStatus:", reportStatus)
 
-    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, queues, header, 'inspectionTime', times_report, ['Sample Receive', ...receive], reportStatus)
+    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, queues, header, 'inspectionTime', times_report, ['Sample Receive', ...receive], reportStatus, this.formInput.step4)
     // console.log("🚀 ~ table_inspection:", table_inspection)
 
     // this.tableData = {

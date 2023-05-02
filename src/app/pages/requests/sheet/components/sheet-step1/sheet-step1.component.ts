@@ -96,6 +96,8 @@ export class SheetStep1Component implements OnInit {
     this.requestForm.patchValue({ requestDate: new Date() });
     this._route.queryParams.subscribe(params => this.params = params)
 
+    const section = localStorage.getItem('RLS_section')
+    this.requestForm.patchValue({ department: section })
     // this.requestForm.get('requestDate')?.disable()
   }
 
@@ -108,7 +110,7 @@ export class SheetStep1Component implements OnInit {
       startWith(''), map((value: any) => this._filter(value || ''))
     )
 
-    this.departments = await this.$master.getDepartmentMaster().toPromise()
+    // this.departments = await this.$master.getDepartmentMaster().toPromise()
     if (this.data) {
       this.requestForm.patchValue({ ...this.data })
     }
@@ -125,9 +127,9 @@ export class SheetStep1Component implements OnInit {
       })
     }
 
-    this.requestForm.patchValue({
-      department: this.userLogin.section
-    })
+    // this.requestForm.patchValue({
+    //   department: this.userLogin.section
+    // })
 
   }
 

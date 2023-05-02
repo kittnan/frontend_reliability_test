@@ -120,6 +120,27 @@ export class AppComponent {
     })
   }
 
+  onClickChangeSection() {
+    let userLogin: any = localStorage.getItem('RLS_userLogin')
+    userLogin = JSON.parse(userLogin)
+    console.log("🚀 ~ userLogin:", userLogin)
+    let sections = userLogin.section.sort()
+    const dialogRef = this.dialog.open(DialogAuthComponent, {
+      data: sections,
+      hasBackdrop: true,
+      position: {
+        right: '0',
+        top: '0'
+      }
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        localStorage.setItem('RLS_section', res)
+        location.reload()
+      }
+    })
+  }
+
   private setAuth(user: any, newAuth: any) {
     this.setToken()
     localStorage.setItem('RLS_authorize', newAuth);
@@ -147,6 +168,9 @@ export class AppComponent {
 
   htmlShowAuthLogin() {
     return localStorage.getItem('RLS_authorize')
+  }
+  htmlShowSectionLogin() {
+    return localStorage.getItem('RLS_section')
   }
 
   onAccess() {

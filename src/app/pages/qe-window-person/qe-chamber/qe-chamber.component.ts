@@ -120,6 +120,8 @@ export class QeChamberComponent implements OnInit {
   }
 
   emitted(item: any) {
+    console.log("🚀 ~ item:", item);
+    this.chamberTable = []
     this.chamberTable = item
   }
 

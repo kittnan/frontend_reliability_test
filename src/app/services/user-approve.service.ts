@@ -17,16 +17,18 @@ export class UserApproveService {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     userLogin = JSON.parse(userLoginStr)
 
-    const section = [userLogin.section]
-    let temp_section = JSON.stringify(section)
+    let section = [localStorage.getItem('RLS_section')]
+
+    // const section = [userLogin.section]
+    let section_str = JSON.stringify(section)
     if (authorize === 'qe_window_person' || authorize === 'request') {
-      temp_section = '[]'
+      section_str = '[]'
     }
 
     const level = [authorize]
     const temp_level = JSON.stringify(level)
     let userApprove = []
-    userApprove = await this.$user.getUserBySection(temp_section, temp_level).toPromise();
+    userApprove = await this.$user.getUserBySection(section_str, temp_level).toPromise();
     // userApprove = userApprove.filter((u: any) => u._id != userLogin._id)
     userApprove = userApprove.map((user: any) => {
       const sptName: string[] = user.name.trim().split(' ').filter((d: any) => d != '')

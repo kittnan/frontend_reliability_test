@@ -5,6 +5,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { A } from '@angular/cdk/keycodes';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogApproveComponent } from './dialog-approve/dialog-approve.component';
 
 @Component({
   selector: 'app-approve-form',
@@ -28,7 +31,8 @@ export class ApproveFormComponent implements OnInit {
     private _approve: ApproveService,
     private _loading: NgxUiLoaderService,
     private _reject: RejectService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
 
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
@@ -88,39 +92,49 @@ export class ApproveFormComponent implements OnInit {
   }
 
   async onReject() {
+    // const option: any = this.genOption(this.data.status)
+    // const dialogRef = this.dialog.open(DialogApproveComponent, {
+    //   data:{
+    //     option:option,
+    //   }
+    // })
+    // dialogRef.afterClosed().subscribe(closed => {
+    //   if (closed) {
+    //   }
+    // })
     const option: any = this.genOption(this.data.status)
-    const { value: key } = await Swal.fire({
-      title: 'REJECT ',
-      input: 'select',
-      inputOptions: option,
-      inputPlaceholder: 'SEND REJECT TO',
-      showCancelButton: true,
+    if (option) {
+      const { value: key } = await Swal.fire({
+        title: 'REJECT ',
+        input: 'select',
+        inputOptions: option,
+        inputPlaceholder: 'SEND REJECT TO',
+        showCancelButton: true,
 
-    })
-    if (key) {
-      await Swal.fire({
-        input: 'textarea',
-        inputLabel: 'Message',
-        inputPlaceholder: 'Type your message here...',
-        inputAttributes: {
-          'aria-label': 'Type your message here'
-        },
-        showCancelButton: true
-      }).then((value: SweetAlertResult) => {
-        if (value.isConfirmed) {
-          const findUserApprove = this.data.step5.find((s: any) => s.prevStatusForm == key)
-          this._reject.sendReject(this.userLogin, findUserApprove, this.data, value.value, key)
-        }
       })
-
-
+      if (key) {
+        await Swal.fire({
+          input: 'textarea',
+          inputLabel: 'Message',
+          inputPlaceholder: 'Type your message here...',
+          inputAttributes: {
+            'aria-label': 'Type your message here'
+          },
+          showCancelButton: true
+        }).then((value: SweetAlertResult) => {
+          if (value.isConfirmed) {
+            const findUserApprove = this.data.step5.find((s: any) => s.prevStatusForm == key)
+            this._reject.sendReject(this.userLogin, findUserApprove, this.data, value.value, key)
+          }
+        })
+      }
     }
 
+    // Swal.fire('SUCC', '', 'success')
 
   }
 
   genOption(status: any) {
-    // console.log("🚀 ~ status:", status)
     let request_user
     if (status == 'request_approve' || status == 'reject_request_approve') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
@@ -152,11 +166,14 @@ export class ApproveFormComponent implements OnInit {
 
     const arrayUniqueByKey = [...new Map(request_user.map((item: any) =>
       [item['prevStatusForm'], item])).values()];
-    return arrayUniqueByKey.reduce((prev: any, now: any) => {
+
+
+    const temp = arrayUniqueByKey.reduce((prev: any, now: any) => {
       const newKey: any = now.prevStatusForm
       prev[newKey] = `${now.prevStatusForm} ➢ ${now.prevUser.name}`
       return prev
     }, {})
+    return temp
 
   }
 

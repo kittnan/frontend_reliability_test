@@ -10,10 +10,20 @@ export class GenInspectionTableService {
   chamber: Boolean = true
 
   reportStatus$ = false
+  step4$: any
   constructor() { }
 
 
-  genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[], reportStatus: any) {
+  genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[], reportStatus: any, step4: any) {
+    this.step4$ = step4
+    console.log('times', times);
+    console.log('data', data);
+    console.log('header', header);
+    console.log('key', key);
+    console.log('times_report', times_report);
+    console.log('receive', receive);
+    console.log('reportStatus', reportStatus);
+
     // console.log("🚀 ~ reportStatus:", reportStatus, reportStatus)
     this.reportStatus$ = reportStatus
     if (data[0].condition.value == 0) this.chamber = false
@@ -77,16 +87,27 @@ export class GenInspectionTableService {
 
   private mapCol(foundItem: any, time: any, data: any, timeReport: any) {
 
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2');
+
+    console.log('foundItem', foundItem);
+    console.log('time', time);
+    console.log('data', data);
+    console.log('timeReport', timeReport);
+
+
     const start = foundItem?.startDate ? moment(foundItem.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const end = foundItem?.endDate ? moment(foundItem.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const between = start == '-' ? ' - ' : `${start} ➝ ${end}`
 
     const report = timeReport.find((t: any) => t.at == time.at)
+    console.log("🚀 ~ report:", report)
+    // let reportDate = timeReport?.length > 0 ? 'Yes' : 'No'
     let reportDate = this.reportStatus$ && report?.endDate ? 'Yes' : 'No'
     // let reportDate = report?.endDate ? moment(report.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
 
     const dataReportQE = data.reportQE
     const foundReportQE = report ? dataReportQE.find((t: any) => t.at === foundItem?.at) : null
+    console.log("🚀 ~ foundReportQE:", foundReportQE)
     const startReportQE = foundReportQE?.startDate ? moment(foundReportQE.startDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const endDateReportQE = this.reportStatus$ && foundReportQE?.endDate ? moment(foundReportQE.endDate).format('ddd, D-MMM-YY,h:mm a') : '-'
     const betweenReportQE = this.reportStatus$ && endDateReportQE ? `${endDateReportQE}` : '-'

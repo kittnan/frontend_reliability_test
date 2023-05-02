@@ -1,135 +1,139 @@
 {
-    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "version": 1,
-    "newProjectRoot": "projects",
-    "projects": {
-        "reliability": {
-            "projectType": "application",
-            "schematics": {
-                "@schematics/angular:component": {
-                    "style": "scss"
-                }
-            },
-            "root": "",
-            "sourceRoot": "src",
-            "prefix": "app",
-            "architect": {
-                "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
-                    "options": {
-                        "outputPath": "dist/reliability",
-                        "index": "src/index.html",
-                        "main": "src/main.ts",
-                        "polyfills": "src/polyfills.ts",
-                        "tsConfig": "tsconfig.app.json",
-                        "inlineStyleLanguage": "scss",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/oven.ico",
-                            "src/assets",
-                            "src/manifest.webmanifest",
-                            "src/manifest.webmanifest",
-                            "src/manifest.webmanifest",
-                            "src/manifest.webmanifest",
-                            "src/.htaccess"
-                        ],
-                        "styles": [
-                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-                            "src/styles.scss"
-                        ],
-                        "scripts": [],
-                        "serviceWorker": true,
-                        "ngswConfigPath": "ngsw-config.json",
-                        "allowedCommonJsDependencies": [
-                            "lodash",
-                            "sweetalert2",
-                            "moment",
-                            "uuidv4"
-                        ]
-                    },
-                    "configurations": {
-                        "production": {
-                            "budgets": [{
-                                    "type": "initial",
-                                    "maximumWarning": "5mb",
-                                    "maximumError": "5mb"
-                                },
-                                {
-                                    "type": "anyComponentStyle",
-                                    "maximumWarning": "5mb",
-                                    "maximumError": "5mb"
-                                }
-                            ],
-                            "fileReplacements": [{
-                                "replace": "src/environments/environment.ts",
-                                "with": "src/environments/environment.prod.ts"
-                            }],
-                            "optimization": true,
-                            "outputHashing": "all",
-                            "sourceMap": false,
-                            "namedChunks": false,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true,
-                            "aot": true,
-                            "baseHref": "/reliability/"
-                        },
-                        "development": {
-                            "buildOptimizer": false,
-                            "optimization": false,
-                            "vendorChunk": true,
-                            "extractLicenses": false,
-                            "sourceMap": true,
-                            "namedChunks": true
-                        }
-                    },
-                    "defaultConfiguration": "production"
-                },
-                "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
-                    "configurations": {
-                        "production": {
-                            "browserTarget": "reliability:build:production"
-                        },
-                        "development": {
-                            "browserTarget": "reliability:build:development"
-                        }
-                    },
-                    "defaultConfiguration": "development"
-                },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
-                    "options": {
-                        "browserTarget": "reliability:build"
-                    }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "src/test.ts",
-                        "polyfills": "src/polyfills.ts",
-                        "tsConfig": "tsconfig.spec.json",
-                        "karmaConfig": "karma.conf.js",
-                        "inlineStyleLanguage": "scss",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets",
-                            "src/manifest.webmanifest",
-                            "src/manifest.webmanifest",
-                            "src/manifest.webmanifest",
-                            "src/manifest.webmanifest"
-                        ],
-                        "styles": [
-                            "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-                            "src/styles.scss"
-                        ],
-                        "scripts": []
-                    }
-                }
-            }
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "reliability": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
         }
-    },
-    "cli": {
-        "analytics": false
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/reliability",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/oven.ico",
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest",
+              "src/.htaccess",
+              "src/web.config"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.scss"
+            ],
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json",
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "sweetalert2",
+              "moment",
+              "uuidv4"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "5mb",
+                  "maximumError": "5mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "aot": true,
+              "baseHref": "/reliability/"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "reliability:build:production"
+            },
+            "development": {
+              "browserTarget": "reliability:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "reliability:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": false
+  }
 }

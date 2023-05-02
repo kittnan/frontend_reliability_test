@@ -140,7 +140,12 @@ export class TableRequestComponent implements OnInit {
       this.dataSource = new MatTableDataSource(resultMap);
       this.setOption();
     } else {
-      const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
+      let section: any = [localStorage.getItem('RLS_section'), "DST"]
+      if (localStorage.getItem('RLS_authorize')?.includes('qe')) {
+        section = []
+      }
+      section = JSON.stringify(section)
+      const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr).set('section', section)
       const resData = await this.$request.table(param).toPromise()
       // const resData = await this.$tableRequest.getTable(this.params)
       const resultMap: any = await this.mapRows(resData)
@@ -185,23 +190,107 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    if (item.status === 'request_confirm' || item.status === 'draft') {
-      if (item.nextApprove && item.nextApprove._id == this.userLogin._id) return false
-      return true
-    } else {
+    // console.log(item);
 
-      if (item.status == 'qe_revise') {
-        if (localStorage.getItem('RLS_authorize') == 'qe_window_person') return false
-        return true
-      } else
-        if (item.status === 'qe_engineer' || item.status === 'qe_engineer2') {
-          if (item.status === localStorage.getItem('RLS_authorize')) return false
-          return true
-        } else {
-          if (item.nextApprove && item.nextApprove._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
-          return true
-        }
+    const auth = localStorage.getItem('RLS_authorize')
+    const section = localStorage.getItem('RLS_section')
+
+    if (item?.nextApprove?._id == this.userLogin?._id) {
+      // ! auth request
+      if (
+        (
+          item.status === 'request_confirm' ||
+          item.status === 'draft' ||
+          item.status === 'reject_request' ||
+          item.status === 'request_confirm_revise'
+        ) &&
+        (
+          auth == 'request'
+        )
+      ) return false
+
+      // ! auth request_approve
+      if (
+        (
+          item.status === 'request_approve' ||
+          item.status === 'reject_request_approve'
+        ) &&
+        (
+          auth == 'request_approve'
+        )
+      ) return false
+
+      // ! auth qe_window_person
+      if (
+        (
+          item.status == 'qe_revise' ||
+          item.status == 'qe_window_person' ||
+          item.status == 'qe_window_person_report' ||
+          item.status == 'reject_qe_window_person'
+        ) &&
+
+        (
+          auth == 'qe_window_person'
+        )
+      ) return false
+
+      // ! auth qe_engineer
+      if (
+        (
+          item.status === 'qe_engineer' ||
+          item.status === 'reject_qe_engineer'
+        ) &&
+        (
+          auth == 'qe_engineer'
+        )
+      ) return false
+
+      // ! auth qe_engineer 2
+      if (
+        (
+          item.status === 'qe_engineer2' ||
+          item.status === 'reject_qe_engineer2'
+        ) &&
+        (
+          auth == 'qe_engineer2'
+        )
+      ) return false
+
+      // ! auth qe_section_head
+      if (
+        (
+          item.status === 'qe_section_head' ||
+          item.status === 'reject_qe_section_head'
+        ) &&
+        (
+          auth == 'qe_section_head'
+        )
+      ) return false
+
+
     }
+    return true
+
+
+
+
+    // if (item.status === 'request_confirm' || item.status === 'draft') {
+    //   if (item?.nextApprove?._id == this.userLogin?._id && auth == 'request') return false
+    //   return true
+    // } else {
+
+    //   if (item.status == 'qe_revise') {
+    //     if (auth == 'qe_window_person') return false
+    //     return true
+    //   } else
+    //     if (item.status === 'qe_engineer' || item.status === 'qe_engineer2') {
+    //       if (item.status === auth) return false
+    //       return true
+    //     } else {
+    //       if (item?.nextApprove?._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
+    //       return true
+    //     }
+    // }
   }
 
   private rowCss(item: any) {
@@ -366,7 +455,7 @@ export class TableRequestComponent implements OnInit {
         const prev = foundItem.inspectionTime[index - 1]
         if (prev) {
           const diff = moment().diff(moment(prev.endDate), 'hours')
-          if (diff > 0) return `${diff} / ${item.at}`
+          if (diff > 0) return `${Number(prev.at + diff)} / ${item.at}`
         }
       }
     }

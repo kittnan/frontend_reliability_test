@@ -17,7 +17,7 @@ import {
   NgxUiLoaderModule,
   NgxUiLoaderConfig
 } from "ngx-ui-loader";
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
 // import { QeWindowPersonComponent } from './pages/qe-window-person/qe-window-person.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -33,8 +33,13 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  // return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, "/assets/i18n/", ".json");
+  // return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+// export function translateHttpLoaderFactory(httpBackend: HttpBackend): TranslateHttpLoader {
+//   return new TranslateHttpLoader(new HttpClient(httpBackend));
+// }
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "bgsColor": "#673ab7",

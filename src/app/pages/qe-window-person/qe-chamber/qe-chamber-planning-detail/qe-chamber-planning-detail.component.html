@@ -86,7 +86,6 @@
         <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
           <div fxFlex="45" fxFlex.lt-md="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
             *ngFor="let time of item.reportQE; let indexTime=index">
-
             <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
               <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
               <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>

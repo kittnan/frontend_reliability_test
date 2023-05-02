@@ -42,6 +42,7 @@ import { QeReceiveComponent } from './qe-receive/qe-receive.component';
 import { ConditionTableNoChamberComponent } from './condition-table-no-chamber/condition-table-no-chamber.component';
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DialogApproveComponent } from './approve-form/dialog-approve/dialog-approve.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -80,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommentComponent,
     QeReceiveComponent,
     ConditionTableNoChamberComponent,
+    DialogApproveComponent,
 
   ],
   imports: [

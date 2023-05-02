@@ -29,6 +29,11 @@ export class NoOvenComponent implements OnInit {
     }
   }
   emit() {
+    if (this.form.reportStatus) {
+      this.form.report = [0]
+    } else {
+      this.form.report = []
+    }
     this.form = { ...this.form }
     this.dataChange.emit(this.form)
   }

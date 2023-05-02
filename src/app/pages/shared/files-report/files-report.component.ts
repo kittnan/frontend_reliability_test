@@ -147,7 +147,9 @@ export class FilesReportComponent implements OnInit {
       const formData: FormData = new FormData()
       const controlNo = this.form.step1.controlNo
       for (let i = 0; i < files.length; i++) {
-        const type = files[i].name.split('.')[1]
+        // console.log(files[i]);
+
+        const type = files[i].name.split('.').pop()
         const filename = `${controlNo}-${at}Hr-${i + 1}.${type}`
         // console.log("🚀 ~ filename:", filename)
         formData.append('Files', files[i], filename)

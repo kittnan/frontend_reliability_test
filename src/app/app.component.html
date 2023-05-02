@@ -27,7 +27,17 @@
             sync_lock
           </span>
           <span class="authName">
-            {{htmlShowAuthLogin()}}
+            {{htmlShowAuthLogin()}} |
+          </span>
+
+        </button>
+        <button (click)="onClickChangeSection()" mat-icon-button class="w-auto" style="margin-left: 5px;"
+          aria-label="Example icon-button with share icon">
+          <span class="material-icons-outlined">
+            groups_3
+          </span>
+          <span class="authName">
+            {{htmlShowSectionLogin()}}
           </span>
 
         </button>

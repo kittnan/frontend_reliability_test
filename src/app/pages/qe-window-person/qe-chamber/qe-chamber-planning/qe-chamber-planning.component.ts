@@ -106,6 +106,8 @@ export class QeChamberPlanningComponent implements OnInit {
       }
       return temp
     })
+    console.log('this.chamberTable', this.chamberTable);
+
     this.dataChange.emit(this.chamberTable)
   }
 
