@@ -76,8 +76,11 @@ export class ApproveService {
         groupList: []
       }
     }
-
-    this.sendMail([newApprover.selected._id], newForm.status, newForm._id, newApprover.groupList)
+    let ccUser = newApprover.groupList
+    ccUser = ccUser.concat(form?.followUp?.map((f: any) => f._id))
+    // unique ccUser
+    ccUser = [...new Set(ccUser)]
+    this.sendMail([newApprover.selected._id], newForm.status, newForm._id, ccUser)
     setTimeout(() => {
       Swal.fire({
         title: 'Success',
@@ -142,7 +145,11 @@ export class ApproveService {
       }
       this.sendLog(logData)
       const toList = [nextUserApprove.selected._id]
-      this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
+      let ccUser = nextUserApprove.groupList.map((g: any) => g._id)
+      ccUser = ccUser.concat(form?.followUp?.map((f: any) => f._id))
+      // unique ccUser
+      ccUser = [...new Set(ccUser)]
+      this.sendMail(toList, newForm.status, newForm._id, ccUser)
       setTimeout(() => {
         Swal.fire({
           title: 'Success',
@@ -220,7 +227,12 @@ export class ApproveService {
       }
       this.sendLog(logData)
       let toList = [nextUserApprove.selected._id]
-      this.sendMail(toList, newForm.status, newForm._id, nextUserApprove.groupList.map((g: any) => g._id))
+
+      let ccUser = nextUserApprove.groupList.map((g: any) => g._id)
+      ccUser = ccUser.concat(form?.followUp?.map((f: any) => f._id))
+      // unique ccUser
+      ccUser = [...new Set(ccUser)]
+      this.sendMail(toList, newForm.status, newForm._id, ccUser)
 
       setTimeout(() => {
         this._loading.stopAll()

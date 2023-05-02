@@ -25,8 +25,8 @@ export class QeChamberPlanningComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.clear()
-    console.log(this.data);
+    // console.clear()
+    // console.log(this.data);
     if (this.data) {
       this.genPlan(this.data)
       this.dataSource = new MatTableDataSource(this.data)
@@ -106,7 +106,7 @@ export class QeChamberPlanningComponent implements OnInit {
       }
       return temp
     })
-    console.log('this.chamberTable', this.chamberTable);
+    // console.log('this.chamberTable', this.chamberTable);
 
     this.dataChange.emit(this.chamberTable)
   }

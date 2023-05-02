@@ -14,11 +14,16 @@ export class QeReceiveComponent implements OnInit {
 
   @Input() disable = false
   minDate = new Date()
+  data: any
   constructor(
     private $request: RequestHttpService
   ) { }
 
   ngOnInit(): void {
+  }
+  async update() {
+    await this.$request.update(this.form._id, this.form).toPromise()
+    this.formChange.emit(this.form)
   }
 
   onDraft() {

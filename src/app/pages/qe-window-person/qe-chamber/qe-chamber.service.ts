@@ -32,7 +32,7 @@ export class QeChamberService {
     // console.log("🚀 ~ item.inspectionTime:", item.inspectionTime)
     item.reportTime = this.loopReport(item.reportTime, item.inspectionTime)
     item.reportQE = this.loopReport(item.reportQE, item.inspectionTime)
-    console.log("🚀 ~ item:", item)
+    // console.log("🚀 ~ item:", item)
     const endDate: any = this.loopSum(item.inspectionTime, item.startDate)
     if (endDate) {
       item.endDate = endDate

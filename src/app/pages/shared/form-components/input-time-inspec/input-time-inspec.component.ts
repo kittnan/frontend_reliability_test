@@ -46,6 +46,7 @@ export class InputTimeInspecComponent implements OnInit {
       isNaN(t) ? false : t ||
         t === 0
     )
+    tempSplit = tempSplit.sort((a: any, b: any) => a - b)
     this.form = tempSplit
     this.emit()
   }

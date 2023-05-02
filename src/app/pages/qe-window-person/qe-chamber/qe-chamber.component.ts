@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { RequestHttpService } from 'src/app/http/request-http.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 
@@ -100,7 +101,8 @@ export class QeChamberComponent implements OnInit {
   constructor(
     private routeActive: ActivatedRoute,
     private $request: RequestHttpService,
-    private _userApprove: UserApproveService
+    private _userApprove: UserApproveService,
+    private loader$: NgxUiLoaderService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -115,12 +117,13 @@ export class QeChamberComponent implements OnInit {
       // console.log("🚀 ~ this.form:", this.form)
       const temp = this.setDataTable();
       this.dataSource = temp
+      // console.log("🚀 ~ temp:", temp)
       this.getUserApprove()
     })
   }
 
   emitted(item: any) {
-    console.log("🚀 ~ item:", item);
+    // console.log("🚀 ~ item:", item);
     this.chamberTable = []
     this.chamberTable = item
   }
@@ -213,7 +216,16 @@ export class QeChamberComponent implements OnInit {
   }
 
   qeReceiveEmit(e_form: any) {
-    this.form = e_form
+    this.dataSource = []
+    this.chamberTable = []
+    this.loader$.start()
+    setTimeout(() => {
+      this.form = e_form
+      const temp = this.setDataTable();
+      this.dataSource = temp
+      this.loader$.stopAll()
+    }, 200);
+    // this.ngOnInit()
   }
 
   chamberValid() {

@@ -1,4 +1,3 @@
-import { lastValueFrom } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -58,8 +57,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log('this.queues', this.queues);
-    console.log('this.formInput', this.formInput)
+    // console.log('this.queues', this.queues);
+    // console.log('this.formInput', this.formInput)
 
     this.tempQueues = [...this.queues]
     // this.getDraft()
@@ -69,6 +68,9 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
     if (this.queues) {
       this.queues = await this.getQueuesDraft(this.queues)
+      this.queues.map((d: any) => {
+        this.onCal(d, 0)
+      })
       // console.log("🚀 ~ this.queues:", this.queues)
       this.tableData = await this.mapForTable(this.queues)
     }
@@ -81,22 +83,32 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   async getQueuesDraft(queues: any) {
     const queueDraft = await this.$queue.getFormId(queues[0].work.requestId).toPromise()
     // console.log("🚀 ~ queueDraft:", queueDraft)
+    // console.log("🚀 ~ queues:", queues);
+
     queues = queues.map((d: QueueForm) => {
       const draft = queueDraft.find((draft: QueueForm) => {
         return draft.condition?.name == d.condition?.name
       })
-      console.log("🚀 ~ draft:", draft)
+      // console.log('d', d)
+
+      // console.log("🚀 ~ draft:", draft)
       if (draft) {
-        const reportQE = draft.inspectionTime.map((d: any) => {
+        const inspectionTime = d?.inspectionTime?.map((d: any) => {
+          const a = draft.inspectionTime.find((g: any) => g.at == d.at)
+          if (a) return a
+          return d
+        })
+        const reportQE = d?.reportQE?.map((d: any) => {
           const a = draft.reportQE.find((g: any) => g.at == d.at)
           if (a) return a
           return d
         })
-        const reportTime = draft.inspectionTime.map((d: any) => {
+        const reportTime = d?.reportTime?.map((d: any) => {
           const a = draft.reportTime.find((g: any) => g.at == d.at)
           if (a) return a
           return d
         })
+        draft['inspectionTime'] = inspectionTime
         draft['reportQE'] = reportQE
         draft['reportTime'] = reportTime
         return {
@@ -107,6 +119,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         return d
       }
     })
+
+
     this.requestForm = await this.$request.get_id(queues[0].work.requestId).toPromise()
     this.minDateInitial = new Date(this.requestForm[0].qeReceive.date)
     queues = await this.setOperateOnQueues(queues)
@@ -288,7 +302,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         this.requestForm[0].table = table
         this.tableData = table
         this.getOperateToolTableAll(item.startDate)
-        const resUpdate = await lastValueFrom(this.$request.update(this.requestForm[0]._id, this.requestForm[0]))
+        const resUpdate = await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
         // this.getQueuesDraft(this.queues)
         Swal.fire('SUCCESS', '', 'success')
 
@@ -515,7 +529,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       this.tableData = table
       this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
       this.requestForm[0].table = this.tableData
-      const resUpdate = await lastValueFrom(this.$request.update(this.requestForm[0]._id, this.requestForm[0]))
+      const resUpdate = await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
       this.tableChange.emit(table)
       if (resUpdate && resUpdate.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')

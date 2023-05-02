@@ -39,7 +39,7 @@ export class TableRequestComponent implements OnInit {
   selected_status = 'ongoing'
   requests: any = []
 
-  displayedColumns: string[] = ['controlNo', 'userRequest', 'requestSubject', 'modelNo', 'status', 'ongoing', 'edit', 'btn'];
+  displayedColumns: string[] = ['controlNo', 'userRequest', 'purpose', 'requestSubject', 'modelNo', 'status', 'ongoing', 'edit', 'btn'];
   pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -71,7 +71,7 @@ export class TableRequestComponent implements OnInit {
     this.selected_status = 'ongoing';
     // if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
     if (this.authorize.includes("qe") || this.authorize.includes("admin")) {
-      this.displayedColumns = ['controlNo', 'userRequest', 'requestSubject', 'modelNo', 'status', 'userApprove', 'ongoing', 'edit', 'btn'];
+      this.displayedColumns = ['controlNo', 'userRequest', 'purpose', 'requestSubject', 'modelNo', 'status', 'userApprove', 'ongoing', 'edit', 'btn'];
     }
     // this.userLogin = await this._login.getProFileById(id).toPromise();
     this.params = {
@@ -473,6 +473,22 @@ export class TableRequestComponent implements OnInit {
       return item ? item : '-'
     }
     return '-'
+  }
+
+  async onClickToggleFollowUp(item: any) {
+    this.userLogin
+    if (!item.followUp) item.followUp = []
+    const found = item.followUp?.find((i: any) => i._id == this.userLogin._id)
+    if (found) {
+      item.followUp = item.followUp.filter((i: any) => i._id != this.userLogin._id)
+    } else {
+      item.followUp.push(this.userLogin)
+      await this.$request.update(item._id, { followUp: item.followUp }).toPromise()
+    }
+  }
+  cssFoo(item: any) {
+    if (item?.followUp?.find((i: any) => i._id == this.userLogin._id)) return 'warn'
+    return ''
   }
 
 

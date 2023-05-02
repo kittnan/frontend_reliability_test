@@ -47,7 +47,12 @@ export class RejectService {
       user: prevUser
     }
     this.sendLog(logData)
-    this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id, [], form.controlNo)
+
+    let ccUser: string[] = []
+    ccUser = form.followUp.map((f: any) => f._id)
+    ccUser = [...new Set(ccUser)]
+
+    this.sendMail([newForm.nextApprove._id], newForm.status, newForm._id, ccUser, form.controlNo)
     const oldStepReject = form.step5.find((step: any) => step.level == level)
     if (oldStepReject) {
       const newStep = {
