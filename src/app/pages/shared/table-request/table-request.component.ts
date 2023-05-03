@@ -481,6 +481,7 @@ export class TableRequestComponent implements OnInit {
     const found = item.followUp?.find((i: any) => i._id == this.userLogin._id)
     if (found) {
       item.followUp = item.followUp.filter((i: any) => i._id != this.userLogin._id)
+      await this.$request.update(item._id, { followUp: item.followUp }).toPromise()
     } else {
       item.followUp.push(this.userLogin)
       await this.$request.update(item._id, { followUp: item.followUp }).toPromise()
