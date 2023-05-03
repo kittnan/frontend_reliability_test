@@ -7,10 +7,19 @@
     <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
       <span class="box-title"> Table Request </span>
     </div>
-    <mat-form-field fxFlex="100" appearance="fill">
+    <mat-form-field fxFlex="50" appearance="fill">
       <mat-label>Status</mat-label>
       <mat-select [(ngModel)]="selected_status" (selectionChange)="onSelectStatus()">
         <mat-option *ngFor="let st of status" [value]="st">
+          {{st|uppercase}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="50" appearance="fill">
+      <mat-label>Section</mat-label>
+      <mat-select [(ngModel)]="selected_section" (selectionChange)="onSelectStatus()">
+        <mat-option *ngFor="let st of sections" [value]="st">
           {{st|uppercase}}
         </mat-option>
       </mat-select>

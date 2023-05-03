@@ -53,6 +53,9 @@ export class TableRequestComponent implements OnInit {
 
   interval$!: Subscription;
   presentCount = 0
+
+  selected_section: any = null
+  sections: any[] = []
   constructor(
     private $request: RequestHttpService,
     private router: Router,
@@ -62,6 +65,9 @@ export class TableRequestComponent implements OnInit {
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
+    this.sections = this.userLogin.section
+    this.sections = this.sections.concat(['all'])
+    this.selected_section = localStorage.getItem('RLS_section')
   }
 
   async ngOnInit(): Promise<void> {
@@ -136,11 +142,12 @@ export class TableRequestComponent implements OnInit {
       const resData = await this.$request.tableAdmin(param).toPromise()
       const resultMap: any = await this.mapRows(resData)
       this.presentCount = resultMap.length
-      console.log(resultMap);
+      // console.log(resultMap);
       this.dataSource = new MatTableDataSource(resultMap);
       this.setOption();
     } else {
-      let section: any = [localStorage.getItem('RLS_section'), "DST"]
+      const tempSection = this.selected_section === 'all' ? this.sections : [this.selected_section]
+      let section: any = [...tempSection, "DST"]
       if (localStorage.getItem('RLS_authorize')?.includes('qe')) {
         section = []
       }
@@ -149,10 +156,15 @@ export class TableRequestComponent implements OnInit {
       const resData = await this.$request.table(param).toPromise()
       // const resData = await this.$tableRequest.getTable(this.params)
       const resultMap: any = await this.mapRows(resData)
+      // console.log(this.dataSource);
+      // console.log(this.sort);
       this.presentCount = resultMap.length
+      if (this.dataSource?.data) {
+        this.dataSource.data = resultMap;
+      } else {
 
-
-      this.dataSource = new MatTableDataSource(resultMap);
+        this.dataSource = new MatTableDataSource(resultMap);
+      }
       this.setOption();
     }
 
@@ -490,6 +502,10 @@ export class TableRequestComponent implements OnInit {
   cssFoo(item: any) {
     if (item?.followUp?.find((i: any) => i._id == this.userLogin._id)) return 'warn'
     return ''
+  }
+
+  onSelectSection() {
+
   }
 
 
