@@ -16,6 +16,7 @@ import { QeEngineerModule } from './pages/qe-engineer/qe-engineer.module';
 import { QeSectionHeadModule } from './pages/qe-section-head/qe-section-head.module';
 import { QeWindowPersonModule } from './pages/qe-window-person/qe-window-person.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { RequestsModule } from './pages/requests/requests.module';
 
 const routes: Routes = [
   {
@@ -29,9 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'request',
-    loadChildren: () => import('./pages/requests/requests.module').then(
-      (m) => m.RequestsModule
-    ),
+    loadChildren: () => RequestsModule,
     canActivate: [RequestGuard]
   },
   {
