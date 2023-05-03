@@ -483,6 +483,7 @@ export class AppComponent {
         localStorage.removeItem('RLS_authorize')
         localStorage.removeItem('RLS_userName')
         localStorage.removeItem('RLS_userLogin')
+        localStorage.removeItem('RLS_section')
         location.href = environment.BASE
         // this._router.navigate([environment.BASE]).then(() => {
         //   window.location.reload();

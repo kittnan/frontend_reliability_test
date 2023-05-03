@@ -101,6 +101,8 @@ export class LoginService {
   }
 
   private setAuth(user: any, newAuth: any, section: any) {
+    console.log(section);
+
     this.setToken()
     localStorage.setItem('RLS_id', user._id);
     localStorage.setItem('RLS_authorize', newAuth);
