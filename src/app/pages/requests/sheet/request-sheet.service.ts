@@ -37,6 +37,7 @@ export class RequestSheetService {
         date: newDate,
         corporate: corporate
       }).subscribe(res => {
+
         if (res.length > 0) {
           const newCorporate = corporate.toUpperCase()
           const date = new Date();
