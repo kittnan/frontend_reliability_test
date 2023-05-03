@@ -143,8 +143,12 @@ export class TableRequestComponent implements OnInit {
       const resultMap: any = await this.mapRows(resData)
       this.presentCount = resultMap.length
       // console.log(resultMap);
-      this.dataSource = new MatTableDataSource(resultMap);
-      this.setOption();
+      if (this.dataSource?.data) {
+        this.dataSource.data = resultMap;
+      } else {
+        this.dataSource = new MatTableDataSource(resultMap);
+        this.setOption();
+      }
     } else {
       const tempSection = this.selected_section === 'all' ? this.sections : [this.selected_section]
       let section: any = [...tempSection, "DST"]
@@ -162,10 +166,9 @@ export class TableRequestComponent implements OnInit {
       if (this.dataSource?.data) {
         this.dataSource.data = resultMap;
       } else {
-
         this.dataSource = new MatTableDataSource(resultMap);
+        this.setOption();
       }
-      this.setOption();
     }
 
   }
