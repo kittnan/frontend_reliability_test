@@ -130,7 +130,7 @@ export class ApproveService {
           _id: nextUserApprove.selected._id,
           name: nextUserApprove.selected.name
         },
-        comment: comment,
+        comment: [comment, ...form?.comment?.length ? form.comment : []],
         level: level
       }
 
@@ -215,7 +215,8 @@ export class ApproveService {
           _id: nextUserApprove.selected._id,
           name: nextUserApprove.selected.name
         },
-        comment: comment,
+        comment: [comment, ...form?.comment?.length ? form.comment : []],
+
         level: level
       }
       // console.log('update request', newForm);
@@ -242,6 +243,9 @@ export class ApproveService {
           timer: 1000,
           showConfirmButton: false
         })
+        alert()
+        console.log(prevUser.authorize);
+
         this.link(prevUser.authorize)
       }, 1000);
 

@@ -1,23 +1,24 @@
 <div fxLayoutAlign="start stretch" fxLayout="row wrap" class="content-item">
 
 
-    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
-        <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-            <span class="box-title">
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+      <span class="box-title">
         Comment
       </span>
-        </div>
+    </div>
 
-
-        <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-            <span *ngIf="comment" style="white-space: pre-line;">
-        {{comment}}
+    <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+      <span *ngIf="comment.length!==0" style="white-space: pre-line;">
+        <p *ngFor="let item of comment; let i=index" style="white-space: pre-line;">
+          {{item}}
+        </p>
       </span>
-            <span *ngIf="!comment">
+      <span *ngIf="comment.length===0">
         No comment.
       </span>
-        </div>
-
     </div>
+
+  </div>
 </div>

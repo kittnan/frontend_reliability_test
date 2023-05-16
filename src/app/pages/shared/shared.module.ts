@@ -43,6 +43,7 @@ import { ConditionTableNoChamberComponent } from './condition-table-no-chamber/c
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DialogApproveComponent } from './approve-form/dialog-approve/dialog-approve.component';
+import { DialogRejectComponent } from './approve-form/dialog-reject/dialog-reject.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -82,6 +83,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     QeReceiveComponent,
     ConditionTableNoChamberComponent,
     DialogApproveComponent,
+    DialogRejectComponent,
 
   ],
   imports: [

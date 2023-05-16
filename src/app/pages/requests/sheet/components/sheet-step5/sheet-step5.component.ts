@@ -9,6 +9,8 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { Router } from '@angular/router';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { ApproveService } from 'src/app/pages/shared/approve-form/approve.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogApproveComponent } from 'src/app/pages/shared/approve-form/dialog-approve/dialog-approve.component';
 
 @Component({
   selector: 'app-sheet-step5',
@@ -39,7 +41,8 @@ export class SheetStep5Component implements OnInit {
     private $step5: Step5HttpService,
     private $request: RequestHttpService,
     private _approve: ApproveService,
-    private _userApprove: UserApproveService
+    private _userApprove: UserApproveService,
+    public dialog: MatDialog
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -69,6 +72,7 @@ export class SheetStep5Component implements OnInit {
       this.userApprove = [this.approver.selected]
       this.approve = this.approver
     } else {
+      this.userApprove = this.userApprove.filter((u: any) => u._id != this.userLogin._id)
       const select = this.checkPrevApprove(this.form, 1)
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
@@ -112,26 +116,42 @@ export class SheetStep5Component implements OnInit {
       const resForm = await this.$request.get_id(this.formId).toPromise()
       this.form = resForm[0]
     }
-    this.comment()
+    this.handleApprove()
+    // this.comment()
     //   }
     // })
 
   }
 
-  async comment() {
-    await Swal.fire({
-      input: 'textarea',
-      inputLabel: 'Message',
-      inputPlaceholder: 'Type your message here...',
-      inputAttributes: {
-        'aria-label': 'Type your message here'
-      },
-      showCancelButton: true
-    }).then((value: SweetAlertResult) => {
-      if (value.isConfirmed) {
-        this._approve.send(this.userLogin, this.approve, this.form, value.value)
+  handleApprove() {
+    const dialogRef = this.dialog.open(DialogApproveComponent, {
+      width: '500px',
+      height: 'auto',
+      data: {
+        userApprove: this.approve,
+        userLogin: this.userLogin,
+        form: this.form
       }
     })
+
+  }
+
+  async comment() {
+    console.log(this.userLogin, this.approve, this.form, 'value.value');
+
+    // await Swal.fire({
+    //   input: 'textarea',
+    //   inputLabel: 'Message',
+    //   inputPlaceholder: 'Type your message here...',
+    //   inputAttributes: {
+    //     'aria-label': 'Type your message here'
+    //   },
+    //   showCancelButton: true
+    // }).then((value: SweetAlertResult) => {
+    //   if (value.isConfirmed) {
+    //     this._approve.send(this.userLogin, this.approve, this.form, value.value)
+    //   }
+    // })
   }
 
   onBack() {

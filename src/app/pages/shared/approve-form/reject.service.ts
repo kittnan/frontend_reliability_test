@@ -35,7 +35,7 @@ export class RejectService {
         _id: nextUserApprove.prevUser._id,
         name: nextUserApprove.prevUser.name
       },
-      comment: comment,
+      comment: [comment, ...form?.comment?.length ? form.comment : []],
       level: level
     }
     if (form.status !== 'request_confirm') this.clearStep5UpperTarget(upperLevel)

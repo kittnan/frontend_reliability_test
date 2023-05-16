@@ -8,6 +8,7 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { A } from '@angular/cdk/keycodes';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogApproveComponent } from './dialog-approve/dialog-approve.component';
+import { DialogRejectComponent } from './dialog-reject/dialog-reject.component';
 
 @Component({
   selector: 'app-approve-form',
@@ -45,48 +46,74 @@ export class ApproveFormComponent implements OnInit {
     console.log(this.data);
 
   }
-  onApprove() {
-    if (this.data.status == "qe_window_person_report") {
-      Swal.fire({
-        title: `Do you want to finish job ?`,
-        icon: 'question',
-        showCancelButton: true
-      }).then(async (value: SweetAlertResult) => {
-        if (value.isConfirmed) {
-          this._approve.finishJob(this.data, this.userLogin)
-        }
-      })
-    } else {
-      // Swal.fire({
-      //   title: `Do you want to approve ?`,
-      //   icon: 'question',
-      //   showCancelButton: true
-      // }).then(async (value: SweetAlertResult) => {
-      //   if (value.isConfirmed) {
-      this.comment('approve')
-      //   }
-      // })
 
-    }
+  handleApprove() {
+    const dialogRef = this.dialog.open(DialogApproveComponent, {
+      width: '500px',
+      height: 'auto',
+      data: {
+        userApprove: this.userApprove,
+        userLogin: this.userLogin,
+        form: this.data
+      }
+    })
+
   }
+  // onApprove() {
+  //   if (this.data.status == "qe_window_person_report") {
+  //     Swal.fire({
+  //       title: `Do you want to finish job ?`,
+  //       icon: 'question',
+  //       showCancelButton: true
+  //     }).then(async (value: SweetAlertResult) => {
+  //       if (value.isConfirmed) {
+  //         this._approve.finishJob(this.data, this.userLogin)
+  //       }
+  //     })
+  //   } else {
+  //     // Swal.fire({
+  //     //   title: `Do you want to approve ?`,
+  //     //   icon: 'question',
+  //     //   showCancelButton: true
+  //     // }).then(async (value: SweetAlertResult) => {
+  //     //   if (value.isConfirmed) {
+  //     this.comment('approve')
+  //     //   }
+  //     // })
 
-  async comment(key: any) {
-    await Swal.fire({
-      input: 'textarea',
-      inputLabel: 'Message',
-      inputPlaceholder: 'Type your message here...',
-      inputAttributes: {
-        'aria-label': 'Type your message here'
-      },
-      showCancelButton: true
-    }).then((value: SweetAlertResult) => {
-      (value);
-      if (value.isConfirmed) {
-        // console.log('@@@@@@@@@@@@@@2', this.data);
+  //   }
+  // }
 
-        if (key == 'approve') {
-          this._approve.send(this.userLogin, this.userApprove, this.data, value.value)
-        }
+  // async comment(key: any) {
+  //   await Swal.fire({
+  //     input: 'textarea',
+  //     inputLabel: 'Message',
+  //     inputPlaceholder: 'Type your message here...',
+  //     inputAttributes: {
+  //       'aria-label': 'Type your message here'
+  //     },
+  //     showCancelButton: true
+  //   }).then((value: SweetAlertResult) => {
+  //     (value);
+  //     if (value.isConfirmed) {
+  //       // console.log('@@@@@@@@@@@@@@2', this.data);
+
+  //       if (key == 'approve') {
+  //         this._approve.send(this.userLogin, this.userApprove, this.data, value.value)
+  //       }
+  //     }
+  //   })
+  // }
+
+  handleReject() {
+    const dialogRef = this.dialog.open(DialogRejectComponent, {
+      width: '500px',
+      height: 'auto',
+      data: {
+        userApprove: this.userApprove,
+        userLogin: this.userLogin,
+        form: this.data,
+        option: this.genOption2(this.data.status)
       }
     })
   }
@@ -132,6 +159,32 @@ export class ApproveFormComponent implements OnInit {
 
     // Swal.fire('SUCC', '', 'success')
 
+  }
+  genOption2(status: any) {
+    let request_user
+    if (status == 'request_approve' || status == 'reject_request_approve') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
+
+    }
+    if (status == 'qe_window_person' || status == 'reject_qe_window_person') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
+    }
+
+    if (status == 'qe_engineer' || status == 'reject_qe_engineer') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request_approve')
+    }
+    if (status == 'qe_engineer2' || status == 'reject_qe_engineer') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request_approve')
+    }
+
+    if (status == 'qe_section_head' || status == 'reject_qe_section_head') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_engineer' || s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request')
+    }
+
+    if (status == 'request_confirm' || status == 'request_confirm_edited' || status == 'request_confirm_revise') {
+      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
+    }
+    return request_user
   }
 
   genOption(status: any) {
