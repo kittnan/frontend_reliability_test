@@ -68,7 +68,7 @@ export class DialogAddUserComponent implements OnInit {
   }
   onAddUser() {
     if (this.newUserForm.valid) {
-      const authorize = [this.newUserForm.value.authorize]
+      const authorize = this.newUserForm.value.authorize
       this.newUserForm.patchValue({
         username: this.newUserForm.value.employee_ID,
         createdBy: localStorage.getItem('RLS_userName')

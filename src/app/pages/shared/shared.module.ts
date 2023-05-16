@@ -40,6 +40,7 @@ import { TableOperateComponent } from './table-operate/table-operate.component';
 import { CommentComponent } from './comment/comment.component';
 import { QeReceiveComponent } from './qe-receive/qe-receive.component';
 import { ConditionTableNoChamberComponent } from './condition-table-no-chamber/condition-table-no-chamber.component';
+import { DialogApproveComponent } from './approve-form/dialog-approve/dialog-approve.component';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { ConditionTableNoChamberComponent } from './condition-table-no-chamber/c
     CommentComponent,
     QeReceiveComponent,
     ConditionTableNoChamberComponent,
+    DialogApproveComponent,
 
   ],
   imports: [

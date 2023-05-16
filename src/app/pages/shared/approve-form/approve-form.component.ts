@@ -5,6 +5,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DialogApproverComponent } from '../../admin/approver/dialog-approver/dialog-approver.component';
 
 @Component({
   selector: 'app-approve-form',
@@ -28,7 +30,8 @@ export class ApproveFormComponent implements OnInit {
     private _approve: ApproveService,
     private _loading: NgxUiLoaderService,
     private _reject: RejectService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
 
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
@@ -41,30 +44,39 @@ export class ApproveFormComponent implements OnInit {
     console.log(this.data);
 
   }
-  onApprove() {
-    if (this.data.status == "qe_window_person_report") {
-      Swal.fire({
-        title: `Do you want to finish job ?`,
-        icon: 'question',
-        showCancelButton: true
-      }).then(async (value: SweetAlertResult) => {
-        if (value.isConfirmed) {
-          this._approve.finishJob(this.data, this.userLogin)
-        }
-      })
-    } else {
-      // Swal.fire({
-      //   title: `Do you want to approve ?`,
-      //   icon: 'question',
-      //   showCancelButton: true
-      // }).then(async (value: SweetAlertResult) => {
-      //   if (value.isConfirmed) {
-      this.comment('approve')
-      //   }
-      // })
 
-    }
+  onApprove() {
+    const dialogRef: MatDialogRef<any> = this.dialog.open(DialogApproverComponent, {
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res.length > 0) {
+      }
+    })
   }
+  // onApprove() {
+  //   if (this.data.status == "qe_window_person_report") {
+  //     Swal.fire({
+  //       title: `Do you want to finish job ?`,
+  //       icon: 'question',
+  //       showCancelButton: true
+  //     }).then(async (value: SweetAlertResult) => {
+  //       if (value.isConfirmed) {
+  //         this._approve.finishJob(this.data, this.userLogin)
+  //       }
+  //     })
+  //   } else {
+  //     // Swal.fire({
+  //     //   title: `Do you want to approve ?`,
+  //     //   icon: 'question',
+  //     //   showCancelButton: true
+  //     // }).then(async (value: SweetAlertResult) => {
+  //     //   if (value.isConfirmed) {
+  //     this.comment('approve')
+  //     //   }
+  //     // })
+
+  //   }
+  // }
 
   async comment(key: any) {
     await Swal.fire({
