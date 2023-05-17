@@ -44,6 +44,9 @@ import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DialogApproveComponent } from './approve-form/dialog-approve/dialog-approve.component';
 import { DialogRejectComponent } from './approve-form/dialog-reject/dialog-reject.component';
+import { SuccessComponent } from './alert/success/success.component';
+import { WarningComponent } from './alert/warning/warning.component';
+import { DangerComponent } from './alert/danger/danger.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -84,6 +87,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConditionTableNoChamberComponent,
     DialogApproveComponent,
     DialogRejectComponent,
+    SuccessComponent,
+    WarningComponent,
+    DangerComponent,
 
   ],
   imports: [

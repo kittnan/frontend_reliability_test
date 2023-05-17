@@ -76,7 +76,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'user-manage'
+        redirectTo: 'request-manage'
       }
     ]
   }

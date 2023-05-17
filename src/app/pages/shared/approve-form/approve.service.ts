@@ -6,8 +6,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Step5HttpService } from './../../../http/step5-http.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { Injectable } from '@angular/core';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AlertService } from '../alert/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,8 @@ export class ApproveService {
     private _router: Router,
     private $log: LogFlowService,
     private $sendMail: SendMailService,
-    private _userApprove: UserApproveService
+    private _userApprove: UserApproveService,
+    private _alert: AlertService
   ) { }
 
   async finishJob(form: any, userLogin: any) {
@@ -88,7 +89,8 @@ export class ApproveService {
       //   timer: 1000,
       //   showConfirmButton: false
       // })
-      alert('Success')
+      // alert('Success')
+      this._alert.success('')
       this._loading.stopAll()
       this.link('qe_window_person')
     }, 1000);
@@ -124,6 +126,14 @@ export class ApproveService {
         },
         status: true
       }
+
+      let newComment = [comment]
+      if (typeof form.comment === 'string') {
+        newComment = [form.comment, comment]
+      }
+      if (typeof form.comment === 'object') {
+        newComment = [...form.comment, comment]
+      }
       const newForm = {
         ...form,
         status: 'request_approve',
@@ -131,7 +141,7 @@ export class ApproveService {
           _id: nextUserApprove.selected._id,
           name: nextUserApprove.selected.name
         },
-        comment: [comment, ...form?.comment?.length ? form.comment : []],
+        comment: newComment,
         level: level
       }
 
@@ -158,7 +168,9 @@ export class ApproveService {
         //   timer: 1000,
         //   showConfirmButton: false
         // })
-        alert('Success')
+        // alert('Success')
+        this._alert.success('')
+
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);
@@ -210,6 +222,14 @@ export class ApproveService {
         // console.log('insert step', newStep);
         await this.$step5.insert(newStep).toPromise()
       }
+
+      let newComment = [comment]
+      if (typeof form.comment === 'string') {
+        newComment = [form.comment, comment]
+      }
+      if (typeof form.comment === 'object') {
+        newComment = [...form.comment, comment]
+      }
       const newForm = {
         ...form,
         status: this.findNextStatus(form.status, form.level),
@@ -217,7 +237,7 @@ export class ApproveService {
           _id: nextUserApprove.selected._id,
           name: nextUserApprove.selected.name
         },
-        comment: [comment, ...form?.comment?.length ? form.comment : []],
+        comment: newComment,
 
         level: level
       }
@@ -245,7 +265,9 @@ export class ApproveService {
         //   timer: 1000,
         //   showConfirmButton: false
         // })
-        alert('Success')
+        this._alert.success('')
+
+        // alert('Success')
         console.log(prevUser.authorize);
 
         this.link(prevUser.authorize)
@@ -295,7 +317,9 @@ export class ApproveService {
       detail: JSON.stringify(resSendMail)
     }
     this.sendLog(logData)
-    alert('Success')
+    this._alert.success('')
+
+    // alert('Success')
     // Swal.fire({
     //   title: 'Success',
     //   icon: 'success',

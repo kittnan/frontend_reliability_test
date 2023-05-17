@@ -26,7 +26,7 @@ export class DialogApproveComponent implements OnInit {
     if (this.data.form.status == "qe_window_person_report") {
       this._approve.finishJob(this.data.form, this.data.userLogin)
     } else {
-      const newComment = `${this.data.userLogin.name}-> ${this.comment}`
+      const newComment = this.comment ? `${this.data.userLogin.name}-> ${this.comment}` : null
       this._approve.send(this.data.userLogin, this.data.userApprove, this.data.form, newComment)
     }
     this.dialogRef.close()

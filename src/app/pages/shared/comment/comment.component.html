@@ -10,21 +10,29 @@
     </div>
 
     <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-      <!-- <ng-container *ngIf="expression">
+      <ng-container *ngIf="validTypeString()">
+        <span *ngIf="comment">
+          {{comment}}
+        </span>
+        <span *ngIf="!comment">
+          No comment.
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!validTypeString()">
+        <span *ngIf="comment.length!==0" style="white-space: pre-line;">
+          <p *ngFor="let item of comment; let i=index" style="white-space: pre-line;">
+            {{item}}
+          </p>
+        </span>
+      </ng-container>
 
-      </ng-container> -->
-      <span>
-        {{comment}}
-      </span>
 
       <!-- <span *ngIf="comment.length!==0" style="white-space: pre-line;">
         <p *ngFor="let item of comment; let i=index" style="white-space: pre-line;">
           {{item}}
         </p>
       </span> -->
-      <span *ngIf="!comment">
-        No comment.
-      </span>
+
     </div>
 
   </div>

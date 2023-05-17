@@ -1,12 +1,12 @@
 import { LogFlowService } from './../../../http/log-flow.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Router } from '@angular/router';
-import { HttpParams } from '@angular/common/http';
 import { Step5HttpService } from './../../../http/step5-http.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { SendMailService } from 'src/app/http/send-mail.service';
+import { AlertService } from '../alert/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,8 @@ export class RejectService {
     private _loading: NgxUiLoaderService,
     private _router: Router,
     private $log: LogFlowService,
-    private $sendMail: SendMailService
+    private $sendMail: SendMailService,
+    private _alert: AlertService
   ) { }
 
   async sendReject(prevUser: any, nextUserApprove: any, form: any, comment: any, rejectToStatus: any) {
@@ -28,6 +29,14 @@ export class RejectService {
     const upperLevel = form.step5.filter((s: any) => Number(s.level) >= targetStep5.level)
     const level = this.findNextLevel(form.status, rejectToStatus)
     const nextStatusForm = this.findNextStatus(rejectToStatus)
+
+    let newComment = [comment]
+    if (typeof form.comment === 'string') {
+      newComment = [form.comment, comment]
+    }
+    if (typeof form.comment === 'object') {
+      newComment = [...form.comment, comment]
+    }
     const newForm = {
       ...form,
       status: nextStatusForm,
@@ -35,7 +44,7 @@ export class RejectService {
         _id: nextUserApprove.prevUser._id,
         name: nextUserApprove.prevUser.name
       },
-      comment: [comment, ...form?.comment?.length ? form.comment : []],
+      comment: newComment,
       level: level
     }
     if (form.status !== 'request_confirm') this.clearStep5UpperTarget(upperLevel)
@@ -72,12 +81,13 @@ export class RejectService {
       await this.$step5.update(newStep._id, newStep).toPromise()
 
       setTimeout(() => {
-        Swal.fire({
-          title: 'Success',
-          icon: 'success',
-          timer: 1000,
-          showConfirmButton: false
-        })
+        // Swal.fire({
+        //   title: 'Success',
+        //   icon: 'success',
+        //   timer: 1000,
+        //   showConfirmButton: false
+        // })
+        this._alert.success('')
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);
@@ -101,12 +111,14 @@ export class RejectService {
       // console.log('insert step5', newStep);
       await this.$step5.insert(newStep).toPromise()
       setTimeout(() => {
-        Swal.fire({
-          title: 'Success',
-          icon: 'success',
-          timer: 1000,
-          showConfirmButton: false
-        })
+        // Swal.fire({
+        //   title: 'Success',
+        //   icon: 'success',
+        //   timer: 1000,
+        //   showConfirmButton: false
+        // })
+        this._alert.success('')
+
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);

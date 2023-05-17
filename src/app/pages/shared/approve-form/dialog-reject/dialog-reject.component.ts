@@ -26,7 +26,7 @@ export class DialogRejectComponent implements OnInit {
   }
   onSubmit() {
     const foundItem = this.data.form.step5.find((s: any) => s.prevStatusForm == this.select)
-    const newComment = `${this.data.userLogin.name}-> ${this.comment}`
+    const newComment = this.comment ? `${this.data.userLogin.name}-> ${this.comment}` : null
     this._reject.sendReject(this.data.userLogin, foundItem, this.data.form, newComment, this.select)
     this.dialogRef.close()
 

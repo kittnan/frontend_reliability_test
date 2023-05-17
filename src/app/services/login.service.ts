@@ -60,7 +60,8 @@ export class LoginService {
             const dialogRef = this.dialog.open(DialogAuthComponent, {
               data: auth,
               hasBackdrop: true,
-              disableClose: true
+              disableClose: true,
+              width: '500px',
             })
             dialogRef.afterClosed().subscribe(res => {
               newAuth = res
@@ -92,7 +93,8 @@ export class LoginService {
     const dialogRef = this.dialog.open(DialogAuthComponent, {
       data: sections,
       hasBackdrop: true,
-      disableClose: true
+      disableClose: true,
+      width: '500px',
     })
     dialogRef.afterClosed().subscribe(res => {
       const section = res
