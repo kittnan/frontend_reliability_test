@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as moment from 'moment';
 import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
@@ -24,8 +25,14 @@ export class DialogQeChamberComponent implements OnInit {
     this.load = true
     if (this.data) {
       console.log(this.data);
-
-      const param: HttpParams = new HttpParams().set('value', this.data.value).set('startDate', this.data.startDate).set('qty', this.data.qty)
+      let value = []
+      if (this.data.value == 1 || this.data.value == 2) {
+        value = [this.data.value, 5]
+      } else {
+        value = [this.data.value]
+      }
+      const valueStr = JSON.stringify(value)
+      const param: HttpParams = new HttpParams().set('value', valueStr).set('startDate', moment(this.data.startDate).toISOString()).set('qty', this.data.qty)
       this.rows = await this.$chamber.getReady(param).toPromise()
       setTimeout(() => {
         this.load = false

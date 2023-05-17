@@ -1,77 +1,78 @@
 <h2 *ngIf="!load" mat-dialog-title fxLayoutAlign="start center">
-    <mat-icon>fact_check</mat-icon>
-    CHOOSE CHAMBER
+  <mat-icon>fact_check</mat-icon>
+  CHOOSE CHAMBER
 </h2>
 <mat-dialog-content class="mat-typography">
-    <mat-spinner *ngIf="load"></mat-spinner>
-    <div *ngIf="!load" fxLayoutAlign="start stretch" fxLayout="row wrap">
+  <mat-spinner *ngIf="load"></mat-spinner>
+  <div *ngIf="!load" fxLayoutAlign="start stretch" fxLayout="row wrap">
 
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch">
-            <table fxFlex="100" mat-table [dataSource]="rows" class="">
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+      <table fxFlex="100" mat-table [dataSource]="rows" class="">
 
-                <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef> SELECT </th>
-                    <td mat-cell *matCellDef="let element">
-                        <button mat-mini-fab color="primary" (click)="onSelect(element)">
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> SELECT </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-mini-fab color="primary" (click)="onSelect(element)">
               <mat-icon>done</mat-icon>
             </button>
-                    </td>
-                </ng-container>
+          </td>
+        </ng-container>
 
-                <ng-container matColumnDef="code">
-                    <th mat-header-cell *matHeaderCellDef> CODE </th>
-                    <td mat-cell *matCellDef="let element"> {{element.code}} </td>
-                </ng-container>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef> CODE </th>
+          <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+        </ng-container>
 
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> NAME </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> NAME </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
 
-                <ng-container matColumnDef="capacity">
-                    <th mat-header-cell *matHeaderCellDef> CAPACITY </th>
-                    <td mat-cell *matCellDef="let element"> {{htmlCap(element)}} </td>
-                </ng-container>
+        <ng-container matColumnDef="capacity">
+          <th mat-header-cell *matHeaderCellDef> CAPACITY </th>
+          <td mat-cell *matCellDef="let element"> {{htmlCap(element)}} </td>
+        </ng-container>
 
-                <ng-container matColumnDef="use">
-                    <th mat-header-cell *matHeaderCellDef> USE </th>
-                    <td mat-cell *matCellDef="let element"> {{htmlCalCapPercent(element)|percent}} </td>
-                </ng-container>
+        <ng-container matColumnDef="use">
+          <th mat-header-cell *matHeaderCellDef> USE </th>
+          <td mat-cell *matCellDef="let element"> {{htmlCalCapPercent(element)|percent}} </td>
+        </ng-container>
 
-                <ng-container matColumnDef="function">
-                    <th mat-header-cell *matHeaderCellDef> FUNCTION </th>
-                    <td mat-cell *matCellDef="let element">
-                        <li *ngFor="let function of element.function">
-                            {{function.name}}
-                        </li>
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="remain">
-                    <th mat-header-cell *matHeaderCellDef> REMAIN </th>
-                    <td mat-cell *matCellDef="let element">
-                        <ul *ngFor="let remain of element.remain; let i=index" style="list-style: none; margin: 10px 0;">
-                            <li style="color: rgb(71, 35, 230);">
-                                {{remain.work.controlNo}}
-                            </li>
-                            <li>
-                                {{remain.endDate |date:'dd/MM/yy, h:mm a'}}
-                            </li>
-                            <li>
-                                {{remain.work.qty}} pcs.
-                            </li>
-                        </ul>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-
-        </div>
+        <ng-container matColumnDef="function">
+          <th mat-header-cell *matHeaderCellDef> FUNCTION </th>
+          <td mat-cell *matCellDef="let element">
+            <li *ngFor="let function of element.function">
+              {{function.name}}
+            </li>
+          </td>
+        </ng-container>
 
 
-        <!-- <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index"
+        <ng-container matColumnDef="remain">
+          <th mat-header-cell *matHeaderCellDef> REMAIN </th>
+          <td mat-cell *matCellDef="let element">
+            <ul *ngFor="let remain of element.remain; let i=index" style="list-style: none; margin: 10px 0;">
+              <li style="color: rgb(71, 35, 230);">
+                {{remain.work.controlNo}}
+              </li>
+              <li>
+                {{remain.endDate |date:'dd/MM/yy, h:mm a'}}
+              </li>
+              <li>
+                {{remain.work.qty}} pcs.
+              </li>
+            </ul>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+    </div>
+
+
+    <!-- <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index"
       (click)="onSelect(row)" class="pointer box-body mtb-2 b-1" [ngClass]="{'chamber-red': !row.status}">
 
       <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
@@ -135,13 +136,13 @@
     </div> -->
 
 
-    </div>
+  </div>
 
 
 
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="!load" align="end">
-    <button mat-button mat-dialog-close>
+  <button mat-button mat-dialog-close>
     <span class="material-icons-outlined">
       close
     </span>
