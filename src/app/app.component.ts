@@ -1,17 +1,15 @@
 import { DialogAuthComponent } from './pages/shared/dialog-auth/dialog-auth.component';
-import { RequestHttpService } from 'src/app/http/request-http.service';
-import { environment } from 'src/environments/environment';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { LoginService } from './services/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { v4 as uuid } from 'uuid';
 import { ToastService } from './services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -170,6 +168,7 @@ export class AppComponent {
     return localStorage.getItem('RLS_authorize')
   }
   htmlShowSectionLogin() {
+    if (!localStorage.getItem('RLS_section')) window.location.href = '/login'
     return localStorage.getItem('RLS_section')
   }
 
@@ -471,25 +470,31 @@ export class AppComponent {
   }
 
   onLogout() {
-    Swal.fire({
-      title: `Do you want to logout?`,
-      icon: 'question',
-      showCancelButton: true
-    }).then((value: SweetAlertResult) => {
-      if (value.isConfirmed) {
-        this._loading.start()
-        localStorage.removeItem('RLS_token')
-        localStorage.removeItem('RLS_id')
-        localStorage.removeItem('RLS_authorize')
-        localStorage.removeItem('RLS_userName')
-        localStorage.removeItem('RLS_userLogin')
-        localStorage.removeItem('RLS_section')
-        location.href = environment.BASE
-        // this._router.navigate([environment.BASE]).then(() => {
-        //   window.location.reload();
-        // });
-      }
+    console.log(environment.BASE);
+
+    this._loading.start()
+    localStorage.removeItem('RLS_token')
+    localStorage.removeItem('RLS_id')
+    localStorage.removeItem('RLS_authorize')
+    localStorage.removeItem('RLS_userName')
+    localStorage.removeItem('RLS_userLogin')
+    localStorage.removeItem('RLS_section')
+    this._router.navigate(['']).then(() => {
+      window.location.reload();
     })
+    // window.location.href = 'http://10.200.90.152:8081/reliability/login'
+    // Swal.fire({
+    //   title: `Do you want to logout?`,
+    //   icon: 'question',
+    //   showCancelButton: true
+    // }).then((value: SweetAlertResult) => {
+    //   if (value.isConfirmed) {
+    //     // location.href = environment.BASE
+    //     // this._router.navigate([environment.BASE]).then(() => {
+    //     //   window.location.reload();
+    //     // });
+    //   }
+    // })
   }
 
 

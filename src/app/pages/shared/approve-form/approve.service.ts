@@ -82,12 +82,13 @@ export class ApproveService {
     ccUser = [...new Set(ccUser)]
     this.sendMail([newApprover.selected._id], newForm.status, newForm._id, ccUser)
     setTimeout(() => {
-      Swal.fire({
-        title: 'Success',
-        icon: 'success',
-        timer: 1000,
-        showConfirmButton: false
-      })
+      // Swal.fire({
+      //   title: 'Success',
+      //   icon: 'success',
+      //   timer: 1000,
+      //   showConfirmButton: false
+      // })
+      alert('Success')
       this._loading.stopAll()
       this.link('qe_window_person')
     }, 1000);
@@ -151,12 +152,13 @@ export class ApproveService {
       ccUser = [...new Set(ccUser)]
       this.sendMail(toList, newForm.status, newForm._id, ccUser)
       setTimeout(() => {
-        Swal.fire({
-          title: 'Success',
-          icon: 'success',
-          timer: 1000,
-          showConfirmButton: false
-        })
+        // Swal.fire({
+        //   title: 'Success',
+        //   icon: 'success',
+        //   timer: 1000,
+        //   showConfirmButton: false
+        // })
+        alert('Success')
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);
@@ -237,13 +239,13 @@ export class ApproveService {
 
       setTimeout(() => {
         this._loading.stopAll()
-        Swal.fire({
-          title: 'Success',
-          icon: 'success',
-          timer: 1000,
-          showConfirmButton: false
-        })
-        alert()
+        // Swal.fire({
+        //   title: 'Success',
+        //   icon: 'success',
+        //   timer: 1000,
+        //   showConfirmButton: false
+        // })
+        alert('Success')
         console.log(prevUser.authorize);
 
         this.link(prevUser.authorize)
@@ -293,14 +295,15 @@ export class ApproveService {
       detail: JSON.stringify(resSendMail)
     }
     this.sendLog(logData)
-    Swal.fire({
-      title: 'Success',
-      icon: 'success',
-      timer: 1000,
-      showConfirmButton: false
-    }).then(() => {
-      Swal.close()
-    })
+    alert('Success')
+    // Swal.fire({
+    //   title: 'Success',
+    //   icon: 'success',
+    //   timer: 1000,
+    //   showConfirmButton: false
+    // }).then(() => {
+    //   Swal.close()
+    // })
   }
 
 
