@@ -59,51 +59,8 @@ export class ApproveFormComponent implements OnInit {
     })
 
   }
-  // onApprove() {
-  //   if (this.data.status == "qe_window_person_report") {
-  //     Swal.fire({
-  //       title: `Do you want to finish job ?`,
-  //       icon: 'question',
-  //       showCancelButton: true
-  //     }).then(async (value: SweetAlertResult) => {
-  //       if (value.isConfirmed) {
-  //         this._approve.finishJob(this.data, this.userLogin)
-  //       }
-  //     })
-  //   } else {
-  //     // Swal.fire({
-  //     //   title: `Do you want to approve ?`,
-  //     //   icon: 'question',
-  //     //   showCancelButton: true
-  //     // }).then(async (value: SweetAlertResult) => {
-  //     //   if (value.isConfirmed) {
-  //     this.comment('approve')
-  //     //   }
-  //     // })
 
-  //   }
-  // }
 
-  // async comment(key: any) {
-  //   await Swal.fire({
-  //     input: 'textarea',
-  //     inputLabel: 'Message',
-  //     inputPlaceholder: 'Type your message here...',
-  //     inputAttributes: {
-  //       'aria-label': 'Type your message here'
-  //     },
-  //     showCancelButton: true
-  //   }).then((value: SweetAlertResult) => {
-  //     (value);
-  //     if (value.isConfirmed) {
-  //       // console.log('@@@@@@@@@@@@@@2', this.data);
-
-  //       if (key == 'approve') {
-  //         this._approve.send(this.userLogin, this.userApprove, this.data, value.value)
-  //       }
-  //     }
-  //   })
-  // }
 
   handleReject() {
     const dialogRef = this.dialog.open(DialogRejectComponent, {
@@ -118,48 +75,7 @@ export class ApproveFormComponent implements OnInit {
     })
   }
 
-  async onReject() {
-    // const option: any = this.genOption(this.data.status)
-    // const dialogRef = this.dialog.open(DialogApproveComponent, {
-    //   data:{
-    //     option:option,
-    //   }
-    // })
-    // dialogRef.afterClosed().subscribe(closed => {
-    //   if (closed) {
-    //   }
-    // })
-    const option: any = this.genOption(this.data.status)
-    if (option) {
-      const { value: key } = await Swal.fire({
-        title: 'REJECT ',
-        input: 'select',
-        inputOptions: option,
-        inputPlaceholder: 'SEND REJECT TO',
-        showCancelButton: true,
 
-      })
-      if (key) {
-        await Swal.fire({
-          input: 'textarea',
-          inputLabel: 'Message',
-          inputPlaceholder: 'Type your message here...',
-          inputAttributes: {
-            'aria-label': 'Type your message here'
-          },
-          showCancelButton: true
-        }).then((value: SweetAlertResult) => {
-          if (value.isConfirmed) {
-            const findUserApprove = this.data.step5.find((s: any) => s.prevStatusForm == key)
-            this._reject.sendReject(this.userLogin, findUserApprove, this.data, value.value, key)
-          }
-        })
-      }
-    }
-
-    // Swal.fire('SUCC', '', 'success')
-
-  }
   genOption2(status: any) {
     let request_user
     if (status == 'request_approve' || status == 'reject_request_approve') {
@@ -184,51 +100,10 @@ export class ApproveFormComponent implements OnInit {
     if (status == 'request_confirm' || status == 'request_confirm_edited' || status == 'request_confirm_revise') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
     }
+
     return request_user
   }
 
-  genOption(status: any) {
-    let request_user
-    if (status == 'request_approve' || status == 'reject_request_approve') {
-      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
-
-    }
-    if (status == 'qe_window_person' || status == 'reject_qe_window_person') {
-      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
-    }
-
-    if (status == 'qe_engineer' || status == 'reject_qe_engineer') {
-      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request_approve')
-    }
-    if (status == 'qe_engineer2' || status == 'reject_qe_engineer') {
-      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request_approve')
-    }
-
-    if (status == 'qe_section_head' || status == 'reject_qe_section_head') {
-      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_engineer' || s.prevStatusForm == 'qe_window_person' || s.prevStatusForm == 'request')
-    }
-
-    if (status == 'request_confirm' || status == 'request_confirm_edited' || status == 'request_confirm_revise') {
-      request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
-    }
-
-
-    // console.log(request_user);
-
-
-
-    const arrayUniqueByKey = [...new Map(request_user.map((item: any) =>
-      [item['prevStatusForm'], item])).values()];
-
-
-    const temp = arrayUniqueByKey.reduce((prev: any, now: any) => {
-      const newKey: any = now.prevStatusForm
-      prev[newKey] = `${now.prevStatusForm} ➢ ${now.prevUser.name}`
-      return prev
-    }, {})
-    return temp
-
-  }
 
   onBack() {
     this._router.navigate(['/'])

@@ -74,7 +74,7 @@ export class AppComponent {
   }
   ngAfterContentChecked() {
 
-    this.changeDetectorRef.detectChanges();
+    // this.changeDetectorRef.detectChanges();
 
   }
 
