@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 // import { HomeComponent } from './home/home.component';
 import { ManageComponent } from './manage/manage.component';
 import { RequestsComponent } from './requests.component';
+import { RevisesSheetComponent } from './revises/revises-sheet/revises-sheet.component';
+import { RevisesTableComponent } from './revises/revises-table/revises-table.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,14 @@ const routes: Routes = [
       {
         path: 'manage',
         component: ManageComponent
+      },
+      {
+        path: 'revises-sheet',
+        component: RevisesSheetComponent
+      },
+      {
+        path: 'revises-table',
+        component: RevisesTableComponent
       },
       {
         path: '',

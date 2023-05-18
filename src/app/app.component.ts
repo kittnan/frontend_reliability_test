@@ -312,6 +312,12 @@ export class AppComponent {
               icon: 'feed',
               title: 'manage'
             },
+            {
+              path: '/request/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
+
 
           ]
         }

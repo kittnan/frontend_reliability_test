@@ -31,6 +31,8 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { NoOvenComponent } from './sheet/components/sheet-step4/step4-form/step4-home/form/no-oven/no-oven.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { RevisesSheetComponent } from './revises/revises-sheet/revises-sheet.component';
+import { RevisesTableComponent } from './revises/revises-table/revises-table.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -57,6 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InspectionFormComponent,
     ConfirmComponent,
     NoOvenComponent,
+    RevisesSheetComponent,
+    RevisesTableComponent,
 
   ],
   imports: [
