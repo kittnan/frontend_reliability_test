@@ -37,7 +37,7 @@ export class GuestComponent implements OnInit {
   selected_status = 'ongoing'
   requests: any = []
 
-  displayedColumns: string[] = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'ongoing', 'btn'];
+  displayedColumns: string[] = ['controlNo', 'userRequest', 'purpose', 'requestSubject', 'lotNo', 'modelNo', 'status', 'ongoing', 'btn'];
   pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -278,12 +278,24 @@ export class GuestComponent implements OnInit {
       this._report.genReportExcel(form)
     }, 500);
   }
-  htmlOngoingTo(q: any) {
-    // console.log(q);
-    if (q && q.length > 0) {
-      const item = q[0].inspectionTime.find((i: any) => moment().isBetween(moment(i.startDate), moment(i.endDate)))
-      return item ? item.at : '-'
 
+  htmlOngoingTo(q: any, item: any) {
+    const foundItem = item.queues.find((i: any) => i.condition['value'] != 0)
+    if (foundItem && foundItem?.inspectionTime.length >= 2) {
+      const item = foundItem.inspectionTime.find((i: any) => {
+        const diff = moment().diff(moment(i.startDate), 'hours')
+        if (diff <= 0) return true
+        return false
+      })
+      // console.log("🚀 ~ item:", item)
+      if (item) {
+        const index = foundItem.inspectionTime.indexOf(item)
+        const prev = foundItem.inspectionTime[index - 1]
+        if (prev) {
+          const diff = moment().diff(moment(prev.endDate), 'hours')
+          if (diff > 0) return `${Number(prev.at + diff)} / ${item.at}`
+        }
+      }
     }
     return '-'
   }

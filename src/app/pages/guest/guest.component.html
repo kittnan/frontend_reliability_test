@@ -30,6 +30,19 @@
           <td mat-cell *matCellDef="let row"> {{row.controlNo}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="purpose">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> PURPOSE </th>
+          <td mat-cell *matCellDef="let row">
+            {{row.purpose?.purpose}}
+            <p *ngIf="row.purpose?.description.status">{{row.purpose?.description.value}}</p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="requestSubject">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> request Subject </th>
+          <td mat-cell *matCellDef="let row"> {{row.requestSubject}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="lotNo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> LOT NO. </th>
           <td mat-cell *matCellDef="let row"> {{row.lotNo}} </td>
@@ -54,7 +67,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> On going To (hrs.) </th>
           <td mat-cell *matCellDef="let row">
             <!-- <span *ngIf="row?.nextApprove?.name">{{row.nextApprove.name |uppercase}}</span> -->
-            {{htmlOngoingTo(row.queues)}}
+            {{htmlOngoingTo(row.queues,row)}}
           </td>
         </ng-container>
 
