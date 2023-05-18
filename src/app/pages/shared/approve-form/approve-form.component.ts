@@ -4,8 +4,6 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserHttpService } from 'src/app/http/user-http.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
-import { A } from '@angular/cdk/keycodes';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogApproveComponent } from './dialog-approve/dialog-approve.component';
 import { DialogRejectComponent } from './dialog-reject/dialog-reject.component';
@@ -20,6 +18,7 @@ export class ApproveFormComponent implements OnInit {
 
   @Input() reject: boolean = true
   @Input() back: boolean = true
+  @Input() approve: boolean = true
   @Input() data: any
   @Input() userApprove: any
   @Input() disable: boolean = true
@@ -70,13 +69,13 @@ export class ApproveFormComponent implements OnInit {
         userApprove: this.userApprove,
         userLogin: this.userLogin,
         form: this.data,
-        option: this.genOption2(this.data.status)
+        option: this.generateOptionReject(this.data.status)
       }
     })
   }
 
 
-  genOption2(status: any) {
+  generateOptionReject(status: any) {
     let request_user
     if (status == 'request_approve' || status == 'reject_request_approve') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'request' || s.prevStatusForm == 'draft')
@@ -100,8 +99,9 @@ export class ApproveFormComponent implements OnInit {
     if (status == 'request_confirm' || status == 'request_confirm_edited' || status == 'request_confirm_revise') {
       request_user = this.data.step5.filter((s: any) => s.prevStatusForm == 'qe_window_person')
     }
-
-    return request_user
+    const arrayUniqueByKey = [...new Map(request_user.map((item: any) =>
+      [item.prevUser._id, item])).values()];
+    return arrayUniqueByKey
   }
 
 
@@ -142,14 +142,28 @@ export class ApproveFormComponent implements OnInit {
   }
   fullReportStatus() {
     const queues = this.data.queues
-    const findReport = queues.find((q: any) => {
-      const fullReportLen = q.reportQE.length
-      const currentReportLen = q.reportQE.filter((r: any) => r.files.length != 0).length
-      if (fullReportLen == currentReportLen) return true
-      return false
-    })
-    if (findReport) return true
+    const maxCorrectReportLen = queues.reduce((prev: any, now: any) => {
+      const currentReportLen = now.reportQE.length
+      if (prev < currentReportLen) return currentReportLen
+      return prev
+    }, 0)
+    const maxUploadedReportLen = queues.reduce((prev: any, now: any) => {
+      const currentReportLen = now.reportQE.filter((r: any) => r.files.length != 0).length
+      if (prev < currentReportLen) return currentReportLen
+      return prev
+    }, 0)
+    if (maxCorrectReportLen == maxUploadedReportLen) return true
     return false
   }
+  // fullReportStatus() {
+  //   const queues = this.data.queues
+  //   const findReport = queues.find((q: any) => {
+  //     const currentReportLen = q.reportQE.filter((r: any) => r.files.length != 0).length
+  //     if (q.reportQE.length == currentReportLen) return true
+  //     return false
+  //   })
+  //   if (findReport) return true
+  //   return false
+  // }
 
 }

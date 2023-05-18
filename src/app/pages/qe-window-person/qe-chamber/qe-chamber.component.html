@@ -14,7 +14,6 @@
         (approveChange)="approveChange($event)" [formInput]="form">
       </app-qe-chamber-planning-detail>
 
-
       <mat-form-field fxFlex="100" appearance="fill" class="content-item">
         <mat-label>SEND TO...</mat-label>
         <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
@@ -23,10 +22,16 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-
-      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form"></app-approve-form>
+      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="true">
+      </app-approve-form>
     </ng-container>
+
+    <ng-container *ngIf="!form.qeReceive.qty">
+      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="false">
+      </app-approve-form>
+    </ng-container>
+
+
 
 
 

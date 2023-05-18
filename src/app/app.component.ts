@@ -78,18 +78,6 @@ export class AppComponent {
 
   }
 
-  // onTranslate() {
-  //   console.log(this.translate.currentLang);
-  //   if (this.translate.currentLang == 'th') {
-  //     this.translate.use('en');
-  //     return;
-  //   }
-  //   if (this.translate.currentLang == 'en') {
-  //     this.translate.use('th');
-  //     return;
-  //   }
-  // }
-
   bgLogin() {
     const locationUrl = this._router.url
     if (locationUrl.includes('login')) return 'bg-login'

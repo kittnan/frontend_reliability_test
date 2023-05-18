@@ -217,7 +217,8 @@ export class TableRequestComponent implements OnInit {
           item.status === 'request_confirm' ||
           item.status === 'draft' ||
           item.status === 'reject_request' ||
-          item.status === 'request_confirm_revise'
+          item.status === 'request_confirm_revise' ||
+          item.status === 'request_confirm_edited'
         ) &&
         (
           auth == 'request'

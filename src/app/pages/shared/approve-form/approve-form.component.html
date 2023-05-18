@@ -13,7 +13,7 @@
     REJECT
   </button>
 
-  <button *ngIf="data.status!='qe_window_person_report'" [disabled]="validAuth()" fxFlex="30" mat-flat-button
+  <button *ngIf="approve && data.status!='qe_window_person_report'" [disabled]="validAuth()" fxFlex="30" mat-flat-button
     color="primary" (click)="handleApprove()">
     <span class="material-icons-outlined">
       done_all
@@ -21,8 +21,8 @@
     APPROVE
   </button>
 
-  <button *ngIf="data.status=='qe_window_person_report'" [disabled]="validFinish()" fxFlex="30" mat-flat-button
-    color="primary" (click)="handleApprove()">
+  <button *ngIf="approve && data.status=='qe_window_person_report'" [disabled]="validFinish()" fxFlex="30"
+    mat-flat-button color="primary" (click)="handleApprove()">
     <span class="material-icons-outlined">
       done_all
     </span>

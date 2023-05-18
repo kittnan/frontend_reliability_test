@@ -398,10 +398,6 @@ export class ApproveService {
       case 'reject_request_confirm':
         return 8
 
-      case 'reject_request_confirm':
-        return 8
-
-
       default:
         return ''
     }
