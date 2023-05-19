@@ -315,7 +315,7 @@ export class AppComponent {
             {
               path: '/request/revises-table',
               icon: 'feed',
-              title: 'revises-plan'
+              title: 'revises plan'
             },
 
 

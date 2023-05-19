@@ -15,4 +15,7 @@ export class RevisesHttpService {
   getPrev(params: HttpParams): Observable<any> {
     return this.http.get(`${this.URL}/${this.sub}/prev`, { params: params })
   }
+  insert(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/${this.sub}/insert`, data)
+  }
 }

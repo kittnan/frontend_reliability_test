@@ -32,6 +32,7 @@ export class SheetStep1Component implements OnInit {
   @Input() data: any
   @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
+  @Input() propReviseMode: boolean = false
   @ViewChild('fileUpload') fileUpload!: ElementRef
 
   requestForm = new FormGroup({
@@ -102,7 +103,9 @@ export class SheetStep1Component implements OnInit {
   }
 
   async ngOnInit() {
-    // this.requestForm.controls.requestSubject.markAsTouched()
+
+    if (this.propReviseMode) this._stepper.selectedIndex = 3
+
     this.requestForm.markAllAsTouched()
     this.models = await this.$master.getModelMaster().toPromise()
 
@@ -110,14 +113,11 @@ export class SheetStep1Component implements OnInit {
       startWith(''), map((value: any) => this._filter(value || ''))
     )
 
-    // this.departments = await this.$master.getDepartmentMaster().toPromise()
     if (this.data) {
       this.requestForm.patchValue({ ...this.data })
     }
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    // const tempId: any = localStorage.getItem('RLS_id')
-    // this.userLogin = await this.$user.getUserById(tempId).toPromise()
 
     if (this.params && this.params['id']) {
       this.formId = this.params['id']

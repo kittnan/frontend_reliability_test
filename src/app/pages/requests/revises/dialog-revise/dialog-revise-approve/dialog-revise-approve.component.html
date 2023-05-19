@@ -1,0 +1,20 @@
+<div fxLayout="row wrap" fxLayoutAlign="start stretch">
+  <h3>{{data.dialogRef.title}}</h3>
+  <mat-form-field fxFlex="100" appearance="fill">
+    <mat-label>Comment</mat-label>
+    <textarea [(ngModel)]="comment" matInput rows="5"></textarea>
+  </mat-form-field>
+  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end stretch">
+    <div fxFlex="auto">
+    </div>
+    <button mat-button (click)="onCancel()" style="margin-right: 10px;">
+      Cancel
+    </button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      <span class="material-icons-outlined">
+        done_all
+      </span>
+      {{data.dialogRef.submitText}}
+    </button>
+  </div>
+</div>

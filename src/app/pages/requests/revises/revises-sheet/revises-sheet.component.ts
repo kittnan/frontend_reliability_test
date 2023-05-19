@@ -13,6 +13,7 @@ import { RevisesHttpService } from 'src/app/http/revises-http.service';
 })
 export class RevisesSheetComponent implements OnInit {
   userLogin: any
+  form: any
   constructor(
     private _loading: NgxUiLoaderService,
     private route: ActivatedRoute,
@@ -33,10 +34,11 @@ export class RevisesSheetComponent implements OnInit {
       const ID: any = await this.handleParams()
       console.log('ID', ID);
       const resData = await this.getPrevData(ID)
-
+      console.log("🚀 ~ resData:", resData)
+      this.form = resData[0]
       this._loading.stop()
     } catch (error) {
-      alert(error)
+      // alert(error)
       this._loading.stop()
     }
   }
@@ -62,7 +64,8 @@ export class RevisesSheetComponent implements OnInit {
 
   getPrevData(_id: string) {
     const params: HttpParams = new HttpParams().set('_id', _id)
-    return this.$revises.getPrev(params).toPromise()
+    return this.$request.get_id(_id).toPromise()
+    // return this.$revises.getPrev(params).toPromise()
   }
 
   onTranslate() {
@@ -75,6 +78,10 @@ export class RevisesSheetComponent implements OnInit {
       this.translate.use('th');
       return;
     }
+  }
+  emit(e: any) {
+    console.log(e);
+
   }
 
 }

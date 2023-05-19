@@ -1,12 +1,4 @@
 <div fxLayoutAlign="space-around stretch" fxLayout="row wrap">
-
-  <!-- <mat-radio-group fxFlex="100" aria-label="Select an option" [(ngModel)]="chamber" (ngModelChange)="onSelectChamber()">
-    <mat-radio-button value="yes">chamber</mat-radio-button>
-    <mat-radio-button value="no">no chamber</mat-radio-button>
-  </mat-radio-group> -->
-  <!--
-  <mat-divider *ngIf="chamber" fxFlex="100" style="margin: 10px 0;"></mat-divider> -->
-
   <mat-form-field appearance="fill" fxFlex="100">
     <mat-label>Select Condition</mat-label>
     <mat-select [(ngModel)]="selected" (ngModelChange)="onSelected()">

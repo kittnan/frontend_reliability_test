@@ -4,7 +4,7 @@
       <mat-step #step1>
         <ng-template matStepLabel>{{'header-sheet.step1' |translate}}</ng-template>
         <app-sheet-step1 *ngIf="stepper.selected==step1" [(data)]="request.step1" [(formId)]="formId"
-          (dataChange)="emit($event)"></app-sheet-step1>
+          [propReviseMode]="propReviseMode" (dataChange)="emit($event)"></app-sheet-step1>
       </mat-step>
       <mat-step #step2>
         <ng-template matStepLabel>{{'header-sheet.step2' |translate}}</ng-template>
@@ -16,7 +16,8 @@
       </mat-step>
       <mat-step #step4>
         <ng-template matStepLabel>{{'header-sheet.step4' |translate}}</ng-template>
-        <app-sheet-step4 *ngIf="stepper.selected==step4" [formId]="formId"></app-sheet-step4>
+        <app-sheet-step4 *ngIf="stepper.selected==step4" [formId]="formId"
+          [propReviseMode]="propReviseMode"></app-sheet-step4>
       </mat-step>
       <mat-step #step5>
         <ng-template matStepLabel>{{'header-sheet.step5' |translate}}</ng-template>

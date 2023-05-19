@@ -1,6 +1,6 @@
 import { RequestHttpService } from './../../../http/request-http.service';
 import { ActivatedRoute } from '@angular/router';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -16,6 +16,8 @@ interface requestForm {
 })
 export class SheetComponent implements OnInit {
 
+  @Input() propRequest: any
+  @Input() propReviseMode: boolean = false
   params: any
   formId: any
   request: requestForm = {
@@ -43,6 +45,7 @@ export class SheetComponent implements OnInit {
         this.request = res[0]
       })
     }
+
 
   }
 

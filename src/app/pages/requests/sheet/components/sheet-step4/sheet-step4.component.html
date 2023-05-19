@@ -1,22 +1,45 @@
 <app-step4-home *ngIf="chamber" [conditionForm]="conditionForm" (conditionFormChange)="onConditionForm($event)"
   [formId]="formId"></app-step4-home>
 <app-condition-table *ngIf="table.length>0" [data]="table"></app-condition-table>
-<div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
-  <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">
-    <span class="material-icons-outlined">
-      keyboard_double_arrow_left
-    </span>
-    <span class="btn-back">
-      Back
-    </span>
-  </button>
-  <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+<div fxLayout="row wrap" fxLayoutAlign="space-around stretch" style="margin-top: 20px;">
 
-    <span class="material-icons-outlined">
-      keyboard_double_arrow_right
-    </span>
-    <span class="btn-next">
-      Next
-    </span>
-  </button>
+  <ng-container *ngIf="propReviseMode">
+    <button fxFlex="30" mat-raised-button color="accent" (click)="onCancel()">
+      <span class="material-icons-outlined">
+        block
+      </span>
+      <span class="btn-back">
+        Cancel
+      </span>
+    </button>
+    <button fxFlex="30" mat-raised-button color="primary" (click)="handleReviseRequest()">
+
+      <span class="material-icons-outlined">
+        done_all
+      </span>
+      <span class="btn-next">
+        Submit
+      </span>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="!propReviseMode">
+    <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">
+      <span class="material-icons-outlined">
+        keyboard_double_arrow_left
+      </span>
+      <span class="btn-back">
+        Back
+      </span>
+    </button>
+    <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+
+      <span class="material-icons-outlined">
+        keyboard_double_arrow_right
+      </span>
+      <span class="btn-next">
+        Next
+      </span>
+    </button>
+  </ng-container>
+
 </div>

@@ -43,7 +43,6 @@ export class Step4HomeComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    console.clear()
     this.condition_list = await this.$master.getFunctionChamber().toPromise()
     this.condition_list = this.condition_list.map((con: ConditionListForm) => {
       return {
@@ -51,16 +50,8 @@ export class Step4HomeComponent implements OnInit {
         disable: false
       }
     })
-
-
-    // console.log("🚀 ~ this.conditionList:", this.condition_list)
-    // console.log('this.conditionForm', this.conditionForm);
-
-    // this.tempConditionForm = [...this.conditionForm]
-    // this.conditions = this.conditionForm
     this.data = this.conditionForm.data
     this.inspection = this.data[0]?.inspectionDetail ? this.data[0].inspectionDetail : this.inspection
-    // console.log("🚀 ~ this.inspection:", this.inspection)
     if (this.data.length > 0) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const step3 = await this.$step3.get(params).toPromise()
@@ -82,7 +73,6 @@ export class Step4HomeComponent implements OnInit {
           })
         }
       })
-      // console.log("🚀 ~ filterOven:", filterOven)
 
       const filteredData = filterOven.map((f: any) => {
         if (f.type == 'oven') {
@@ -104,7 +94,6 @@ export class Step4HomeComponent implements OnInit {
           }]
         }
       })
-      // concat list in  filteredData
       let concatList = filteredData.reduce((acc: any, cur: any) => {
         return acc.concat(cur)
       }, [])

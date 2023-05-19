@@ -64,6 +64,9 @@
           <td mat-cell *matCellDef="let row">
 
             <button mat-raised-button color="warn" [disabled]="row.btnStatus" (click)="handleRevise(row)">
+              <mat-icon class="mat-18">
+                edit_calendar
+              </mat-icon>
               REQUEST REVISE
             </button>
           </td>

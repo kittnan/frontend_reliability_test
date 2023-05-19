@@ -7,11 +7,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Subscription, interval, lastValueFrom } from 'rxjs';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { DialogViewComponent } from 'src/app/pages/shared/dialog-view/dialog-view.component';
 import { ReportService } from 'src/app/pages/shared/table-request/report.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-revises-table',
@@ -108,7 +106,7 @@ export class RevisesTableComponent implements OnInit {
       const foo = data.map((item: any) => {
         return {
           ...item,
-          btn_status: this.rowStatus(item),
+          btnStatus: this.rowStatus(item),
           userRequest: this.rowUserRequest(item)
         }
       })
@@ -124,20 +122,15 @@ export class RevisesTableComponent implements OnInit {
   }
 
 
-  private rowText(item: any) {
-    if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit'
-    if (item && item.status === 'draft') return 'edit'
-    if (item && item.status === 'qe_department_head') return 'report'
-    if (item && item.status === 'qe_revise') return 'revise'
-    if (item && (item.status === 'close_job' || item.status === 'finish')) return 'finish'
-    return 'approve'
-  }
-
   private rowStatus(item: any) {
-    // console.log(item);
-
     const auth = localStorage.getItem('RLS_authorize')
-    if (auth == 'request' && item.status == 'qe_window_person_report' && item.level == 7) return false
+    if (
+      auth == 'request' &&
+      item.status == 'qe_window_person_report' &&
+      item.level == 7 &&
+      (!item.request_revise ||
+        item.request_revise?.length == 0)
+    ) return false
     return true
   }
 
