@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
@@ -48,30 +47,17 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private $user: UserHttpService,
     private _qenInspectionTable: GenInspectionTableService,
   ) {
-    // this.$operateItems.get().subscribe(res => this.operateItems = res);
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    // const id: any = localStorage.getItem('RLS_id')
-    // this.$user.getUserById(id).subscribe(res => this.userLogin = res)
-
   }
 
   async ngOnInit(): Promise<void> {
-    // console.log('this.queues', this.queues);
-    // console.log('this.formInput', this.formInput)
-
     this.tempQueues = [...this.queues]
-    // this.getDraft()
-    // console.clear()
-    // console.log('form', this.formInput);
-    // console.log('this.tempQueues', this.tempQueues);
-
     if (this.queues) {
       this.queues = await this.getQueuesDraft(this.queues)
       this.queues.map((d: any) => {
         this.onCal(d, 0)
       })
-      // console.log("🚀 ~ this.queues:", this.queues)
       this.tableData = await this.mapForTable(this.queues)
     }
 
@@ -82,16 +68,11 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   async getQueuesDraft(queues: any) {
     const queueDraft = await this.$queue.getFormId(queues[0].work.requestId).toPromise()
-    // console.log("🚀 ~ queueDraft:", queueDraft)
-    // console.log("🚀 ~ queues:", queues);
 
     queues = queues.map((d: QueueForm) => {
       const draft = queueDraft.find((draft: QueueForm) => {
         return draft.condition?.name == d.condition?.name
       })
-      // console.log('d', d)
-
-      // console.log("🚀 ~ draft:", draft)
       if (draft) {
         const inspectionTime = d?.inspectionTime?.map((d: any) => {
           const a = draft.inspectionTime.find((g: any) => g.at == d.at)
@@ -574,35 +555,15 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       temp.push(now.condition.name)
       return temp
     }, [])
-    // console.log(data, header);
-
     const receive = header.map((h: any) => this.requestForm[0].qeReceive?.date ? moment(this.requestForm[0].qeReceive.date).format('ddd, D-MMM-YY,h:mm a') : '-')
     const times_inspection = await this.mapTime(queues, 'inspectionTime')
     const times_report = await this.mapTime(queues, 'reportTime')
-    // console.log("🚀 ~ times_report:", times_report)
-    // const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, times_report, receive, ['condition', ...header])
-    // console.log('@@@@@@@@@@@@', this.formInput);
-
-    // let reportStatus = this.formInput.step4.data[0].reportStatus
-    // if (reportStatus != true || reportStatus != false) {
-    //   reportStatus = this.formInput.step4.data[0].data.reportStatus
-    // }
     let reportStatus = this.formInput?.step4?.data[0]?.reportStatus ? this.formInput.step4.data[0].reportStatus : this.formInput.step4.data[0].data.reportStatus
     if (this.formInput.step4.data[0].data.report.length > 0) {
       reportStatus = true
     }
-    // console.log("🚀 ~ reportStatus:", reportStatus)
 
     const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, queues, header, 'inspectionTime', times_report, ['Sample Receive', ...receive], reportStatus, this.formInput.step4)
-    // console.log("🚀 ~ table_inspection:", table_inspection)
-
-    // this.tableData = {
-    //   header: header,
-    //   data: table_inspection
-    // }
-    // this.loopData()
-    // this.emit()
-    // console.log(this.data)
     return {
       header: header,
       data: table_inspection

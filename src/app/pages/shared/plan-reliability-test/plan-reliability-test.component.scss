@@ -1,78 +1,80 @@
 table,
 th,
 td {
-    border: 1px solid black;
-    border-collapse: collapse;
-    word-wrap: break-word;
+  border: 1px solid black;
+  border-collapse: collapse;
+  word-wrap: break-word;
 }
 
 th,
 td {
-    padding: 10px;
+  padding: 10px;
 }
 
 table {
-    table-layout: fixed;
+  table-layout: fixed;
 }
 
 .box-table {
-    overflow: auto;
+  overflow: auto;
 }
 
 thead th {
-    position: -webkit-sticky;
-    /* for Safari */
-    position: sticky;
-    top: 0;
-    background: #fff;
+  position: -webkit-sticky;
+  /* for Safari */
+  position: sticky;
+  top: 0;
+  background: #fff;
 }
 
 thead th:first-child {
-    left: 0;
-    z-index: 1;
+  left: 0;
+  z-index: 1;
 }
 
 tbody {
-    position: -webkit-sticky;
-    /* for Safari */
-    position: sticky;
-    left: 0;
-    background: #fff;
+  position: -webkit-sticky;
+  /* for Safari */
+  position: sticky;
+  left: 0;
+  background: #fff;
 }
 
 .text-over {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .upper-text {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 .s-20 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .c-blue {
-    color: rgb(73, 73, 233);
+  color: rgb(73, 73, 233);
 }
 
 .bg-grey {
-    background-color: rgb(201, 200, 200);
+  background-color: rgb(201, 200, 200);
 }
 
 .row-end {
-    background-color: rgb(141 218 148);
-    font-weight: bolder;
+  background-color: rgb(141 218 148);
+  font-weight: bolder;
 }
 
 .row-space {
-    background-color: rgb(191 238 195);
-    color: rgb(191 238 195);
+  background-color: rgb(191 238 195);
+  color: rgb(191 238 195);
+  // color: black !important;
 }
 
-.row-normal {}
+.row-normal {
+}

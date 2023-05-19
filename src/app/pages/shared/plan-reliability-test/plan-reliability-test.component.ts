@@ -27,9 +27,10 @@ export class PlanReliabilityTestComponent implements OnInit {
     return step5.find((item: any) => item.level == 1).prevUser.name || ''
   }
 
-  htmlRowClass(row_i: number) {
+  htmlRowClass(row_i: number, row: any) {
     if (row_i + 1 === this.queues.data.length) return 'row-end'
-    if ((row_i + 1) % 4 === 0) return 'row-space'
+    if (row[0] == '-') return 'row-space'
+    // if ((row_i + 1) % 4 === 0) return 'row-space'
     return 'row-normal'
   }
 

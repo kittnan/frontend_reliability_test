@@ -56,7 +56,7 @@
       <tbody>
         <ng-container *ngFor="let row of queues.data; let i_row=index">
 
-          <tr align="center" [class]="htmlRowClass(i_row)">
+          <tr align="center" [class]="htmlRowClass(i_row,row)">
             <ng-container *ngFor="let col of row; let i_col=index">
               <th *ngIf="i_col==0">
                 <ul>
