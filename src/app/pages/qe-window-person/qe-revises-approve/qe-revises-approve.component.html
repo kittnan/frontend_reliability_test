@@ -1,0 +1,24 @@
+<div fxLayout="row wrap" fxLayoutAlign="center stretch">
+
+  <div fxFlex.gt-md="80" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start stretch" class="mt-3">
+    <h1 fxFlex="100" class="content-item box-title">
+      request revises
+    </h1>
+    <app-step4 fxFlex="100" *ngIf="form?.step4" [step4]="form.step4"></app-step4>
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" class="content-item">
+      <button fxFlex.gt-md="25" fxFlex="100" mat-raised-button color="warn" (click)="handleReject()">
+        <span class="material-icons-outlined">
+          close
+        </span>
+        Reject
+      </button>
+      <button fxFlex.gt-md="25" fxFlex="100" mat-raised-button color="primary" (click)="handleApprove()">
+        <span class="material-icons-outlined">
+          done_all
+        </span>
+        Approve
+      </button>
+    </div>
+  </div>
+
+</div>

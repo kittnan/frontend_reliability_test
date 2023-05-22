@@ -6,6 +6,7 @@ import { QeWindowApproveComponent } from './qe-window-approve/qe-window-approve.
 import { QeWindowPersonComponent } from './qe-window-person.component';
 import { QeWindowReportComponent } from './qe-window-report/qe-window-report.component';
 import { QeRevisesTableComponent } from './qe-revises-table/qe-revises-table.component';
+import { QeRevisesApproveComponent } from './qe-revises-approve/qe-revises-approve.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'revises-table',
         component: QeRevisesTableComponent
+      },
+      {
+        path: 'revises-approve',
+        component: QeRevisesApproveComponent
       },
       {
         path: '',

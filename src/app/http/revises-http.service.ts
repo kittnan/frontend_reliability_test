@@ -18,4 +18,7 @@ export class RevisesHttpService {
   insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/${this.sub}/insert`, data)
   }
+  update(data: any, id: any): Observable<any> {
+    return this.http.put(`${this.URL}/${this.sub}/update/${id}`, data)
+  }
 }

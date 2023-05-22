@@ -126,11 +126,10 @@ export class QeRevisesTableComponent implements OnInit {
   private rowStatus(item: any) {
     const auth = localStorage.getItem('RLS_authorize')
     if (
-      auth == 'request' &&
-      item.status == 'qe_window_person_report' &&
-      item.level == 7 &&
-      (!item.request_revise ||
-        item.request_revise?.length == 0)
+      auth == 'qe_window_person' &&
+      item.request_revise &&
+      item.request_revise.level == 13
+
     ) return false
     return true
   }
@@ -197,7 +196,10 @@ export class QeRevisesTableComponent implements OnInit {
 
 
   handleRevise(row: any) {
-    this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row._id } })
+    console.log('handle revise');
+    this.router.navigate(['/qe-window-person/revises-approve'], { queryParams: { id: row._id } })
+
+
   }
 
 
