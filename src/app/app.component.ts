@@ -53,13 +53,13 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.$handleVersion.start()
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.available.subscribe(() => {
-        if (confirm("New version available. Load New Version?")) {
-          window.location.reload();
-        }
-      });
-    }
+    // if (this.swUpdate.isEnabled) {
+    //   this.swUpdate.available.subscribe(() => {
+    //     if (confirm("New version available. Load New Version?")) {
+    //       window.location.reload();
+    //     }
+    //   });
+    // }
     this.loginValid()
     this.onAccess()
     setTimeout(() => {
