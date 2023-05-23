@@ -33,6 +33,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RevisesSheetComponent } from './revises/revises-sheet/revises-sheet.component';
 import { RevisesTableComponent } from './revises/revises-table/revises-table.component';
+import { ReviseSheet1Component } from './revises/revises-sheet/components/revise-sheet1/revise-sheet1.component';
+import { ReviseSheet2Component } from './revises/revises-sheet/components/revise-sheet2/revise-sheet2.component';
+import { ReviseSheet3Component } from './revises/revises-sheet/components/revise-sheet3/revise-sheet3.component';
+import { ReviseSheet4Component } from './revises/revises-sheet/components/revise-sheet4/revise-sheet4.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -61,6 +65,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     NoOvenComponent,
     RevisesSheetComponent,
     RevisesTableComponent,
+    ReviseSheet1Component,
+    ReviseSheet2Component,
+    ReviseSheet3Component,
+    ReviseSheet4Component,
 
   ],
   imports: [

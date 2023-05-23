@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subscription, interval, lastValueFrom } from 'rxjs';
 import { RequestHttpService } from 'src/app/http/request-http.service';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { DialogViewComponent } from 'src/app/pages/shared/dialog-view/dialog-view.component';
 import { ReportService } from 'src/app/pages/shared/table-request/report.service';
 import { environment } from 'src/environments/environment';
@@ -47,7 +48,8 @@ export class RevisesTableComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private _loading: NgxUiLoaderService,
-    private _report: ReportService
+    private _report: ReportService,
+    private $revises: RevisesHttpService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -58,9 +60,7 @@ export class RevisesTableComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this._loading.start()
-    const id: any = localStorage.getItem('RLS_id')
     this.authorize = localStorage.getItem('RLS_authorize');
-    this.selected_status = 'ongoing';
     this.params = {
       userId: this.userLogin._id,
       status: '',
@@ -83,16 +83,10 @@ export class RevisesTableComponent implements OnInit {
   }
 
   async onSelectStatus() {
-    let statusStr: any = 'revises'
 
-    const tempSection = this.selected_section === 'all' ? this.sections : [this.selected_section]
-    let section: any = [...tempSection, "DST"]
-    if (localStorage.getItem('RLS_authorize')?.includes('qe')) {
-      section = []
-    }
-    section = JSON.stringify(section)
-    const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr).set('section', section)
-    const resData = await this.$request.table(param).toPromise()
+    const param: HttpParams = new HttpParams().set('userId', this.params.userId)
+    const resData = await this.$revises.getRevisesTable(param).toPromise()
+    console.log("🚀 ~ resData:", resData)
     const resultMap: any = await this.mapRows(resData)
     if (this.dataSource?.data) {
       this.dataSource.data = resultMap;
@@ -123,24 +117,10 @@ export class RevisesTableComponent implements OnInit {
 
   }
 
-
-  private rowText(item: any) {
-    if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit'
-    if (item && item.status === 'draft') return 'edit'
-    if (item && item.status === 'qe_department_head') return 'report'
-    if (item && item.status === 'qe_revise') return 'revise'
-    if (item && (item.status === 'close_job' || item.status === 'finish')) return 'finish'
-    return 'approve'
-  }
-
   private rowStatus(item: any) {
-    // console.log(item);
-
-    const auth = localStorage.getItem('RLS_authorize')
-    if (auth == 'request' && item.status == 'qe_window_person_report' && item.level == 7) return false
+    if (!item.request_revise) return false
     return true
   }
-
 
   private setOption() {
     this.dataSource.paginator = this.paginator;
@@ -202,8 +182,17 @@ export class RevisesTableComponent implements OnInit {
   }
 
 
-  handleRevise(row: any) {
-    this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row._id } })
+  async handleRevise(row: any) {
+    const userQEWindow = row.step5.find((s: any) => s.prevStatusForm == 'qe_window_person')
+    const newRequestRevise = {
+      ...row,
+      status: 'draft_request_revise',
+      level: 13,
+      nextApprove: userQEWindow,
+      historyApprove: [userQEWindow]
+    }
+    const res = await this.$revises.create(newRequestRevise).toPromise()
+    this.router.navigate(['/request/revises-sheet'], { queryParams: { id: res[0]._id } })
   }
 
 

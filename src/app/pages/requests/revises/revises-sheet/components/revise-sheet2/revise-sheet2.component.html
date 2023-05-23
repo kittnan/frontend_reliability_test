@@ -1,0 +1,9 @@
+<app-step2 *ngIf="form" [step2]="form.step2"></app-step2>
+<div fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+  <button fxFlex="20" mat-raised-button color="warn" matStepperPrevious>
+    Cancel
+  </button>
+  <button fxFlex="20" mat-raised-button color="primary" matStepperNext>
+    Next
+  </button>
+</div>

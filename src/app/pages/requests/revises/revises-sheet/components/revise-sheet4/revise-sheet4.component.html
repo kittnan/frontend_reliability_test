@@ -1,0 +1,56 @@
+<div fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+
+
+  <mat-form-field appearance="fill" fxFlex="100">
+    <mat-label>Select Condition</mat-label>
+    <mat-select [(ngModel)]="selected" (ngModelChange)="onSelected()">
+      <mat-option [value]="0">
+        -
+      </mat-option>
+      <mat-option *ngFor="let item of condition_list; let i=index" [value]="item">
+        {{i+1}}.{{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container>
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mat-elevation-z1"
+      style="padding: 20px; margin: 10px 0; background-color: aliceblue" *ngFor="let con of data; let i=index">
+      <h4 fxFlex="100">
+        {{i+1}}.{{con.name}}
+        <button [disabled]="con.value===0" mat-button color="primary" (click)="onDelete(i)">
+          <span class="material-icons-outlined cursor" style="font-size: 30px;">
+            delete
+          </span>
+        </button>
+      </h4>
+      <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <app-no-oven fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===0"></app-no-oven>
+        <app-low-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===1"></app-low-temp-form>
+        <app-high-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===2"></app-high-temp-form>
+        <app-high-temp-humi-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===3"></app-high-temp-humi-form>
+        <app-high-temp-humi-vibration-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===4"></app-high-temp-humi-vibration-form>
+        <app-high-low fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===5"></app-high-low>
+        <app-heat-shock fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===6"></app-heat-shock>
+      </div>
+    </div>
+  </ng-container>
+
+
+
+  <app-inspection-form fxFlex="100" [(inspection)]="inspection.name" [(inspectionDetail)]="inspection.detail"
+    (inspectionChange)="onInspectionDetail()" (inspectionDetailChange)="onInspectionDetail()" class="mat-elevation-z1"
+    style="padding: 20px; margin: 10px 0;background-color: aliceblue">
+  </app-inspection-form>
+
+  <mat-divider fxFlex="100" style="margin: 10px 0;"></mat-divider>
+
+</div>
