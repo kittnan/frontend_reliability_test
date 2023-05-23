@@ -159,9 +159,9 @@
       <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
         <div mat-subheader style="padding-left: 0;">
           {{'sheet1.files' |translate}}
-          <button *ngIf="!fileProgress" mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn"
-            [ngClass]="{'primary': requestForm.controls.files.valid}" style="margin-left: 10px;"
-            (click)="fileUpload.click()">
+          <button *ngIf="!fileProgress" [disabled]="disable" mat-button mat-stroked-button matRipple
+            [matRippleCentered]="true" color="warn" [ngClass]="{'primary': requestForm.controls.files.valid}"
+            style="margin-left: 10px;" (click)="fileUpload.click()">
             {{'sheet1.files_choose' |translate}}
 
           </button>
@@ -190,9 +190,9 @@
       <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
         <div mat-subheader style="padding-left: 0;">
           {{'sheet1.files' |translate}}
-          <button *ngIf="!fileProgress" mat-button mat-stroked-button matRipple [matRippleCentered]="true" color="warn"
-            [ngClass]="{'primary': requestForm.controls.files.valid}" style="margin-left: 10px;"
-            (click)="fileUpload.click()">
+          <button *ngIf="!fileProgress" [disabled]="disable" mat-button mat-stroked-button matRipple
+            [matRippleCentered]="true" color="warn" [ngClass]="{'primary': requestForm.controls.files.valid}"
+            style="margin-left: 10px;" (click)="fileUpload.click()">
             {{'sheet1.files_choose' |translate}}
 
           </button>
@@ -247,14 +247,27 @@
         Cancel
       </span>
     </button>
-    <button [disabled]="requestForm.invalid" fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
 
-      <span class="material-icons-outlined">
-        keyboard_double_arrow_right
-      </span>
-      <span class="btn-next">
-        Next
-      </span>
-    </button>
+    <ng-container *ngIf="disable">
+      <button fxFlex="30" mat-raised-button color="primary" (click)="onNextStep()">
+        <span class="material-icons-outlined">
+          keyboard_double_arrow_right
+        </span>
+        <span class="btn-next">
+          Next
+        </span>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!disable">
+      <button [disabled]="requestForm.invalid" fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+        <span class="material-icons-outlined">
+          keyboard_double_arrow_right
+        </span>
+        <span class="btn-next">
+          Next
+        </span>
+      </button>
+    </ng-container>
+
   </div>
 </form>

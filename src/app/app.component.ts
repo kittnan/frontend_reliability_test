@@ -369,7 +369,7 @@ export class AppComponent {
           icon: 'feed',
           items: [
             {
-              path: '/qe-window-person',
+              path: '/qe-window-person/manage',
               icon: 'home',
               title: 'manage',
             },

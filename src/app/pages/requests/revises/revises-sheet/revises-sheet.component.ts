@@ -36,6 +36,7 @@ export class RevisesSheetComponent implements OnInit {
       const resData = await this.getPrevData(ID)
       console.log("🚀 ~ resData:", resData)
       this.form = resData[0]
+      console.log("🚀 ~ this.form:", this.form)
       this._loading.stop()
     } catch (error) {
       // alert(error)

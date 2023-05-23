@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class SheetStep2Component implements OnInit {
   @Input() formId: any
-  // @Input() data: any
+  @Input() propReviseMode: boolean = false
   // @Output() dataChange: EventEmitter<any> = new EventEmitter()
 
   testPurposeForm = new FormGroup({
@@ -25,7 +25,7 @@ export class SheetStep2Component implements OnInit {
     description: new FormControl()
   })
   testPurposes: any = []
-
+  disable: boolean = false
   constructor(
     private $master: MasterHttpService,
     private _stepper: CdkStepper,
@@ -35,6 +35,9 @@ export class SheetStep2Component implements OnInit {
   ) { }
 
   async ngOnInit() {
+    if (this.propReviseMode) {
+      this.disable = true
+    }
     this.testPurposes = await this.$master.getTestPurposeMaster().toPromise()
     if (this.formId) {
       const params = new HttpParams().set('requestId', this.formId)
@@ -143,6 +146,9 @@ export class SheetStep2Component implements OnInit {
 
   onBack() {
     this._stepper.previous()
+  }
+  onNextStep() {
+    this._stepper.next()
   }
 
 

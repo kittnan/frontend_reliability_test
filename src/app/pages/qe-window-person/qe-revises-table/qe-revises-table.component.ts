@@ -92,7 +92,8 @@ export class QeRevisesTableComponent implements OnInit {
     section = JSON.stringify(section)
     const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr).set('section', section)
     const resData = await this.$request.table(param).toPromise()
-    const resultMap: any = await this.mapRows(resData)
+    let resultMap: any = await this.mapRows(resData)
+    resultMap = resultMap.filter((d: any) => d.request_revise && d.request_revise.level == 13)
     if (this.dataSource?.data) {
       this.dataSource.data = resultMap;
     } else {

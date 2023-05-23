@@ -21,4 +21,10 @@ export class RevisesHttpService {
   update(data: any, id: any): Observable<any> {
     return this.http.put(`${this.URL}/${this.sub}/update/${id}`, data)
   }
+  updateByRequestId(data: any, id: any): Observable<any> {
+    return this.http.put(`${this.URL}/${this.sub}/updateByRequestId/${id}`, data)
+  }
+  tableRevises(params: HttpParams) {
+    return this.http.get(`${this.URL}/${this.sub}/tableShowRevises/`, { params: params })
+  }
 }

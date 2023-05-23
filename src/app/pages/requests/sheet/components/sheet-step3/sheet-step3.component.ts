@@ -9,6 +9,7 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { RequestSheetService } from '../../request-sheet.service';
 import { SetSubjectService } from '../../set-subject.service';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
 
 interface testingTypeMenuForm {
   data: dataForm[],
@@ -35,6 +36,8 @@ export class SheetStep3Component implements OnInit {
     data: [],
     requestId: null
   }
+  @Input() propReviseMode: boolean = false
+  disable: boolean = false
   constructor(
     private _loading: NgxUiLoaderService,
     private _stepper: CdkStepper,
@@ -42,7 +45,7 @@ export class SheetStep3Component implements OnInit {
     private $master: MasterHttpService,
     private _requestSheet: RequestSheetService,
     private $step3: Step3HttpService,
-    private $step4: Step4HttpService
+    private $revise: RevisesHttpService
   ) {
     this.route.queryParams.subscribe((params: any) => {
       if (params.id) {
@@ -52,6 +55,10 @@ export class SheetStep3Component implements OnInit {
   }
 
   async ngOnInit() {
+    console.log(this.propReviseMode);
+    if (this.propReviseMode) {
+      this.disable = true
+    }
     const resTestingType = await this.$master.getTestingTypeMaster().toPromise();
     const resultMap: any = await this._requestSheet.setTestingTypeList(resTestingType)
     this.testingTypeMenu = {
@@ -63,6 +70,16 @@ export class SheetStep3Component implements OnInit {
       const resGet: any = await this.$step3.get(params).toPromise()
       if (resGet && resGet.length > 0) {
         this.testingTypeMenu = resGet[0]
+        this.testingTypeMenu.data = this.testingTypeMenu.data.map((t: any) => {
+          t['prevChecked'] = t.checked
+          t.list = t.list.map((l: any) => {
+            return {
+              ...l,
+              prevChecked: l.checked
+            }
+          })
+          return t
+        })
       }
 
     }
@@ -138,5 +155,11 @@ export class SheetStep3Component implements OnInit {
   onBack() {
     this._stepper.previous()
   }
+  async onNextStep() {
+    console.log(this.testingTypeMenu);
+    await this.$revise.updateByRequestId({ step3: this.testingTypeMenu }, this.formId).toPromise()
+    this._stepper.next()
+  }
+
 
 }

@@ -79,6 +79,7 @@ export class SheetStep1Component implements OnInit {
   minDate: Date = new Date()
 
   params: any
+  disable: boolean = false
   constructor(
     private _request: RequestSheetService,
     private _loading: NgxUiLoaderService,
@@ -103,8 +104,11 @@ export class SheetStep1Component implements OnInit {
   }
 
   async ngOnInit() {
-
-    if (this.propReviseMode) this._stepper.selectedIndex = 3
+    if (this.propReviseMode) {
+      this.disable = true
+      this.requestForm.disable()
+    }
+    // if (this.propReviseMode) this._stepper.selectedIndex = 3
 
     this.requestForm.markAllAsTouched()
     this.models = await this.$master.getModelMaster().toPromise()
@@ -436,6 +440,10 @@ export class SheetStep1Component implements OnInit {
 
   sendLog(data: any) {
     this.$log.insertLogFlow(data).subscribe(res => console.log(res))
+  }
+
+  onNextStep() {
+    this._stepper.next()
   }
 
 }

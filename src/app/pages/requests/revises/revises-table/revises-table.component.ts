@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { DialogViewComponent } from 'src/app/pages/shared/dialog-view/dialog-view.component';
 import { ReportService } from 'src/app/pages/shared/table-request/report.service';
 
@@ -45,7 +46,8 @@ export class RevisesTableComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private _loading: NgxUiLoaderService,
-    private _report: ReportService
+    private _report: ReportService,
+    private $revises: RevisesHttpService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -81,16 +83,9 @@ export class RevisesTableComponent implements OnInit {
   }
 
   async onSelectStatus() {
-    let statusStr: any = 'revises'
-
-    const tempSection = this.selected_section === 'all' ? this.sections : [this.selected_section]
-    let section: any = [...tempSection, "DST"]
-    if (localStorage.getItem('RLS_authorize')?.includes('qe')) {
-      section = []
-    }
-    section = JSON.stringify(section)
-    const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr).set('section', section)
-    const resData = await this.$request.table(param).toPromise()
+    const param: HttpParams = new HttpParams().set('userId', this.params.userId)
+    const resData = await this.$revises.tableRevises(param).toPromise()
+    console.log("🚀 ~ resData:", resData)
     const resultMap: any = await this.mapRows(resData)
     if (this.dataSource?.data) {
       this.dataSource.data = resultMap;
@@ -128,8 +123,8 @@ export class RevisesTableComponent implements OnInit {
       auth == 'request' &&
       item.status == 'qe_window_person_report' &&
       item.level == 7 &&
-      (!item.request_revise ||
-        item.request_revise?.length == 0)
+      (!item.request_revises ||
+        item.request_revises?.length == 0)
     ) return false
     return true
   }
@@ -195,7 +190,17 @@ export class RevisesTableComponent implements OnInit {
   }
 
 
-  handleRevise(row: any) {
+  async handleRevise(row: any) {
+    console.log(row);
+    const createData = {
+      ...row,
+      requestId: row._id,
+      status: 'draft_request_revise',
+      level: 13,
+      comment: []
+    }
+    delete createData._id
+    await this.$revises.insert(createData).toPromise()
     this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row._id } })
   }
 
