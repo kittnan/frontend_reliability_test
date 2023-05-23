@@ -31,8 +31,8 @@ export class HandleVersionService {
       console.log(environment.VERSION);
 
       if (localStorage.getItem('RLS_version') !== environment.VERSION) {
-        this.interval$.unsubscribe()
         if (confirm("New version available. Load New Version?")) {
+          this.interval$.unsubscribe()
           localStorage.setItem('RLS_version', environment.VERSION)
           window.location.reload();
         }
