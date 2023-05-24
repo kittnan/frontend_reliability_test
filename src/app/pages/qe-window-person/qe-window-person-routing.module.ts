@@ -5,34 +5,44 @@ import { QeChamberComponent } from './qe-chamber/qe-chamber.component';
 import { QeWindowApproveComponent } from './qe-window-approve/qe-window-approve.component';
 import { QeWindowPersonComponent } from './qe-window-person.component';
 import { QeWindowReportComponent } from './qe-window-report/qe-window-report.component';
+import { QeRevisesApproveComponent } from './qe-revises/qe-revises-approve/qe-revises-approve.component';
+import { QeRevisesTableComponent } from './qe-revises/qe-revises-table/qe-revises-table.component';
 
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     component: QeWindowPersonComponent,
-    children:[
+    children: [
       {
-        path:'manage',
-        component:QeApproveManageComponent
+        path: 'manage',
+        component: QeApproveManageComponent
       },
       {
-        path:'approve-request',
-        component:QeWindowApproveComponent
+        path: 'approve-request',
+        component: QeWindowApproveComponent
       },
       {
-        path:'chamber',
-        component:QeChamberComponent
+        path: 'chamber',
+        component: QeChamberComponent
       },
 
       {
-        path:'report',
-        component:QeWindowReportComponent
+        path: 'report',
+        component: QeWindowReportComponent
       },
       {
-        path:'',
-        pathMatch:'full',
-        redirectTo:'manage'
+        path: 'revise-approve',
+        component: QeRevisesApproveComponent
+      },
+      {
+        path: 'revises-table',
+        component: QeRevisesTableComponent
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'manage'
       }
     ]
   }

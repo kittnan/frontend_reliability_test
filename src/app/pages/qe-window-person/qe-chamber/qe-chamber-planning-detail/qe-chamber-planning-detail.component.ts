@@ -287,18 +287,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         // this.getQueuesDraft(this.queues)
         Swal.fire('SUCCESS', '', 'success')
 
-
-        // this.queues = [...this.tempQueues]
-        // this.queues = await this.getQueuesDraft(this.queues)
-        // console.log("🚀 ~ this.queues:", this.queues)
-        // this.tableData = await this.mapForTable(this.queues)
-
-
-        setTimeout(() => {
-          // location.reload()
-
-
-        }, 1000);
       }
     } else {
     }
@@ -374,12 +362,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       obj.status = false;
     }
     if (obj.status) {
-      // if (item._id) {
-      //   this.onEdit(item._id, item, index)
-      // } else {
-      //   this.onInsert(item, index)
-      // }
-      // console.log(item);
+
 
       this.insertDirect([item], index)
     } else {
@@ -401,86 +384,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }
   }
 
-  // ! ยังไม่ใช้
-  async onInsert(item: any, index: number) {
-    const r_checkQueue = await this.$queue.check(item).toPromise()
-    if (r_checkQueue.status) {
-      const data = r_checkQueue.text[0]
-      const operateStr = JSON.stringify(data.operate)
-
-      if (data.operate.status) {
-        const r_checkOperate = await this.$operateGroup.getReady(data.startDate, operateStr).toPromise()
-        if (r_checkOperate.status) {
-          const data_insert = {
-            ...item[0],
-            status: 'draft'
-          }
-          const r_insert = await this.$queue.insert(data_insert).toPromise()
-          this.queues[index] = r_insert[0]
-          Swal.fire('SUCCESS', '', 'success')
-          this.mapForTable(this.queues)
-        } else {
-          Swal.fire({
-            html: r_checkOperate.text,
-            icon: 'error'
-          })
-        }
-      } else {
-        const data_insert = {
-          ...item[0],
-          status: 'draft'
-        }
-        const r_insert = await this.$queue.insert(data_insert).toPromise()
-        this.queues[index] = r_insert[0]
-        Swal.fire('SUCCESS', '', 'success')
-        this.mapForTable(this.queues)
-
-      }
-
-    } else {
-      Swal.fire({
-        html: r_checkQueue,
-        icon: 'error'
-      })
-    }
-
-  }
-  async onEdit(id: any, item: any, index: number) {
-    const r_checkQueue = await this.$queue.check([item]).toPromise()
-    if (r_checkQueue.status) {
-      const data = r_checkQueue.text[0]
-      const operateStr = JSON.stringify(data.operate)
-      if (data.operate.status) {
-        const r_checkOperate = await this.$operateGroup.getReady(data.startDate, operateStr).toPromise()
-        if (r_checkOperate.status) {
-          const r_update = await this.$queue.update(item._id, item).toPromise()
-          if (r_update && r_update.acknowledged) {
-            Swal.fire('SUCCESS', '', 'success')
-            this.mapForTable(this.queues)
-
-          } else {
-            Swal.fire('', '', 'error')
-          }
-        } else {
-          Swal.fire({
-            html: r_checkOperate.text,
-            icon: 'error'
-          })
-        }
-      } else {
-        const r_update = await this.$queue.update(item._id, item).toPromise()
-        if (r_update && r_update.acknowledged) {
-          Swal.fire('SUCCESS', '', 'success')
-          this.mapForTable(this.queues)
-        } else {
-          Swal.fire('', '', 'error')
-        }
-      }
-    } else {
-      Swal.fire(r_checkQueue, '', 'error')
-    }
-
-  }
 
   async insertDirect(item: any, index: number) {
     const newItem = item[0]

@@ -1,7 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MasterHttpService } from 'src/app/http/master-http.service';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { Step3HttpService } from 'src/app/http/step3-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
@@ -18,10 +20,10 @@ interface ConditionListForm {
 })
 export class ReviseSheet4Component implements OnInit {
 
+  @Input() form: any = null
 
   @Input() formId: any
-  @Input() conditionForm: any = []
-  // tempConditionForm: any = []
+  conditionForm: any = []
   @Output() conditionFormChange = new EventEmitter();
   data: any[] = []
   @ViewChild(MatAccordion) accordion!: MatAccordion;
@@ -38,12 +40,15 @@ export class ReviseSheet4Component implements OnInit {
   chamber: any
   constructor(
     private $master: MasterHttpService,
-    private $step3: Step3HttpService
+    private $revise: RevisesHttpService,
+    private _loader: NgxUiLoaderService
   ) {
 
   }
 
   async ngOnInit(): Promise<void> {
+    this.conditionForm = this.form.step4
+
     this.condition_list = await this.$master.getFunctionChamber().toPromise()
     this.condition_list = this.condition_list.map((con: ConditionListForm) => {
       return {
@@ -52,25 +57,16 @@ export class ReviseSheet4Component implements OnInit {
       }
     })
 
-
-    // console.log("🚀 ~ this.conditionList:", this.condition_list)
-    // console.log('this.conditionForm', this.conditionForm);
-
-    // this.tempConditionForm = [...this.conditionForm]
-    // this.conditions = this.conditionForm
     this.data = this.conditionForm.data
     this.inspection = this.data[0]?.inspectionDetail ? this.data[0].inspectionDetail : this.inspection
-    // console.log("🚀 ~ this.inspection:", this.inspection)
     if (this.data.length > 0) {
-      const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      const step3 = await this.$step3.get(params).toPromise()
+      const step3 = this.form.step3
       let filterOven: any[] = []
-      if (step3[0]?.data?.find((d: any) => d.checked && d.type == 'oven')) {
-        filterOven = step3[0]?.data?.filter((d: any) => d.checked && d.type == 'oven' || (d.checked && d.type == 'noOven'))
+      if (step3?.data?.find((d: any) => d.checked && d.type == 'oven')) {
+        filterOven = step3?.data?.filter((d: any) => d.checked && d.type == 'oven' || (d.checked && d.type == 'noOven'))
       } else {
-        filterOven = step3[0]?.data?.filter((d: any) => d.checked && (d.type == 'noOven' || d.type == 'mix'))
+        filterOven = step3?.data?.filter((d: any) => d.checked && (d.type == 'noOven' || d.type == 'mix'))
       }
-
       filterOven = filterOven.map((f: any) => {
         return {
           ...f,
@@ -82,7 +78,6 @@ export class ReviseSheet4Component implements OnInit {
           })
         }
       })
-      // console.log("🚀 ~ filterOven:", filterOven)
 
       const filteredData = filterOven.map((f: any) => {
         if (f.type == 'oven') {
@@ -104,23 +99,19 @@ export class ReviseSheet4Component implements OnInit {
           }]
         }
       })
-      // concat list in  filteredData
       let concatList = filteredData.reduce((acc: any, cur: any) => {
         return acc.concat(cur)
       }, [])
       concatList = concatList.sort((a: any, b: any) => a.value - b.value)
-      console.log(concatList);
-
       this.data = concatList
       this.emit()
     } else {
-      const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      const step3 = await this.$step3.get(params).toPromise()
+      const step3 = this.form.step3
       let filterOven: any[] = []
-      if (step3[0]?.data?.find((d: any) => d.checked && d.type == 'oven')) {
-        filterOven = step3[0]?.data?.filter((d: any) => d.checked && d.type == 'noOven')
+      if (step3?.data?.find((d: any) => d.checked && d.type == 'oven')) {
+        filterOven = step3?.data?.filter((d: any) => d.checked && d.type == 'noOven')
       } else {
-        filterOven = step3[0]?.data?.filter((d: any) => d.checked && (d.type == 'noOven' || d.type == 'mix'))
+        filterOven = step3?.data?.filter((d: any) => d.checked && (d.type == 'noOven' || d.type == 'mix'))
       }
       const mapResult = filterOven.map((f: any) => {
         return {
@@ -204,10 +195,8 @@ export class ReviseSheet4Component implements OnInit {
   }
 
   async emit() {
-    // console.log(this.data, this.inspection);
     let dataEmit: any
     dataEmit = await this.mapData(this.data, this.inspection)
-    // console.log(dataEmit);
     this.conditionForm.data = dataEmit
     this.conditionFormChange.emit(this.conditionForm)
   }
@@ -296,6 +285,34 @@ export class ReviseSheet4Component implements OnInit {
       }
     })
 
+  }
+
+  handleNext() {
+    Swal.fire({
+      title: 'Do you want to request revise?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((v: SweetAlertResult) => {
+      if (v) {
+        this.updateRevise()
+      }
+    })
+  }
+
+  async updateRevise() {
+    try {
+      this._loader.start()
+      this.form.status = 'request_revise'
+      this.form.level = 14
+      await this.$revise.update(this.form._id, this.form).toPromise()
+      setTimeout(() => {
+        this._loader.stop()
+      }, 1000);
+    } catch (error) {
+      this._loader.stop()
+    } finally {
+      this._loader.stop()
+    }
   }
 
 }

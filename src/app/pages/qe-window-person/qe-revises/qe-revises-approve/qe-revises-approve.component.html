@@ -1,0 +1,38 @@
+<div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
+  <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+    class=" mtb-4 ">
+
+    <app-step1 fxFlex="100" *ngIf="request" [step1]="request.step1"></app-step1>
+    <app-step2 fxFlex="100" *ngIf="request" [step2]="request.step2"></app-step2>
+
+    <h2 fxFlex="100" class="t-head-2">Before</h2>
+    <app-step3 fxFlex="100" *ngIf="request" [step3]="request.step3"></app-step3>
+    <h2 fxFlex="100" class="t-head-1">Revise</h2>
+    <app-step3 fxFlex="100" *ngIf="form" [step3]="form.step3"></app-step3>
+
+    <h2 fxFlex="100" class="t-head-2">Before</h2>
+    <app-step4 fxFlex="100" *ngIf="request" [step4]="request.step4"></app-step4>
+    <h2 fxFlex="100" class="t-head-1">Revise</h2>
+    <app-step4 fxFlex="100" *ngIf="form" [step4]="form.step4"></app-step4>
+
+    <app-step5 fxFlex="100" *ngIf="request" [step5]="request.step5"></app-step5>
+
+    <app-qe-receive *ngIf="request" fxFlex="100" [form]="request" (formChange)="qeReceiveEmit($event)"></app-qe-receive>
+
+    <ng-container *ngIf="request?.qeReceive.qty">
+
+      <h2 fxFlex="100" class="t-head-1">new generate</h2>
+      <app-planning-table *ngIf="dataSource && dataSource.length!=0" fxFlex="100" [data]="this.dataSource">
+
+      </app-planning-table>
+      <!-- <app-qe-chamber-planning *ngIf="dataSource && dataSource.length!=0" fxFlex="100" [data]="dataSource"
+        (dataChange)="planningEmit($event)">
+      </app-qe-chamber-planning> -->
+      <app-qe-chamber-planning-detail *ngIf="queues?.length!=0" fxFlex="100" [(queues)]="queues" [formInput]="form"
+        (tableChange)="tableChange($event)">
+      </app-qe-chamber-planning-detail>
+    </ng-container>
+
+
+  </div>
+</div>

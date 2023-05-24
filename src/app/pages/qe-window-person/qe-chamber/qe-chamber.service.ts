@@ -9,8 +9,63 @@ export class QeChamberService {
   constructor() { }
 
 
-  generateQueue(chamber: any, e: any) {
-
+  generateQueue(data: any[]) {
+    return data.map((selected: any) => {
+      const temp: QueueForm = {
+        startDate: null,
+        endDate: null,
+        inspectionTime: this.genInspectionTime(selected.condition.data.inspection),
+        reportQE: this.genInspectionTime(selected.condition.data.report),
+        reportTime: this.genInspectionTime(selected.condition.data.report),
+        operate: {
+          attachment: {},
+          checker: {},
+          power: {},
+          status: selected.condition.data.operate.value
+        },
+        work: {
+          requestId: selected.step1.requestId,
+          qty: selected.condition.data.qty,
+          controlNo: selected.step1.controlNo,
+        },
+        condition: {
+          name: selected.condition.dataTable.name,
+          value: selected.condition.value
+        },
+        model: selected.step1.modelNo,
+        status: 'draft'
+      }
+      return temp
+    })
+  }
+  generateQueueRevise(data: any[]) {
+    return data.map((selected: any) => {
+      const temp: QueueForm = {
+        startDate: null,
+        endDate: null,
+        inspectionTime: this.genInspectionTime(selected.condition.data.inspection),
+        reportQE: this.genInspectionTime(selected.condition.data.report),
+        reportTime: this.genInspectionTime(selected.condition.data.report),
+        operate: {
+          attachment: {},
+          checker: {},
+          power: {},
+          status: selected.condition.data.operate.value
+        },
+        work: {
+          requestId: selected.step1.requestId,
+          qty: selected.condition.data.qty,
+          controlNo: selected.step1.controlNo,
+        },
+        condition: {
+          name: selected.condition.dataTable.name,
+          value: selected.condition.value
+        },
+        model: selected.step1.modelNo,
+        status: 'draft_revise'
+      }
+      return temp
+    })
   }
   genInspectionTime(time: TimeForm[]) {
     return time.map((t: any) => {

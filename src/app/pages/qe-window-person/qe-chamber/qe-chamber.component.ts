@@ -225,7 +225,6 @@ export class QeChamberComponent implements OnInit {
       this.dataSource = temp
       this.loader$.stopAll()
     }, 200);
-    // this.ngOnInit()
   }
 
   chamberValid() {

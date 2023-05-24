@@ -15,7 +15,7 @@
       </mat-step>
       <mat-step #step4>
         <ng-template matStepLabel>{{'header-sheet.step4' |translate}}</ng-template>
-        <app-revise-sheet4 *ngIf="stepper.selected==step4"></app-revise-sheet4>
+        <app-revise-sheet4 *ngIf="stepper.selected==step4" [form]="form"></app-revise-sheet4>
       </mat-step>
     </mat-stepper>
 

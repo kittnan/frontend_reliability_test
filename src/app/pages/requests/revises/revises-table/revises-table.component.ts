@@ -183,6 +183,14 @@ export class RevisesTableComponent implements OnInit {
 
 
   async handleRevise(row: any) {
+    if (row.request_revise && row.request_revise.status == "draft_request_revise") {
+      this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row._id } })
+    }
+    if (!row.request_revise) {
+      this.createRequestRevise(row)
+    }
+  }
+  private async createRequestRevise(row: any) {
     const userQEWindow = row.step5.find((s: any) => s.prevStatusForm == 'qe_window_person')
     const newRequestRevise = {
       ...row,
