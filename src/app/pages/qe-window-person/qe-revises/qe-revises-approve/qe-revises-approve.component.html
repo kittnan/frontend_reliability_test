@@ -23,14 +23,14 @@
 
       <h2 fxFlex="100" class="t-head-1">new generate</h2>
       <app-planning-table *ngIf="dataSource && dataSource.length!=0" fxFlex="100" [data]="this.dataSource">
-
       </app-planning-table>
+      <app-planning-queues *ngIf="queues" fxFlex="100" [queues]="queues" [formInput]="form"></app-planning-queues>
       <!-- <app-qe-chamber-planning *ngIf="dataSource && dataSource.length!=0" fxFlex="100" [data]="dataSource"
         (dataChange)="planningEmit($event)">
       </app-qe-chamber-planning> -->
-      <app-qe-chamber-planning-detail *ngIf="queues?.length!=0" fxFlex="100" [(queues)]="queues" [formInput]="form"
+      <!-- <app-qe-chamber-planning-detail *ngIf="queues?.length!=0" fxFlex="100" [(queues)]="queues" [formInput]="form"
         (tableChange)="tableChange($event)">
-      </app-qe-chamber-planning-detail>
+      </app-qe-chamber-planning-detail> -->
     </ng-container>
 
 

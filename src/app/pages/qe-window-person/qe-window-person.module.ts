@@ -21,6 +21,7 @@ import { DialogDateStartInspectionComponent } from './qe-chamber/components/dial
 import { QeRevisesApproveComponent } from './qe-revises/qe-revises-approve/qe-revises-approve.component';
 import { QeRevisesTableComponent } from './qe-revises/qe-revises-table/qe-revises-table.component';
 import { PlanningTableComponent } from './qe-revises/components/planning-table/planning-table.component';
+import { PlanningQueuesComponent } from './qe-revises/components/planning-queues/planning-queues.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { PlanningTableComponent } from './qe-revises/components/planning-table/p
     QeRevisesApproveComponent,
     QeRevisesTableComponent,
     PlanningTableComponent,
+    PlanningQueuesComponent,
   ],
   imports: [
     CommonModule,
