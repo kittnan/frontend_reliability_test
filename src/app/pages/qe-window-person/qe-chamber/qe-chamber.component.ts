@@ -55,7 +55,8 @@ export interface OperateForm {
   power: ToolForm,
   attachment: ToolForm,
   checker: ToolForm,
-  status: Boolean
+  status: Boolean,
+  change?: Boolean
 }
 export interface ToolForm {
   code?: String,

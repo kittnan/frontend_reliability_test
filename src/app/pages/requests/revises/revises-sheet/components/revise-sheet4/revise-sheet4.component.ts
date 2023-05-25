@@ -1,10 +1,12 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { Step3HttpService } from 'src/app/http/step3-http.service';
+import { ApproveReviseFormComponent } from 'src/app/pages/shared/revises/approve/approve-revise-form/approve-revise-form.component';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 interface ConditionListForm {
@@ -41,7 +43,8 @@ export class ReviseSheet4Component implements OnInit {
   constructor(
     private $master: MasterHttpService,
     private $revise: RevisesHttpService,
-    private _loader: NgxUiLoaderService
+    private _loader: NgxUiLoaderService,
+    public dialog: MatDialog
   ) {
 
   }
@@ -288,13 +291,25 @@ export class ReviseSheet4Component implements OnInit {
   }
 
   handleNext() {
-    Swal.fire({
-      title: 'Do you want to request revise?',
-      icon: 'question',
-      showCancelButton: true
-    }).then((v: SweetAlertResult) => {
-      if (v) {
-        this.updateRevise()
+    // Swal.fire({
+    //   title: 'Do you want to request revise?',
+    //   icon: 'question',
+    //   showCancelButton: true
+    // }).then((v: SweetAlertResult) => {
+    //   if (v) {
+
+    //   }
+    // })
+    // this.openDialog()
+    this.updateRevise()
+  }
+
+  private openDialog() {
+    const dialogRef = this.dialog.open(ApproveReviseFormComponent, {
+      width: '500px',
+      height: 'auto',
+      data: {
+
       }
     })
   }

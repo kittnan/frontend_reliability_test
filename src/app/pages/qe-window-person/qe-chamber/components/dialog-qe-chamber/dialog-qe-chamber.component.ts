@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { ChamberHttpService } from 'src/app/http/chamber-http.service';
+import { QueuesRevisesService } from 'src/app/http/queues-revises.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
@@ -15,7 +16,8 @@ export class DialogQeChamberComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private $chamber: ChamberHttpService
+    private $chamber: ChamberHttpService,
+    private $revise: QueuesRevisesService
   ) { }
   displayedColumns: string[] = ['action', 'code', 'name', 'capacity', 'use', 'function', 'remain'];
   rows: any
@@ -24,6 +26,7 @@ export class DialogQeChamberComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.load = true
     if (this.data) {
+      this.data.value = Number(this.data.value)
       console.log(this.data);
       let value = []
       if (this.data.value == 1 || this.data.value == 2) {
@@ -33,7 +36,11 @@ export class DialogQeChamberComponent implements OnInit {
       }
       const valueStr = JSON.stringify(value)
       const param: HttpParams = new HttpParams().set('value', valueStr).set('startDate', moment(this.data.startDate).toISOString()).set('qty', this.data.qty)
-      this.rows = await this.$chamber.getReady(param).toPromise()
+      if (this.data.revise) {
+        this.rows = await this.$revise.getReady(param).toPromise()
+      } else {
+        this.rows = await this.$chamber.getReady(param).toPromise()
+      }
       setTimeout(() => {
         this.load = false
       }, 500);

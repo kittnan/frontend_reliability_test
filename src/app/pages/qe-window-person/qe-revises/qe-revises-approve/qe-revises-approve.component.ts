@@ -5,6 +5,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { QeChamberService } from '../../qe-chamber/qe-chamber.service';
+import { QueuesRevisesService } from 'src/app/http/queues-revises.service';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'app-qe-revises-approve',
@@ -19,13 +21,22 @@ export class QeRevisesApproveComponent implements OnInit {
   dataSource: any = null
   // chamberTable: any = null
   queues: any = null
+
+  canApprove: boolean = false
+
+  userLogin: any = null
+
   constructor(
     private route: ActivatedRoute,
     private _loading: NgxUiLoaderService,
     private $revises: RevisesHttpService,
     private $request: RequestHttpService,
-    private _chamber: QeChamberService
-  ) { }
+    private _chamber: QeChamberService,
+    private $queues_revise: QueuesRevisesService
+  ) {
+    this.userLogin = localStorage.getItem('RLS_userLogin')
+    this.userLogin = JSON.parse(this.userLogin)
+  }
 
   async ngOnInit(): Promise<void> {
     try {
@@ -39,8 +50,11 @@ export class QeRevisesApproveComponent implements OnInit {
       console.log("🚀 ~ request:", resRequest)
       this.request = resRequest[0]
       this.dataSource = this.setDataSource(this.form)
-      this.queues = this._chamber.generateQueueRevise(this.dataSource)
+      const newGenerateQueues = this._chamber.generateQueueRevise(this.dataSource)
+      const resQueues = await this.$queues_revise.insert(newGenerateQueues).toPromise()
+      this.queues = resQueues
       console.log("🚀 ~ this.queues:", this.queues)
+
       this._loading.stop()
     } catch (error) {
       console.log(error);
@@ -97,5 +111,47 @@ export class QeRevisesApproveComponent implements OnInit {
     // this.table = e
     this.form.table = e
   }
+  handleValidApprove() {
+    const dataNotComplete = this.queues.find((q: any) => q.status === 'draft_revise')
+    if (dataNotComplete) return true
+    return false
+  }
+
+  handleCanApprove(e: boolean) {
+    this.canApprove = e
+  }
+  handleApprove() {
+    Swal.fire({
+      input: 'textarea',
+      inputLabel: 'Message',
+      inputPlaceholder: 'Type your message here...',
+      inputAttributes: {
+        'aria-label': 'Type your message here'
+      },
+      showCancelButton: true
+    }).then((v: SweetAlertResult) => {
+      if (v.isConfirmed) {
+        console.log(v.value);
+
+        this.update(v.value)
+      }
+    })
+
+  }
+
+  async update(comment: string) {
+    // const newComment = comment != '' ? `${this.userLogin.name} ->>> ${comment}` : null
+    this.form = {
+      ...this.form,
+
+
+    }
+    await this.$revises.update(this.form._id, this.form).toPromise()
+  }
+
+  handleReject() {
+
+  }
+
 
 }

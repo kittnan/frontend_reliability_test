@@ -1,6 +1,6 @@
 <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
   <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" *ngFor="let item of queues; let i=index"
-    class="box-body mtb-4 b-left-red" [ngClass]="{'b-left-green': item._id}">
+    class="box-body mtb-4 b-left-red" [ngClass]="{'b-left-green': item.status==='submit_revise'}">
 
     <div *ngIf="item.condition" fxFlex="100" class="color-primary w-7">
       <h3>
@@ -241,13 +241,14 @@
 
       </div>
       <div fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
-        <button color="primary" mat-button [disabled]="item._id" (click)="onDraft(item,i,item.startDate)">
+        <button color="primary" mat-button [disabled]="item.status==='submit-revise'"
+          (click)="onDraft(item,i,item.startDate)">
           <span class="material-icons-outlined">
             save
           </span>
           SAVE DRAFT
         </button>
-        <button mat-button [disabled]="!item._id" (click)="onDelete(item)">
+        <button mat-button [disabled]="item.status!=='submit-revise'" (click)="onDelete(item)">
           <span class="material-icons-outlined">
             delete_outline
           </span>
@@ -257,7 +258,11 @@
       </div>
 
     </div>
-
+    <app-plan-reliability-test *ngIf="tableData" fxFlex="100" class="mt-3" [requestForm]="[formInput]"
+      [queues]="tableData">
+    </app-plan-reliability-test>
 
   </div>
+
+
 </div>

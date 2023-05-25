@@ -1,5 +1,5 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-  <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+  <div *ngIf="form && queues" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
     class=" mtb-4 ">
 
     <app-step1 fxFlex="100" *ngIf="request" [step1]="request.step1"></app-step1>
@@ -24,15 +24,29 @@
       <h2 fxFlex="100" class="t-head-1">new generate</h2>
       <app-planning-table *ngIf="dataSource && dataSource.length!=0" fxFlex="100" [data]="this.dataSource">
       </app-planning-table>
-      <app-planning-queues *ngIf="queues" fxFlex="100" [queues]="queues" [formInput]="form"></app-planning-queues>
-      <!-- <app-qe-chamber-planning *ngIf="dataSource && dataSource.length!=0" fxFlex="100" [data]="dataSource"
-        (dataChange)="planningEmit($event)">
-      </app-qe-chamber-planning> -->
-      <!-- <app-qe-chamber-planning-detail *ngIf="queues?.length!=0" fxFlex="100" [(queues)]="queues" [formInput]="form"
-        (tableChange)="tableChange($event)">
-      </app-qe-chamber-planning-detail> -->
+      <app-planning-queues *ngIf="queues" fxFlex="100" [queues]="queues" [formInput]="form"
+        (canApprove)="handleCanApprove($event)"></app-planning-queues>
+
     </ng-container>
 
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" class="box-body">
+      <button fxFlex="30" mat-raised-button color="accent" (click)="handleReject()">
+        <span class="material-icons-outlined">
+          keyboard_double_arrow_left
+        </span>
+        <span class="btn-back">
+          Reject
+        </span>
+      </button>
+      <button [disabled]="!canApprove" fxFlex="30" mat-raised-button color="primary" (click)="handleApprove()">
+        <span class="material-icons-outlined">
+          keyboard_double_arrow_right
+        </span>
+        <span class="btn-next">
+          Approve
+        </span>
+      </button>
+    </div>
 
   </div>
 </div>

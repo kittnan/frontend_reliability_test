@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
@@ -36,6 +36,8 @@ export class PlanningQueuesComponent implements OnInit {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
   ]
 
+  @Output() canApprove: EventEmitter<boolean> = new EventEmitter(false)
+
   constructor(
     private dialog: MatDialog,
     private $qe_chamber: QeChamberService,
@@ -54,10 +56,13 @@ export class PlanningQueuesComponent implements OnInit {
     this.tempQueues = [...this.queues]
     if (this.queues) {
       this.queues = await this.getQueuesDraft(this.queues)
+      console.log("🚀 ~ this.queues:", this.queues)
+      this.tableData = await this.mapForTable(this.queues)
+      console.log("🚀 ~ this.tableData:", this.tableData)
       this.queues.map((d: any) => {
         this.onCal(d)
       })
-      this.tableData = await this.mapForTable(this.queues)
+      this.handleValidApprove()
     }
   }
 
@@ -92,6 +97,7 @@ export class PlanningQueuesComponent implements OnInit {
         return {
           ...d,
           ...draft,
+          _id: d._id
         }
       } else {
         return d
@@ -220,7 +226,8 @@ export class PlanningQueuesComponent implements OnInit {
         data: {
           value: item.condition?.value,
           startDate: item.startDate,
-          qty: item.work?.qty
+          qty: item.work?.qty,
+          revise: true
         },
 
       })
@@ -272,6 +279,8 @@ export class PlanningQueuesComponent implements OnInit {
       name: e.value.name,
       qty: 1
     }
+    item.change = true
+
   }
 
   showOperateItemChecker(operateItems: any) {
@@ -287,6 +296,7 @@ export class PlanningQueuesComponent implements OnInit {
       name: e.value.name,
       qty: 1
     }
+    item.change = true
   }
   showOperateItemPower(operateItems: any) {
     if (operateItems && operateItems.length > 0) {
@@ -301,6 +311,7 @@ export class PlanningQueuesComponent implements OnInit {
       name: e.value.name,
       qty: 1
     }
+    item.change = true
 
   }
   showOperateItemAttachment(operateItems: any) {
@@ -312,6 +323,8 @@ export class PlanningQueuesComponent implements OnInit {
   }
 
   onDraft(item: QueueForm, index: number, startDate: any) {
+    console.log(item);
+
     Swal.fire({
       title: 'Do you want to save?',
       icon: 'question',
@@ -324,7 +337,8 @@ export class PlanningQueuesComponent implements OnInit {
         if (item.condition?.value == 0) {
           this.insertDirect([item], index)
         } else {
-          if (item.operate?.status) {
+          if (item.operate?.status && item.operate.change) {
+            // this.insertDirect([item], index)
             this.validRemainOperate(item, startDate, index)
           } else {
             this.insertDirect([item], index)
@@ -348,7 +362,8 @@ export class PlanningQueuesComponent implements OnInit {
         checker: checker.remain || 0,
         power: power.remain || 0,
       },
-      status: true
+      status: true,
+      change: false
     }
 
 
@@ -388,37 +403,39 @@ export class PlanningQueuesComponent implements OnInit {
   async insertDirect(item: any, index: number) {
     const newItem = item[0]
     if (newItem._id) {
+      newItem['status'] = "submit_revise"
       const r_update = await this.$queues_revises.update(newItem._id, newItem).toPromise()
       if (r_update && r_update.acknowledged) {
         Swal.fire('SUCCESS', '', 'success')
-        this.mapForTable(this.queues)
+        this.tableData = await this.mapForTable(this.queues)
         this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
+        this.handleValidApprove()
 
       } else {
         Swal.fire('', '', 'error')
       }
     } else {
 
-      if (newItem.condition?.value == 0) {
-        newItem.chamber = {
-          "code": null,
-          "name": null
-        }
-      }
+      // if (newItem.condition?.value == 0) {
+      //   newItem.chamber = {
+      //     "code": null,
+      //     "name": null
+      //   }
+      // }
 
-      const r_insert = await this.$queues_revises.insert(newItem).toPromise()
-      this.queues[index] = r_insert[0]
-      const table = await this.mapForTable(this.queues)
-      this.tableData = table
-      this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
-      this.requestForm[0].table = this.tableData
-      const resUpdate = await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
-      // this.tableChange.emit(table)
-      if (resUpdate && resUpdate.acknowledged) {
-        Swal.fire('SUCCESS', '', 'success')
-        setTimeout(() => {
-        }, 1000);
-      }
+      // const r_insert = await this.$queues_revises.insert(newItem).toPromise()
+      // this.queues[index] = r_insert[0]
+      // const table = await this.mapForTable(this.queues)
+      // this.tableData = table
+      // this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
+      // this.requestForm[0].table = this.tableData
+      // // const resUpdate = await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
+      // // this.tableChange.emit(table)
+      // // if (resUpdate && resUpdate.acknowledged) {
+      // Swal.fire('SUCCESS', '', 'success')
+      // setTimeout(() => {
+      // }, 1000);
+      // // }
 
     }
   }
@@ -435,16 +452,35 @@ export class PlanningQueuesComponent implements OnInit {
   }
   async deleteQueue(item: any) {
     if (item._id) {
-      const r_delete = await this.$queues_revises.delete(item._id).toPromise()
-      if (r_delete && r_delete.acknowledged) {
-        delete item._id
-        const table = await this.mapForTable(this.queues)
-        this.requestForm[0].table = table
-        this.tableData = table
-        this.getOperateToolTableAll(item.startDate)
-        await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
-        Swal.fire('SUCCESS', '', 'success')
-      }
+      item.status = 'draft_revise'
+      await this.$queues_revises.update(item._id, item).toPromise()
+      const table = await this.mapForTable(this.queues)
+      this.requestForm[0].table = table
+      this.tableData = table
+      this.getOperateToolTableAll(item.startDate)
+      Swal.fire('SUCCESS', '', 'success')
+      this.handleValidApprove()
+
+      // const r_delete = await this.$queues_revises.delete(item._id).toPromise()
+      // if (r_delete && r_delete.acknowledged) {
+      //   delete item._id
+      //   const table = await this.mapForTable(this.queues)
+      //   this.requestForm[0].table = table
+      //   this.tableData = table
+      //   this.getOperateToolTableAll(item.startDate)
+      //   // await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
+      //   Swal.fire('SUCCESS', '', 'success')
+      // }
     }
   }
+
+  handleValidApprove() {
+    const dataNotComplete = this.queues.find((q: any) => q.status === 'draft_revise')
+    if (!dataNotComplete) {
+      this.canApprove.emit(true)
+    } else {
+      this.canApprove.emit(false)
+    }
+  }
+
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,9 @@ export class QueuesRevisesService {
   }
   delete(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/${this.SUB}/delete/${id}`)
+  }
+  getReady(param: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/${this.SUB}/chamber/ready`, { params: param })
   }
 
 }
