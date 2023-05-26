@@ -47,8 +47,6 @@ import { DialogRejectComponent } from './approve-form/dialog-reject/dialog-rejec
 import { SuccessComponent } from './alert/success/success.component';
 import { WarningComponent } from './alert/warning/warning.component';
 import { DangerComponent } from './alert/danger/danger.component';
-import { RevisesTableShareComponent } from './revises/revises-table-share/revises-table-share.component';
-import { ApproveReviseFormComponent } from './revises/approve/approve-revise-form/approve-revise-form.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -92,8 +90,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     SuccessComponent,
     WarningComponent,
     DangerComponent,
-    RevisesTableShareComponent,
-    ApproveReviseFormComponent,
 
   ],
   imports: [
@@ -142,8 +138,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InputDirectionComponent,
     TableOperateComponent,
     CommentComponent,
-    QeReceiveComponent,
-    RevisesTableShareComponent
+    QeReceiveComponent
   ]
 })
 export class SharedModule { }

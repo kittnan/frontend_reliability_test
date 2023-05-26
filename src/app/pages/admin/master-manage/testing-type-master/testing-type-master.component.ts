@@ -56,8 +56,8 @@ export class TestingTypeMasterComponent implements OnInit {
 
   openDialog() {
     const dialogRef: MatDialogRef<any> = this.dialog.open(DialogTestingTypeComponent, {
-      height: '700px',
-      width: '600px',
+      // height: '90%',
+      width: '80%',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res && res.length > 0) {
@@ -68,8 +68,8 @@ export class TestingTypeMasterComponent implements OnInit {
   onEdit(item: any) {
     const dialogRef: MatDialogRef<any> = this.dialog.open(DialogTestingTypeComponent, {
       data: item,
-      height: '700px',
-      width: '600px',
+      // height: '90%',
+      width: '80%',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
