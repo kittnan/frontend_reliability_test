@@ -1,0 +1,19 @@
+<div fxLayoutAlign="start stretch" fxLayout="row wrap" class="content-item">
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" style="margin-bottom: 20px;">
+    <span class="box-title">
+      Action History
+    </span>
+  </div>
+  <p fxFlex="100" *ngFor="let item of logsUser; let i=index">
+    [ {{item.updatedAt|date:'YYYY-MM-dd, HH:mm'}}]
+    <strong>
+      {{item.user.name}}
+    </strong>
+    <span style="color: blue; font-weight: bold;">
+      send to ->>>
+    </span>
+    <span [style]="convertCSS(item.action)">
+      {{item?.action |uppercase}}
+    </span>
+  </p>
+</div>
