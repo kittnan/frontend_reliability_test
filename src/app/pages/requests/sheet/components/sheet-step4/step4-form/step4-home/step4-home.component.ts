@@ -51,30 +51,33 @@ export class Step4HomeComponent implements OnInit {
         disable: false
       }
     })
+    console.log("🚀 ~  this.condition_list:", this.condition_list)
 
-
-    // console.log("🚀 ~ this.conditionList:", this.condition_list)
-    // console.log('this.conditionForm', this.conditionForm);
-
-    // this.tempConditionForm = [...this.conditionForm]
-    // this.conditions = this.conditionForm
     this.data = this.conditionForm.data
     this.inspection = this.data[0]?.inspectionDetail ? this.data[0].inspectionDetail : this.inspection
-    // console.log("🚀 ~ this.inspection:", this.inspection)
     if (this.data.length > 0) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const step3 = await this.$step3.get(params).toPromise()
+      console.log("🚀 ~ step3:", step3)
       let filterOven: any[] = []
       if (step3[0]?.data?.find((d: any) => d.checked && d.type == 'oven')) {
         filterOven = step3[0]?.data?.filter((d: any) => d.checked && d.type == 'oven' || (d.checked && d.type == 'noOven'))
       } else {
-        filterOven = step3[0]?.data?.filter((d: any) => d.checked && (d.type == 'noOven' || d.type == 'mix'))
+        filterOven = step3[0]?.data?.filter((d: any) => {
+          if (d.checked) {
+            if (d.type == 'noOven' || d.type == 'mix') return true
+          }
+          return false
+        })
       }
+      console.log("🚀 ~ filterOven:", filterOven)
 
       filterOven = filterOven.map((f: any) => {
         return {
           ...f,
           list: f.list.map((l: any) => {
+            console.log(l);
+            // ! l.name ไม่ตรง กับ c.name
             return {
               ...l,
               value: this.condition_list.find((c: any) => c.name == l.name)?.value || 0
@@ -82,14 +85,20 @@ export class Step4HomeComponent implements OnInit {
           })
         }
       })
-      // console.log("🚀 ~ filterOven:", filterOven)
+      console.log("🚀 ~ filterOven:", filterOven)
 
       const filteredData = filterOven.map((f: any) => {
+        console.log("🚀 ~ f:", f)
+
         if (f.type == 'oven') {
-          const item = this.data.filter((c: any) => f.list.some((l: any) => l.checked && (l.value == c.value)))
+          const item = this.data.filter((c: any) => f.list.find((l: any) => l.checked && (l.value == c.value)))
+          console.log("🚀 ~ item:", item)
           return item
         } else {
+          console.log(f.groupName);
+
           const item = this.data.find((c: any) => f.groupName == c.name)
+          console.log("🚀 ~ item:", item)
           if (item) return [item]
           return [{
             data: {
@@ -105,6 +114,8 @@ export class Step4HomeComponent implements OnInit {
         }
       })
       // concat list in  filteredData
+      console.log(filteredData);
+
       let concatList = filteredData.reduce((acc: any, cur: any) => {
         return acc.concat(cur)
       }, [])
