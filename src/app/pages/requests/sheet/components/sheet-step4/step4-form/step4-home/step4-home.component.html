@@ -19,7 +19,8 @@
       style="padding: 20px; margin: 10px 0; background-color: aliceblue" *ngFor="let con of data; let i=index">
       <h4 fxFlex="100">
         {{i+1}}.{{con.name}}
-        <button [disabled]="con.value===0" mat-button color="primary" (click)="onDelete(i)">
+        <!-- <button [disabled]="con.value===0" mat-button color="primary" (click)="onDelete(i)"> -->
+        <button mat-button color="primary" (click)="onDelete(i)">
           <span class="material-icons-outlined cursor" style="font-size: 30px;">
             delete
           </span>

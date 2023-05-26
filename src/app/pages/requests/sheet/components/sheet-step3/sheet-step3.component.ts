@@ -58,11 +58,42 @@ export class SheetStep3Component implements OnInit {
       requestId: this.formId,
       data: resultMap
     };
+    console.log("🚀 ~ this.testingTypeMenu:", this.testingTypeMenu)
     if (this.formId) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const resGet: any = await this.$step3.get(params).toPromise()
       if (resGet && resGet.length > 0) {
-        this.testingTypeMenu = resGet[0]
+        const step3 = resGet[0]
+        const step3Data = step3.data
+        const masterData = this.testingTypeMenu.data
+
+        const resultMerge = masterData.map((masData: any) => {
+          const masGroup = masData
+          const step3Group = step3Data.find((s: any) => s.groupName == masGroup.groupName)
+
+          const listMas = masGroup.list
+          const listStep3 = step3Group.list
+
+          const newList = listMas.map((l1: any) => {
+            const itemInListStep3 = listStep3.find((l2: any) => l2.name == l1.name)
+            return {
+              ...l1,
+              ...itemInListStep3
+            }
+          })
+
+          return {
+            ...masGroup,
+            ...step3Group,
+            list: newList
+          }
+
+        })
+        this.testingTypeMenu = {
+          ...step3,
+          data: resultMerge
+        }
+        // this.testingTypeMenu = resGet[0]
       }
 
     }
