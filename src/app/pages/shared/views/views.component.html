@@ -4,6 +4,7 @@
   <app-step3 *ngIf="step3 && show3" [(step3)]="step3"></app-step3>
   <app-step4 *ngIf="step4 && show4" [(step4)]="step4"></app-step4>
   <app-step5 *ngIf="step5 && show5" [(step5)]="step5"></app-step5>
+  <app-view-log *ngIf="form._id" [formId]="form._id"></app-view-log>
   <app-comment *ngIf="showComment" [comment]="form.comment"></app-comment>
   <app-plan-reliability-test id="foo" *ngIf="form &&form.table &&showTest" [requestForm]="[form]"
     [queues]="form.table"></app-plan-reliability-test>

@@ -14,6 +14,7 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { Observable, map, startWith } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 
 export interface ModelNo {
   modelNo: string;
@@ -129,6 +130,9 @@ export class SheetStep1Component implements OnInit {
       this.requestForm.patchValue({
         ...res[0].step1
       })
+      if (res[0].status === "reject_request") {
+        this.minDate = moment('1999-01-01').toDate()
+      }
     }
 
     // this.requestForm.patchValue({

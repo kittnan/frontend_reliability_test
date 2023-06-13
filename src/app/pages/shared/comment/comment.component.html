@@ -18,21 +18,25 @@
           No comment.
         </span>
       </ng-container>
+
       <ng-container *ngIf="!validTypeString()">
-        <span *ngIf="comment.length!==0" style="white-space: pre-line;">
-          <p *ngFor="let item of comment; let i=index" style="white-space: pre-line;">
-            {{item}}
+        <span *ngIf="newComment && newComment.length!==0" style="white-space: pre-line;">
+          <p *ngFor="let item of newComment; let i=index" style="white-space: pre-line;">
+            <strong>
+              {{item[0]}} ->
+            </strong>
+            <span style="color: green;">
+              {{item[1]}}
+            </span>
           </p>
         </span>
+        <span *ngIf="!newComment">
+          No comment.
+        </span>
+        <span *ngIf="newComment && newComment.length===0">
+          No comment.
+        </span>
       </ng-container>
-
-
-      <!-- <span *ngIf="comment.length!==0" style="white-space: pre-line;">
-        <p *ngFor="let item of comment; let i=index" style="white-space: pre-line;">
-          {{item}}
-        </p>
-      </span> -->
-
     </div>
 
   </div>

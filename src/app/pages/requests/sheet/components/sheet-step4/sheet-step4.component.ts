@@ -50,8 +50,7 @@ export class SheetStep4Component implements OnInit {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const resStep3 = await this.$step3.get(params).toPromise();
       const resStep4 = await this.$step4.get(params).toPromise();
-      this.step5 = await this.$step5.get(params).toPromise();
-      console.log("🚀 ~ this.step5:", this.step5)
+      console.log('resStep4[0]', resStep4[0]);
       if (resStep3 && resStep3.length > 0) {
         if (resStep3[0].data.find((d: any) => d.checked && d.type == 'oven')) {
           this.chamber = 'yes'

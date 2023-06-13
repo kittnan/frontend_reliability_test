@@ -30,6 +30,7 @@ export class LoginService {
   onLogin(data: any) {
     this.login(data).subscribe(res => {
       if (res.length > 0) {
+        localStorage.setItem('RLS_version', environment.VERSION)
         const user = {
           ...res[0],
           name: this.shortName(res[0].name)

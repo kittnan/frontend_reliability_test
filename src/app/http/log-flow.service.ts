@@ -15,4 +15,7 @@ export class LogFlowService {
   insertLogFlow(data: any) {
     return this.http.post(`${this.URL}/log_flow/insert`, data)
   }
+  get(id: any) {
+    return this.http.get(`${this.URL}/log_flow/byFormId/${id}`)
+  }
 }

@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApproveService } from '../approve.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dialog-approve',
@@ -26,8 +27,8 @@ export class DialogApproveComponent implements OnInit {
     if (this.data.form.status == "qe_window_person_report") {
       this._approve.finishJob(this.data.form, this.data.userLogin)
     } else {
-      const newComment = this.comment ? `${this.data.userLogin.name}-> ${this.comment}` : null
-      console.log("🚀 ~ newComment:", newComment)
+      const time = moment().format('YYYY-MM-DD, HH.mm')
+      const newComment = this.comment ? `[${time}]${this.data.userLogin.name}-> ${this.comment}` : null
       this._approve.send(this.data.userLogin, this.data.userApprove, this.data.form, newComment)
     }
     this.dialogRef.close()

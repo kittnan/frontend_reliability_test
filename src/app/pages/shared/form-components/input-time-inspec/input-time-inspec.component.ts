@@ -11,6 +11,9 @@ export class InputTimeInspecComponent implements OnInit {
   @Input() form: any
   @Output() formChange = new EventEmitter();
   temp!: string;
+
+  @Input() lockInitial: boolean = false
+
   constructor() { }
   ngOnInit(): void {
     if (this.form.length > 0) {
@@ -21,32 +24,40 @@ export class InputTimeInspecComponent implements OnInit {
   }
 
   inputTime(e: KeyboardEvent) {
-    const comma = 188
-    const backspace = 8
-    const zero = 48
-    const nine = 57
-    const tab = 9
-    const l = 37
-    const u = 38
-    const r = 39
-    const b = 40
-    const key = Number(e.keyCode)
-
-    if ((key >= zero && key <= nine) || key == comma || key == backspace || key == tab || key == l || key == u || key == r || key == b) {
-
-    } else {
+    if (this.lockInitial && this.form.length == 1 && Number(e.keyCode) === 8) {
       return e.preventDefault()
+    } else {
+      const comma = 188
+      const backspace = 8
+      const zero = 48
+      const nine = 57
+      const tab = 9
+      const l = 37
+      const u = 38
+      const r = 39
+      const b = 40
+      const key = Number(e.keyCode)
+
+      if ((key >= zero && key <= nine) || key == comma || key == backspace || key == tab || key == l || key == u || key == r || key == b) {
+
+      } else {
+        return e.preventDefault()
+      }
     }
+
+
 
   }
   cal() {
     let tempSplit: any[] = this.temp.toString().trim().split(',');
     tempSplit = tempSplit.map((t: any) => parseInt(t))
+
     tempSplit = tempSplit.filter((t: any) =>
       isNaN(t) ? false : t ||
         t === 0
     )
     tempSplit = tempSplit.sort((a: any, b: any) => a - b)
+    tempSplit = [...new Set(tempSplit.map(item => item))];
     this.form = tempSplit
     this.emit()
   }

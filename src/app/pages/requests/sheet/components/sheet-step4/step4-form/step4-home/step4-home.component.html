@@ -1,4 +1,12 @@
 <div fxLayoutAlign="space-around stretch" fxLayout="row wrap">
+
+  <!-- <mat-radio-group fxFlex="100" aria-label="Select an option" [(ngModel)]="chamber" (ngModelChange)="onSelectChamber()">
+    <mat-radio-button value="yes">chamber</mat-radio-button>
+    <mat-radio-button value="no">no chamber</mat-radio-button>
+  </mat-radio-group> -->
+  <!--
+  <mat-divider *ngIf="chamber" fxFlex="100" style="margin: 10px 0;"></mat-divider> -->
+
   <mat-form-field appearance="fill" fxFlex="100">
     <mat-label>Select Condition</mat-label>
     <mat-select [(ngModel)]="selected" (ngModelChange)="onSelected()">
@@ -17,7 +25,8 @@
       style="padding: 20px; margin: 10px 0; background-color: aliceblue" *ngFor="let con of data; let i=index">
       <h4 fxFlex="100">
         {{i+1}}.{{con.name}}
-        <button [disabled]="con.value===0" mat-button color="primary" (click)="onDelete(i)">
+        <!-- <button [disabled]="con.value===0" mat-button color="primary" (click)="onDelete(i)"> -->
+        <button mat-button color="primary" (click)="onDelete(i)">
           <span class="material-icons-outlined cursor" style="font-size: 30px;">
             delete
           </span>

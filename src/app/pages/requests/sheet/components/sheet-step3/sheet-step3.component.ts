@@ -65,21 +65,12 @@ export class SheetStep3Component implements OnInit {
       requestId: this.formId,
       data: resultMap
     };
+    console.log("🚀 ~ this.testingTypeMenu:", this.testingTypeMenu)
     if (this.formId) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const resGet: any = await this.$step3.get(params).toPromise()
       if (resGet && resGet.length > 0) {
         this.testingTypeMenu = resGet[0]
-        this.testingTypeMenu.data = this.testingTypeMenu.data.map((t: any) => {
-          t['prevChecked'] = t.checked
-          t.list = t.list.map((l: any) => {
-            return {
-              ...l,
-              prevChecked: l.checked
-            }
-          })
-          return t
-        })
       }
 
     }

@@ -10,6 +10,7 @@ import { v4 as uuid } from 'uuid';
 import { ToastService } from './services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
+import { HandleVersionService } from './services/handle-version.service';
 
 @Component({
   selector: 'app-root',
@@ -27,13 +28,13 @@ export class AppComponent {
   authorize: any
   loginStatus: Boolean = false
   constructor(
-    private changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
     private swUpdate: SwUpdate,
     private _loading: NgxUiLoaderService,
     private dialog: MatDialog,
     private _toast: ToastService,
     private _router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private $handleVersion: HandleVersionService
   ) {
     // this.mobileQuery = media.matchMedia('(max-width: 600px)');
     // this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -51,13 +52,14 @@ export class AppComponent {
 
 
   ngOnInit(): void {
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.available.subscribe(() => {
-        if (confirm("New version available. Load New Version?")) {
-          window.location.reload();
-        }
-      });
-    }
+    this.$handleVersion.start()
+    // if (this.swUpdate.isEnabled) {
+    //   this.swUpdate.available.subscribe(() => {
+    //     if (confirm("New version available. Load New Version?")) {
+    //       window.location.reload();
+    //     }
+    //   });
+    // }
     this.loginValid()
     this.onAccess()
     setTimeout(() => {
@@ -68,6 +70,8 @@ export class AppComponent {
 
 
   }
+
+
 
   ngOnDestroy(): void {
     // this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -315,7 +319,7 @@ export class AppComponent {
             {
               path: '/request/revises-table',
               icon: 'feed',
-              title: 'revises plan'
+              title: 'revises-plan'
             },
 
 
@@ -478,6 +482,7 @@ export class AppComponent {
     localStorage.removeItem('RLS_userName')
     localStorage.removeItem('RLS_userLogin')
     localStorage.removeItem('RLS_section')
+    localStorage.removeItem('RLS_version')
     this._router.navigate(['']).then(() => {
       window.location.reload();
     })
