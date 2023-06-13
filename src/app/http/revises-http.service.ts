@@ -12,6 +12,12 @@ export class RevisesHttpService {
     private http: HttpClient
   ) { }
 
+  get(params: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/${this.sub}`, { params: params })
+  }
+  ByRequestId(params: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/${this.sub}/ByRequestId`, { params: params })
+  }
   getPrev(params: HttpParams): Observable<any> {
     return this.http.get(`${this.URL}/${this.sub}/prev`, { params: params })
   }
@@ -25,6 +31,6 @@ export class RevisesHttpService {
     return this.http.put(`${this.URL}/${this.sub}/updateByRequestId/${id}`, data)
   }
   tableRevises(params: HttpParams) {
-    return this.http.get(`${this.URL}/${this.sub}/tableShowRevises/`, { params: params })
+    return this.http.get(`${this.URL}/${this.sub}/revisesTable/`, { params: params })
   }
 }

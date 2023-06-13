@@ -41,6 +41,7 @@ export class SheetComponent implements OnInit {
     this._loading.start()
     if (this.params && this.params['id']) {
       this.formId = this.params['id']
+      this.propReviseMode = this.params['revise']
       this.$request.get_id(this.params['id']).subscribe(res => {
         this.request = res[0]
       })

@@ -34,6 +34,7 @@ export class DialogQeChamberComponent implements OnInit {
       const valueStr = JSON.stringify(value)
       const param: HttpParams = new HttpParams().set('value', valueStr).set('startDate', moment(this.data.startDate).toISOString()).set('qty', this.data.qty)
       this.rows = await this.$chamber.getReady(param).toPromise()
+      console.log("🚀 ~ this.rows:", this.rows)
       setTimeout(() => {
         this.load = false
       }, 500);

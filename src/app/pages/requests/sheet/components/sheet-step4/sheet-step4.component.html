@@ -1,5 +1,5 @@
 <app-step4-home *ngIf="chamber" [conditionForm]="conditionForm" (conditionFormChange)="onConditionForm($event)"
-  [formId]="formId"></app-step4-home>
+  [formId]="formId" [propReviseMode]="propReviseMode"></app-step4-home>
 <app-condition-table *ngIf="table.length>0" [data]="table"></app-condition-table>
 <div fxLayout="row wrap" fxLayoutAlign="space-around stretch" style="margin-top: 20px;">
 

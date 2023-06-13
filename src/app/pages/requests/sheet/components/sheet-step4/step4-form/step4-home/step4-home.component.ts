@@ -5,6 +5,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
 
 interface ConditionListForm {
   name: string,
@@ -35,14 +36,26 @@ export class Step4HomeComponent implements OnInit {
 
   }
   chamber: any
+
+  requestRevise: any = null
+
+  @Input() propReviseMode: boolean = false
   constructor(
     private $master: MasterHttpService,
-    private $step3: Step3HttpService
+    private $step3: Step3HttpService,
+    private $revise: RevisesHttpService
   ) {
 
   }
 
   async ngOnInit(): Promise<void> {
+
+    if (this.propReviseMode) {
+      const resRevise = await this.$revise.ByRequestId(new HttpParams().set('id', this.formId)).toPromise()
+      console.log("🚀 ~ resRevise:", resRevise)
+      this.requestRevise = resRevise[0]
+    }
+
     this.condition_list = await this.$master.getFunctionChamber().toPromise()
     this.condition_list = this.condition_list.map((con: ConditionListForm) => {
       return {
@@ -53,8 +66,14 @@ export class Step4HomeComponent implements OnInit {
     this.data = this.conditionForm.data
     this.inspection = this.data[0]?.inspectionDetail ? this.data[0].inspectionDetail : this.inspection
     if (this.data.length > 0) {
-      const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      const step3 = await this.$step3.get(params).toPromise()
+      let step3: any = null
+      if (this.requestRevise) {
+        step3 = [this.requestRevise.step3]
+      } else {
+        const params: HttpParams = new HttpParams().set('requestId', this.formId)
+        step3 = await this.$step3.get(params).toPromise()
+
+      }
       let filterOven: any[] = []
       if (step3[0]?.data?.find((d: any) => d.checked && d.type == 'oven')) {
         filterOven = step3[0]?.data?.filter((d: any) => d.checked && d.type == 'oven' || (d.checked && d.type == 'noOven'))

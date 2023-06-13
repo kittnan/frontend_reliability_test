@@ -201,7 +201,7 @@ export class RevisesTableComponent implements OnInit {
     }
     delete createData._id
     await this.$revises.insert(createData).toPromise()
-    this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row._id } })
+    this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row._id, revise: true } })
   }
 
 

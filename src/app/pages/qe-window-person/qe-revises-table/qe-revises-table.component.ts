@@ -82,6 +82,7 @@ export class QeRevisesTableComponent implements OnInit {
   }
 
   async onSelectStatus() {
+    alert()
     let statusStr: any = 'revises'
 
     const tempSection = this.selected_section === 'all' ? this.sections : [this.selected_section]
