@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class RequestsComponent implements OnInit {
 
   constructor(
-    private cdref: ChangeDetectorRef
+    // private cdref: ChangeDetectorRef
   ) {
 
   }

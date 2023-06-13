@@ -90,6 +90,8 @@ export class SheetStep4Component implements OnInit {
 
 
   async update() {
+    console.log(this.conditionForm);
+
     const resUpdate = await this.$step4.update(this.conditionForm._id, this.conditionForm).toPromise()
     setTimeout(() => {
       Swal.fire({
@@ -103,6 +105,7 @@ export class SheetStep4Component implements OnInit {
     }, 1000);
   }
   async insert() {
+
     this.conditionForm.requestId = this.formId
     const resInsert = await this.$step4.insert(this.conditionForm).toPromise()
     setTimeout(() => {
@@ -122,6 +125,7 @@ export class SheetStep4Component implements OnInit {
   }
 
   handleReviseRequest() {
+    console.log(this.conditionForm);
 
     const reviseDialogRef = this.dialog.open(DialogReviseApproveComponent, {
       width: '500px',
@@ -146,7 +150,7 @@ export class SheetStep4Component implements OnInit {
 
   private async insertRevise(resDialog: any) {
     try {
-
+      console.clear()
       let newComment = resDialog.comment ? [`${this.userLogin.name} ->>> ${resDialog.comment}`] : []
       const foundNextApprove = this.step5.find((s: any) => s.prevStatusForm == 'qe_window_person')
       let nextApprove = foundNextApprove ? foundNextApprove.prevUser : null
@@ -160,7 +164,10 @@ export class SheetStep4Component implements OnInit {
         nextApprove: nextApprove,
         comment: newComment
       }
-      await this.$revise.insert(body).toPromise()
+      console.log(this.conditionForm, this.formId);
+
+      await this.$revise.updateByRequestId(this.conditionForm, this.formId).toPromise()
+      // await this.$revise.insert(body).toPromise()
 
       Swal.fire({
         title: 'Request Revise Success!!! ',
