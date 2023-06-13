@@ -7,12 +7,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Subscription, interval, lastValueFrom } from 'rxjs';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { DialogViewComponent } from 'src/app/pages/shared/dialog-view/dialog-view.component';
 import { ReportService } from 'src/app/pages/shared/table-request/report.service';
-import { environment } from 'src/environments/environment';
-import { RequestSheetService } from '../../sheet/request-sheet.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 
@@ -99,6 +96,7 @@ export class RevisesTableComponent implements OnInit {
     section = JSON.stringify(section)
     const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr).set('section', section)
     const resData = await this.$request.table(param).toPromise()
+    console.log("🚀 ~ resData:", resData)
     const resultMap: any = await this.mapRows(resData)
     if (this.dataSource?.data) {
       this.dataSource.data = resultMap;
@@ -218,8 +216,15 @@ export class RevisesTableComponent implements OnInit {
         if (row?.request_revise) {
 
         } else {
-          delete row._id
-          console.log(row);
+          const createData = {
+            ...row,
+            requestId: row._id,
+            status: 'draft_request_revise',
+            level: 13,
+            comment: []
+          }
+          delete createData._id
+          console.log(createData);
 
           // this.insertRevise(row)
         }
