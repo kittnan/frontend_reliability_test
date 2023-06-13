@@ -62,7 +62,7 @@ export class RevisesSheetComponent implements OnInit {
 
   getPrevData(_id: string) {
     const params: HttpParams = new HttpParams().set('_id', _id)
-    return this.$revises.getPrev(params).toPromise()
+    return this.$revises.get(params).toPromise()
   }
 
   onTranslate() {

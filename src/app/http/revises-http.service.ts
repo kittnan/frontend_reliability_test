@@ -12,7 +12,13 @@ export class RevisesHttpService {
     private http: HttpClient
   ) { }
 
-  getPrev(params: HttpParams): Observable<any> {
-    return this.http.get(`${this.URL}/${this.sub}/prev`, { params: params })
+  get(params: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/${this.sub}`, { params: params })
+  }
+  insert(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/${this.sub}`, data)
+  }
+  update(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/${this.sub}/${id}`, data)
   }
 }

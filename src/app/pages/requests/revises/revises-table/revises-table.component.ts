@@ -1,5 +1,5 @@
-import { HttpParams } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpParams, HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,6 +12,9 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { DialogViewComponent } from 'src/app/pages/shared/dialog-view/dialog-view.component';
 import { ReportService } from 'src/app/pages/shared/table-request/report.service';
 import { environment } from 'src/environments/environment';
+import { RequestSheetService } from '../../sheet/request-sheet.service';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
 
 @Component({
   selector: 'app-revises-table',
@@ -42,6 +45,8 @@ export class RevisesTableComponent implements OnInit {
 
   selected_section: any = null
   sections: any[] = []
+
+  $revise = inject(RevisesHttpService)
   constructor(
     private $request: RequestHttpService,
     private router: Router,
@@ -54,6 +59,7 @@ export class RevisesTableComponent implements OnInit {
     this.sections = this.userLogin.section
     this.sections = this.sections.concat(['all'])
     this.selected_section = localStorage.getItem('RLS_section')
+
   }
 
   async ngOnInit(): Promise<void> {
@@ -203,7 +209,45 @@ export class RevisesTableComponent implements OnInit {
 
 
   handleRevise(row: any) {
-    this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row._id } })
+    Swal.fire({
+      title: 'Do you want to request revise ?',
+      icon: 'question',
+      showCancelButton: true,
+    }).then((v: SweetAlertResult) => {
+      if (v.isConfirmed) {
+        if (row?.request_revise) {
+
+        } else {
+          delete row._id
+          console.log(row);
+
+          // this.insertRevise(row)
+        }
+      }
+    })
+    // this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row._id } })
+  }
+
+  public async insertRevise(data: any) {
+    try {
+      this._loading.start()
+      await this.$revise.insert(data).toPromise()
+      Swal.fire('Success', '', 'success')
+      setTimeout(() => {
+        this._loading.stop()
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      const errorStr = JSON.stringify(error)
+      Swal.fire(errorStr, '', 'error')
+      setTimeout(() => {
+        this._loading.stop()
+      }, 1000);
+    } finally {
+      setTimeout(() => {
+        this._loading.stop()
+      }, 1000);
+    }
   }
 
 
