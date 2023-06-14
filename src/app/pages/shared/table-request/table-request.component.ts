@@ -75,11 +75,9 @@ export class TableRequestComponent implements OnInit {
     const id: any = localStorage.getItem('RLS_id')
     this.authorize = localStorage.getItem('RLS_authorize');
     this.selected_status = 'ongoing';
-    // if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
     if (this.authorize.includes("qe") || this.authorize.includes("admin")) {
       this.displayedColumns = ['controlNo', 'userRequest', 'purpose', 'requestSubject', 'modelNo', 'status', 'userApprove', 'ongoing', 'edit', 'btn'];
     }
-    // this.userLogin = await this._login.getProFileById(id).toPromise();
     this.params = {
       userId: this.userLogin._id,
       status: '',
@@ -115,9 +113,6 @@ export class TableRequestComponent implements OnInit {
       statusStr = 'all'
     }
     this.onSelectStatus()
-    // const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
-    // const count: any = await this.$request.tableCount(param).toPromise()
-    // if (count && count.length > 0 && count[0].count != this.presentCount) this.onSelectStatus()
   }
 
   async onSelectStatus() {
@@ -142,7 +137,6 @@ export class TableRequestComponent implements OnInit {
       const resData = await this.$request.tableAdmin(param).toPromise()
       const resultMap: any = await this.mapRows(resData)
       this.presentCount = resultMap.length
-      // console.log(resultMap);
       if (this.dataSource?.data) {
         this.dataSource.data = resultMap;
       } else {
@@ -158,10 +152,7 @@ export class TableRequestComponent implements OnInit {
       section = JSON.stringify(section)
       const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr).set('section', section)
       const resData = await this.$request.table(param).toPromise()
-      // const resData = await this.$tableRequest.getTable(this.params)
       const resultMap: any = await this.mapRows(resData)
-      // console.log(this.dataSource);
-      // console.log(this.sort);
       this.presentCount = resultMap.length
       if (this.dataSource?.data) {
         this.dataSource.data = resultMap;
@@ -205,7 +196,6 @@ export class TableRequestComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    // console.log(item);
 
     const auth = localStorage.getItem('RLS_authorize')
     const section = localStorage.getItem('RLS_section')
@@ -287,26 +277,6 @@ export class TableRequestComponent implements OnInit {
     }
     return true
 
-
-
-
-    // if (item.status === 'request_confirm' || item.status === 'draft') {
-    //   if (item?.nextApprove?._id == this.userLogin?._id && auth == 'request') return false
-    //   return true
-    // } else {
-
-    //   if (item.status == 'qe_revise') {
-    //     if (auth == 'qe_window_person') return false
-    //     return true
-    //   } else
-    //     if (item.status === 'qe_engineer' || item.status === 'qe_engineer2') {
-    //       if (item.status === auth) return false
-    //       return true
-    //     } else {
-    //       if (item?.nextApprove?._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
-    //       return true
-    //     }
-    // }
   }
 
   private rowCss(item: any) {
@@ -332,31 +302,12 @@ export class TableRequestComponent implements OnInit {
     this.pageSizeOptions = [1, 5, 10, 25, 100];
   }
   onClickView(item: any) {
-    console.log(item);
-
     const dialogRef = this.dialog.open(DialogViewComponent, {
       data: item,
       width: '90%',
       height: '90%'
     })
 
-    // const foundItem = item.queues.find((i: any) => i.condition['value'] != 0)
-    // if (foundItem && foundItem?.inspectionTime.length >= 2) {
-    //   const item = foundItem.inspectionTime.find((i: any) => {
-    //     const diff = moment().diff(moment(i.startDate), 'hours')
-    //     if (diff <= 0) return true
-    //     return false
-    //   })
-    //   console.log("🚀 ~ item:", item)
-    //   if (item) {
-    //     const index = foundItem.inspectionTime.indexOf(item)
-    //     const prev = foundItem.inspectionTime[index - 1]
-    //     if (prev) {
-    //       const diff = moment().diff(moment(prev.endDate), 'hours')
-    //       if (diff > 0) return `${diff}/${item.at}`
-    //     }
-    //   }
-    // }
 
   }
   onClickViewNewTab(item: any) {

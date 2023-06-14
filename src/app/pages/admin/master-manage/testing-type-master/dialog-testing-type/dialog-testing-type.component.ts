@@ -21,14 +21,17 @@ export class DialogTestingTypeComponent implements OnInit {
     type: new FormControl('', Validators.required)
   })
 
+  optionFunctionChamber: any = null;
+
   constructor(
     private _master_service: MasterHttpService,
     private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _toast_service: ToastService,
+    private $master: MasterHttpService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if (this.data) {
       this.TestingTypeForm.patchValue({
         _id: this.data._id,
@@ -37,6 +40,9 @@ export class DialogTestingTypeComponent implements OnInit {
         type: this.data.type
       })
     }
+
+    const resFunctionChamber = await this.$master.getFunctionChamber().toPromise()
+    this.optionFunctionChamber = resFunctionChamber
   }
   setFormGroup(list: any) {
     if (list) {
@@ -45,19 +51,7 @@ export class DialogTestingTypeComponent implements OnInit {
         if (index + 1 < list.length) {
           c1.push(this.initListItem())
         }
-        // if (l && l.listItem.length > 0) {
 
-        //   const newListItem = l.listItem.map((item: any, index2: number) => {
-        //     if (index2 + 1 < l.listItem.length) {
-        //       let listArrayForm = this.TestingTypeForm.get('list')?.get([index]) as FormArray;
-        //       let listItemArrayForm = listArrayForm.get('listItem') as FormArray;
-        //       listItemArrayForm.push(this.initOption())
-        //     }
-        //     return item
-        //   })
-
-        //   list.listItem = newListItem
-        // }
       })
       return list
     } else {
@@ -69,6 +63,7 @@ export class DialogTestingTypeComponent implements OnInit {
   initListItem() {
     return new FormGroup({
       name: new FormControl(''),
+      value: new FormControl(0),
       checked: new FormControl(false),
       description: new FormGroup({
         status: new FormControl(false),

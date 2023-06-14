@@ -27,11 +27,6 @@ export class ApproveFormComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _user: UserHttpService,
-    private _approve: ApproveService,
-    private _loading: NgxUiLoaderService,
-    private _reject: RejectService,
-    private route: ActivatedRoute,
     public dialog: MatDialog
 
   ) {
@@ -40,10 +35,6 @@ export class ApproveFormComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    // const id: any = localStorage.getItem('RLS_id');
-    // this.userLogin = await this._user.getUserById(id).toPromise()
-    console.log(this.data);
-
   }
 
   handleApprove() {

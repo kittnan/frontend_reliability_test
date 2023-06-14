@@ -7,15 +7,27 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CommentComponent implements OnInit {
 
-  @Input() comment: any = []
+  @Input() comment: any = null
+  newComment: any = null
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.comment);
-    console.log(typeof this.comment);
+    if (this.comment) {
+      this.customText(this.comment)
+    }
   }
+
+  customText(comment: any[]) {
+    const filtered = comment.filter(a => a)
+    const split = filtered.map((c: string) => {
+      return c.split('->')
+    })
+    this.newComment = split
+  }
+
   validTypeString() {
-    return typeof this.comment === 'string'
+    if (typeof this.comment === 'string') return true
+    return false
   }
 
 }
