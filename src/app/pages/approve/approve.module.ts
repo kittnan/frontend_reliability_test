@@ -10,13 +10,17 @@ import { ApproveManageComponent } from './approve-manage/approve-manage.componen
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../shared/shared.module';
 import { ApproveRequestComponent } from './approve-request/approve-request.component';
+import { ApproveRevisesTableComponent } from './revises/approve-revises-table/approve-revises-table.component';
+import { ApproveRevisesApproveComponent } from './revises/approve-revises-approve/approve-revises-approve.component';
 
 
 @NgModule({
   declarations: [
     ApproveComponent,
     ApproveManageComponent,
-    ApproveRequestComponent
+    ApproveRequestComponent,
+    ApproveRevisesTableComponent,
+    ApproveRevisesApproveComponent
   ],
   imports: [
     CommonModule,

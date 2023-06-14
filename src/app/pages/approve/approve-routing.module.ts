@@ -3,25 +3,35 @@ import { RouterModule, Routes } from '@angular/router';
 import { ApproveManageComponent } from './approve-manage/approve-manage.component';
 import { ApproveRequestComponent } from './approve-request/approve-request.component';
 import { ApproveComponent } from './approve.component';
+import { ApproveRevisesTableComponent } from './revises/approve-revises-table/approve-revises-table.component';
+import { ApproveRevisesApproveComponent } from './revises/approve-revises-approve/approve-revises-approve.component';
 
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     component: ApproveComponent,
-    children:[
+    children: [
       {
-        path:'manage',
-        component:ApproveManageComponent
+        path: 'manage',
+        component: ApproveManageComponent
       },
       {
-        path:'approve-request',
-        component:ApproveRequestComponent
+        path: 'approve-request',
+        component: ApproveRequestComponent
       },
       {
-        path:'',
-        pathMatch:'full',
-        redirectTo:'manage'
+        path: 'revises-table',
+        component: ApproveRevisesTableComponent
+      },
+      {
+        path: 'revises-sheet',
+        component: ApproveRevisesApproveComponent
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'manage'
       }
     ]
   }

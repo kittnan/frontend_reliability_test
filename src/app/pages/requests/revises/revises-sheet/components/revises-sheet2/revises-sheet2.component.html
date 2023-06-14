@@ -1,0 +1,36 @@
+<div fxLayout="row wrap" fxLayoutAlign="start start" style="margin-top: 40px;">
+  <div fxFlex="100" *ngFor="let purpose of testPurposes" class="form-grey">
+    <mat-radio-button [value]="purpose.name" [checked]="purpose.checked"
+      [ngClass]="{'mb10': purpose['description'].status==false}" (change)="onCheckRadio($event,purpose)"
+      fxLayoutAlign="start center" style="margin-right: 10px;text-transform: capitalize;">
+      {{compareTranslate(purpose.name) | translate}}
+    </mat-radio-button>
+    <mat-form-field *ngIf="purpose['description'].status" fxFlex="auto" class="full-width" appearance="fill">
+      <mat-label>
+        {{'sheet2.description' |translate}}
+      </mat-label>
+      <input [disabled]="!purpose.checked" [value]="purpose['description'].value" [id]="purpose._id"
+        (change)="onInputDescription($event)" matInput class="full-width">
+    </mat-form-field>
+  </div>
+</div>
+
+<div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+  <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">
+    <span class="material-icons-outlined">
+      keyboard_double_arrow_left
+    </span>
+    <span class="btn-back">
+      Back
+    </span>
+  </button>
+  <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+
+    <span class="material-icons-outlined">
+      keyboard_double_arrow_right
+    </span>
+    <span class="btn-next">
+      Next
+    </span>
+  </button>
+</div>

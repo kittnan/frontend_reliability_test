@@ -1,32 +1,31 @@
-<!-- <div fxLayout="row wrap" fxLayoutAlign="center stretch" class="over-flow ">
+<div fxLayout="row wrap" fxLayoutAlign="center stretch" class="over-flow ">
   <div fxFlex.xl="80" fxFlex.lg="95" fxFlex="100" class="box-body mtb-2">
     <mat-stepper labelPosition="end" #stepper>
       <mat-step #step1>
         <ng-template matStepLabel>{{'header-sheet.step1' |translate}}</ng-template>
-        <app-sheet-step1 *ngIf="stepper.selected==step1" [(data)]="request.step1" [(formId)]="formId"
-          (dataChange)="emit($event)"></app-sheet-step1>
+        <app-revises-sheet1 *ngIf="form && stepper.selected==step1" [requestId]="form.requestId"></app-revises-sheet1>
       </mat-step>
       <mat-step #step2>
         <ng-template matStepLabel>{{'header-sheet.step2' |translate}}</ng-template>
-        <app-sheet-step2 *ngIf="stepper.selected==step2" [formId]="formId"></app-sheet-step2>
+        <app-revises-sheet2 *ngIf="form && stepper.selected==step2" [requestId]="form.requestId"></app-revises-sheet2>
       </mat-step>
       <mat-step #step3>
         <ng-template matStepLabel>{{'header-sheet.step3' |translate}}</ng-template>
-        <app-sheet-step3 *ngIf="stepper.selected==step3" [formId]="formId"></app-sheet-step3>
+        <app-revises-sheet3 *ngIf="form && stepper.selected==step3" [requestId]="form.requestId"></app-revises-sheet3>
       </mat-step>
       <mat-step #step4>
         <ng-template matStepLabel>{{'header-sheet.step4' |translate}}</ng-template>
-        <app-sheet-step4 *ngIf="stepper.selected==step4" [formId]="formId"></app-sheet-step4>
+        <app-revises-sheet4 *ngIf="form && stepper.selected==step4" [requestId]="form.requestId"></app-revises-sheet4>
       </mat-step>
       <mat-step #step5>
         <ng-template matStepLabel>{{'header-sheet.step5' |translate}}</ng-template>
-        <app-sheet-step5 *ngIf="stepper.selected==step5" [formId]="formId"></app-sheet-step5>
+        <app-revises-sheet5 *ngIf="form && stepper.selected==step5" [requestId]="form.requestId"></app-revises-sheet5>
       </mat-step>
     </mat-stepper>
 
   </div>
 
-</div> -->
+</div>
 <button mat-button class="bubble" (click)="onTranslate()">
   {{translate.currentLang}}
 </button>

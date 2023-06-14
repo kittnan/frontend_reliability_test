@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -12,12 +12,13 @@ import { RevisesHttpService } from 'src/app/http/revises-http.service';
   styleUrls: ['./revises-sheet.component.scss']
 })
 export class RevisesSheetComponent implements OnInit {
+
   userLogin: any
+  form: any = null
   constructor(
     private _loading: NgxUiLoaderService,
     private route: ActivatedRoute,
     private $revises: RevisesHttpService,
-    private $request: RequestHttpService,
     public translate: TranslateService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
@@ -33,7 +34,9 @@ export class RevisesSheetComponent implements OnInit {
       const ID: any = await this.handleParams()
       console.log('ID', ID);
       const resData = await this.getPrevData(ID)
-
+      console.log("🚀 ~ resData:", resData)
+      this.form = resData[0]
+      console.log("🚀 ~ this.form:", this.form)
       this._loading.stop()
     } catch (error) {
       alert(error)

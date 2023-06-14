@@ -35,7 +35,7 @@ export class SheetStep1Component implements OnInit {
 
   @ViewChild('fileUpload') fileUpload!: ElementRef
 
-  requestForm = new FormGroup({
+  public requestForm = new FormGroup({
     _id: new FormControl(null),
     requestId: new FormControl(''),
     controlNo: new FormControl(null, Validators.required),
@@ -86,7 +86,7 @@ export class SheetStep1Component implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private $request: RequestHttpService,
-    private $master: MasterHttpService,
+    public $master: MasterHttpService,
     private $file: FilesHttpService,
     private $step1: Step1HttpService,
     private $step5: Step5HttpService,

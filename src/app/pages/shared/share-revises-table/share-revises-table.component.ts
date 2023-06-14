@@ -1,5 +1,6 @@
-import { HttpParams, HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { DialogViewComponent } from '../dialog-view/dialog-view.component';
+import { HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,17 +9,16 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import { DialogViewComponent } from 'src/app/pages/shared/dialog-view/dialog-view.component';
-import { ReportService } from 'src/app/pages/shared/table-request/report.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { ReportService } from '../table-request/report.service';
 
 @Component({
-  selector: 'app-revises-table',
-  templateUrl: './revises-table.component.html',
-  styleUrls: ['./revises-table.component.scss']
+  selector: 'app-share-revises-table',
+  templateUrl: './share-revises-table.component.html',
+  styleUrls: ['./share-revises-table.component.scss']
 })
-export class RevisesTableComponent implements OnInit {
+export class ShareRevisesTableComponent implements OnInit {
   userLogin: any;
   authorize: any;
   status: any[] = [
@@ -138,11 +138,14 @@ export class RevisesTableComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    // console.log(item);
+    // // console.log(item);
 
-    const auth = localStorage.getItem('RLS_authorize')
-    if (auth == 'request' && item.status == 'qe_window_person_report' && item.level == 7) return false
-    return true
+    // const auth = localStorage.getItem('RLS_authorize')
+    // if (auth == 'request' && item.status == 'qe_window_person_report' && item.level == 7) return false
+    // return true
+
+    if (item.nextApprove._id == this.userLogin._id) return true
+    return false
   }
 
 
@@ -209,7 +212,8 @@ export class RevisesTableComponent implements OnInit {
   handleRevise(row: any) {
 
     if (row?.request_revise) {
-      this.router.navigate(['/request/revises-sheet'], { queryParams: { id: row.request_revise.requestId } })
+      let path = this.generatePath(row.request_revise.level)
+      this.router.navigate([path], { queryParams: { id: row.request_revise.requestId } })
     } else {
       Swal.fire({
         title: 'Do you want to request revise ?',
@@ -236,7 +240,20 @@ export class RevisesTableComponent implements OnInit {
 
   }
 
+  private generatePath(level: any) {
+    switch (level) {
+      case 13:
+        return "request/revises-sheet"
+        break;
+      case 14:
+        return "approve/revises-sheet"
+        break;
 
+      default:
+        return ''
+        break;
+    }
+  }
 
   public async insertRevise(data: any) {
     try {
@@ -260,6 +277,5 @@ export class RevisesTableComponent implements OnInit {
       }, 1000);
     }
   }
-
 
 }

@@ -1,0 +1,194 @@
+<form [formGroup]="requestForm">
+  <div fxLayout="row wrap" fxLayoutAlign="space-evenly start">
+
+
+    <div fxFlex="100" class="title-head">
+      <div fxLayout="row wrap" fxLayoutAlign="center start">
+        <div fxFlex="40" fxFlex.sm="100">
+          <h1 style="text-align: center; margin:auto; text-transform: uppercase;">Reliability Test Request Form</h1>
+        </div>
+        <div fxFlex="40" fxFlex.sm="100">
+          <h1 style="margin:auto;">{{'sheet1.controlNo' | translate }}{{this.requestForm.value.controlNo}}</h1>
+        </div>
+      </div>
+    </div>
+
+
+    <mat-divider fxFlex="100" style="margin: 10px 0;"></mat-divider>
+
+    <div fxFlex="40" fxFlex.sm="100" style="padding: 10px;background-color: rgba(0,0,0,.04); margin: 10px 0;">
+      <label>{{'sheet1.requestStatus' |translate}} </label>
+      <mat-radio-group formControlName="requestStatus">
+        <mat-radio-button value="normal" style="padding: 0 10px;">{{'sheet1.normal' | translate}}</mat-radio-button>
+        <mat-radio-button value="urgent" style="padding: 0 10px;">{{'sheet1.urgent' | translate}}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.requestSubject' |translate}}</mat-label>
+      <input formControlName="requestSubject" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.corporate' |translate}}</mat-label>
+      <mat-select formControlName="corporate" name="corporate" (selectionChange)="onSelectCorporate()">
+        <mat-option *ngFor="let cor of sheet1Component.corporate" [value]="cor.value">
+          {{cor.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="40" fxFlex.sm="100" appearance="fill">
+      <mat-label>{{'sheet1.modelNo' |translate}}</mat-label>
+      <input type="text" matInput formControlName="modelNo" [matAutocomplete]="modelNoAuto"
+        (input)="onSelectModelNo();onSelectCorporate();">
+
+      <button mat-icon-button matSuffix>
+        <mat-icon color="primary">{{ requestForm.value.modelName!=''? 'verified':''}}</mat-icon>
+      </button>
+
+      <mat-autocomplete #modelNoAuto="matAutocomplete" (closed)="onSelectModelNo();onSelectCorporate()">
+        <mat-option *ngFor="let option of filteredModelOptions | async" [value]="option.modelNo">
+          {{option.modelNo}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.modelName' |translate}}</mat-label>
+      <input formControlName="modelName" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.size' |translate}}</mat-label>
+      <input formControlName="size" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.customer' |translate}}</mat-label>
+      <input formControlName="customer" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.lotNo' |translate}}</mat-label>
+      <input formControlName="lotNo" matInput>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.section'|translate}}</mat-label>
+      <input [readonly]="true" formControlName="department" matInput>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-1">
+      <mat-label>{{'sheet1.requestDate' |translate}}</mat-label>
+      <input [disabled]="true" formControlName="requestDate" matInput [matDatepicker]="picker1" [readonly]="true"
+        (click)="picker1.open()">
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-1">
+      <mat-label>{{'sheet1.sampleSendDate' |translate}}</mat-label>
+      <input formControlName="sampleSentToQE_withinDate" matInput [matDatepicker]="picker6" (click)="picker6.open()">
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+      <mat-datepicker #picker6></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-1">
+      <mat-label>{{'sheet1.concernShipmentDate' |translate}}</mat-label>
+      <input formControlName="concernShipmentDate" matInput [matDatepicker]="picker2" (click)="picker2.open()">
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-1">
+      <mat-label>
+        {{'sheet1.inputToProductionDate' |translate}}
+      </mat-label>
+      <input formControlName="inputToProductionDate" matInput [matDatepicker]="picker3" (click)="picker3.open()">
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+      <mat-datepicker #picker3></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-1">
+      <mat-label>
+        {{'sheet1.concernCustomerDate' |translate}}
+      </mat-label>
+      <input formControlName="concernCustomerDate" matInput [matDatepicker]="picker4" (click)="picker4.open()">
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+      <mat-datepicker #picker4></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-1">
+      <mat-label>
+        {{'sheet1.reportRequireDate' |translate}}
+      </mat-label>
+      <input formControlName="reportRequireDate" matInput [matDatepicker]="picker5" (click)="picker5.open()">
+      <mat-hint>{{'sheet1.formatDate' |translate}}</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+      <mat-datepicker #picker5></mat-datepicker>
+    </mat-form-field>
+
+
+    <mat-list fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+      <div mat-subheader style="padding-left: 0;">
+        {{'sheet1.files' |translate}}
+      </div>
+      <mat-list-item *ngFor="let file of requestForm.value.files; let i=index">
+        <mat-icon mat-list-icon>folder</mat-icon>
+        <div mat-line>{{file.name}} {{file.size |fileSize }} ({{file.date |date:'d/M/yy, h:mm a'}})</div>
+        <button mat-icon-button color="primary" (click)="onClickViewFile(file);">
+          <span class="material-icons-outlined">
+            pageview
+          </span>
+        </button>
+
+
+      </mat-list-item>
+    </mat-list>
+
+
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" fxFlexAlign="start">
+      <mat-label>
+        {{'sheet1.sampleDescription' |translate}}
+
+      </mat-label>
+      <textarea matInput rows="5" formControlName="sampleDescription"></textarea>
+    </mat-form-field>
+
+
+
+
+
+    <div fxFlex="40" fxFlex.sm="100">
+    </div>
+
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+    <button fxFlex="30" mat-raised-button color="accent" (click)="onCancel()">
+      <span class="material-icons-outlined">
+        keyboard_double_arrow_left
+      </span>
+      <span class="btn-back">
+        Cancel
+      </span>
+    </button>
+    <button fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+
+      <span class="material-icons-outlined">
+        keyboard_double_arrow_right
+      </span>
+      <span class="btn-next">
+        Next
+      </span>
+    </button>
+  </div>
+</form>

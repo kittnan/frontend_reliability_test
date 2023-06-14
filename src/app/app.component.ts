@@ -349,9 +349,15 @@ export class AppComponent {
               path: '/approve',
               icon: 'home',
               title: 'manage',
-            }
+            },
+            {
+              path: '/approve/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
           ]
-        }
+        },
+
       ]
     }
     if (this.authorize == 'qe_window_person') {

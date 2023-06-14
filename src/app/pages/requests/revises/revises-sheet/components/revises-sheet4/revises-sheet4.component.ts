@@ -1,9 +1,12 @@
+import { CdkStepper } from '@angular/cdk/stepper';
 import { HttpParams } from '@angular/common/http';
-import { Step3HttpService } from './../../../../../../../http/step3-http.service';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { filter } from 'rxjs';
 import { MasterHttpService } from 'src/app/http/master-http.service';
-import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
+import { Step3HttpService } from 'src/app/http/step3-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 interface ConditionListForm {
@@ -12,17 +15,24 @@ interface ConditionListForm {
   disable?: boolean
 }
 @Component({
-  selector: 'app-step4-home',
-  templateUrl: './step4-home.component.html',
-  styleUrls: ['./step4-home.component.scss']
+  selector: 'app-revises-sheet4',
+  templateUrl: './revises-sheet4.component.html',
+  styleUrls: ['./revises-sheet4.component.scss']
 })
-export class Step4HomeComponent implements OnInit {
+export class RevisesSheet4Component implements OnInit {
+
+
+  // @Input() step4: any
+  @Input() requestId: any
+  step4: any = null
+
+  reviseForm: any = null
+  step3: any = null
+
 
   @Input() formId: any
-  @Input() conditionForm: any = []
-  // tempConditionForm: any = []
-  @Output() conditionFormChange = new EventEmitter();
-  data: any[] = []
+
+  conditionFormData: any[] = []
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   condition_list!: ConditionListForm[]
   selected: any = 0;
@@ -37,13 +47,22 @@ export class Step4HomeComponent implements OnInit {
   chamber: any
   constructor(
     private $master: MasterHttpService,
-    private $step3: Step3HttpService
+    private $revise: RevisesHttpService,
+    private _loader: NgxUiLoaderService,
+    private _stepper: CdkStepper
   ) {
 
   }
 
   async ngOnInit(): Promise<void> {
+    const params: HttpParams = new HttpParams().set('id', this.requestId)
+    const res = await this.$revise.getByRequestId(params).toPromise()
+    this.step4 = res[0].step4
     console.clear()
+    this.reviseForm = res[0]
+    this.step3 = this.reviseForm.step3
+
+
     this.condition_list = await this.$master.getFunctionChamber().toPromise()
     this.condition_list = this.condition_list.map((con: ConditionListForm) => {
       return {
@@ -51,32 +70,35 @@ export class Step4HomeComponent implements OnInit {
         disable: false
       }
     })
-    console.log("🚀 ~  this.condition_list:", this.condition_list)
+    this.conditionFormData = this.step4?.data ? this.step4.data : []
+    this.setInspectionDetail(this.conditionFormData)
+    this.setOven()
+  }
 
-    this.data = this.conditionForm.data
-    this.inspection = this.data[0]?.inspectionDetail ? this.data[0].inspectionDetail : this.inspection
-    if (this.data.length > 0) {
-      const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      const step3 = await this.$step3.get(params).toPromise()
-      console.log("🚀 ~ step3:", step3)
-      let filterOven: any[] = []
-      if (step3[0]?.data?.find((d: any) => d.checked && d.type == 'oven')) {
-        filterOven = step3[0]?.data?.filter((d: any) => d.checked && d.type == 'oven' || (d.checked && d.type == 'noOven'))
-      } else {
-        filterOven = step3[0]?.data?.filter((d: any) => {
-          if (d.checked) {
-            if (d.type == 'noOven' || d.type == 'mix') return true
-          }
-          return false
-        })
-      }
-      console.log("🚀 ~ filterOven:", filterOven)
+  setInspectionDetail(data: any) {
+    const someData = data.find((d: any) => d.inspectionDetail)
+    this.inspection = someData ? someData.inspectionDetail : null
+  }
 
-      filterOven = filterOven.map((f: any) => {
+  setOven() {
+    if (this.step3) {
+      const step3Data = this.step3?.data ? this.step3.data : null
+      let filterChecked: any[] = []
+      console.log(this.step3);
+      // const item = step3Data.find((s: any) => s.checked && s.type == 'oven')
+
+      // todo filter only checked
+      filterChecked = step3Data ? step3Data.filter((a: any) => a.checked) : null
+      // todo find some oven
+      const resultFindOven = filterChecked.some((a: any) => a.type == 'oven')
+      filterChecked = resultFindOven ? filterChecked.filter((a: any) => a.type != 'mix') : filterChecked
+
+      console.log("🚀 ~ filterChecked:", filterChecked)
+
+      const mapDataListValue = filterChecked.map((f: any) => {
         return {
           ...f,
           list: f.list.map((l: any) => {
-            console.log(l);
             // ! l.name ไม่ตรง กับ c.name
             return {
               ...l,
@@ -85,20 +107,14 @@ export class Step4HomeComponent implements OnInit {
           })
         }
       })
-      console.log("🚀 ~ filterOven:", filterOven)
 
-      const filteredData = filterOven.map((f: any) => {
-        console.log("🚀 ~ f:", f)
 
+      const mergeData = mapDataListValue.map((f: any) => {
         if (f.type == 'oven') {
-          const item = this.data.filter((c: any) => f.list.find((l: any) => l.checked && (l.value == c.value)))
-          console.log("🚀 ~ item:", item)
+          const item = this.conditionFormData.filter((c: any) => f.list.find((l: any) => l.checked && (l.value == c.value)))
           return item
         } else {
-          console.log(f.groupName);
-
-          const item = this.data.find((c: any) => f.groupName == c.name)
-          console.log("🚀 ~ item:", item)
+          const item = this.conditionFormData.find((c: any) => f.groupName == c.name)
           if (item) return [item]
           return [{
             data: {
@@ -113,47 +129,39 @@ export class Step4HomeComponent implements OnInit {
           }]
         }
       })
-      // concat list in  filteredData
-      console.log(filteredData);
 
-      let concatList = filteredData.reduce((acc: any, cur: any) => {
+      console.log(mergeData);
+      let concatAndSort = mergeData.reduce((acc: any, cur: any) => {
         return acc.concat(cur)
       }, [])
-      concatList = concatList.sort((a: any, b: any) => a.value - b.value)
-      console.log(concatList);
+      concatAndSort = concatAndSort.sort((a: any, b: any) => a.value - b.value)
+      console.log(concatAndSort);
+      this.conditionFormData = concatAndSort
 
-      this.data = concatList
-      this.emit()
-    } else {
-      const params: HttpParams = new HttpParams().set('requestId', this.formId)
-      const step3 = await this.$step3.get(params).toPromise()
-      let filterOven: any[] = []
-      if (step3[0]?.data?.find((d: any) => d.checked && d.type == 'oven')) {
-        filterOven = step3[0]?.data?.filter((d: any) => d.checked && d.type == 'noOven')
-      } else {
-        filterOven = step3[0]?.data?.filter((d: any) => d.checked && (d.type == 'noOven' || d.type == 'mix'))
-      }
-      const mapResult = filterOven.map((f: any) => {
-        return {
-          data: {
-            qty: null,
-            detailTest: '',
-            inspection: [0],
-            report: [0],
-            reportStatus: true,
-          },
-          name: f.groupName,
-          value: 0,
-        }
-      })
-      this.data.push(...mapResult)
+
+      // todo  filter option select chamber function
+      const ovenOption = filterChecked.find((a: any) => a.type == 'oven')
+      const ovenOptionList = ovenOption ? ovenOption.list.filter((l: any) => l.checked) : null
+      console.log("🚀 ~ ovenOptionList:", ovenOptionList)
+      this.condition_list = this.condition_list.filter((c: any) => ovenOptionList.some((l: any) => {
+        if (l.value == c.value) return true
+        if (l.value == 5 && c.value == 1) return true
+        if (l.value == 5 && c.value == 2) return true
+        return false
+      }))
+      // this.condition_list = this.condition_list.filter((c: any) => {
+
+      // })
+
     }
+
+
 
   }
 
 
   async onSelected() {
-    this.data.push({
+    this.conditionFormData.push({
       ...this.selected, data: {
         lowTemp: {
           temp: '0',
@@ -216,11 +224,9 @@ export class Step4HomeComponent implements OnInit {
 
   async emit() {
     // console.log(this.data, this.inspection);
-    let dataEmit: any
-    dataEmit = await this.mapData(this.data, this.inspection)
-    // console.log(dataEmit);
-    this.conditionForm.data = dataEmit
-    this.conditionFormChange.emit(this.conditionForm)
+    const mergeData: any = await this.mapData(this.conditionFormData, this.inspection)
+    this.conditionFormData = mergeData
+
   }
 
 
@@ -256,8 +262,6 @@ export class Step4HomeComponent implements OnInit {
       resolve(result)
     })
   }
-
-
 
   sumString(condition: any) {
     const data: any = condition.data
@@ -304,11 +308,39 @@ export class Step4HomeComponent implements OnInit {
       showCancelButton: true
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this.data = this.data.filter((c: any) => c != this.data[item])
+        this.conditionFormData = this.conditionFormData.filter((c: any) => c != this.conditionFormData[item])
         this.emit()
       }
     })
 
   }
+
+  onNext() {
+    Swal.fire({
+      title: `Do you want to save draft?`,
+      icon: 'question',
+      showCancelButton: true
+    }).then(async (value: SweetAlertResult) => {
+      if (value.isConfirmed) {
+
+        const dataUpdate = {
+          ...this.step4,
+          data: this.conditionFormData
+        }
+
+        this._loader.start()
+        await this.$revise.updateByRequestId(this.requestId, { step4: dataUpdate }).toPromise()
+        setTimeout(() => {
+          this._loader.stop()
+          Swal.fire('Success', '', 'success')
+          this._stepper.next()
+        }, 1000);
+      }
+    })
+  }
+  onBack() {
+    this._stepper.previous()
+  }
+
 
 }
