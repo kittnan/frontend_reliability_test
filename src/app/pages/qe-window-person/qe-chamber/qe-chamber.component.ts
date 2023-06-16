@@ -143,7 +143,6 @@ export class QeChamberComponent implements OnInit {
   tableChange(e: any) {
     this.table = e
     this.form.table = this.table
-
   }
   approveChange(e: any) {
     this.nextApprove = e

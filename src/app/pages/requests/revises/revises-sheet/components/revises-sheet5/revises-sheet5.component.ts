@@ -25,7 +25,7 @@ export class RevisesSheet5Component implements OnInit {
     selected: null,
     status: null
   }
-  userApprove: any[] = [];
+  userApproveList: any[] = [];
   form: any = null
   step5: any = null
   approver: any = null
@@ -50,20 +50,21 @@ export class RevisesSheet5Component implements OnInit {
     const resForm = await this.$revise.getByRequestId(new HttpParams().set('id', this.requestId)).toPromise()
     this.form = resForm[0]
     this.step5 = this.form.step5
-    this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+    this.userApproveList = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+    console.log("🚀 ~ this.userApproveList:", this.userApproveList)
     this.approver = await this._userApprove.approver(this.authorize, 0, this.userLogin)
     if (this.approver && this.approver.groupStatus) {
-      this.userApprove = [this.approver.selected]
+      this.userApproveList = [this.approver.selected]
       this.approve = this.approver
     } else {
-      this.userApprove = this.userApprove.filter((u: any) => u._id != this.userLogin._id)
+      this.userApproveList = this.userApproveList.filter((u: any) => u._id != this.userLogin._id)
       const select = this.checkPrevApprove(this.form, 1)
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
         groupStatus: null,
         level: this.form?.level ? this.form.level : null,
         name: null,
-        selected: select ? select : this.userApprove[0],
+        selected: select ? select : this.userApproveList[0],
         status: this.form?.status ? this.form.status : null
       }
     }
@@ -71,7 +72,7 @@ export class RevisesSheet5Component implements OnInit {
   private checkPrevApprove(data: any, level: number) {
     const prevUserApprove = data?.step5?.find((s: any) => s.level == level)
     if (prevUserApprove) {
-      return this.userApprove.find((u: any) => u._id == prevUserApprove.nextUser._id)
+      return this.userApproveList.find((u: any) => u._id == prevUserApprove.nextUser._id)
     } else {
       return null
     }

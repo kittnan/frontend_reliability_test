@@ -1,0 +1,50 @@
+<div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
+  <div *ngIf="formRevise" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+    class=" mtb-4 ">
+
+    <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="formRevise"></app-views>
+    <!-- <ng-container *ngIf="formRevise.qeReceive.qty">
+
+
+
+    </ng-container> -->
+
+    <app-qe-chamber-planning *ngIf="dataSource && dataSource.length!=0" fxFlex="100" [data]="dataSource"
+      (dataChange)="emitted($event)"></app-qe-chamber-planning>
+
+    <app-qe-chamber-planning-detail *ngIf="chamberTable && chamberTable.length!=0" fxFlex="100"
+      [(queues)]="chamberTable" (dataChange)="dataChange($event)" (tableChange)="tableChange($event)"
+      (approveChange)="approveChange($event)" [formInput]="formRevise">
+    </app-qe-chamber-planning-detail>
+
+    <mat-form-field fxFlex="100" appearance="fill" class="content-item">
+      <mat-label>SEND TO...</mat-label>
+      <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
+        <mat-option *ngFor="let item of userApproveList; let i=index" [value]="item">
+          {{approve.groupStatus? approve.name: item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" class="content-item">
+      <button fxFlex="30" mat-raised-button color="warn" (click)="onReject()">
+        <span class="material-icons-outlined">
+          close
+        </span>
+        <span class="btn-back">
+          Reject
+        </span>
+      </button>
+      <button fxFlex="30" mat-raised-button color="primary" [disabled]="!approve.selected" (click)="onNext()">
+
+        <span class="material-icons-outlined">
+          done_all
+        </span>
+        <span class="btn-next">
+          APPROVE
+        </span>
+      </button>
+    </div>
+
+  </div>
+</div>

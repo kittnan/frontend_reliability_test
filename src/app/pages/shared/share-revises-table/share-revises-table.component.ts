@@ -43,6 +43,8 @@ export class ShareRevisesTableComponent implements OnInit {
   selected_section: any = null
   sections: any[] = []
 
+  level = [13, 13.5, 14, 15, 15.5, 16, 17, 18, 19];
+
   $revise = inject(RevisesHttpService)
   constructor(
     private $request: RequestHttpService,
@@ -86,17 +88,9 @@ export class ShareRevisesTableComponent implements OnInit {
   }
 
   async onSelectStatus() {
-    let statusStr: any = 'revises'
-
-    const tempSection = this.selected_section === 'all' ? this.sections : [this.selected_section]
-    let section: any = [...tempSection, "DST"]
-    if (localStorage.getItem('RLS_authorize')?.includes('qe')) {
-      section = []
-    }
-    section = JSON.stringify(section)
-    const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr).set('section', section)
+    const levelStr = this.generateLevelList()
+    const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('level', levelStr)
     const resData = await this.$revise.getReviseTable(param).toPromise()
-    console.log("🚀 ~ resData:", resData)
     const resultMap: any = await this.mapRows(resData)
     if (this.dataSource?.data) {
       this.dataSource.data = resultMap;
@@ -104,8 +98,16 @@ export class ShareRevisesTableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(resultMap);
       this.setOption();
     }
-
-
+  }
+  generateLevelList() {
+    const authStr = localStorage.getItem('RLS_authorize')
+    if (authStr == 'request') return JSON.stringify([7, 13, 13.5, 14, 15, 15.5, 16, 17, 18, 19, 20])
+    // if (authStr == 'request_approve') return JSON.stringify([14])
+    if (authStr == 'qe_window_person') return JSON.stringify([15, 15.5])
+    // if (authStr == 'qe_engineer') return JSON.stringify([16])
+    // if (authStr == 'qe_engineer2') return JSON.stringify([17])
+    // if (authStr == 'qe_section_head') return JSON.stringify([18])
+    return JSON.stringify([])
   }
   private mapRows(data: any) {
     return new Promise(resolve => {
@@ -113,6 +115,7 @@ export class ShareRevisesTableComponent implements OnInit {
         return {
           ...item,
           btn_status: this.rowStatus(item),
+          btn_text: this.rowText(item),
           userRequest: this.rowUserRequest(item)
         }
       })
@@ -123,28 +126,23 @@ export class ShareRevisesTableComponent implements OnInit {
   rowUserRequest(item: any) {
     const resultFind = item.step5.find((i: any) => i.level == 1)
     if (resultFind?.prevUser?.name) return resultFind.prevUser.name
-    return ''
+    return 'REQUEST REVISE'
 
   }
 
 
   private rowText(item: any) {
-    if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit'
-    if (item && item.status === 'draft') return 'edit'
-    if (item && item.status === 'qe_department_head') return 'report'
-    if (item && item.status === 'qe_revise') return 'revise'
-    if (item && (item.status === 'close_job' || item.status === 'finish')) return 'finish'
-    return 'approve'
+    if (item && item.request_revise && item.request_revise.status.includes('reject')) return 'edit'
+    if (item && item.request_revise && item.request_revise.status == 'draft_request_revise') return 'edit'
+    if (item && !item.request_revise) return 'REQUEST REVISE'
+    return 'APPROVE'
   }
 
   private rowStatus(item: any) {
-    // // console.log(item);
-
-    // const auth = localStorage.getItem('RLS_authorize')
-    // if (auth == 'request' && item.status == 'qe_window_person_report' && item.level == 7) return false
-    // return true
-
-    if (item.nextApprove._id == this.userLogin._id) return true
+    if (item && item.request_revise) {
+      if (item.request_revise.nextApprove._id == this.userLogin._id) return false
+      return true
+    }
     return false
   }
 
@@ -245,8 +243,29 @@ export class ShareRevisesTableComponent implements OnInit {
       case 13:
         return "request/revises-sheet"
         break;
+      case 13.5:
+        return "request/revises-sheet"
+        break;
       case 14:
-        return "approve/revises-sheet"
+        return "approve/revises-approve"
+        break;
+      case 15:
+        return "qe-window-person/revises-approve"
+        break;
+      case 15.5:
+        return "qe-window-person/revises-approve"
+        break;
+      case 16:
+        return "qe-engineer/revises-approve"
+        break;
+      case 17:
+        return "qe-engineer/revises-approve"
+        break;
+      case 18:
+        return "qe-section-head/revises-approve"
+        break;
+      case 19:
+        return "request/revises-approve"
         break;
 
       default:
@@ -259,7 +278,12 @@ export class ShareRevisesTableComponent implements OnInit {
     try {
       this._loading.start()
       await this.$revise.insert(data).toPromise()
-      Swal.fire('Success', '', 'success')
+      Swal.fire({
+        title: 'SUCCESS',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 2000
+      })
       setTimeout(() => {
         this._loading.stop()
         this.router.navigate(['/request/revises-sheet'], { queryParams: { id: data.requestId } })

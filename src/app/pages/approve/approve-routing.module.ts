@@ -25,7 +25,7 @@ const routes: Routes = [
         component: ApproveRevisesTableComponent
       },
       {
-        path: 'revises-sheet',
+        path: 'revises-approve',
         component: ApproveRevisesApproveComponent
       },
       {

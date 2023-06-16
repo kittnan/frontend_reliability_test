@@ -38,6 +38,7 @@ import { RevisesSheet2Component } from './revises/revises-sheet/components/revis
 import { RevisesSheet3Component } from './revises/revises-sheet/components/revises-sheet3/revises-sheet3.component';
 import { RevisesSheet4Component } from './revises/revises-sheet/components/revises-sheet4/revises-sheet4.component';
 import { RevisesSheet5Component } from './revises/revises-sheet/components/revises-sheet5/revises-sheet5.component';
+import { RevisesApproveComponent } from './revises/revises-approve/revises-approve.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -71,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RevisesSheet3Component,
     RevisesSheet4Component,
     RevisesSheet5Component,
+    RevisesApproveComponent,
 
   ],
   imports: [

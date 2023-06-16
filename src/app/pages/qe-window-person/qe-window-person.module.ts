@@ -18,6 +18,8 @@ import { DialogQeChamberComponent } from './qe-chamber/components/dialog-qe-cham
 import { DialogQeOperateComponent } from './qe-chamber/components/dialog-qe-operate/dialog-qe-operate.component';
 import { DialogDateComponent } from './qe-chamber/components/dialog-date/dialog-date.component';
 import { DialogDateStartInspectionComponent } from './qe-chamber/components/dialog-date-start-inspection/dialog-date-start-inspection.component';
+import { QeWindowPersonReviseTableComponent } from './revise/qe-window-person-revise-table/qe-window-person-revise-table.component';
+import { QeWindowPersonReviseApproveComponent } from './revise/qe-window-person-revise-approve/qe-window-person-revise-approve.component';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { DialogDateStartInspectionComponent } from './qe-chamber/components/dial
     QeChamberPlanningDetailComponent,
     DialogDateComponent,
     DialogDateStartInspectionComponent,
+    QeWindowPersonReviseTableComponent,
+    QeWindowPersonReviseApproveComponent,
   ],
   imports: [
     CommonModule,

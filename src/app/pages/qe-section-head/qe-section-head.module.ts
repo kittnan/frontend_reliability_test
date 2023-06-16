@@ -10,13 +10,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { QeSectionHeadReviseTableComponent } from './revise/qe-section-head-revise-table/qe-section-head-revise-table.component';
+import { QeSectionHeadReviseApproveComponent } from './revise/qe-section-head-revise-approve/qe-section-head-revise-approve.component';
 
 
 @NgModule({
   declarations: [
     QeSectionHeadComponent,
     QeSectionHeadManageComponent,
-    QeSectionHeadApproveComponent
+    QeSectionHeadApproveComponent,
+    QeSectionHeadReviseTableComponent,
+    QeSectionHeadReviseApproveComponent
   ],
   imports: [
     CommonModule,

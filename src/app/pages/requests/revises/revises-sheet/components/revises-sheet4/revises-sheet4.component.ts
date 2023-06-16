@@ -211,20 +211,21 @@ export class RevisesSheet4Component implements OnInit {
     if (con.value == 0) {
       con['reportStatus'] = e.reportStatus
     }
-    this.emit()
+    // this.emit()
   }
 
-  async onInspectionDetail() {
-    this.emit()
-  }
+  // async onInspectionDetail() {
+  //   this.emit()
+  // }
 
-  async onUpdateTable() {
-    this.emit()
-  }
+  // async onUpdateTable() {
+  //   this.emit()
+  // }
 
   async emit() {
     // console.log(this.data, this.inspection);
     const mergeData: any = await this.mapData(this.conditionFormData, this.inspection)
+    console.log("🚀 ~ mergeData:", mergeData)
     this.conditionFormData = mergeData
 
   }
@@ -322,10 +323,10 @@ export class RevisesSheet4Component implements OnInit {
       showCancelButton: true
     }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
-
+        const mergeData: any = await this.mapData(this.conditionFormData, this.inspection)
         const dataUpdate = {
           ...this.step4,
-          data: this.conditionFormData
+          data: mergeData
         }
 
         this._loader.start()

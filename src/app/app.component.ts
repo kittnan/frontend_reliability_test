@@ -382,7 +382,12 @@ export class AppComponent {
               path: '/qe-window-person',
               icon: 'home',
               title: 'manage',
-            }
+            },
+            {
+              path: '/qe-window-person/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
           ]
         }
       ]

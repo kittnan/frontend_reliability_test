@@ -7,6 +7,7 @@ import { ManageComponent } from './manage/manage.component';
 import { RequestsComponent } from './requests.component';
 import { RevisesSheetComponent } from './revises/revises-sheet/revises-sheet.component';
 import { RevisesTableComponent } from './revises/revises-table/revises-table.component';
+import { RevisesApproveComponent } from './revises/revises-approve/revises-approve.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path: 'revises-table',
         component: RevisesTableComponent
+      },
+      {
+        path: 'revises-approve',
+        component: RevisesApproveComponent
       },
       {
         path: '',

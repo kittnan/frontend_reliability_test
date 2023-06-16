@@ -12,7 +12,7 @@
     <mat-form-field appearance="fill" fxFlex="30" fxFlex.sm="100">
       <mat-label>User Approve</mat-label>
       <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
-        <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
+        <mat-option *ngFor="let item of userApproveList; let i=index" [value]="item">
           {{approve.groupStatus? approve.name: item.name}}
         </mat-option>
       </mat-select>
