@@ -132,7 +132,7 @@ export class GenInspectionTableService {
         inspec_arr[1].push(reportDate ? [between, reportDate, betweenReportQE] : between)
 
 
-        inspec_arr[2].push([time.at == timeReport[timeReport.length - 1].at ? '-' : end])
+        inspec_arr[2].push([time?.at == timeReport[timeReport.length - 1]?.at ? '-' : end])
         // inspec_arr[2].push([end])
       } else
         if (!foundItem && time.at == 0 && time.at != -1) {

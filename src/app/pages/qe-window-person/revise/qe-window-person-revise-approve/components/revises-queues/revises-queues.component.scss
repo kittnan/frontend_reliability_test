@@ -1,0 +1,61 @@
+.color-primary {
+  color: #007bf7;
+}
+
+.color-secondary {
+  color: #5052ff;
+}
+
+.w-7 {
+  font-weight: 700;
+}
+
+.w-5 {
+  font-weight: 500;
+}
+
+th,
+td {
+  padding: 10px;
+}
+
+.b-left-red {
+  border-left: 20px solid rgb(241, 125, 125);
+}
+
+.b-left-green {
+  border-left: 20px solid rgb(118, 255, 118);
+  // background-color: rgb(118 255 118 / 22%);
+}
+
+.red {
+  background-color: rgb(241, 125, 125);
+}
+
+.green {
+  background-color: rgb(118, 255, 118);
+}
+
+::ng-deep.mat-stroked-button {
+  margin: 5px 0;
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+  text-transform: capitalize !important;
+  // font-weight: bold;
+}
+
+::ng-deep .mat-divider {
+  margin: 10px 0;
+}
+
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.table > tr > th {
+  border: 1px solid black;
+}
+.table > tr > td {
+  border: 1px solid black;
+}

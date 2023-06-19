@@ -7,6 +7,7 @@ import { ApproverForm } from 'src/app/pages/admin/approver/dialog-approver/dialo
 import { DialogApproveRevisesComponent } from 'src/app/pages/shared/approve-form-revises/dialog-approve-revises/dialog-approve-revises.component';
 import { DialogRejectRevisesComponent } from 'src/app/pages/shared/approve-form-revises/dialog-reject-revises/dialog-reject-revises.component';
 import { UserApproveService } from 'src/app/services/user-approve.service';
+import { QeWindowPersonReviseApproveService } from './qe-window-person-revise-approve.service';
 
 @Component({
   selector: 'app-qe-window-person-revise-approve',
@@ -17,7 +18,7 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
   formRevise: any = null
   userLogin: any;
   dataSource: any = null
-  chamberTable: any = null
+  queuesForm: any = null
   table: any = null
   nextApprove: any = null
   approve: ApproverForm = {
@@ -36,7 +37,8 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
     private routeActive: ActivatedRoute,
     private $revise: RevisesHttpService,
     private _userApprove: UserApproveService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private $qeWindowPersonRevise: QeWindowPersonReviseApproveService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -51,9 +53,9 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
         ...this.formRevise,
         ...this.formRevise.step1
       }
-      this.dataSource = this.setDataTable(this.formRevise)
+      this.dataSource = this.$qeWindowPersonRevise.setDataTable(this.formRevise)
       this.getUserApprove()
-
+      this.queuesForm = this.$qeWindowPersonRevise.genPlan(this.dataSource)
     })
   }
 
@@ -83,13 +85,8 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
   }
 
 
-  emitted(item: any) {
-    // console.log("🚀 ~ item:", item);
-    this.chamberTable = []
-    this.chamberTable = item
-  }
   dataChange(e: any) {
-    this.chamberTable = e
+    this.queuesForm = e
   }
   tableChange(e: any) {
     this.table = e
@@ -154,14 +151,6 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
       return null
     }
   }
-  private setDataTable(form: any) {
-    const conditions = form.step4.data;
-    return conditions.map((condition: any) => {
-      return {
-        condition: condition,
-        ...form
-      }
-    })
-  }
+
 
 }

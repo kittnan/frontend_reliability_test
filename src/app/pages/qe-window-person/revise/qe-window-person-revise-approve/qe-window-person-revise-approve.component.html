@@ -9,13 +9,10 @@
 
     </ng-container> -->
 
-    <app-qe-chamber-planning *ngIf="dataSource && dataSource.length!=0" fxFlex="100" [data]="dataSource"
-      (dataChange)="emitted($event)"></app-qe-chamber-planning>
+    <app-table-planing *ngIf="dataSource" fxFlex="100" [dataTable]="dataSource"></app-table-planing>
 
-    <app-qe-chamber-planning-detail *ngIf="chamberTable && chamberTable.length!=0" fxFlex="100"
-      [(queues)]="chamberTable" (dataChange)="dataChange($event)" (tableChange)="tableChange($event)"
-      (approveChange)="approveChange($event)" [formInput]="formRevise">
-    </app-qe-chamber-planning-detail>
+    <app-revises-queues *ngIf="queuesForm && formRevise" fxFlex="100" [queuesForm]="queuesForm"
+      [formRevise]="formRevise"></app-revises-queues>
 
     <mat-form-field fxFlex="100" appearance="fill" class="content-item">
       <mat-label>SEND TO...</mat-label>
