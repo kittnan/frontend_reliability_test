@@ -1,6 +1,6 @@
 <div *ngIf="formRevise" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
   <div fxFlex.xl="80" fxFlex.lg="80" fxFlex="95" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
-    <app-views fxFlex="100" [formInput]="formRevise" [showReport]="false"></app-views>
+    <app-views fxFlex="100" [formInput]="formRevise" [showReport]="false" [showTest]="false"></app-views>
     <mat-form-field fxFlex="100" appearance="fill" class="content-item">
       <mat-label>SEND TO...</mat-label>
       <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">

@@ -40,19 +40,21 @@ export class DialogRejectRevisesComponent implements OnInit {
       // this._loader.start()
       const time = moment().format('YYYY-MM-DD, HH.mm')
       const newComment = this.comment ? `[${time}]${this.data.userLogin.name}-> ${this.comment}` : null
-      console.log("🚀 ~ newComment:", newComment)
+      // console.log("🚀 ~ newComment:", newComment)
 
       const userApprove = {
         _id: this.select._id,
         name: this.select.name
       }
-      console.log("🚀 ~ userApprove:", userApprove)
+      console.log(this.select.level);
+
+      // console.log("🚀 ~ userApprove:", userApprove)
       const updateData = {
         ...this.data.form,
         nextApprove: userApprove,
-        level: this.generateLevelReject(this.data.form.level),
+        level: this.generateLevelReject(this.select.level),
         comment: this.generateComment(this.data.form.comment, newComment),
-        status: this.generateNextStatus(this.data.form.level),
+        status: this.generateNextStatus(this.select.level),
         historyApprove: this.genHistoryApprove(this.data.form.historyApprove, this.userLogin, this.data.form)
       }
       console.log("🚀 ~ updateData:", updateData)
@@ -89,28 +91,14 @@ export class DialogRejectRevisesComponent implements OnInit {
 
   private generateLevelReject(level: any) {
     switch (level) {
-      case 14:
+      case 13:
         return 13.5
         break;
       case 15:
-        return 13.5
+        return 15.5
         break;
-      case 16:
-        return 13.5
-        break;
-      case 17:
-        return 13.5
-        break;
-      case 18:
-        return 13.5
-        break;
-      case 19:
-        return 13.5
-        break;
-
-
       default:
-        return level
+        return 13.5
         break;
     }
   }
@@ -120,13 +108,17 @@ export class DialogRejectRevisesComponent implements OnInit {
   }
   private generateNextStatus(currentLevel: any) {
     switch (currentLevel) {
-      case 14:
+      case 13:
         return 'reject_request_revise'
+        break;
+      case 15:
+        return 'reject_qe_window_person_revise'
         break;
 
       default:
         return ''
         break;
+
     }
   }
   private genHistoryApprove(historyApprove: any, userLogin: any, form: any) {

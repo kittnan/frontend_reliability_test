@@ -1,3 +1,4 @@
+import { filter } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,10 +7,12 @@ import { DialogDateStartInspectionComponent } from 'src/app/pages/qe-window-pers
 import { DialogDateComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-date/dialog-date.component';
 import { DialogQeChamberComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-qe-chamber/dialog-qe-chamber.component';
 import { DialogQeOperateComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-qe-operate/dialog-qe-operate.component';
-import { QueueForm } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber.component';
+import { OperateForm, QueueForm } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber.component';
 import { QeChamberService } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber.service';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 import { RevisesQueuesService } from './revises-queues.service';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 @Component({
@@ -24,18 +27,28 @@ export class RevisesQueuesComponent implements OnInit {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
   ]
   queues: any = null
+  queuesForPlan: any = null
   constructor(
     private dialog: MatDialog,
     private $qe_chamber: QeChamberService,
-    private $reviseQueues: RevisesQueuesService
+    private $reviseQueues: RevisesQueuesService,
+    private $revise: RevisesHttpService,
+    private $loader: NgxUiLoaderService
   ) { }
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     console.log(this.formRevise);
-    this.queues = this.$reviseQueues.mergeOldQueues(this.formRevise.queues, this.queuesForm, this.formRevise)
-    console.log("🚀 ~ this.queues:", this.queues)
+    this.queues = await this.$reviseQueues.mergeOldQueues(this.formRevise.queues, this.queuesForm, this.formRevise)
+    await this.setTablePlan(this.queues, this.formRevise)
     // this.queues.map((d: any) => {
     //   this.onCal(d, 0)
     // })
+  }
+
+  private async setTablePlan(queues: any, formRevise: any) {
+    const table = await this.$reviseQueues.mapForTable(queues, formRevise)
+    this.queuesForPlan = table
+    this.formRevise.table = table
+    return table
   }
 
   openDialogInitial(item: any) {
@@ -166,5 +179,117 @@ export class RevisesQueuesComponent implements OnInit {
     return false
   }
 
+
+  onSelectChecker(e: any, item: OperateForm) {
+    item.checker = {
+      code: e.value.code,
+      name: e.value.name,
+      qty: 1
+    }
+  }
+  onSelectPower(e: any, item: OperateForm) {
+    item.power = {
+      code: e.value.code,
+      name: e.value.name,
+      qty: 1
+    }
+
+  }
+  onSelectAttachment(e: any, item: OperateForm) {
+    item.attachment = {
+      code: e.value.code,
+      name: e.value.name,
+      qty: 1
+    }
+
+  }
+
+  showOperateItemChecker(operateItems: any) {
+    if (operateItems && operateItems.length > 0) {
+      return operateItems.filter((item: any) => item.type === 'checker')
+    } else {
+      return []
+    }
+  }
+  showOperateItemPower(operateItems: any) {
+    if (operateItems && operateItems.length > 0) {
+      return operateItems.filter((item: any) => item.type === 'power')
+    } else {
+      return []
+    }
+  }
+  showOperateItemAttachment(operateItems: any) {
+    if (operateItems && operateItems.length > 0) {
+      return operateItems.filter((item: any) => item.type === 'attachment')
+    } else {
+      return []
+    }
+  }
+
+  onDraft(item: QueueForm, index: number, startDate: any) {
+    Swal.fire({
+      title: 'Do you want to save?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((value: SweetAlertResult) => {
+      if (value.isConfirmed) {
+        // const body = [item]
+        // console.log(item);
+
+        if (item.condition?.value == 0) {
+          this.updateQueues(index, true)
+        } else {
+          if (item.operate?.status) {
+            this.updateQueues(index, true)
+            // this.validRemainOperate(item, startDate, index)
+          } else {
+            this.updateQueues(index, true)
+          }
+        }
+
+      }
+    })
+
+  }
+
+  updateQueues(index: number, confirmStatus: boolean) {
+    this.$loader.start()
+    setTimeout(async () => {
+      try {
+        this.queues[index]['confirm'] = confirmStatus
+        await this.$revise.updateByRequestId(this.formRevise.requestId, { queues: this.queues }).toPromise()
+        this.formRevise.queues = this.queues
+        await this.setTablePlan(this.queues, this.formRevise)
+        setTimeout(() => {
+          Swal.fire({ title: 'Success', icon: 'success', showConfirmButton: false, timer: 1000 })
+          this.$loader.stop()
+        }, 1000);
+      } catch (error) {
+        setTimeout(() => {
+          this.$loader.stop()
+        }, 1000);
+        console.log(error);
+        Swal.fire(JSON.stringify(error), '', 'error')
+      } finally {
+        setTimeout(() => {
+          this.$loader.stop()
+        }, 1000);
+
+      }
+    }, 200);
+  }
+
+
+  onDelete(index: number) {
+    Swal.fire({
+      title: 'Do you want to delete?',
+      icon: 'question',
+      showCancelButton: true
+    }).then(async (v: SweetAlertResult) => {
+      if (v.isConfirmed) {
+        this.updateQueues(index, false)
+      }
+    })
+  }
 
 }

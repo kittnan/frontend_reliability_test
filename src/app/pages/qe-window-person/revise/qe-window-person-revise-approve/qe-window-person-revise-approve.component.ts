@@ -72,7 +72,7 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
       this.approve = this.approver
     } else {
       this.userApproveList = this.userApproveList.filter((u: any) => u._id != this.userLogin._id)
-      const select = this.checkPrevApprove(this.formRevise, 1)
+      const select = this.checkPrevApprove(this.formRevise, 3)
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
         groupStatus: null,
@@ -82,6 +82,16 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
         status: this.formRevise?.status ? this.formRevise.status : null
       }
     }
+  }
+
+  async updateQEReceive() {
+    await this.$revise.updateByRequestId(this.formRevise.requestId, this.formRevise).toPromise()
+    this.dataSource = []
+    this.queuesForm = []
+    setTimeout(() => {
+      const temp = this.$qeWindowPersonRevise.setDataTable(this.formRevise)
+      this.dataSource = temp
+    }, 200);
   }
 
 
@@ -95,6 +105,7 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
   approveChange(e: any) {
     this.nextApprove = e
   }
+
 
   onReject() {
     console.log(this.formRevise);

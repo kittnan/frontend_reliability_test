@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
@@ -19,6 +20,7 @@ export class DialogApproveRevisesComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogApproveRevisesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private $revise: RevisesHttpService,
+    private $requestForm: RequestHttpService,
     private _loader: NgxUiLoaderService,
     private router: Router
   ) {
@@ -28,6 +30,8 @@ export class DialogApproveRevisesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data);
+
   }
   onCancel() {
     this.dialogRef.close()
@@ -38,32 +42,44 @@ export class DialogApproveRevisesComponent implements OnInit {
       this._loader.start()
       const time = moment().format('YYYY-MM-DD, HH.mm')
       const newComment = this.comment ? `[${time}]${this.data.userLogin.name}-> ${this.comment}` : null
-      const userApprove = {
+
+      let userApprove = {
         _id: this.data.userApprove.selected._id,
         name: this.data.userApprove.selected.name
       }
+
+
       const updateData = {
         ...this.data.form,
-        nextApprove: userApprove,
+        nextApprove: this.data?.form?.level === 19 ? null : userApprove,
         level: this.generateLevelApprove(this.data.form.level),
         comment: this.generateComment(this.data.form.comment, newComment),
         status: this.generateNextStatus(this.data.form.level),
         historyApprove: this.genHistoryApprove(this.data.form.historyApprove, this.userLogin, this.data.form)
       }
       console.log("🚀 ~ updateData:", updateData)
-      Swal.fire({
-        showCancelButton: true
-      }).then(async (v: SweetAlertResult) => {
-        if (v.isConfirmed) {
-          await this.$revise.updateByRequestId(updateData.requestId, updateData).toPromise()
-          this.alertSuccess()
-          setTimeout(() => {
-            this.dialogRef.close()
-            this.router.navigate(['request/'])
-            this._loader.stop()
-          }, 1000);
+
+      if (this.data?.form?.level === 19) {
+        try {
+          await this.$revise.mergeOverrideForm(this.data.form.requestId, this.data.form).toPromise()
+        } catch (error) {
+          console.log(error);
         }
-      })
+      }
+
+      // Swal.fire({
+      //   showCancelButton: true
+      // }).then(async (v: SweetAlertResult) => {
+      //   if (v.isConfirmed) {
+      //     await this.$revise.updateByRequestId(updateData.requestId, updateData).toPromise()
+      //     this.alertSuccess()
+      //     setTimeout(() => {
+      //       this.dialogRef.close()
+      //       this.router.navigate(['request/'])
+      //       this._loader.stop()
+      //     }, 1000);
+      //   }
+      // })
 
     } catch (error) {
       Swal.fire('Some thing it wrong. Please try again!', '', 'error')
@@ -173,6 +189,8 @@ export class DialogApproveRevisesComponent implements OnInit {
     }
     return historyApprove ? [...historyApprove, newHistory] : [newHistory]
   }
+
+
 
   private alertSuccess() {
     Swal.fire({

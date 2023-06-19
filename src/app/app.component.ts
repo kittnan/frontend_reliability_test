@@ -414,7 +414,12 @@ export class AppComponent {
               path: '/qe-engineer',
               icon: 'home',
               title: 'manage',
-            }
+            },
+            {
+              path: '/qe-engineer/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
           ]
         }
       ]
@@ -441,7 +446,12 @@ export class AppComponent {
               path: '/qe-section-head',
               icon: 'home',
               title: 'manage',
-            }
+            },
+            {
+              path: '/qe-section-head/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
           ]
         }
       ]

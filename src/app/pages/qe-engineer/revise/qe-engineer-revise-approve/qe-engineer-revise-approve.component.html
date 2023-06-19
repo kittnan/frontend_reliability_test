@@ -1,1 +1,35 @@
-<p>qe-engineer-revise-approve works!</p>
+<div *ngIf="formRevise" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
+  <div fxFlex.xl="80" fxFlex.lg="80" fxFlex="95" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
+    <app-views fxFlex="100" [formInput]="formRevise" [showReport]="false"></app-views>
+    <mat-form-field fxFlex="100" appearance="fill" class="content-item">
+      <mat-label>SEND TO...</mat-label>
+      <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
+        <mat-option *ngFor="let item of userApproveList; let i=index" [value]="item">
+          {{approve.groupStatus? approve.name: item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex.xl="80" fxFlex.lg="80" fxFlex="95" fxLayout="row wrap" fxLayoutAlign="space-around stretch"
+    class="content-item">
+    <button fxFlex="30" mat-raised-button color="warn" (click)="onReject()">
+      <span class="material-icons-outlined">
+        close
+      </span>
+      <span class="btn-back">
+        Reject
+      </span>
+    </button>
+    <button fxFlex="30" mat-raised-button color="primary" [disabled]="!approve.selected" (click)="onNext()">
+
+      <span class="material-icons-outlined">
+        done_all
+      </span>
+      <span class="btn-next">
+        APPROVE
+      </span>
+    </button>
+  </div>
+
+</div>

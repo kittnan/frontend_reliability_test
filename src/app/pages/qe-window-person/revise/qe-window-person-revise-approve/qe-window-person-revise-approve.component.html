@@ -9,6 +9,31 @@
 
     </ng-container> -->
 
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mb-3">
+      <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+        <span class="box-title">
+          QE Receive
+        </span>
+      </div>
+      <div *ngIf="formRevise" class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+        <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
+          <mat-label>Qty</mat-label>
+          <input matInput type="number" [(ngModel)]="formRevise.qeReceive.qty" (ngModelChange)="updateQEReceive()">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="picker" readonly="true" [(ngModel)]="formRevise.qeReceive.date"
+            (dateChange)="updateQEReceive()">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+
     <app-table-planing *ngIf="dataSource" fxFlex="100" [dataTable]="dataSource"></app-table-planing>
 
     <app-revises-queues *ngIf="queuesForm && formRevise" fxFlex="100" [queuesForm]="queuesForm"

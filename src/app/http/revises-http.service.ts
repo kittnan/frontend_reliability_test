@@ -33,4 +33,7 @@ export class RevisesHttpService {
   deleteByRequestId(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/${this.sub}/deleteByRequestId/` + id)
   }
+  mergeOverrideForm(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/${this.sub}/mergeOverrideForm/${id}`, data)
+  }
 }
