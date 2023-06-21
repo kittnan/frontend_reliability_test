@@ -47,6 +47,7 @@ export class DialogApproveRevisesComponent implements OnInit {
         _id: this.data.userApprove.selected._id,
         name: this.data.userApprove.selected.name
       }
+      console.log("🚀 ~ userApprove:", userApprove)
 
 
       const updateData = {
@@ -57,29 +58,33 @@ export class DialogApproveRevisesComponent implements OnInit {
         status: this.generateNextStatus(this.data.form.level),
         historyApprove: this.genHistoryApprove(this.data.form.historyApprove, this.userLogin, this.data.form)
       }
+
+
+
       console.log("🚀 ~ updateData:", updateData)
+      Swal.fire({
+        showCancelButton: true
+      }).then(async (v: SweetAlertResult) => {
+        if (v.isConfirmed) {
 
-      if (this.data?.form?.level === 19) {
-        try {
-          await this.$revise.mergeOverrideForm(this.data.form.requestId, this.data.form).toPromise()
-        } catch (error) {
-          console.log(error);
+          if (this.data?.form?.level === 19) {
+            try {
+              await this.$revise.mergeOverrideForm(this.data.form.requestId, updateData).toPromise()
+            } catch (error) {
+              console.log(error);
+            }
+          } else {
+            await this.$revise.updateByRequestId(updateData.requestId, updateData).toPromise()
+          }
+
+          this.alertSuccess()
+          setTimeout(() => {
+            this.dialogRef.close()
+            // this.router.navigate(['request/'])
+            this._loader.stop()
+          }, 1000);
         }
-      }
-
-      // Swal.fire({
-      //   showCancelButton: true
-      // }).then(async (v: SweetAlertResult) => {
-      //   if (v.isConfirmed) {
-      //     await this.$revise.updateByRequestId(updateData.requestId, updateData).toPromise()
-      //     this.alertSuccess()
-      //     setTimeout(() => {
-      //       this.dialogRef.close()
-      //       this.router.navigate(['request/'])
-      //       this._loader.stop()
-      //     }, 1000);
-      //   }
-      // })
+      })
 
     } catch (error) {
       Swal.fire('Some thing it wrong. Please try again!', '', 'error')

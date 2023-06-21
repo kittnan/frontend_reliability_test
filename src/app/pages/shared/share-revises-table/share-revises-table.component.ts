@@ -76,7 +76,9 @@ export class ShareRevisesTableComponent implements OnInit {
 
     }
     this.onSelectStatus()
+
   }
+
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -91,6 +93,7 @@ export class ShareRevisesTableComponent implements OnInit {
     const levelStr = this.generateLevelList()
     const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('level', levelStr)
     const resData = await this.$revise.getReviseTable(param).toPromise()
+    console.log("🚀 ~ resData:", resData)
     const resultMap: any = await this.mapRows(resData)
     if (this.dataSource?.data) {
       this.dataSource.data = resultMap;
@@ -132,15 +135,16 @@ export class ShareRevisesTableComponent implements OnInit {
 
 
   private rowText(item: any) {
-    if (item && item.request_revise && item.request_revise.status.includes('reject')) return 'edit'
-    if (item && item.request_revise && item.request_revise.status == 'draft_request_revise') return 'edit'
+    if (item && item.request_revise && item.request_revise.status.includes('reject')) return 'EDIT'
+    if (item && item.request_revise && item.request_revise.status == 'draft_request_revise') return 'EDIT'
     if (item && !item.request_revise) return 'REQUEST REVISE'
+    if (item && item.request_revise && item.request_revise.status == 'finish') return 'FINISH'
     return 'APPROVE'
   }
 
   private rowStatus(item: any) {
     if (item && item.request_revise) {
-      if (item.request_revise.nextApprove._id == this.userLogin._id) return false
+      if (item.request_revise?.nextApprove?._id == this.userLogin._id) return false
       return true
     }
     return false
