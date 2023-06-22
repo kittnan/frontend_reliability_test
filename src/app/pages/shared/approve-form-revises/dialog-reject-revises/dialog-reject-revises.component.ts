@@ -29,7 +29,7 @@ export class DialogRejectRevisesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
+    // console.log(this.data);
     this.select = this.data.option[0]
   }
   onCancel() {
@@ -46,7 +46,7 @@ export class DialogRejectRevisesComponent implements OnInit {
         _id: this.select._id,
         name: this.select.name
       }
-      console.log(this.select.level);
+      // console.log(this.select.level);
 
       // console.log("🚀 ~ userApprove:", userApprove)
       const updateData = {
@@ -57,21 +57,23 @@ export class DialogRejectRevisesComponent implements OnInit {
         status: this.generateNextStatus(this.select.level),
         historyApprove: this.genHistoryApprove(this.data.form.historyApprove, this.userLogin, this.data.form)
       }
-      console.log("🚀 ~ updateData:", updateData)
+      // console.log("🚀 ~ updateData:", updateData)
 
-      Swal.fire({
-        showCancelButton: true
-      }).then(async (v: SweetAlertResult) => {
-        if (v.isConfirmed) {
-          await this.$revise.updateByRequestId(updateData.requestId, updateData).toPromise()
-          this.alertSuccess()
-          setTimeout(() => {
-            this.dialogRef.close()
-            this.router.navigate(['request/'])
-            this._loader.stop()
-          }, 1000);
-        }
-      })
+      // Swal.fire({
+      //   showCancelButton: true
+      // }).then(async (v: SweetAlertResult) => {
+      //   if (v.isConfirmed) {
+
+      await this.$revise.updateByRequestId(updateData.requestId, updateData).toPromise()
+      this.alertSuccess()
+      setTimeout(() => {
+        this.dialogRef.close()
+        this.router.navigate(['request/'])
+        this._loader.stop()
+      }, 1000);
+
+      //   }
+      // })
 
     } catch (error) {
       console.log(error);

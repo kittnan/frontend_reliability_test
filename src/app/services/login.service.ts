@@ -2,14 +2,14 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAuthComponent } from './../pages/shared/dialog-auth/dialog-auth.component';
 import { v4 as uuid } from 'uuid';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ToastService } from './toast.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import Swal from 'sweetalert2';
+import { RevisesHttpService } from '../http/revises-http.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +24,8 @@ export class LoginService {
     private route: ActivatedRoute,
     private _loading: NgxUiLoaderService,
     private dialog: MatDialog,
-    private $request: RequestHttpService
+    private $request: RequestHttpService,
+    private $revise: RevisesHttpService
   ) { }
 
   onLogin(data: any) {
@@ -35,22 +36,15 @@ export class LoginService {
           ...res[0],
           name: this.shortName(res[0].name)
         };
-        console.log(user);
-
         if (user.authorize.find((u: any) => u == 'guest')) {
           this.setToken()
           localStorage.setItem('RLS_id', user._id);
           localStorage.setItem('RLS_authorize', user.authorize[0]);
-          // console.log(localStorage.getItem(newAuth));
-
           localStorage.setItem('RLS_userName', user.name);
           let userLoginStr = JSON.stringify(user)
           localStorage.setItem('RLS_userLogin', userLoginStr)
           localStorage.setItem('RLS_section', 'guest')
-          // this._toast.success();
-          // setTimeout(() => {
           this._loading.start()
-          // location.href = '/guest'
           this.router.navigate(['/guest']).then((boo: any) => {
             window.location.reload()
           })
@@ -104,22 +98,15 @@ export class LoginService {
   }
 
   private setAuth(user: any, newAuth: any, section: any) {
-    console.log(section);
-
     this.setToken()
     localStorage.setItem('RLS_id', user._id);
     localStorage.setItem('RLS_authorize', newAuth);
-    // console.log(localStorage.getItem(newAuth));
     localStorage.setItem('RLS_section', section)
-
     localStorage.setItem('RLS_userName', user.name);
     let userLoginStr = JSON.stringify(user)
     localStorage.setItem('RLS_userLogin', userLoginStr)
-    // this._toast.success();
-    // setTimeout(() => {
     this._loading.start()
     this.validFormId(localStorage.getItem('RLS_authorize'))
-    // }, 2000);
 
   }
 
@@ -143,21 +130,20 @@ export class LoginService {
     if (localStorage.getItem('RLS_token')) {
       this.route.queryParams.subscribe(async res => {
         const { id, status } = res
-        // console.log("🚀 ~ status:", status)
-        let resRequest = []
+        let resRequest: any = []
         if (id) {
-          resRequest = await this.$request.get_id(id).toPromise()
-          // console.log("🚀 ~ resRequest:", resRequest)
+          if (status?.toLowerCase().includes('revise')) {
+            resRequest = await this.$revise.getByRequestId(new HttpParams().set('id', id)).toPromise()
+          } else {
+            resRequest = await this.$request.get_id(id).toPromise()
+          }
         } else {
           resRequest = []
         }
-
         let newUrl = ''
-
         if (resRequest && resRequest.length > 0) {
           if (resRequest[0].status == status) {
             switch (status) {
-
               case 'request_confirm':
                 this.validPermissionRequestConfirm(auth)
                 break;
@@ -220,6 +206,40 @@ export class LoginService {
 
               case 'reject_qe_section_head':
                 this.validPermissionQESectionHead(auth)
+                break;
+
+
+
+              case 'request_revise':
+                this.validPermissionApprove(auth)
+                break;
+
+              case 'request_approve_revise':
+                this.validPermissionQEWindowChamber(auth)
+                break;
+
+              case 'qe_window_person_revise':
+                this.validPermissionQEEngineer(auth)
+                break;
+
+              case 'qe_engineer_revise':
+                this.validPermissionQEEngineer2(auth)
+                break;
+
+              case 'qe_engineer_revise2':
+                this.validPermissionQESectionHead(auth)
+                break;
+
+              case 'qe_section_head_revise':
+                this.validPermissionRequestConfirm(auth)
+                break;
+
+              case 'reject_request_revise':
+                this.validPermissionRequest(auth)
+                break;
+
+              case 'reject_qe_window_person_revise':
+                this.validPermissionQEWindowChamber(auth)
                 break;
 
               default: this.viewPage()

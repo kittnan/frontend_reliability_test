@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { LogFlowService } from './../../../../../http/log-flow.service';
 import { Step5HttpService } from './../../../../../http/step5-http.service';
 import { Step1HttpService } from './../../../../../http/step1-http.service';
@@ -314,7 +315,7 @@ export class SheetStep1Component implements OnInit {
         if (this.requestForm.value._id) {
           this.update()
         } else {
-          this.insert()
+          this.handleInsert()
         }
       }
     })
@@ -344,21 +345,39 @@ export class SheetStep1Component implements OnInit {
   }
 
 
-  async insert() {
-    const body = {
-      userId: localStorage.getItem('RLS_id'),
-      date: new Date(),
-      controlNo: this.requestForm.value.controlNo,
-      corporate: this.requestForm.value.corporate,
-      status: 'draft',
-      level: 0,
-      table: {},
-      nextApprove: this.userLogin,
-      qeReceive: {
-        date: null,
-        qty: null
+  async handleInsert() {
+    try {
+
+      const body: any = {
+        userId: localStorage.getItem('RLS_id'),
+        date: new Date(),
+        controlNo: this.requestForm.value.controlNo,
+        corporate: this.requestForm.value.corporate,
+        status: 'draft',
+        level: 0,
+        table: {},
+        nextApprove: this.userLogin,
+        qeReceive: {
+          date: null,
+          qty: null
+        }
       }
+      const resItem = await this.$request.getByControlNo(new HttpParams().set('controlNo', body.controlNo)).toPromise()
+      if (resItem && resItem.length != 0) {
+        throw "Duplicate controlNo. Please submit again!!"
+      }
+      await this.insert(body)
+    } catch (error) {
+      const str = JSON.stringify(error)
+      console.log(error);
+      Swal.fire(str, '', 'error')
+      setTimeout(() => {
+        this._loading.stop()
+        this.onSelectCorporate()
+      }, 1000);
     }
+  }
+  async insert(body: any) {
     const resDraft = await this.$request.draft(body).toPromise()
     let resUpload = []
     if (this.tempUpload.length > 0) {
@@ -414,6 +433,10 @@ export class SheetStep1Component implements OnInit {
       this._stepper.next()
     }, 1000);
   }
+
+
+
+
   onCancel() {
     Swal.fire({
       title: 'Do you want to cancel?',

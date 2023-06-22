@@ -105,7 +105,7 @@ export class ShareRevisesTableComponent implements OnInit {
   generateLevelList() {
     const authStr = localStorage.getItem('RLS_authorize')
     if (authStr == 'request') return JSON.stringify([7, 13, 13.5, 14, 15, 15.5, 16, 17, 18, 19, 20])
-    // if (authStr == 'request_approve') return JSON.stringify([14])
+    if (authStr == 'request_approve') return JSON.stringify([14])
     if (authStr == 'qe_window_person') return JSON.stringify([15, 15.5])
     if (authStr == 'qe_engineer') return JSON.stringify([16])
     if (authStr == 'qe_engineer2') return JSON.stringify([17])

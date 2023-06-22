@@ -62,8 +62,7 @@
         <ng-container matColumnDef="edit">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
           <td mat-cell *matCellDef="let row">
-
-            <button mat-raised-button color="warn" [disabled]="row.btn_status" (click)="handleRevise(row)">
+            <button mat-raised-button color="primary" [disabled]="row.btn_status" (click)="handleRevise(row)">
 
               {{row.btn_text}}
             </button>

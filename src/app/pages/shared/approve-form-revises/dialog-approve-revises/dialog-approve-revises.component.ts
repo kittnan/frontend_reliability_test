@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit, Pipe } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
+import { SendMailService } from 'src/app/http/send-mail.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dialog-approve-revises',
@@ -20,9 +20,8 @@ export class DialogApproveRevisesComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogApproveRevisesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private $revise: RevisesHttpService,
-    private $requestForm: RequestHttpService,
     private _loader: NgxUiLoaderService,
-    private router: Router
+    private router: Router, private $mail: SendMailService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -30,7 +29,7 @@ export class DialogApproveRevisesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
+    // console.log(this.data);
 
   }
   onCancel() {
@@ -47,7 +46,7 @@ export class DialogApproveRevisesComponent implements OnInit {
         _id: this.data.userApprove.selected._id,
         name: this.data.userApprove.selected.name
       }
-      console.log("🚀 ~ userApprove:", userApprove)
+      // console.log("🚀 ~ userApprove:", userApprove)
 
 
       const updateData = {
@@ -61,30 +60,44 @@ export class DialogApproveRevisesComponent implements OnInit {
 
 
 
-      console.log("🚀 ~ updateData:", updateData)
-      Swal.fire({
-        showCancelButton: true
-      }).then(async (v: SweetAlertResult) => {
-        if (v.isConfirmed) {
+      // console.log("🚀 ~ updateData:", updateData)
+      // Swal.fire({
+      //   showCancelButton: true
+      // }).then(async (v: SweetAlertResult) => {
+      //   if (v.isConfirmed) {
 
-          if (this.data?.form?.level === 19) {
-            try {
-              await this.$revise.mergeOverrideForm(this.data.form.requestId, updateData).toPromise()
-            } catch (error) {
-              console.log(error);
-            }
-          } else {
-            await this.$revise.updateByRequestId(updateData.requestId, updateData).toPromise()
-          }
-
-          this.alertSuccess()
-          setTimeout(() => {
-            this.dialogRef.close()
-            // this.router.navigate(['request/'])
-            this._loader.stop()
-          }, 1000);
+      if (this.data?.form?.level === 19) {
+        try {
+          await this.$revise.mergeOverrideForm({
+            data: updateData,
+            controlNo: this.data.form.controlNo,
+            requestId: this.data.form.requestId
+          }).toPromise()
+        } catch (error) {
+          console.log(error);
         }
-      })
+      } else {
+        await this.$revise.updateByRequestId(updateData.requestId, updateData).toPromise()
+      }
+
+      const toList = [this.data.userApprove.selected._id]
+      const statusForm = updateData.status
+      const formId = this.data.form.requestId
+      let ccUser = this.data.userApprove.groupList.map((g: any) => g._id)
+      ccUser = ccUser.concat(this.data.form?.followUp?.map((f: any) => f._id))
+      // unique ccUser
+      ccUser = [...new Set(ccUser)]
+
+      this.sendMail(toList, statusForm, formId, ccUser)
+      this.alertSuccess()
+      setTimeout(() => {
+        this.dialogRef.close()
+        this.router.navigate(['request/'])
+        this._loader.stop()
+      }, 1000);
+
+      //   }
+      // })
 
     } catch (error) {
       Swal.fire('Some thing it wrong. Please try again!', '', 'error')
@@ -195,6 +208,17 @@ export class DialogApproveRevisesComponent implements OnInit {
     return historyApprove ? [...historyApprove, newHistory] : [newHistory]
   }
 
+
+  private async sendMail(to: any[], status: string, formId: string, cc: string[]) {
+    const body = {
+      to: to,
+      status: status,
+      formId: formId,
+      cc: cc,
+    }
+    const resSendMail = await this.$mail.send(body).toPromise()
+
+  }
 
 
   private alertSuccess() {

@@ -1,16 +1,13 @@
-import { DialogAuthComponent } from './pages/shared/dialog-auth/dialog-auth.component';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
-import Swal, { SweetAlertResult } from 'sweetalert2';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { v4 as uuid } from 'uuid';
-import { ToastService } from './services/toast.service';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { environment } from 'src/environments/environment';
+import { v4 as uuid } from 'uuid';
+import { DialogAuthComponent } from './pages/shared/dialog-auth/dialog-auth.component';
 import { HandleVersionService } from './services/handle-version.service';
+import { ToastService } from './services/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +25,6 @@ export class AppComponent {
   authorize: any
   loginStatus: Boolean = false
   constructor(
-    private swUpdate: SwUpdate,
     private _loading: NgxUiLoaderService,
     private dialog: MatDialog,
     private _toast: ToastService,
@@ -36,10 +32,6 @@ export class AppComponent {
     private translate: TranslateService,
     private $handleVersion: HandleVersionService
   ) {
-    // this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    // this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    // this.mobileQuery.addListener(this._mobileQueryListener);
-
     this.userLogin = localStorage.getItem('RLS_userName');
     this.authorize = localStorage.getItem('RLS_authorize');
 
@@ -490,7 +482,6 @@ export class AppComponent {
 
   onLogout() {
     console.log(environment.BASE);
-
     this._loading.start()
     localStorage.removeItem('RLS_token')
     localStorage.removeItem('RLS_id')

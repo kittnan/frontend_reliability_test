@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,9 @@ export class RequestHttpService {
   // TODO request http
   get_id(id: string): Observable<any> {
     return this.http.get(`${this.URL}/request_form/id/${id}`)
+  }
+  getByControlNo(param: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/request_form/getByControlNo`, { params: param })
   }
   get_all(): Observable<any> {
     return this.http.get(`${this.URL}/request_form`)

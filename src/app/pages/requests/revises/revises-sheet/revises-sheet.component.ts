@@ -32,11 +32,8 @@ export class RevisesSheetComponent implements OnInit {
     try {
       this._loading.start();
       const ID: any = await this.handleParams()
-      console.log('ID', ID);
       const resData = await this.getPrevData(ID)
-      console.log("🚀 ~ resData:", resData)
       this.form = resData[0]
-      console.log("🚀 ~ this.form:", this.form)
       this._loading.stop()
     } catch (error) {
       alert(error)
@@ -63,9 +60,9 @@ export class RevisesSheetComponent implements OnInit {
     })
   }
 
-  getPrevData(_id: string) {
-    const params: HttpParams = new HttpParams().set('_id', _id)
-    return this.$revises.get(params).toPromise()
+  getPrevData(id: string) {
+    const params: HttpParams = new HttpParams().set('id', id)
+    return this.$revises.getByRequestId(params).toPromise()
   }
 
   onTranslate() {
