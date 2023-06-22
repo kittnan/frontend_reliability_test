@@ -15,6 +15,8 @@ import { HttpParams } from '@angular/common/http';
 import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
 import { DialogDateComponent } from '../components/dialog-date/dialog-date.component';
 import { DialogDateStartInspectionComponent } from '../components/dialog-date-start-inspection/dialog-date-start-inspection.component';
+import { I } from '@angular/cdk/keycodes';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 @Component({
   selector: 'app-qe-chamber-planning-detail',
   templateUrl: './qe-chamber-planning-detail.component.html',
@@ -44,21 +46,30 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private $queue: QueueService,
     private $operateGroup: OperateGroupService,
     private $request: RequestHttpService,
-    private $user: UserHttpService,
     private _qenInspectionTable: GenInspectionTableService,
+    private _loading: NgxUiLoaderService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
   }
 
   async ngOnInit(): Promise<void> {
-    this.tempQueues = [...this.queues]
-    if (this.queues) {
-      this.queues = await this.getQueuesDraft(this.queues)
-      this.queues.map((d: any) => {
-        this.onCal(d, 0)
-      })
-      this.tableData = await this.mapForTable(this.queues)
+    try {
+      this._loading.start()
+      this.tempQueues = [...this.queues]
+      if (this.queues) {
+        this.queues = await this.getQueuesDraft(this.queues)
+        this.queues.map((d: any) => {
+          this.onCal(d, 0)
+        })
+        this.tableData = await this.mapForTable(this.queues)
+      }
+      setTimeout(() => {
+        this._loading.stop()
+      }, 500);
+    } catch (error) {
+      console.log(error);
+      // this._loading.stop()
     }
 
 
@@ -178,8 +189,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async onCal(item: QueueForm, index: number) {
-    // console.clear()
-    // console.log("🚀 ~ !!!!!!!!!!!!!!!!item:", item)
+    console.clear()
+    console.log("🚀 ~ !!!!!!!!!!!!!!!!item:", item)
     const startDate: any = item.startDate
     if (startDate) {
       item = this.$qe_chamber.genEndDate(item)
@@ -188,6 +199,41 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       // console.log('new Cal', item);
 
     }
+  }
+  onActionDelay(item: any, time: any) {
+    try {
+      if (time?.delay) {
+        if (time.prev?.hr) {
+          time.hr = time.prev.hr + time.delay
+        } else {
+          time.prev = { ...time }
+          time.hr = time.hr + time.delay
+        }
+        const historyDelayTime = {
+          work: item.work,
+          condition: item.condition,
+          beforeAction: {
+            ...time.prev
+          },
+          nextAction: {
+            ...time
+          }
+        }
+        item.historyDelayTime = historyDelayTime
+      } else {
+        time['delay'] = 0
+        time['hr'] = time.prev.hr
+      }
+      const startDate: any = item.startDate
+      if (startDate) {
+        item = this.$qe_chamber.genEndDate(item)
+      }
+    } catch (error) {
+      console.log(error);
+
+    }
+
+
   }
 
   openDialogInitial(item: any) {
@@ -311,18 +357,18 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       showCancelButton: true
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        // const body = [item]
-        // console.log(item);
+        this.insertDirect([item], index)
 
-        if (item.condition?.value == 0) {
-          this.insertDirect([item], index)
-        } else {
-          if (item.operate?.status) {
-            this.validRemainOperate(item, startDate, index)
-          } else {
-            this.insertDirect([item], index)
-          }
-        }
+        // todo ignore check operate (operate tool is flex)
+        // if (item.condition?.value == 0) {
+        //   this.insertDirect([item], index)
+        // } else {
+        //   if (item.operate?.status) {
+        //     this.validRemainOperate(item, startDate, index)
+        //   } else {
+        //     this.insertDirect([item], index)
+        //   }
+        // }
 
       }
     })
@@ -549,7 +595,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
 
 
-  async mapForTable(queues: any) {
+  public async mapForTable(queues: any) {
     const header = queues.reduce((prev: any, now: any) => {
       const temp: any = prev
       temp.push(now.condition.name)

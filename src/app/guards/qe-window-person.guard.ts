@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, audit } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class QeWindowPersonGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-    if (this.auth.getToken() && this.auth.getAuthorizeQeWindowPerson()) {
+    if (this.auth.getToken() && this.auth.getAuthorizeQeWindowPerson() || this.auth.getAuthorizeAdmin()) {
       return true
     }
     this.router.navigate(['/login'], { queryParams: route.queryParams });

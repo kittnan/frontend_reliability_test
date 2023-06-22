@@ -39,6 +39,7 @@ export interface TimeForm {
   startDate: Date | null,
   endDate: Date | null,
   hr: Number | null,
+  delay?: Number | null | undefined,
 }
 export interface WorkForm {
   requestId: String,

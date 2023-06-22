@@ -1,20 +1,22 @@
-import { ReportService } from './report.service';
-import { ReportHttpService } from './../../../http/report-http.service';
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { RequestHttpService } from 'src/app/http/request-http.service';
-import { LoginService } from 'src/app/services/login.service';
-import { DialogViewComponent } from '../dialog-view/dialog-view.component';
-import { TableRequestService } from './table-request.service';
-import { interval, Subscription, lastValueFrom } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as moment from 'moment';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { interval, lastValueFrom, Subscription } from 'rxjs';
+import { RequestHttpService } from 'src/app/http/request-http.service';
+import { environment } from 'src/environments/environment';
+
+import { DialogViewComponent } from '../dialog-view/dialog-view.component';
+import { ReportService } from './report.service';
+import { RevisesQueuesService } from '../../qe-window-person/revise/qe-window-person-revise-approve/components/revises-queues/revises-queues.service';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
+import { GenInspectionTableService } from '../../qe-window-person/qe-chamber/qe-chamber-planning-detail/gen-inspection-table.service';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 
 interface ParamsForm {
@@ -56,12 +58,16 @@ export class TableRequestComponent implements OnInit {
 
   selected_section: any = null
   sections: any[] = []
+
   constructor(
     private $request: RequestHttpService,
     private router: Router,
     private dialog: MatDialog,
     private _loading: NgxUiLoaderService,
-    private _report: ReportService
+    private _report: ReportService,
+    private $reviseQueues: RevisesQueuesService,
+    private $revise: RevisesHttpService,
+    private _qenInspectionTable: GenInspectionTableService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -71,6 +77,7 @@ export class TableRequestComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+
     this._loading.start()
     const id: any = localStorage.getItem('RLS_id')
     this.authorize = localStorage.getItem('RLS_authorize');
@@ -136,6 +143,7 @@ export class TableRequestComponent implements OnInit {
       const param: HttpParams = new HttpParams().set('status', statusStr)
       const resData = await this.$request.tableAdmin(param).toPromise()
       const resultMap: any = await this.mapRows(resData)
+      console.log("🚀 ~ resultMap:", resultMap)
       this.presentCount = resultMap.length
       if (this.dataSource?.data) {
         this.dataSource.data = resultMap;
@@ -397,16 +405,6 @@ export class TableRequestComponent implements OnInit {
     }, 500);
   }
 
-  // htmlOngoingTo(q: any, item: any) {
-  //   // console.log(q);
-  //   if (q && q.length > 0 && item.status == 'qe_window_person_report') {
-  //     if (q[0].inspectionTime.length >= 2) {
-  //       const item = q[0].inspectionTime.find((i: any) => moment().isBetween(moment(i.startDate), moment(i.endDate)))
-  //       return item ? item.at : '-'
-  //     }
-  //   }
-  //   return '-'
-  // }
 
   htmlOngoingTo(q: any, item: any) {
     const foundItem = item.queues.find((i: any) => i.condition['value'] != 0)
@@ -416,7 +414,6 @@ export class TableRequestComponent implements OnInit {
         if (diff <= 0) return true
         return false
       })
-      // console.log("🚀 ~ item:", item)
       if (item) {
         const index = foundItem.inspectionTime.indexOf(item)
         const prev = foundItem.inspectionTime[index - 1]
@@ -459,9 +456,97 @@ export class TableRequestComponent implements OnInit {
     return ''
   }
 
-  onSelectSection() {
 
+  onClickGeneratePlan(row: any) {
+
+    Swal.fire({
+      title: 'Do you want to regenerate plan?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((v: SweetAlertResult) => {
+      if (v.isConfirmed) {
+        this.regeneratePlan(row)
+      }
+    })
   }
+
+  regeneratePlan(row: any) {
+    Swal.fire({
+      title: "Loading...",
+      showConfirmButton: false
+    })
+    Swal.showLoading()
+    setTimeout(async () => {
+      try {
+        const res = await this.$request.get_id(row.requestId).toPromise()
+        const queues = res[0].queues
+        console.log("🚀 ~ queues:", queues)
+        const form = res[0]
+        const header = queues.reduce((prev: any, now: any) => {
+          const temp: any = prev
+          temp.push(now.condition.name)
+          return temp
+        }, [])
+        const receive = header.map((h: any) => form.qeReceive?.date ? moment(form.qeReceive.date).format('ddd, D-MMM-YY,h:mm a') : '-')
+        const times_inspection = await this.mapTime(queues, 'inspectionTime')
+        const times_report = await this.mapTime(queues, 'reportTime')
+        let reportStatus = form?.step4?.data[0]?.reportStatus ? form.step4.data[0].reportStatus : form.step4.data[0].data.reportStatus
+        if (form.step4.data[0].data.report.length > 0) {
+          reportStatus = true
+        }
+        const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, queues, header, 'inspectionTime', times_report, ['Sample Receive', ...receive], reportStatus, form.step4)
+
+        const table = {
+          header: header,
+          data: table_inspection
+        }
+        console.log("🚀 ~ table:", table)
+        await this.$request.update(row.requestId, { table: table }).toPromise()
+        Swal.close()
+        Swal.fire('SUCCESS', '', 'success')
+        row.table = table
+      } catch (error) {
+        console.log(error);
+        Swal.close()
+        Swal.fire('ERROR', '', 'error')
+      }
+    }, 1000);
+  }
+  onClickEditPlan(row: any) {
+    Swal.fire({
+      title: 'Do you want to edit plan?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((v: SweetAlertResult) => {
+      if (v.isConfirmed) {
+        this.router.navigate(['qe-window-person/chamber'], {
+          queryParams: {
+            id: row.requestId
+          }
+        })
+      }
+    })
+  }
+
+  mapTime(data: any, key: any) {
+    return new Promise(resolve => {
+      let times = data.reduce((prev: any, now: any) => {
+        const foo = prev.concat(now[key])
+        return foo
+      }, [])
+      times = Object.values(times.reduce((acc: any, cur: any) => Object.assign(acc, { [cur.at]: cur }), {}))
+      times.sort((a: any, b: any) => a.at - b.at)
+      times.push({ at: -1 })
+      resolve(times)
+    })
+  }
+
+
+  validQeWindowAuth() {
+    if (localStorage.getItem('RLS_authorize') == 'qe_window_person' || localStorage.getItem('RLS_authorize') == 'admin') return true
+    return false
+  }
+
 
 
 }

@@ -1,13 +1,13 @@
-import { UserApproveService } from 'src/app/services/user-approve.service';
-import { UserHttpService } from 'src/app/http/user-http.service';
-import { SendMailService } from './../../../http/send-mail.service';
-import { LogFlowService } from './../../../http/log-flow.service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Step5HttpService } from './../../../http/step5-http.service';
-import { RequestHttpService } from 'src/app/http/request-http.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { RequestHttpService } from 'src/app/http/request-http.service';
+import { UserApproveService } from 'src/app/services/user-approve.service';
+
 import { AlertService } from '../alert/alert.service';
+import { LogFlowService } from './../../../http/log-flow.service';
+import { SendMailService } from './../../../http/send-mail.service';
+import { Step5HttpService } from './../../../http/step5-http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -144,13 +144,14 @@ export class ApproveService {
           name: nextUserApprove.selected.name
         },
         comment: newComment,
-        level: level
+        level: level,
+        followUp: [nextUserApprove.selected._id]
       }
 
       // console.log(newForm);
 
-      const resUpdateStep5: any = await this.$step5.update(step5Prev._id, step5Prev).toPromise()
-      const resUpdateForm: any = await this.$request.update(newForm._id, newForm).toPromise()
+      await this.$step5.update(step5Prev._id, step5Prev).toPromise()
+      await this.$request.update(newForm._id, newForm).toPromise()
       const logData = {
         formId: newForm._id,
         action: 'request_approve',
