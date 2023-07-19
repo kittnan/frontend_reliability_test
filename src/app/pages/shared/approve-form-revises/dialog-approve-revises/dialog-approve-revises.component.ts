@@ -55,16 +55,10 @@ export class DialogApproveRevisesComponent implements OnInit {
         level: this.generateLevelApprove(this.data.form.level),
         comment: this.generateComment(this.data.form.comment, newComment),
         status: this.generateNextStatus(this.data.form.level),
-        historyApprove: this.genHistoryApprove(this.data.form.historyApprove, this.userLogin, this.data.form)
+        historyApprove: this.genHistoryApprove(this.data.form.historyApprove, this.userLogin, this.data.form),
+        formSubmit: this.data.formSubmit
       }
 
-
-
-      // console.log("🚀 ~ updateData:", updateData)
-      // Swal.fire({
-      //   showCancelButton: true
-      // }).then(async (v: SweetAlertResult) => {
-      //   if (v.isConfirmed) {
 
       if (this.data?.form?.level === 19) {
         try {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,8 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  appVersion: any = environment.appVersion
 
   LoginForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -28,5 +31,7 @@ export class LoginComponent implements OnInit {
   onLogin() {
     this._login.onLogin(this.LoginForm.value)
   }
+
+
 
 }

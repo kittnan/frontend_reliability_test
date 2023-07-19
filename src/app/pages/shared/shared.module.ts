@@ -52,6 +52,7 @@ import { DialogRejectRevisesComponent } from './approve-form-revises/dialog-reje
 import { ShareRevisesTableComponent } from './share-revises-table/share-revises-table.component';
 import { ViewLogComponent } from './views/view-log/view-log.component';
 import { TopUpComponent } from './top-up/top-up.component';
+import { RevisesFormComponent } from './revises-form/revises-form.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -100,7 +101,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ShareRevisesTableComponent,
     ViewLogComponent,
     ShareRevisesTableComponent,
-    TopUpComponent
+    TopUpComponent,
+    RevisesFormComponent
 
   ],
   imports: [
@@ -152,7 +154,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     QeReceiveComponent,
     ViewLogComponent,
     ShareRevisesTableComponent,
-    TopUpComponent
+    TopUpComponent,
+    RevisesFormComponent
   ]
 })
 export class SharedModule { }

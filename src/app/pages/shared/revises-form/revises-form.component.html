@@ -1,0 +1,76 @@
+<div fxLayout="row wrap" fxLayoutAlign="start start">
+  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" class="content-item">
+
+    <h1 fxFlex="100" style="font-weight: 900;color: coral;">
+      Request Revise Form
+    </h1>
+
+    <div fxFlex="33" fxLayout="row wrap" fxLayoutAlign="start start">
+      <h2 fxFlex="100" [ngClass]="{'red': step1Form.invalid }">
+        Sheet Detail
+      </h2>
+      <mat-radio-group [disabled]="hide" class="example-radio-group" fxFlex="100" [formControl]="step1Form"
+        (change)="emit()">
+        <mat-radio-button [value]="true" class="example-radio-button">Yes</mat-radio-button>
+        <mat-radio-button [value]="false" class="example-radio-button">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div fxFlex="33" fxLayout="row wrap" fxLayoutAlign="start start">
+      <h2 fxFlex="100" [ngClass]="{'red': step2Form.invalid }">
+        Test Purpose
+      </h2>
+      <mat-radio-group [disabled]="hide" class="example-radio-group" fxFlex="100" [formControl]="step2Form"
+        (change)="emit()">
+        <mat-radio-button [value]="true" class="example-radio-button">Yes</mat-radio-button>
+        <mat-radio-button [value]="false" class="example-radio-button">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div fxFlex="33" fxLayout="row wrap" fxLayoutAlign="start start">
+      <h2 fxFlex="100" [ngClass]="{'red': step3Form.invalid }">
+        Testing Type
+      </h2>
+      <mat-radio-group [disabled]="hide" class="example-radio-group" fxFlex="100" [formControl]="step3Form"
+        (change)="emit()">
+        <mat-radio-button [value]="true" class="example-radio-button">Yes</mat-radio-button>
+        <mat-radio-button [value]="false" class="example-radio-button">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start">
+
+      <h2 fxFlex="100">
+        Testing Condition
+      </h2>
+
+      <div fxFlex="33" fxLayout="row wrap" fxLayoutAlign="start start" *ngFor="let item of mainTask; let i=index">
+        <section fxFlex="100" class="example-section">
+          <span class="example-list-section">
+            <mat-checkbox [disabled]="hide" class="example-margin" [(ngModel)]="item.completed" (change)="emit()">
+              {{item.name}}
+            </mat-checkbox>
+          </span>
+          <span class="example-list-section">
+            <ul>
+              <li *ngFor="let subtask of item.subtasks">
+                <mat-checkbox [disabled]="hide || !item.completed" [(ngModel)]="subtask.completed"
+                  [color]="subtask.color" style="text-transform: capitalize;" (change)="emit()">
+                  {{subtask.name}}
+                </mat-checkbox>
+              </li>
+              <li>
+                <textarea [disabled]="hide || !item.completed" cols="30" rows="10" [(ngModel)]="item.description"
+                  (change)="emit()"></textarea>
+              </li>
+            </ul>
+          </span>
+        </section>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

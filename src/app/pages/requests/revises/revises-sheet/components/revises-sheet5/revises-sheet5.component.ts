@@ -7,6 +7,8 @@ import { UserApproveService } from 'src/app/services/user-approve.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogApproveComponent } from 'src/app/pages/shared/approve-form/dialog-approve/dialog-approve.component';
 import { DialogApproveRevisesComponent } from 'src/app/pages/shared/approve-form-revises/dialog-approve-revises/dialog-approve-revises.component';
+import { MasterHttpService } from 'src/app/http/master-http.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-revises-sheet5',
@@ -31,18 +33,23 @@ export class RevisesSheet5Component implements OnInit {
   approver: any = null
   authorize = 'request_approve'
 
+  functionChamber: any = null
+
+  formSubmit: any = null
   constructor(
     private _stepper: CdkStepper,
     private $revise: RevisesHttpService,
     private _userApprove: UserApproveService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private $master: MasterHttpService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.getUserApprove()
+    this.functionChamber = await this.$master.getFunctionChamber().toPromise()
   }
 
   async getUserApprove() {
@@ -82,20 +89,49 @@ export class RevisesSheet5Component implements OnInit {
     return option._id === value._id;
   }
 
+  onFormChange(e: any) {
+    this.formSubmit = e
+  }
+
   onBack() {
     this._stepper.previous();
   }
   onNext() {
-    this.handleApprove()
+
+    try {
+
+      if (this.formSubmit.step1 == null) throw 'Please fill complete'
+      if (this.formSubmit.step2 == null) throw 'Please fill complete'
+      if (this.formSubmit.step3 == null) throw 'Please fill complete'
+      if (this.formSubmit.data) {
+        let mainCompleted = this.formSubmit.data.some((a: any) => a.completed)
+        const subCompleted = this.formSubmit.data.some((a: any) => a.completed && a.subtasks.some((b: any) => b.completed))
+        if (mainCompleted && !subCompleted) throw 'Please fill complete'
+      }
+
+      this.handleApprove()
+    } catch (error) {
+      console.log(error);
+      const str = JSON.stringify(error)
+      Swal.fire({
+        title: 'Please fill complete',
+        icon: 'error'
+      })
+    }
+
   }
+
   handleApprove() {
+    console.log(this.formSubmit);
+
     const dialogRef = this.dialog.open(DialogApproveRevisesComponent, {
       width: '500px',
       height: 'auto',
       data: {
         userApprove: this.approve,
         userLogin: this.userLogin,
-        form: this.form
+        form: this.form,
+        formSubmit: this.formSubmit
       }
     })
 

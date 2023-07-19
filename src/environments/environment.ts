@@ -8,7 +8,8 @@ export const environment = {
   // API: 'http://10.200.90.152:9999',
   // API: 'http://10.200.90.152:4031',
   BASE: '/',
-  VERSION: '3.0'
+  VERSION: '3.0',
+  appVersion: require('../../package.json').version + '-dev'
 };
 
 /*

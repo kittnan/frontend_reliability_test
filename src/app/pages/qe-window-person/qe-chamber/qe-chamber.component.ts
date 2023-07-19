@@ -3,7 +3,7 @@ import { UserApproveService } from './../../../services/user-approve.service';
 
 
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { RequestHttpService } from 'src/app/http/request-http.service';
@@ -99,6 +99,7 @@ export class QeChamberComponent implements OnInit {
   }
   approver: any
 
+
   constructor(
     private routeActive: ActivatedRoute,
     private $request: RequestHttpService,
@@ -107,24 +108,20 @@ export class QeChamberComponent implements OnInit {
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
-    // const id: any = localStorage.getItem('RLS_id')
-    // this.$user.getUserById(id).subscribe(res => this.userLogin = res)
   }
   ngOnInit(): void {
     this.routeActive.queryParams.subscribe(async (params: any) => {
       const { id } = params;
       const resData = await this.$request.get_id(id).toPromise()
       this.form = resData[0]
-      // console.log("🚀 ~ this.form:", this.form)
       const temp = this.setDataTable();
       this.dataSource = temp
-      // console.log("🚀 ~ temp:", temp)
       this.getUserApprove()
     })
   }
 
+
   emitted(item: any) {
-    // console.log("🚀 ~ item:", item);
     this.chamberTable = []
     this.chamberTable = item
   }
@@ -148,8 +145,6 @@ export class QeChamberComponent implements OnInit {
   approveChange(e: any) {
     this.nextApprove = e
   }
-
-
 
 
   async getUserApprove() {
@@ -225,7 +220,6 @@ export class QeChamberComponent implements OnInit {
       this.dataSource = temp
       this.loader$.stopAll()
     }, 200);
-    // this.ngOnInit()
   }
 
   chamberValid() {

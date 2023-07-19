@@ -19,6 +19,11 @@
     </mat-form-field>
   </div>
 
+  <div fxFlex="100" fxLayoutAlign="space-around stretch">
+    <app-revises-form *ngIf="functionChamber" fxFlex="100" [functionChamber]="functionChamber"
+      (dataExport)="onFormChange($event)"></app-revises-form>
+  </div>
+
 
 
   <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch">

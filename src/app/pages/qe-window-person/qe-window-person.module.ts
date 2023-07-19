@@ -22,6 +22,7 @@ import { QeWindowPersonReviseTableComponent } from './revise/qe-window-person-re
 import { QeWindowPersonReviseApproveComponent } from './revise/qe-window-person-revise-approve/qe-window-person-revise-approve.component';
 import { TablePlaningComponent } from './revise/qe-window-person-revise-approve/components/table-planing/table-planing.component';
 import { RevisesQueuesComponent } from './revise/qe-window-person-revise-approve/components/revises-queues/revises-queues.component';
+import { DialogSelectDateComponent } from './qe-chamber/components/dialog-select-date/dialog-select-date.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { RevisesQueuesComponent } from './revise/qe-window-person-revise-approve
     QeWindowPersonReviseApproveComponent,
     TablePlaningComponent,
     RevisesQueuesComponent,
+    DialogSelectDateComponent,
   ],
   imports: [
     CommonModule,
@@ -51,6 +53,8 @@ import { RevisesQueuesComponent } from './revise/qe-window-person-revise-approve
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule
+  ],
+  exports: [
   ]
 })
 export class QeWindowPersonModule { }

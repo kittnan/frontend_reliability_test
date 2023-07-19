@@ -24,7 +24,6 @@ export class DialogQeChamberComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.load = true
     if (this.data) {
-      console.log(this.data);
       let value = []
       if (this.data.value == 1 || this.data.value == 2) {
         value = [this.data.value, 5]
@@ -32,20 +31,40 @@ export class DialogQeChamberComponent implements OnInit {
         value = [this.data.value]
       }
       const valueStr = JSON.stringify(value)
-      const param: HttpParams = new HttpParams().set('value', valueStr).set('startDate', moment(this.data.startDate).toISOString()).set('qty', this.data.qty)
-      this.rows = await this.$chamber.getReady(param).toPromise()
+      const param: HttpParams = new HttpParams().set('value', valueStr).set('startDate', moment(this.data.startDate).toISOString())
+      this.rows = await this.$chamber.list(param).toPromise()
       setTimeout(() => {
         this.load = false
       }, 500);
     }
   }
+  // async ngOnInit(): Promise<void> {
+  //   this.load = true
+  //   if (this.data) {
+  //     console.log(this.data);
+  //     let value = []
+  //     if (this.data.value == 1 || this.data.value == 2) {
+  //       value = [this.data.value, 5]
+  //     } else {
+  //       value = [this.data.value]
+  //     }
+  //     const valueStr = JSON.stringify(value)
+  //     const param: HttpParams = new HttpParams().set('value', valueStr).set('startDate', moment(this.data.startDate).toISOString()).set('qty', this.data.qty)
+  //     this.rows = await this.$chamber.getReady(param).toPromise()
+  //     setTimeout(() => {
+  //       this.load = false
+  //     }, 500);
+  //   }
+  // }
   htmlCap(item: any) {
     return `${item.run}/${item.capacity}`
   }
   htmlCalCapPercent(item: any) {
+    console.log("🚀 ~ item:", item)
     const cap = Number(item.capacity)
     const use = Number(item.run) == 0 ? cap : Number(item.run)
     const percent = (use / cap)
+    console.log("🚀 ~ percent:", percent)
     return percent
   }
   onSelect(e: any) {

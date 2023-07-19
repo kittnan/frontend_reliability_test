@@ -5,25 +5,25 @@
   color: #666666;
 }
 
-.card {
-  width: 33%;
-  background-color: rgb(255, 255, 255);
-  // background-color: rgba(255, 255, 255, 0.959);
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-  padding: 40px;
-  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
-}
+// .card {
+//   width: 33%;
+//   background-color: rgb(255, 255, 255);
+//   // background-color: rgba(255, 255, 255, 0.959);
+//   border-radius: 10px;
+//   overflow: hidden;
+//   position: relative;
+//   padding: 40px;
+//   box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+// }
 
-.card-head {
-  margin: 10px 0;
-  padding: 20px;
-  border-radius: 10px;
-  // background-color: #b1e2a5;
-  // background-color: #6cb8b8;
-  background-color: rgb(8, 142, 167);
-}
+// .card-head {
+//   margin: 10px 0;
+//   padding: 20px;
+//   border-radius: 10px;
+//   // background-color: #b1e2a5;
+//   // background-color: #6cb8b8;
+//   background-color: rgb(8, 142, 167);
+// }
 
 .card-title {
   font-size: 20px;
@@ -39,8 +39,10 @@
   padding: 10px;
   // background-color: #f0f0f0;
   line-height: normal;
-  color: white;
+  color: rgb(31, 31, 31);
   letter-spacing: 2px;
+  font-family: monospace;
+  text-transform: uppercase;
 }
 
 .mat-raised-button {
@@ -61,3 +63,37 @@
 //   object-fit: cover;
 //   object-position: right;
 // }
+
+.card-login {
+  width: 440px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.49);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7.1px);
+  -webkit-backdrop-filter: blur(7.1px);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+}
+
+.card-head {
+  margin: 10px 0;
+  padding: 20px;
+  border-radius: 10px;
+  // background-color: #b1e2a5;
+  // background-color: #6cb8b8;
+  // background-color: rgb(8, 142, 167);
+}
+::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: inherit;
+}
+.btn-submit {
+  background-color: #111113a3;
+  font-family: monospace;
+}
+::ng-deep mat-label {
+  font-family: monospace;
+}
+
+.card-foot {
+  height: 200px;
+}

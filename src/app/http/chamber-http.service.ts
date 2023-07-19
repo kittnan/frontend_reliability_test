@@ -25,20 +25,23 @@ export class ChamberHttpService {
   delete(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/chamber_list/delete/${id}`)
   }
-  getLast():Observable<any>{
+  getLast(): Observable<any> {
     return this.http.get(`${this.URL}/chamber_list/lastRecord`)
   }
-  getByValue(value:any):Observable<any>{
+  getByValue(value: any): Observable<any> {
     return this.http.get(`${this.URL}/chamber_list/chamber/${value}`)
   }
   insertQueue(data: any): Observable<any> {
     return this.http.post(`${this.URL}/chamber_list/insertQueue`, data)
   }
-  getReady(param:HttpParams):Observable<any>{
-    return this.http.get(`${this.URL}/chamber_list/ready/`,{params:param})
+  getReady(param: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/chamber_list/ready/`, { params: param })
   }
-  ready(param:HttpParams):Observable<any>{
-    return this.http.get(`${this.URL}/chamber_list/readyNew/`,{params:param})
+  list(param: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/chamber_list/list/`, { params: param })
+  }
+  ready(param: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/chamber_list/readyNew/`, { params: param })
   }
 
 }

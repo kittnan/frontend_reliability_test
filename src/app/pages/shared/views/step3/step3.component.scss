@@ -21,8 +21,8 @@ li {
 // ::ng-deep .mat-checkbox-background {
 //     background-color: rgb(153, 213, 228) !important;
 // }
-::ng-deep .mat-checkbox-disabled .mat-checkbox-label {
-  color: black !important;
+::ng-deep .mat-checkbox-checked .mat-checkbox-label {
+  color: rgb(37, 13, 255) !important;
 }
 
 ::ng-deep

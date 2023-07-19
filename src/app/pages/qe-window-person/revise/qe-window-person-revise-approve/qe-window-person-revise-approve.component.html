@@ -3,12 +3,9 @@
     class=" mtb-4 ">
 
     <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="formRevise"></app-views>
-    <!-- <ng-container *ngIf="formRevise.qeReceive.qty">
-
-
-
-    </ng-container> -->
-
+    <app-revises-form fxFlex="100" [hide]="true" [step1]="formRevise.formSubmit.step1"
+      [step2]="formRevise.formSubmit.step2" [step3]="formRevise.formSubmit.step3"
+      [data]="formRevise.formSubmit.data"></app-revises-form>
 
     <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mb-3">
       <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">

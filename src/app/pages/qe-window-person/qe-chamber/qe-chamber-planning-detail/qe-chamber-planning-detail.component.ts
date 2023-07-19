@@ -1,22 +1,25 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
 import { QueueService } from 'src/app/http/queue.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import { UserHttpService } from 'src/app/http/user-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+
+import {
+  DialogDateStartInspectionComponent,
+} from '../components/dialog-date-start-inspection/dialog-date-start-inspection.component';
+import { DialogDateComponent } from '../components/dialog-date/dialog-date.component';
 import { DialogQeChamberComponent } from '../components/dialog-qe-chamber/dialog-qe-chamber.component';
-import { QueueForm, OperateForm, TimeForm } from '../qe-chamber.component';
+import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
+import { OperateForm, QueueForm } from '../qe-chamber.component';
 import { QeChamberService } from '../qe-chamber.service';
 import { GenInspectionTableService } from './gen-inspection-table.service';
-import { HttpParams } from '@angular/common/http';
-import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
-import { DialogDateComponent } from '../components/dialog-date/dialog-date.component';
-import { DialogDateStartInspectionComponent } from '../components/dialog-date-start-inspection/dialog-date-start-inspection.component';
-import { I } from '@angular/cdk/keycodes';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { DialogSelectDateComponent } from '../components/dialog-select-date/dialog-select-date.component';
+
 @Component({
   selector: 'app-qe-chamber-planning-detail',
   templateUrl: './qe-chamber-planning-detail.component.html',
@@ -64,12 +67,14 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         })
         this.tableData = await this.mapForTable(this.queues)
       }
+
+    } catch (error) {
+      console.log(error);
+      this._loading.stop()
+    } finally {
       setTimeout(() => {
         this._loading.stop()
       }, 500);
-    } catch (error) {
-      console.log(error);
-      // this._loading.stop()
     }
 
 
@@ -90,6 +95,11 @@ export class QeChamberPlanningDetailComponent implements OnInit {
           if (a) return a
           return d
         })
+        const actualTime = d?.inspectionTime?.map((d: any, i: any) => {
+          const a = draft.inspectionTime.find((g: any) => g.at == d.at)
+          if (a) return { ...a, index: i }
+          return { ...d, index: i }
+        })
         const reportQE = d?.reportQE?.map((d: any) => {
           const a = draft.reportQE.find((g: any) => g.at == d.at)
           if (a) return a
@@ -103,6 +113,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         draft['inspectionTime'] = inspectionTime
         draft['reportQE'] = reportQE
         draft['reportTime'] = reportTime
+        draft['actualTime'] = actualTime
         return {
           ...d,
           ...draft,
@@ -132,7 +143,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         data: {
           value: item.condition?.value,
           startDate: item.startDate,
-          qty: item.work?.qty
+          qty: 0,
+          // qty: item.work?.qty,
         },
 
       })
@@ -189,8 +201,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async onCal(item: QueueForm, index: number) {
-    console.clear()
-    console.log("🚀 ~ !!!!!!!!!!!!!!!!item:", item)
     const startDate: any = item.startDate
     if (startDate) {
       item = this.$qe_chamber.genEndDate(item)
@@ -204,10 +214,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     try {
       if (time?.delay) {
         if (time.prev?.hr) {
-          time.hr = time.prev.hr + time.delay
+          time.hr = Number(time.prev.hr) + Number(time.delay)
         } else {
           time.prev = { ...time }
-          time.hr = time.hr + time.delay
+          time.hr = Number(time.hr) + Number(time.delay)
         }
         const historyDelayTime = {
           work: item.work,
@@ -222,7 +232,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         item.historyDelayTime = historyDelayTime
       } else {
         time['delay'] = 0
-        time['hr'] = time.prev.hr
+        time['hr'] = Number(time.prev.hr)
       }
       const startDate: any = item.startDate
       if (startDate) {
@@ -234,6 +244,26 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     }
 
 
+  }
+
+  openDialogActual(item: any, time: any) {
+    const dialogRef = this.dialog.open(DialogSelectDateComponent, {
+      height: '500px',
+      width: '500px',
+      data: item
+    })
+    dialogRef.afterClosed().subscribe(selectedDate => {
+      if (selectedDate) {
+        time.startDate = selectedDate
+        console.log("🚀 ~ res:", selectedDate, time)
+
+        // item.startDate = res.startDate
+        // item.h = null
+        item = this.$qe_chamber.genEndDateWithActualTime(item, time, selectedDate)
+        // console.log("🚀 ~ item:", item)
+        // // this.onCal(item, 0)
+      }
+    })
   }
 
   openDialogInitial(item: any) {

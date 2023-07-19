@@ -1,0 +1,49 @@
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.example-section {
+  margin: 12px 0;
+}
+
+.example-margin {
+  margin: 0 12px;
+}
+
+ul {
+  list-style-type: none;
+  margin-top: 4px;
+  margin-left: 30px;
+}
+h2 {
+  margin: 0;
+}
+.red {
+  color: red !important;
+}
+textarea {
+  padding: 5px;
+}
+
+.form-card {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+.mat-radio-label {
+  padding: 0 !important;
+}
+::ng-deep.mat-radio-button.mat-radio-checked .mat-radio-label-content {
+  color: blue !important;
+}
+::ng-deep .mat-checkbox-disabled .mat-checkbox-label {
+  color: inherit;
+}

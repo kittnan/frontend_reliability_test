@@ -1,5 +1,5 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-  <div *ngIf="form" fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+  <div *ngIf="form" #content fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
     class=" mtb-4 ">
     <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="form"></app-views>
 
@@ -30,10 +30,6 @@
       <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="false">
       </app-approve-form>
     </ng-container>
-
-
-
-
 
   </div>
 
