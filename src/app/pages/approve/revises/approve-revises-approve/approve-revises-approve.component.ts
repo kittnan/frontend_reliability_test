@@ -43,6 +43,7 @@ export class ApproveRevisesApproveComponent implements OnInit {
     this._route.queryParams.subscribe(async (res: any) => {
       const resQuery = await this.$revise.getByRequestId(new HttpParams().set('id', res['id'])).toPromise()
       this.formRevise = resQuery[0]
+      console.log("🚀 ~ this.formRevise:", this.formRevise)
       this.getUserApprove()
     })
   }

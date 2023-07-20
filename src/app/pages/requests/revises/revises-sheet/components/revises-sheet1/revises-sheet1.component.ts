@@ -85,6 +85,7 @@ export class RevisesSheet1Component implements OnInit {
     )
 
   }
+
   private _filter(value: any): any[] {
     const filterValue = value.toLowerCase();
     return this.models.filter((option: any) => option.modelNo.toLowerCase().includes(filterValue));
