@@ -65,7 +65,6 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
     this.formRevise = resForm[0]
     // this.step5 = this.formRevise.step5
     this.userApproveList = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-    console.log("🚀 ~ this.userApproveList:", this.userApproveList)
     this.approver = await this._userApprove.approver(this.authorize, 0, this.userLogin)
     if (this.approver && this.approver.groupStatus) {
       this.userApproveList = [this.approver.selected]
@@ -108,8 +107,6 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
 
 
   onReject() {
-    console.log(this.formRevise);
-
     const dialogRef = this.dialog.open(DialogRejectRevisesComponent, {
       width: '500px',
       height: 'auto',

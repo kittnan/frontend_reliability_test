@@ -67,7 +67,6 @@ export class RevisesSheet1Component implements OnInit {
   async ngOnInit(): Promise<void> {
     const params: HttpParams = new HttpParams().set('id', this.requestId)
     const res = await this.$revise.getByRequestId(params).toPromise()
-    console.log("🚀 ~ res:", res)
     this.formRevise = res[0]
 
     this.requestForm.patchValue({ ...res[0].step1 })
@@ -166,7 +165,6 @@ export class RevisesSheet1Component implements OnInit {
       showCancelButton: true
     }).then(async (value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        console.log(this.requestForm.value);
         this.updateReviseByRequestId(this.requestForm.value.requestId, { step1: { ...this.formRevise.step1, ...this.requestForm.value } })
         // if (this.requestForm.value._id) {
         //   this.update()

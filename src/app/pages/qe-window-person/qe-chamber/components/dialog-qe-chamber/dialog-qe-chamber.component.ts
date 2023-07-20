@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
@@ -60,12 +60,14 @@ export class DialogQeChamberComponent implements OnInit {
     return `${item.run}/${item.capacity}`
   }
   htmlCalCapPercent(item: any) {
-    console.log("🚀 ~ item:", item)
     const cap = Number(item.capacity)
-    const use = Number(item.run) == 0 ? cap : Number(item.run)
-    const percent = (use / cap)
-    console.log("🚀 ~ percent:", percent)
-    return percent
+    const use = Number(item.run)
+    if (use == 0 || cap == 0) {
+      return 0
+    } else {
+      const percent = (use / cap)
+      return percent
+    }
   }
   onSelect(e: any) {
     Swal.fire({

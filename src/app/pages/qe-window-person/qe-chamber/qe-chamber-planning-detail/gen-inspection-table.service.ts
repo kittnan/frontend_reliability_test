@@ -15,19 +15,9 @@ export class GenInspectionTableService {
 
 
   genTable(times: any, data: any, header: any, key: any, times_report: any, receive: any[], reportStatus: any, step4: any) {
-    console.log("🚀 ~ step4:", step4)
     this.step4$ = step4
-    // console.log('times', times);
-    // console.log('data', data);
-    // console.log('header', header);
-    // console.log('key', key);
-    // console.log('times_report', times_report);
-    // console.log('receive', receive);
-    // console.log('reportStatus', reportStatus);
 
-    // console.log("🚀 ~ reportStatus:", reportStatus, reportStatus)
     this.reportStatus$ = reportStatus
-    // if (data[0].condition.value == 0) this.chamber = false
     const filterOnlyNotChamber = data.filter((a: any) => a.condition.value == 0)
     if (filterOnlyNotChamber.length == data.length) this.chamber = false
     return new Promise(resolve => {
@@ -110,7 +100,6 @@ export class GenInspectionTableService {
     if (foundItem && time.at == 0 && time.at != -1) {
       inspec_arr[0].push(reportDate ? [between, reportDate, betweenReportQE] : between)
       this.chamber ? inspec_arr[1].push([end]) : inspec_arr[1].push(['-'])
-      console.log("🚀 ~ this.chamber:", this.chamber)
       // inspec_arr[1].push([end])
       inspec_arr[2].push(['-'])
     } else

@@ -58,7 +58,6 @@ export class SheetStep3Component implements OnInit {
       requestId: this.formId,
       data: resultMap
     };
-    console.log("🚀 ~ this.testingTypeMenu:", this.testingTypeMenu)
     if (this.formId) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const resGet: any = await this.$step3.get(params).toPromise()

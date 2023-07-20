@@ -40,7 +40,6 @@ export class ApproverComponent implements OnInit {
           ...v
         }
       })
-      // })).subscribe(res => console.log(res))
     })).subscribe(res => {
       this.dataSource = new MatTableDataSource(res)
       this.displayedColumns = ['position', 'level', 'status', 'name', 'groupStatus', 'groupList', 'action']

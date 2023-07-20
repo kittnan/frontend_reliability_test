@@ -52,7 +52,6 @@ export class RevisesSheet2Component implements OnInit {
     this.testPurposeForm.patchValue({
       ...this.step2
     })
-    console.log(this.testPurposeForm.value);
 
   }
 

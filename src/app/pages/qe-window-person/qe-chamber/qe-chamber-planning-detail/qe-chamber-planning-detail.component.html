@@ -3,7 +3,7 @@
   <mat-accordion fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
     <mat-expansion-panel hideToggle *ngFor="let item of queues; let i=index" fxFlex="100" fxLayoutAlign="start stretch"
       fxLayout="row wrap" class="b-left-red" [ngClass]="{'b-left-green': item._id}">
-      <mat-expansion-panel-header fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+      <mat-expansion-panel-header class="jump" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
         <mat-panel-title>
           {{i+1}}. {{item.condition.name}}
         </mat-panel-title>
@@ -72,34 +72,66 @@
           </div>
         </div>
 
+        <ng-container *ngIf="editPlan && item._id">
 
-        <mat-divider fxFlex="100"></mat-divider>
-        <h4 fxFlex="100" style="color: red;">Actual Time</h4>
 
-        <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-          <div fxFlex="45" fxFlex.lt-md="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
-            *ngFor="let time of item.actualTime; let indexTime=index">
-            <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill" style="color: red;">
-              <mat-label *ngIf="time.at=='0'">date Actual initial</mat-label>
-              <mat-label *ngIf="time.at!='0'">date Actual {{time.at}} (hr)</mat-label>
-              <input matInput type="text" (click)="openDialogActual(item,time)"
-                value="{{time.startDate|date:'M/d/YYYY, hh:mm a'}}">
-            </mat-form-field>
-            <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill" style="color: red;">
-              <mat-label *ngIf="time.at=='0'">timing Actual initial</mat-label>
-              <mat-label *ngIf="time.at!='0'">timing Actual {{time.at}} (hr)</mat-label>
-              <input matInput type="number" [(ngModel)]="time.hr" (ngModelChange)="onCal(item,i)">
-            </mat-form-field>
+          <mat-divider fxFlex="100"></mat-divider>
+          <h4 fxFlex="100" style="color: red;">Actual Time</h4>
+
+          <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+
+            <div fxFlex="100" fxFlex.lt-md="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
+              *ngFor="let time of item.actualTime; let indexTime=index">
+
+              <mat-form-field fxFlex="33" fxFlex.lt-md="100" appearance="fill" style="color: red;">
+                <mat-label *ngIf="time.at=='0'">date Actual initial</mat-label>
+                <mat-label *ngIf="time.at!='0'">date Actual {{time.at}} (hr)</mat-label>
+                <input matInput [disabled]="time.onPlan" type="text"
+                  value="{{time.startDate|date:'M/d/YYYY, hh:mm a'}}">
+              </mat-form-field>
+
+
+
+              <mat-form-field fxFlex="33" fxFlex.lt-md="100" appearance="fill" style="color: red;">
+                <mat-label *ngIf="time.at=='0'">timing Actual initial</mat-label>
+                <mat-label *ngIf="time.at!='0'">timing Actual {{time.at}} (hr)</mat-label>
+                <input matInput [disabled]="time.onPlan" type="number" [(ngModel)]="time.hr"
+                  (ngModelChange)="onCal(item,i)">
+              </mat-form-field>
+
+
+              <mat-form-field fxFlex="33" fxFlex.lt-md="100" appearance="legacy">
+                <mat-label>Input Chamber {{time.at}}</mat-label>
+                <input matInput [value]="time.endDate|date:'EEEE, d MMMM y, h:mm a'" [readonly]="true">
+              </mat-form-field>
+
+              <section fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center" style="margin-bottom: 20px;">
+                <mat-radio-group [(ngModel)]="time.onPlan">
+                  <mat-radio-button class="example-margin" [value]="true" style="margin-right: 20px;">On
+                    Plan</mat-radio-button>
+                  <mat-radio-button class="example-margin" [value]="false">Delay Plan</mat-radio-button>
+                </mat-radio-group>
+              </section>
+
+            </div>
+
+            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end center">
+              <button [disabled]="!item._id" fxFlex="33" mat-raised-button color="primary"
+                (click)="onConfirmActual(item,i)">
+                <span class="material-icons-outlined">
+                  save
+                </span>
+                Confirm Actual Time</button>
+            </div>
+
           </div>
-        </div>
 
 
+        </ng-container>
 
 
         <mat-divider fxFlex="100"></mat-divider>
         <h4 fxFlex="100">End Time</h4>
-
-
         <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="legacy">
           <mat-label>END DATE</mat-label>
           <input matInput [value]="item.endDate|date:'EEEE, d MMMM y, h:mm a'" [readonly]="true">
@@ -269,7 +301,7 @@
 
         </div>
         <div fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
-          <button color="primary" mat-button [disabled]="item._id" (click)="onDraft(item,i,item.startDate)">
+          <button color="primary" mat-button (click)="onDraft(item,i,item.startDate)">
             <span class="material-icons-outlined">
               save
             </span>
@@ -292,6 +324,22 @@
 
     </mat-expansion-panel>
   </mat-accordion>
+
+</div>
+<div class="shortMenu">
+  <div class="d-hide" [ngClass]="{'d-show': jump}">
+    <ul class="jump">
+      <li *ngFor="let item of shortMenuOption; let i=index">
+        <a (click)="jumpTo(i)">
+          {{i+1}}.{{item.name}}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <button mat-icon-button (click)="jump=!jump">
+    <mat-icon>more_vert</mat-icon>
+    Jump
+  </button>
 
 </div>
 

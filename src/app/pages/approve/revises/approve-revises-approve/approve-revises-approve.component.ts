@@ -41,9 +41,7 @@ export class ApproveRevisesApproveComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.queryParams.subscribe(async (res: any) => {
-      console.log(res);
       const resQuery = await this.$revise.getByRequestId(new HttpParams().set('id', res['id'])).toPromise()
-      console.log("🚀 ~ resQuery:", resQuery)
       this.formRevise = resQuery[0]
       this.getUserApprove()
     })
@@ -53,9 +51,7 @@ export class ApproveRevisesApproveComponent implements OnInit {
 
     this.userApproveList = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
     this.userApproveList = this.userApproveList.filter((a: any) => a.username != 'admin')
-    // console.log("🚀 ~ this.userApprove:", this.userApprove)
     this.approver = await this._userApprove.approver(this.authorize, 1, this.userLogin)
-    console.log("🚀 ~ this.approver:", this.approver)
 
     if (this.approver && this.approver.groupStatus) {
       this.userApproveList = [this.approver.selected]

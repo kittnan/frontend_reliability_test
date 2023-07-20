@@ -36,7 +36,6 @@ export class RevisesQueuesComponent implements OnInit {
     private $loader: NgxUiLoaderService
   ) { }
   async ngOnInit(): Promise<void> {
-    console.log(this.formRevise);
     this.queues = await this.$reviseQueues.mergeOldQueues(this.formRevise.queues, this.queuesForm, this.formRevise)
     await this.setTablePlan(this.queues, this.formRevise)
     // this.queues.map((d: any) => {

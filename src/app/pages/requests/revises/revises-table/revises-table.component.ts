@@ -96,7 +96,6 @@ export class RevisesTableComponent implements OnInit {
     section = JSON.stringify(section)
     const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr).set('section', section)
     const resData = await this.$revise.getReviseTable(param).toPromise()
-    console.log("🚀 ~ resData:", resData)
     const resultMap: any = await this.mapRows(resData)
     if (this.dataSource?.data) {
       this.dataSource.data = resultMap;
@@ -217,7 +216,6 @@ export class RevisesTableComponent implements OnInit {
         showCancelButton: true,
       }).then(async (v: SweetAlertResult) => {
         if (v.isConfirmed) {
-          console.log(row);
           const createData = {
             ...row,
             status: 'draft_request_revise',

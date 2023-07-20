@@ -1,6 +1,8 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
   <div *ngIf="form" #content fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
     class=" mtb-4 ">
+    <a id="top"></a>
+
     <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="form"></app-views>
 
     <app-qe-receive fxFlex="100" [form]="form" (formChange)="qeReceiveEmit($event)"></app-qe-receive>
@@ -22,15 +24,21 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="true">
+      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="true"
+        [editPlan]="editPlan">
       </app-approve-form>
     </ng-container>
 
     <ng-container *ngIf="!form.qeReceive.qty">
-      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="false">
+      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="false"
+        [editPlan]="editPlan">
       </app-approve-form>
     </ng-container>
+    <a id="down"></a>
 
   </div>
 
 </div>
+
+<a (click)="scrollTo('top')" id="myBtn">↑ Top</a>
+<a (click)="scrollTo('down')" id="myBtn2">↓ Down</a>

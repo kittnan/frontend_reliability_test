@@ -74,7 +74,6 @@ export class QeSectionHeadApproveComponent implements OnInit {
       this.approve = this.approver
     } else {
       const select = this.checkPrevApprove(this.form, 1)
-      // console.log("🚀 ~ select:", select)
       this.userApprove = [select]
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
@@ -90,7 +89,6 @@ export class QeSectionHeadApproveComponent implements OnInit {
   private checkPrevApprove(data: any, level: number) {
     const prevUserApprove = data.step5.find((s: any) => s.level == level)
     if (prevUserApprove) {
-      // console.log(prevUserApprove);
 
       return this.userApprove.find((u: any) => u._id == prevUserApprove.prevUser._id)
     } else {

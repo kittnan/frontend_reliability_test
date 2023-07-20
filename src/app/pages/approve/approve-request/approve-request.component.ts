@@ -66,10 +66,7 @@ export class ApproveRequestComponent implements OnInit {
     this.userLogin = JSON.parse(userLoginStr)
 
     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
-    // console.log("🚀 ~ this.userApprove:", this.userApprove)
     this.approver = await this._userApprove.approver(this.authorize, this.form.level, this.userLogin)
-    // console.log("🚀 ~ this.approver:", this.approver)
-
     if (this.approver && this.approver.groupStatus) {
       this.userApprove = [this.approver.selected]
       this.approve = this.approver

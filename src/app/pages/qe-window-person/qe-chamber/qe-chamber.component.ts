@@ -99,24 +99,27 @@ export class QeChamberComponent implements OnInit {
   }
   approver: any
 
-
+  editPlan: boolean = false
   constructor(
     private routeActive: ActivatedRoute,
     private $request: RequestHttpService,
     private _userApprove: UserApproveService,
-    private loader$: NgxUiLoaderService
+    private loader$: NgxUiLoaderService,
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
   }
   ngOnInit(): void {
     this.routeActive.queryParams.subscribe(async (params: any) => {
-      const { id } = params;
+      const { id, editPlan } = params;
       const resData = await this.$request.get_id(id).toPromise()
       this.form = resData[0]
       const temp = this.setDataTable();
       this.dataSource = temp
       this.getUserApprove()
+      if (editPlan == 'true') {
+        this.editPlan = true
+      }
     })
   }
 
@@ -226,5 +229,7 @@ export class QeChamberComponent implements OnInit {
     if (this.form?.step4?.data?.find((d: any) => d?.value == 0)) return false
     return true
   }
-
+  scrollTo(element: any): void {
+    (document.getElementById(element) as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+  }
 }

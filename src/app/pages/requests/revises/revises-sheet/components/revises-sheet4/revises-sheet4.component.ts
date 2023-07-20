@@ -84,7 +84,6 @@ export class RevisesSheet4Component implements OnInit {
     if (this.step3) {
       const step3Data = this.step3?.data ? this.step3.data : null
       let filterChecked: any[] = []
-      console.log(this.step3);
       // const item = step3Data.find((s: any) => s.checked && s.type == 'oven')
 
       // todo filter only checked
@@ -93,7 +92,6 @@ export class RevisesSheet4Component implements OnInit {
       const resultFindOven = filterChecked.some((a: any) => a.type == 'oven')
       filterChecked = resultFindOven ? filterChecked.filter((a: any) => a.type != 'mix') : filterChecked
 
-      console.log("🚀 ~ filterChecked:", filterChecked)
 
       const mapDataListValue = filterChecked.map((f: any) => {
         return {
@@ -130,19 +128,16 @@ export class RevisesSheet4Component implements OnInit {
         }
       })
 
-      console.log(mergeData);
       let concatAndSort = mergeData.reduce((acc: any, cur: any) => {
         return acc.concat(cur)
       }, [])
       concatAndSort = concatAndSort.sort((a: any, b: any) => a.value - b.value)
-      console.log(concatAndSort);
       this.conditionFormData = concatAndSort
 
 
       // todo  filter option select chamber function
       const ovenOption = filterChecked.find((a: any) => a.type == 'oven')
       const ovenOptionList = ovenOption ? ovenOption.list.filter((l: any) => l.checked) : null
-      console.log("🚀 ~ ovenOptionList:", ovenOptionList)
       this.condition_list = this.condition_list.filter((c: any) => ovenOptionList.some((l: any) => {
         if (l.value == c.value) return true
         if (l.value == 5 && c.value == 1) return true
@@ -225,7 +220,6 @@ export class RevisesSheet4Component implements OnInit {
   async emit() {
     // console.log(this.data, this.inspection);
     const mergeData: any = await this.mapData(this.conditionFormData, this.inspection)
-    console.log("🚀 ~ mergeData:", mergeData)
     this.conditionFormData = mergeData
 
   }

@@ -49,7 +49,6 @@ export class RevisesQueuesService {
         return d
       }
     })
-    console.log("🚀 ~ foo:", foo)
     this.minDateInitial = new Date(this.formRevise.qeReceive?.date)
     return this.setOperateOnQueues(foo)
   }

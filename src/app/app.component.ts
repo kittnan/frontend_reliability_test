@@ -105,7 +105,6 @@ export class AppComponent {
   onClickChangeSection() {
     let userLogin: any = localStorage.getItem('RLS_userLogin')
     userLogin = JSON.parse(userLogin)
-    console.log("🚀 ~ userLogin:", userLogin)
     let sections = userLogin.section.sort()
     const dialogRef = this.dialog.open(DialogAuthComponent, {
       data: sections,
@@ -308,11 +307,11 @@ export class AppComponent {
               icon: 'feed',
               title: 'manage'
             },
-            // {
-            //   path: '/request/revises-table',
-            //   icon: 'feed',
-            //   title: 'revises-plan'
-            // },
+            {
+              path: '/request/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
 
 
           ]
@@ -342,11 +341,11 @@ export class AppComponent {
               icon: 'home',
               title: 'manage',
             },
-            // {
-            //   path: '/approve/revises-table',
-            //   icon: 'feed',
-            //   title: 'revises-plan'
-            // },
+            {
+              path: '/approve/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
           ]
         },
 
@@ -375,11 +374,11 @@ export class AppComponent {
               icon: 'home',
               title: 'manage',
             },
-            // {
-            //   path: '/qe-window-person/revises-table',
-            //   icon: 'feed',
-            //   title: 'revises-plan'
-            // },
+            {
+              path: '/qe-window-person/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
           ]
         }
       ]
@@ -407,11 +406,11 @@ export class AppComponent {
               icon: 'home',
               title: 'manage',
             },
-            // {
-            //   path: '/qe-engineer/revises-table',
-            //   icon: 'feed',
-            //   title: 'revises-plan'
-            // },
+            {
+              path: '/qe-engineer/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
           ]
         }
       ]
@@ -439,11 +438,11 @@ export class AppComponent {
               icon: 'home',
               title: 'manage',
             },
-            // {
-            //   path: '/qe-section-head/revises-table',
-            //   icon: 'feed',
-            //   title: 'revises-plan'
-            // },
+            {
+              path: '/qe-section-head/revises-table',
+              icon: 'feed',
+              title: 'revises-plan'
+            },
           ]
         }
       ]

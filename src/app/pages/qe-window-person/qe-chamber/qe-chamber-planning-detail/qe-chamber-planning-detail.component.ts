@@ -19,6 +19,7 @@ import { OperateForm, QueueForm } from '../qe-chamber.component';
 import { QeChamberService } from '../qe-chamber.service';
 import { GenInspectionTableService } from './gen-inspection-table.service';
 import { DialogSelectDateComponent } from '../components/dialog-select-date/dialog-select-date.component';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-qe-chamber-planning-detail',
@@ -38,6 +39,9 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   dateNow = new Date()
   minDateInitial = new Date()
   tempQueues: any[] = []
+  editPlan: boolean = false
+  shortMenuOption: any = null
+  jump: boolean = false
   @Input() queues: any;
   @Input() formInput: any;
   @Output() queuesChange: EventEmitter<any> = new EventEmitter()
@@ -50,7 +54,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private $operateGroup: OperateGroupService,
     private $request: RequestHttpService,
     private _qenInspectionTable: GenInspectionTableService,
-    private _loading: NgxUiLoaderService
+    private _loading: NgxUiLoaderService,
+    private route: ActivatedRoute
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -58,6 +63,11 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
+      this.route.queryParams.subscribe((params: Params) => {
+        if (params['editPlan'] == 'true') {
+          this.editPlan = true
+        }
+      })
       this._loading.start()
       this.tempQueues = [...this.queues]
       if (this.queues) {
@@ -66,6 +76,11 @@ export class QeChamberPlanningDetailComponent implements OnInit {
           this.onCal(d, 0)
         })
         this.tableData = await this.mapForTable(this.queues)
+        this.shortMenuOption = this.queues.map((a: any, i: number) => {
+          return {
+            name: a.condition.name.substring(0, 50),
+          }
+        })
       }
 
     } catch (error) {
@@ -97,8 +112,8 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         })
         const actualTime = d?.inspectionTime?.map((d: any, i: any) => {
           const a = draft.inspectionTime.find((g: any) => g.at == d.at)
-          if (a) return { ...a, index: i }
-          return { ...d, index: i }
+          if (a) return { ...a, index: i, onPlan: a.onPlan == true || a.onPlan == false ? a.onPlan : true }
+          return { ...d, index: i, onPlan: true }
         })
         const reportQE = d?.reportQE?.map((d: any) => {
           const a = draft.reportQE.find((g: any) => g.at == d.at)
@@ -200,14 +215,15 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     // this.onCal(item, i)
   }
 
-  async onCal(item: QueueForm, index: number) {
+  async onCal(item: any, index: number) {
     const startDate: any = item.startDate
     if (startDate) {
-      item = this.$qe_chamber.genEndDate(item)
-
+      if (item.actualTime) {
+        item = this.$qe_chamber.genEndDateActual(item)
+      } else {
+        item = this.$qe_chamber.genEndDate(item)
+      }
       item.operateTable = await this.getOperateToolTableAll(startDate)
-      // console.log('new Cal', item);
-
     }
   }
   onActionDelay(item: any, time: any) {
@@ -246,25 +262,24 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   }
 
-  openDialogActual(item: any, time: any) {
-    const dialogRef = this.dialog.open(DialogSelectDateComponent, {
-      height: '500px',
-      width: '500px',
-      data: item
-    })
-    dialogRef.afterClosed().subscribe(selectedDate => {
-      if (selectedDate) {
-        time.startDate = selectedDate
-        console.log("🚀 ~ res:", selectedDate, time)
-
-        // item.startDate = res.startDate
-        // item.h = null
-        item = this.$qe_chamber.genEndDateWithActualTime(item, time, selectedDate)
-        // console.log("🚀 ~ item:", item)
-        // // this.onCal(item, 0)
-      }
-    })
-  }
+  // openDialogActual(item: any, time: any) {
+  //   const dialogRef = this.dialog.open(DialogSelectDateComponent, {
+  //     height: '500px',
+  //     width: '500px',
+  //     data: item
+  //   })
+  //   dialogRef.afterClosed().subscribe(selectedDate => {
+  //     if (selectedDate) {
+  //       time.startDate = selectedDate
+  //       const foo = this.$qe_chamber.genEndDateWithActualTime(item, time, selectedDate)
+  //       console.log(foo);
+  //       item.actualTime = foo
+  //       // console.clear()
+  //       // console.log("🚀 ~ item:", item)
+  //       // // this.onCal(item, 0)
+  //     }
+  //   })
+  // }
 
   openDialogInitial(item: any) {
     const dialogRef = this.dialog.open(DialogDateStartInspectionComponent, {
@@ -347,7 +362,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
   }
 
   async deleteQueue(item: any) {
-    // console.log(this.queues);
 
 
     if (item._id) {
@@ -563,10 +577,18 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     if (newItem._id) {
       const r_update = await this.$queue.update(newItem._id, newItem).toPromise()
       if (r_update && r_update.acknowledged) {
-        Swal.fire('SUCCESS', '', 'success')
-        this.mapForTable(this.queues)
-        this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
-
+        const table = await this.mapForTable(this.queues)
+        this.tableData = table
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+          location.reload()
+        })
+        // Swal.fire('SUCCESS', '', 'success')
+        // this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
       } else {
         Swal.fire('', '', 'error')
       }
@@ -580,7 +602,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       }
 
       const r_insert = await this.$queue.insert(newItem).toPromise()
-      // console.log(r_insert);
       this.queues[index] = r_insert[0]
       const table = await this.mapForTable(this.queues)
       this.tableData = table
@@ -589,10 +610,17 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       const resUpdate = await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
       this.tableChange.emit(table)
       if (resUpdate && resUpdate.acknowledged) {
-        Swal.fire('SUCCESS', '', 'success')
-        setTimeout(() => {
-          // location.reload()
-        }, 1000);
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1000
+        }).then(() => {
+          location.reload()
+        })
+        // Swal.fire('SUCCESS', '', 'success')
+        // setTimeout(() => {
+        // }, 1000);
       }
 
     }
@@ -678,6 +706,33 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     return day !== 0
   };
 
+  onConfirmActual(item: any, index: number) {
+    Swal.fire({
+      title: 'Do you want to confirm actual time?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((v: SweetAlertResult) => {
+      if (v.isConfirmed) {
+        item.inspectionTime = [...item.actualTime]
+        this.insertDirect([item], index)
+
+      }
+    })
+  }
+
+  jumpTo(i: number) {
+    let elements: any = document.querySelectorAll('.jump')
+    const elements2: any = [...elements]
+    const ids = elements2.map((a: any) => a.id)
+    // console.log("🚀 ~ ids:", ids)
+    // ids.sort()
+    const id: any = ids[i]
+    console.log(id);
+    (document.getElementById(id) as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    setTimeout(() => {
+      this.jump = false
+    }, 100);
+  }
 
 
 }

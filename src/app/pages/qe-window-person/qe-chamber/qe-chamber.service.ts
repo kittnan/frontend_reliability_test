@@ -27,7 +27,7 @@ export class QeChamberService {
     if (str == 'operate') return true
     return false
   }
-  genEndDate(item: QueueForm) {
+  genEndDate(item: any) {
     item.inspectionTime = this.loopTime(item.inspectionTime, item.startDate)
     item.reportTime = this.loopReport(item.reportTime, item.inspectionTime)
     item.reportQE = this.loopReport(item.reportQE, item.inspectionTime)
@@ -37,40 +37,89 @@ export class QeChamberService {
     }
     return item
   }
-  genEndDateWithActualTime(item: any, time: any, date: any) {
-    item.inspectionTime = item.inspectionTime.map((t: any, i: any) => {
-      if (t.at == time.at) {
-        t.startDate = date
-        if (i === 0) {
-          t.endDate = moment(date).add(Number(t.hr), 'hour').add(Number(t.at)).toDate()
-        } else {
-          console.log(item.inspectionTime[i - 1], t);
-
-          const newHR = this.calNewHR(item.inspectionTime[i - 1], t)
-          console.log("🚀 ~ newHR:", newHR)
-          // item.inspectionTime[i - 1].hr = newHR
-          // item.inspectionTime[i - 1].endDate = moment(item.inspectionTime[i - 1].endDate).add(Number(t.hr), 'hours').add(diffAt, 'hours').toDate()
-
-          // const diffAt = Number(t.at) - Number(item.inspectionTime[i - 1].at)
-          // t.startDate = moment(item.inspectionTime[i - 1].endDate).add(diffAt, 'hours').toDate()
-          // t.endDate = moment(item.inspectionTime[i - 1].endDate).add(Number(t.hr), 'hours').add(diffAt, 'hours').toDate()
-        }
-
-      } else {
-
-      }
-
-      return t
-    })
-    // console.log(item.inspectionTime);
-
+  genEndDateActual(item: any) {
+    item.inspectionTime = this.loopTime(item.inspectionTime, item.startDate)
+    item.actualTime = this.loopTime(item.actualTime, item.startDate)
+    item.reportTime = this.loopReport(item.reportTime, item.inspectionTime)
+    item.reportQE = this.loopReport(item.reportQE, item.inspectionTime)
+    const endDate: any = this.loopSum(item.actualTime, item.startDate)
+    if (endDate) {
+      item.endDate = endDate
+    }
+    return item
   }
+  genEndDateWithActualTime(item: any, time: any, date: any) {
+    const foo = item.actualTime.map((actualTime: any, i: number) => {
+
+      if (actualTime.at == time.at) {
+        actualTime.startDate = date
+        if (i === 0) {
+          actualTime.endDate = moment(actualTime.startDate).add(Number(actualTime.hr), 'hour').toDate()
+        } else {
+          actualTime.endDate = moment(actualTime.startDate).add(Number(actualTime.hr), 'hour').toDate()
+        }
+      } else {
+        if (i === 0) {
+          actualTime.endDate = moment(actualTime.startDate).add(Number(actualTime.hr), 'hour').toDate()
+        } else {
+          const prevItem = item.actualTime[i - 1]
+          const diff = actualTime.at - prevItem.at
+          actualTime.startDate = moment(prevItem.endDate).add(diff, 'hours').toDate()
+          actualTime.endDate = moment(prevItem.endDate).add(Number(actualTime.hr), 'hours').add(diff, 'hours').toDate()
+        }
+      }
+      return actualTime
+    })
+    const endDate: any = this.loopSum(foo, item.startDate)
+    if (endDate) {
+      item.endDate = endDate
+    }
+    return foo
+  }
+  // genEndDateWithActualTime(item: any, time: any, date: any) {
+  //   item.actualTime = item.actualTime.map((t: any, i: any) => {
+  //     if (t.at == time.at) {
+  //       t.startDate = date
+
+  //       if (i === 0) {
+  //         t.endDate = moment(date).add(Number(t.hr), 'hour').add(Number(t.at)).toDate()
+  //       } else {
+  //         console.log(item.actualTime[i - 1]);
+
+  //         const newHR = this.calNewHR(item.actualTime[i - 1], t)
+  //         console.log("🚀 ~ newHR:", newHR)
+  //         item.actualTime[i - 1].hr = newHR
+  //         const diffAt = Number(t.at) - Number(item.actualTime[i - 1].at)
+  //         item.actualTime[i - 1].endDate = moment(item.actualTime[i - 1].endDate).add(Number(t.hr), 'hours').add(diffAt, 'hours').toDate()
+
+  //         // t.startDate = moment(item.actualTime[i - 1].endDate).add(diffAt, 'hours').toDate()
+  //         // t.endDate = moment(item.actualTime[i - 1].endDate).add(Number(t.hr), 'hours').add(diffAt, 'hours').toDate()
+  //       }
+
+  //     } else {
+  //       console.log(t);
+
+  //       if (i === 0) {
+  //         t.startDate = moment(date).add(Number(t.at), 'hour').toDate()
+  //         t.endDate = moment(date).add(Number(t.hr), 'hour').add(Number(t.at)).toDate()
+  //       } else {
+  //         const diffAt = Number(t.at) - Number(item.actualTime[i - 1].at)
+  //         t.startDate = moment(item.actualTime[i - 1].endDate).add(diffAt, 'hours').toDate()
+  //         t.endDate = moment(item.actualTime[i - 1].endDate).add(Number(t.hr), 'hours').add(diffAt, 'hours').toDate()
+  //       }
+  //     }
+
+  //     return t
+  //   })
+  //   console.log(item);
+  //   return item
+
+  // }
   calNewHR(time1: any, time2: any) {
-    console.log(time1.endDate, time2.startDate);
     const m1: moment.Moment = moment(time1.endDate)
     const m2: moment.Moment = moment(time2.startDate)
     const newHR = m2.diff(m1, 'hour')
-    return newHR
+    return time1.hr + newHR
   }
 
   private loopTime(time: TimeForm[] | any, startDate: Date | any) {

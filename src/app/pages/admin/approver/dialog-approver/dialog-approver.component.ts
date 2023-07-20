@@ -123,8 +123,6 @@ export class DialogApproverComponent implements OnInit {
   }
   private async update() {
     const resUpdate = await this.$approver.update(this.data._id, this.approver).toPromise()
-    // console.log(resUpdate);
-
     if (resUpdate && resUpdate.modifiedCount != 0) {
       this._toast_service.success()
       this.dialogRef.close(resUpdate)

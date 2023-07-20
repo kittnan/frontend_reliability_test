@@ -24,7 +24,6 @@ export class QeWindowPersonReviseApproveService {
 
   genPlan(data: any[]) {
     return data.map((selected: any) => {
-      console.log("🚀 ~ selected:", selected)
       const temp: QueueForm = {
         startDate: null,
         endDate: null,

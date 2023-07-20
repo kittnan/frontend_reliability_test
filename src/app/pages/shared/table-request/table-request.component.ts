@@ -143,7 +143,6 @@ export class TableRequestComponent implements OnInit {
       const param: HttpParams = new HttpParams().set('status', statusStr)
       const resData = await this.$request.tableAdmin(param).toPromise()
       const resultMap: any = await this.mapRows(resData)
-      console.log("🚀 ~ resultMap:", resultMap)
       this.presentCount = resultMap.length
       if (this.dataSource?.data) {
         this.dataSource.data = resultMap;
@@ -480,7 +479,6 @@ export class TableRequestComponent implements OnInit {
       try {
         const res = await this.$request.get_id(row.requestId).toPromise()
         const queues = res[0].queues
-        console.log("🚀 ~ queues:", queues)
         const form = res[0]
         const header = queues.reduce((prev: any, now: any) => {
           const temp: any = prev
@@ -500,7 +498,6 @@ export class TableRequestComponent implements OnInit {
           header: header,
           data: table_inspection
         }
-        console.log("🚀 ~ table:", table)
         await this.$request.update(row.requestId, { table: table }).toPromise()
         Swal.close()
         Swal.fire('SUCCESS', '', 'success')
@@ -521,7 +518,8 @@ export class TableRequestComponent implements OnInit {
       if (v.isConfirmed) {
         this.router.navigate(['qe-window-person/chamber'], {
           queryParams: {
-            id: row.requestId
+            id: row.requestId,
+            editPlan: true
           }
         })
       }

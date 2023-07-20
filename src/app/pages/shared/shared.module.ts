@@ -53,6 +53,7 @@ import { ShareRevisesTableComponent } from './share-revises-table/share-revises-
 import { ViewLogComponent } from './views/view-log/view-log.component';
 import { TopUpComponent } from './top-up/top-up.component';
 import { RevisesFormComponent } from './revises-form/revises-form.component';
+import { DialogSendmailComponent } from './approve-form/dialog-sendmail/dialog-sendmail.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -102,7 +103,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ViewLogComponent,
     ShareRevisesTableComponent,
     TopUpComponent,
-    RevisesFormComponent
+    RevisesFormComponent,
+    DialogSendmailComponent
 
   ],
   imports: [
@@ -155,7 +157,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ViewLogComponent,
     ShareRevisesTableComponent,
     TopUpComponent,
-    RevisesFormComponent
+    RevisesFormComponent,
+    DialogSendmailComponent
   ]
 })
 export class SharedModule { }

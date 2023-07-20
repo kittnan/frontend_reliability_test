@@ -54,7 +54,6 @@ export class QeSectionHeadReviseApproveComponent implements OnInit {
 
     this.userApproveList = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
     this.userApproveList = this.userApproveList.filter((a: any) => a.username != 'admin')
-    // console.log("🚀 ~ this.userApprove:", this.userApprove)
     this.approver = await this._userApprove.approver(this.authorize, 0, this.userLogin)
 
     if (this.approver && this.approver.groupStatus) {

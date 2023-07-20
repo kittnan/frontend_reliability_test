@@ -41,9 +41,7 @@ export class QeEngineerReviseApproveComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.queryParams.subscribe(async (res: any) => {
-      console.log(res);
       const resQuery = await this.$revise.getByRequestId(new HttpParams().set('id', res['id'])).toPromise()
-      console.log("🚀 ~ resQuery:", resQuery)
       this.formRevise = resQuery[0]
       this.getUserApprove()
     })
@@ -59,16 +57,13 @@ export class QeEngineerReviseApproveComponent implements OnInit {
 
     this.userApproveList = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
     this.userApproveList = this.userApproveList.filter((a: any) => a.username != 'admin')
-    // console.log("🚀 ~ this.userApprove:", this.userApprove)
     this.approver = await this._userApprove.approver(this.authorize, 0, this.userLogin)
-    console.log("🚀 ~ this.approver:", this.approver)
 
     if (this.approver && this.approver.groupStatus) {
       this.userApproveList = [this.approver.selected]
       this.approve = this.approver
     } else {
       const select = this.checkPrevApprove(this.formRevise, levelStep4)
-      console.log("🚀 ~ select:", select)
       this.approve = {
         groupList: this.approver ? this.approver.groupList : [],
         groupStatus: null,
