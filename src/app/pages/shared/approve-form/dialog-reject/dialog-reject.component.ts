@@ -20,7 +20,6 @@ export class DialogRejectComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
   }
   onCancel() {
     this.dialogRef.close()

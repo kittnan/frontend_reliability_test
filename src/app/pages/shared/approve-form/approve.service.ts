@@ -271,7 +271,6 @@ export class ApproveService {
         this._alert.success('')
 
         // alert('Success')
-        console.log(prevUser.authorize);
 
         this.link(prevUser.authorize)
       }, 1000);

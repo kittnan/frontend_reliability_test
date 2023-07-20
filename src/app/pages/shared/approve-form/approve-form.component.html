@@ -28,4 +28,13 @@
     </span>
     FINISH
   </button>
+
+  <button *ngIf="editPlan" fxFlex="30" mat-flat-button color="primary" (click)="handleSendMail()"
+    style="margin-top: 10px;">
+    <span class="material-icons-outlined">
+      forward_to_inbox
+    </span>
+    SEND MAIL
+  </button>
+
 </div>

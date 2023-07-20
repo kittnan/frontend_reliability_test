@@ -1,0 +1,17 @@
+<div fxLayout="row wrap" fxLayoutAlign="start stretch">
+  <h3>Send Mail Form</h3>
+  <mat-form-field fxFlex="100" appearance="fill">
+    <mat-label>Comment</mat-label>
+    <textarea [(ngModel)]="data.comment" matInput></textarea>
+  </mat-form-field>
+  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end stretch">
+    <div fxFlex="auto">
+    </div>
+    <button mat-button (click)="onCancel()" style="margin-right: 10px;">
+      Cancel
+    </button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      Send
+    </button>
+  </div>
+</div>

@@ -7,6 +7,8 @@ import { UserHttpService } from 'src/app/http/user-http.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogApproveComponent } from './dialog-approve/dialog-approve.component';
 import { DialogRejectComponent } from './dialog-reject/dialog-reject.component';
+import Swal from 'sweetalert2';
+import { DialogSendmailComponent } from './dialog-sendmail/dialog-sendmail.component';
 
 @Component({
   selector: 'app-approve-form',
@@ -22,6 +24,7 @@ export class ApproveFormComponent implements OnInit {
   @Input() data: any
   @Input() userApprove: any
   @Input() disable: boolean = true
+  @Input() editPlan: boolean = false
 
   userLogin: any
 
@@ -61,6 +64,24 @@ export class ApproveFormComponent implements OnInit {
         userLogin: this.userLogin,
         form: this.data,
         option: this.generateOptionReject(this.data.status)
+      }
+    })
+  }
+
+  handleSendMail() {
+    const to = this.data.step5.filter((a: any) => a.level == 1 || a.level == 2)
+    const mapTo = to.map((a: any) => a.prevUser._id)
+    const mapFollowUp = this.data.followUp.map((a: any) => a._id)
+
+    const mergeFollowup = [...mapTo, ...mapFollowUp]
+    const dialogRef = this.dialog.open(DialogSendmailComponent, {
+      width: '500px',
+      height: 'auto',
+      data: {
+        to: mergeFollowup,
+        cc: [],
+        formId: this.data.step1.requestId,
+        comment: ''
       }
     })
   }
