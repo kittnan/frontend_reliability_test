@@ -65,6 +65,9 @@ export class RequestHttpService {
       params: param
     })
   }
+  backup_request(data: any) {
+    return this.http.post(`${this.URL}/request_form/backup_request/`, data)
+  }
 
 
 

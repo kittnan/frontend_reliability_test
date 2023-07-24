@@ -16,7 +16,6 @@ import { Step4Component } from './views/step4/step4.component';
 import { DialogViewComponent } from './dialog-view/dialog-view.component';
 import { TableRequestComponent } from './table-request/table-request.component';
 import { FilesReportComponent } from './files-report/files-report.component';
-import { HeaderNavComponent } from './header-nav/header-nav.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { RouterModule } from '@angular/router';
 import { ConditionTableComponent } from './condition-table/condition-table.component';
@@ -44,9 +43,6 @@ import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DialogApproveComponent } from './approve-form/dialog-approve/dialog-approve.component';
 import { DialogRejectComponent } from './approve-form/dialog-reject/dialog-reject.component';
-import { SuccessComponent } from './alert/success/success.component';
-import { WarningComponent } from './alert/warning/warning.component';
-import { DangerComponent } from './alert/danger/danger.component';
 import { DialogApproveRevisesComponent } from './approve-form-revises/dialog-approve-revises/dialog-approve-revises.component';
 import { DialogRejectRevisesComponent } from './approve-form-revises/dialog-reject-revises/dialog-reject-revises.component';
 import { ShareRevisesTableComponent } from './share-revises-table/share-revises-table.component';
@@ -56,6 +52,8 @@ import { RevisesFormComponent } from './revises-form/revises-form.component';
 import { DialogSendmailComponent } from './approve-form/dialog-sendmail/dialog-sendmail.component';
 import { CompareStep1Component } from './view-compare/compare-step1/compare-step1.component';
 import { CompareStep2Component } from './view-compare/compare-step2/compare-step2.component';
+import { CompareStep3Component } from './view-compare/compare-step3/compare-step3.component';
+import { CompareStep4Component } from './view-compare/compare-step4/compare-step4.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -71,7 +69,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     DialogViewComponent,
     TableRequestComponent,
     FilesReportComponent,
-    HeaderNavComponent,
     SideNavComponent,
     ConditionTableComponent,
     Step5Component,
@@ -96,9 +93,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConditionTableNoChamberComponent,
     DialogApproveComponent,
     DialogRejectComponent,
-    SuccessComponent,
-    WarningComponent,
-    DangerComponent,
     DialogApproveRevisesComponent,
     DialogRejectRevisesComponent,
     ShareRevisesTableComponent,
@@ -108,7 +102,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     RevisesFormComponent,
     DialogSendmailComponent,
     CompareStep1Component,
-    CompareStep2Component
+    CompareStep2Component,
+    CompareStep3Component,
+    CompareStep4Component
 
   ],
   imports: [
@@ -133,7 +129,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     ViewsComponent,
     TableRequestComponent,
     FilesReportComponent,
-    HeaderNavComponent,
     SideNavComponent,
     ConditionTableComponent,
     Step1Component,
@@ -164,7 +159,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     RevisesFormComponent,
     DialogSendmailComponent,
     CompareStep1Component,
-    CompareStep2Component
+    CompareStep2Component,
+    CompareStep3Component,
+    CompareStep4Component
   ]
 })
 export class SharedModule { }

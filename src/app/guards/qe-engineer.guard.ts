@@ -22,7 +22,7 @@ export class QeEngineerGuard implements CanActivate {
     if (this.auth.getToken() && this.auth.getAuthorizeQeEngineer()) {
       return true
     }
-    this.router.navigate(['/login'], { queryParams: route.queryParams });
+    this.router.navigate(['login'], { queryParams: route.queryParams });
     return false
   }
 

@@ -1,0 +1,11 @@
+th,
+td {
+  padding: 10px;
+}
+::ng-deep th,
+td {
+  padding: 10px !important;
+}
+.text-red {
+  color: red !important;
+}

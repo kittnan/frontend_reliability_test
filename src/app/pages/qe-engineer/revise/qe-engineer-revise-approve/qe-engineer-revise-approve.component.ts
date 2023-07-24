@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { ApproverForm } from 'src/app/pages/admin/approver/dialog-approver/dialog-approver.component';
 import { DialogApproveRevisesComponent } from 'src/app/pages/shared/approve-form-revises/dialog-approve-revises/dialog-approve-revises.component';
@@ -28,12 +29,14 @@ export class QeEngineerReviseApproveComponent implements OnInit {
   userApproveList: any[] = [];
   approver: any = null
   authorize = 'qe_engineer2'
-
+  REQUEST: any = null
+  REVISE: any = null
   constructor(
     private _route: ActivatedRoute,
     private $revise: RevisesHttpService,
     private _userApprove: UserApproveService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private $request: RequestHttpService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -43,7 +46,10 @@ export class QeEngineerReviseApproveComponent implements OnInit {
     this._route.queryParams.subscribe(async (res: any) => {
       const resQuery = await this.$revise.getByRequestId(new HttpParams().set('id', res['id'])).toPromise()
       this.formRevise = resQuery[0]
+      this.REVISE = resQuery
       this.getUserApprove()
+      const resRequest = await this.$request.get_id(this.formRevise.step1.requestId).toPromise()
+      this.REQUEST = resRequest
     })
   }
 

@@ -8,6 +8,7 @@ import { DialogApproveRevisesComponent } from 'src/app/pages/shared/approve-form
 import { DialogRejectRevisesComponent } from 'src/app/pages/shared/approve-form-revises/dialog-reject-revises/dialog-reject-revises.component';
 import { UserApproveService } from 'src/app/services/user-approve.service';
 import { QeWindowPersonReviseApproveService } from './qe-window-person-revise-approve.service';
+import { RequestHttpService } from 'src/app/http/request-http.service';
 
 @Component({
   selector: 'app-qe-window-person-revise-approve',
@@ -32,13 +33,14 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
   userApproveList: any = [];
   authorize = 'qe_engineer'
   approver: any = null
-
+  REQUEST: any = null
   constructor(
     private routeActive: ActivatedRoute,
     private $revise: RevisesHttpService,
     private _userApprove: UserApproveService,
     public dialog: MatDialog,
-    private $qeWindowPersonRevise: QeWindowPersonReviseApproveService
+    private $qeWindowPersonRevise: QeWindowPersonReviseApproveService,
+    private $request: RequestHttpService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -56,6 +58,8 @@ export class QeWindowPersonReviseApproveComponent implements OnInit {
       this.dataSource = this.$qeWindowPersonRevise.setDataTable(this.formRevise)
       this.getUserApprove()
       this.queuesForm = this.$qeWindowPersonRevise.genPlan(this.dataSource)
+      const resRequest = await this.$request.get_id(this.formRevise.step1.requestId).toPromise()
+      this.REQUEST = resRequest[0]
     })
   }
 

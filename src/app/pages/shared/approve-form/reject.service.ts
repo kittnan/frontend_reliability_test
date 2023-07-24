@@ -6,7 +6,6 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { SendMailService } from 'src/app/http/send-mail.service';
-import { AlertService } from '../alert/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +19,6 @@ export class RejectService {
     private _router: Router,
     private $log: LogFlowService,
     private $sendMail: SendMailService,
-    private _alert: AlertService
   ) { }
 
   async sendReject(prevUser: any, nextUserApprove: any, form: any, comment: any, rejectToStatus: any) {
@@ -81,13 +79,12 @@ export class RejectService {
       await this.$step5.update(newStep._id, newStep).toPromise()
 
       setTimeout(() => {
-        // Swal.fire({
-        //   title: 'Success',
-        //   icon: 'success',
-        //   timer: 1000,
-        //   showConfirmButton: false
-        // })
-        this._alert.success('')
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);
@@ -111,13 +108,12 @@ export class RejectService {
       // console.log('insert step5', newStep);
       await this.$step5.insert(newStep).toPromise()
       setTimeout(() => {
-        // Swal.fire({
-        //   title: 'Success',
-        //   icon: 'success',
-        //   timer: 1000,
-        //   showConfirmButton: false
-        // })
-        this._alert.success('')
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
 
         this._loading.stopAll()
         this.link(prevUser.authorize)

@@ -1,1 +1,28 @@
-<p>compare-step2 works!</p>
+<div fxLayout="row wrap" fxLayoutAlign="space-around start" style="margin-top: 40px;" class="content-item">
+
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" style="margin-top: 20px;">
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+      <span class="box-title">
+        Test Purpose
+      </span>
+    </div>
+
+    <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+
+      <mat-form-field fxFlex="auto" appearance="legacy">
+        <mat-label [class]="handleLabelColor(step2.purpose,'purpose')">Test Purpose </mat-label>
+        <input [readonly]="true" [value]="step2.purpose" matInput>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="step2.description.status" fxFlex="auto" appearance="legacy">
+        <mat-label [class]="handleLabelColor(step2.description.value,'description.value')">Description </mat-label>
+        <input [readonly]="true" [value]="step2.description.value" matInput>
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+
+</div>

@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { SendMailService } from 'src/app/http/send-mail.service';
 import Swal from 'sweetalert2';
@@ -21,7 +22,9 @@ export class DialogApproveRevisesComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private $revise: RevisesHttpService,
     private _loader: NgxUiLoaderService,
-    private router: Router, private $mail: SendMailService
+    private router: Router,
+    private $mail: SendMailService,
+    private $request: RequestHttpService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
@@ -62,6 +65,9 @@ export class DialogApproveRevisesComponent implements OnInit {
 
       if (this.data?.form?.level === 19) {
         try {
+          const request = this.data.prevForm[0]
+          delete request._id
+          await this.$request.backup_request(request).toPromise()
           await this.$revise.mergeOverrideForm({
             data: updateData,
             controlNo: this.data.form.controlNo,

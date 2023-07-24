@@ -151,7 +151,7 @@ export class AppComponent {
     return localStorage.getItem('RLS_authorize')
   }
   htmlShowSectionLogin() {
-    if (!localStorage.getItem('RLS_section')) window.location.href = '/login'
+    if (!localStorage.getItem('RLS_section')) this.onLogout()
     return localStorage.getItem('RLS_section')
   }
 
@@ -488,10 +488,13 @@ export class AppComponent {
     localStorage.removeItem('RLS_userName')
     localStorage.removeItem('RLS_userLogin')
     localStorage.removeItem('RLS_section')
-    localStorage.removeItem('RLS_version')
+    // localStorage.removeItem('RLS_version')
+    this.loginStatus = false
     this._router.navigate(['']).then(() => {
       window.location.reload();
     })
+
+
     // window.location.href = 'http://10.200.90.152:8081/reliability/login'
     // Swal.fire({
     //   title: `Do you want to logout?`,

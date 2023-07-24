@@ -1,6 +1,28 @@
 <div *ngIf="formRevise" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
   <div fxFlex.xl="80" fxFlex.lg="80" fxFlex="95" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
-    <app-views fxFlex="100" [formInput]="formRevise" [showReport]="false"></app-views>
+    <!-- <app-views fxFlex="100" [formInput]="formRevise" [showReport]="false"></app-views> -->
+
+    <app-revises-form fxFlex="100" [hide]="true" [step1]="formRevise.formSubmit.step1"
+      [step2]="formRevise.formSubmit.step2" [step3]="formRevise.formSubmit.step3"
+      [data]="formRevise.formSubmit.data"></app-revises-form>
+
+
+    <app-compare-step1 *ngIf="formRevise && REQUEST" fxFlex="100" [formRevise]="formRevise"
+      [form]="formRevise"></app-compare-step1>
+    <app-compare-step2 *ngIf="formRevise && REQUEST" fxFlex="100" [formRevise]="formRevise"
+      [form]="formRevise"></app-compare-step2>
+    <app-compare-step3 *ngIf="formRevise && REQUEST" fxFlex="100" [formRevise]="formRevise"
+      [form]="formRevise"></app-compare-step3>
+    <app-compare-step4 *ngIf="formRevise && REQUEST" fxFlex="100" [formRevise]="formRevise"
+      [form]="formRevise"></app-compare-step4>
+    <app-step4 fxFlex="100" *ngIf="REQUEST" [step4]="formRevise.step4"></app-step4>
+
+    <app-plan-reliability-test fxFlex="100" *ngIf="REQUEST" [requestForm]="REQUEST"
+      [queues]="formRevise.table"></app-plan-reliability-test>
+
+    <app-plan-reliability-test fxFlex="100" *ngIf="formRevise" [requestForm]="REVISE"
+      [queues]="formRevise.table"></app-plan-reliability-test>
+
     <mat-form-field fxFlex="100" appearance="fill" class="content-item">
       <mat-label>SEND TO...</mat-label>
       <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">

@@ -21,7 +21,7 @@ export class QeDepartmentHeadGuard implements CanActivate {
     if (this.auth.getToken() && this.auth.getAuthorizeQeDepartmentHead()) {
       return true
     }
-    this.router.navigate(['/login'], { queryParams: route.queryParams });
+    this.router.navigate(['login'], { queryParams: route.queryParams });
     return false
   }
 }

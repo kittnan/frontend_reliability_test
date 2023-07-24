@@ -1,0 +1,41 @@
+<div fxLayoutAlign="start stretch" fxLayout="row wrap" class="content-item">
+
+
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+
+    <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+      <span class="box-title">
+        Testing Type
+      </span>
+    </div>
+
+
+    <div class="box-body" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+      <section fxLayoutGap="10" *ngFor="let group of step3?.data; let i=index">
+        <mat-checkbox class="text-red" [disabled]="true" *ngIf="group.checked" [(ngModel)]="group.checked"
+          color="primary">
+          <span [class]="handleLabelColor(group.checked,i)"> {{group.groupName}}</span>
+        </mat-checkbox>
+
+        <ul *ngIf="group.checked" class="section">
+          <li *ngFor="let list of group.list;let i2 =index">
+            <mat-checkbox [disabled]="true" [(ngModel)]="list.checked">
+              <span [class]="handleLabelColor2(list.checked,i,i2)">
+                {{list.name}}
+              </span>
+            </mat-checkbox>
+            <mat-form-field style="width: 100%;" *ngIf="list.description.status" class="example-full-width"
+              appearance="fill">
+              <mat-label></mat-label>
+              <textarea [disabled]="true" [(ngModel)]="list.description.value" matInput rows="3"></textarea>
+            </mat-form-field>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+  </div>
+
+
+
+</div>

@@ -1,0 +1,17 @@
+/*======================
+    404 page
+=======================*/
+
+::ng-deep mat-sidenav-content {
+  background-image: url("/assets/dribbble_1.gif") !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  object-fit: cover !important;
+  object-position: right !important;
+  z-index: 99999;
+}
+
+::ng-deep mat-toolbar {
+  display: none !important;
+}

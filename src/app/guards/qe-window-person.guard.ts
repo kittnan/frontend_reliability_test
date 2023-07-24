@@ -21,7 +21,7 @@ export class QeWindowPersonGuard implements CanActivate {
     if (this.auth.getToken() && this.auth.getAuthorizeQeWindowPerson() || this.auth.getAuthorizeAdmin()) {
       return true
     }
-    this.router.navigate(['/login'], { queryParams: route.queryParams });
+    this.router.navigate(['login'], { queryParams: route.queryParams });
     return false
   }
 

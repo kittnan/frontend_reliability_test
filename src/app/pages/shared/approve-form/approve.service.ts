@@ -4,10 +4,10 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserApproveService } from 'src/app/services/user-approve.service';
 
-import { AlertService } from '../alert/alert.service';
 import { LogFlowService } from './../../../http/log-flow.service';
 import { SendMailService } from './../../../http/send-mail.service';
 import { Step5HttpService } from './../../../http/step5-http.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,6 @@ export class ApproveService {
     private $log: LogFlowService,
     private $sendMail: SendMailService,
     private _userApprove: UserApproveService,
-    private _alert: AlertService
   ) { }
 
   async finishJob(form: any, userLogin: any) {
@@ -83,14 +82,13 @@ export class ApproveService {
     ccUser = [...new Set(ccUser)]
     this.sendMail([newApprover.selected._id], newForm.status, newForm._id, ccUser)
     setTimeout(() => {
-      // Swal.fire({
-      //   title: 'Success',
-      //   icon: 'success',
-      //   timer: 1000,
-      //   showConfirmButton: false
-      // })
-      // alert('Success')
-      this._alert.success('')
+      Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        timer: 1000,
+        showConfirmButton: false
+      })
+      alert('Success')
       this._loading.stopAll()
       this.link('qe_window_person')
     }, 1000);
@@ -165,14 +163,14 @@ export class ApproveService {
       ccUser = [...new Set(ccUser)]
       this.sendMail(toList, newForm.status, newForm._id, ccUser)
       setTimeout(() => {
-        // Swal.fire({
-        //   title: 'Success',
-        //   icon: 'success',
-        //   timer: 1000,
-        //   showConfirmButton: false
-        // })
-        // alert('Success')
-        this._alert.success('')
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
+        alert('Success')
+        // this._alert.success('')
 
         this._loading.stopAll()
         this.link(prevUser.authorize)
@@ -262,13 +260,13 @@ export class ApproveService {
 
       setTimeout(() => {
         this._loading.stopAll()
-        // Swal.fire({
-        //   title: 'Success',
-        //   icon: 'success',
-        //   timer: 1000,
-        //   showConfirmButton: false
-        // })
-        this._alert.success('')
+        Swal.fire({
+          title: 'Success',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false
+        })
+        // this._alert.success('')
 
         // alert('Success')
 
@@ -319,15 +317,16 @@ export class ApproveService {
       detail: JSON.stringify(resSendMail)
     }
     this.sendLog(logData)
-    this._alert.success('')
+    // this._alert.success('')
 
     // alert('Success')
-    // Swal.fire({
-    //   title: 'Success',
-    //   icon: 'success',
-    //   timer: 1000,
-    //   showConfirmButton: false
-    // }).then(() => {
+    Swal.fire({
+      title: 'Success',
+      icon: 'success',
+      timer: 1000,
+      showConfirmButton: false
+    })
+    // .then(() => {
     //   Swal.close()
     // })
   }

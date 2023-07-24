@@ -32,13 +32,5 @@ export class QeSectionHeadComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onLogout() {
-    localStorage.removeItem('RLS_token')
-    localStorage.removeItem('RLS_id')
-    localStorage.removeItem('RLS_authorize')
-    localStorage.removeItem('RLS_userName')
-    localStorage.removeItem('RLS_userLogin')
-    this.router.navigate(['/'])
-  }
 
 }

@@ -20,7 +20,7 @@ export class QeSectionHeadGuard implements CanActivate {
     if (this.auth.getToken() && this.auth.getAuthorizeQeSectionHead()) {
       return true
     }
-    this.router.navigate(['/login'], { queryParams: route.queryParams });
+    this.router.navigate(['login'], { queryParams: route.queryParams });
     return false
   }
 
