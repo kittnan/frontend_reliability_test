@@ -44,7 +44,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> PURPOSE </th>
             <td mat-cell *matCellDef="let row">
               {{row.purpose?.purpose}}
-              <p *ngIf="row.purpose?.description.status">{{row.purpose?.description.value}}</p>
+              <p *ngIf="row.purpose?.description?.status">{{row.purpose?.description.value}}</p>
             </td>
           </ng-container>
 

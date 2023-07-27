@@ -35,7 +35,7 @@ export class RevisesSheet5Component implements OnInit {
 
   functionChamber: any = null
 
-  formSubmit: any = null
+  // formSubmit: any = null
   constructor(
     private _stepper: CdkStepper,
     private $revise: RevisesHttpService,
@@ -88,9 +88,9 @@ export class RevisesSheet5Component implements OnInit {
     return option._id === value._id;
   }
 
-  onFormChange(e: any) {
-    this.formSubmit = e
-  }
+  // onFormChange(e: any) {
+  //   this.formSubmit = e
+  // }
 
   onBack() {
     this._stepper.previous();
@@ -99,14 +99,7 @@ export class RevisesSheet5Component implements OnInit {
 
     try {
 
-      if (this.formSubmit.step1 == null) throw 'Please fill complete'
-      if (this.formSubmit.step2 == null) throw 'Please fill complete'
-      if (this.formSubmit.step3 == null) throw 'Please fill complete'
-      if (this.formSubmit.data) {
-        let mainCompleted = this.formSubmit.data.some((a: any) => a.completed)
-        const subCompleted = this.formSubmit.data.some((a: any) => a.completed && a.subtasks.some((b: any) => b.completed))
-        if (mainCompleted && !subCompleted) throw 'Please fill complete'
-      }
+      // if (this.f
 
       this.handleApprove()
     } catch (error) {
@@ -128,7 +121,7 @@ export class RevisesSheet5Component implements OnInit {
         userApprove: this.approve,
         userLogin: this.userLogin,
         form: this.form,
-        formSubmit: this.formSubmit
+        // formSubmit: this.formSubmit
       }
     })
 

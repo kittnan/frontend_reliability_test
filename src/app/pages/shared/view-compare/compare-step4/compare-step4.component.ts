@@ -17,9 +17,9 @@ export class CompareStep4Component implements OnInit {
   ngOnInit(): void {
     this.step4 = this.formRevise.step4
     this.data = this.step4.data
-    this.dataForm = this.form.step4.data.sort((a: any, b: any) => {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    })
+    this.dataForm = this.form.step4.data
+    console.log(this.data, this.dataForm);
+
   }
   getRowSpan(action: string, index: number) {
     if (action == 'row') {

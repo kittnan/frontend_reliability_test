@@ -58,7 +58,6 @@ export class RevisesSheet4Component implements OnInit {
     const params: HttpParams = new HttpParams().set('id', this.requestId)
     const res = await this.$revise.getByRequestId(params).toPromise()
     this.step4 = res[0].step4
-    console.clear()
     this.reviseForm = res[0]
     this.step3 = this.reviseForm.step3
 
@@ -131,7 +130,7 @@ export class RevisesSheet4Component implements OnInit {
       let concatAndSort = mergeData.reduce((acc: any, cur: any) => {
         return acc.concat(cur)
       }, [])
-      concatAndSort = concatAndSort.sort((a: any, b: any) => a.value - b.value)
+      // concatAndSort = concatAndSort.sort((a: any, b: any) => a.value - b.value)
       this.conditionFormData = concatAndSort
 
 
@@ -144,6 +143,8 @@ export class RevisesSheet4Component implements OnInit {
         if (l.value == 5 && c.value == 2) return true
         return false
       }))
+      console.log(this.condition_list);
+
       // this.condition_list = this.condition_list.filter((c: any) => {
 
       // })

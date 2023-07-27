@@ -59,7 +59,7 @@ export class DialogApproveRevisesComponent implements OnInit {
         comment: this.generateComment(this.data.form.comment, newComment),
         status: this.generateNextStatus(this.data.form.level),
         historyApprove: this.genHistoryApprove(this.data.form.historyApprove, this.userLogin, this.data.form),
-        formSubmit: this.data.formSubmit
+        // formSubmit: this.data.formSubmit
       }
 
 
