@@ -33,7 +33,6 @@ export class CompareStep1Component implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    console.log(this.formRevise, this.form);
     this.step1 = this.formRevise.step1
   }
   onClickViewFile(file: any) {

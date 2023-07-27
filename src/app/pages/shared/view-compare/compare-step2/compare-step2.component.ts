@@ -12,7 +12,6 @@ export class CompareStep2Component implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.formRevise, this.form);
     this.step2 = this.formRevise.step2
   }
   handleLabelColor(item: any, key: string) {
