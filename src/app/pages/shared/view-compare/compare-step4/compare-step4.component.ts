@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CompareStep4Component implements OnInit {
   @Input() formRevise: any = null
   @Input() form: any = null
+  @Input() title: string = ''
   step4: any = null
   data: any = null
   dataForm: any = null

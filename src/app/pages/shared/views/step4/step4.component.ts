@@ -8,6 +8,7 @@ export class Step4Component implements OnInit {
 
   @Input() step4: any
   @Output() step4Change = new EventEmitter<any>();
+  @Input() title: string = ''
 
   ngOnInit(): void {
     // console.log(this.step4);

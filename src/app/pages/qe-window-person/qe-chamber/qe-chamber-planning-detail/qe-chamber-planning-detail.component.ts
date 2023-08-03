@@ -724,8 +724,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     let elements: any = document.querySelectorAll('.jump')
     const elements2: any = [...elements]
     const ids = elements2.map((a: any) => a.id)
-    // console.log("🚀 ~ ids:", ids)
-    // ids.sort()
+
     const id: any = ids[i]
     console.log(id);
     (document.getElementById(id) as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });

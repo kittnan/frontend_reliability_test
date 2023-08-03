@@ -1,18 +1,23 @@
-import { filter } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
-import { DialogDateStartInspectionComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-date-start-inspection/dialog-date-start-inspection.component';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { RevisesHttpService } from 'src/app/http/revises-http.service';
+import {
+  DialogDateStartInspectionComponent,
+} from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-date-start-inspection/dialog-date-start-inspection.component';
 import { DialogDateComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-date/dialog-date.component';
-import { DialogQeChamberComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-qe-chamber/dialog-qe-chamber.component';
-import { DialogQeOperateComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-qe-operate/dialog-qe-operate.component';
+import {
+  DialogQeChamberComponent,
+} from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-qe-chamber/dialog-qe-chamber.component';
+import {
+  DialogQeOperateComponent,
+} from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-qe-operate/dialog-qe-operate.component';
 import { OperateForm, QueueForm } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber.component';
 import { QeChamberService } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+
 import { RevisesQueuesService } from './revises-queues.service';
-import { RevisesHttpService } from 'src/app/http/revises-http.service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 
 @Component({
@@ -289,6 +294,13 @@ export class RevisesQueuesComponent implements OnInit {
         this.updateQueues(index, false)
       }
     })
+  }
+
+  jump(id: string) {
+    setTimeout(() => {
+      (document.getElementById(id) as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+
+    }, 500);
   }
 
 }

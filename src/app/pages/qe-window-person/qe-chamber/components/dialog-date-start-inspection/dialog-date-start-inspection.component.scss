@@ -1,0 +1,13 @@
+/* SCCS alternative */
+.mat-calendar-body-active {
+  .mat-calendar-body-today {
+    color: red;
+    background-color: blue;
+  }
+}
+
+/* CSS alternative */
+.mat-calendar-body-active > .mat-calendar-body-today {
+  color: red;
+  background-color: blue;
+}

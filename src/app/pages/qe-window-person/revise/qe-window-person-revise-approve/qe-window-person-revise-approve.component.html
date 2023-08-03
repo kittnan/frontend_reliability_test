@@ -13,9 +13,9 @@
       [form]="REQUEST"></app-compare-step2>
     <app-compare-step3 *ngIf="formRevise && REQUEST" fxFlex="100" [formRevise]="formRevise"
       [form]="REQUEST"></app-compare-step3>
-    <app-compare-step4 *ngIf="formRevise && REQUEST" fxFlex="100" [formRevise]="formRevise"
-      [form]="REQUEST"></app-compare-step4>
-    <app-step4 fxFlex="100" *ngIf="REQUEST" [step4]="REQUEST.step4"></app-step4>
+    <app-compare-step4 *ngIf="formRevise && REQUEST" fxFlex="100" [formRevise]="formRevise" [form]="REQUEST"
+      [title]="'NEW'"></app-compare-step4>
+    <app-step4 fxFlex="100" *ngIf="REQUEST" [step4]="REQUEST.step4" [title]="'OLD'"></app-step4>
 
     <app-table-planing *ngIf="dataSource" fxFlex="100" [dataTable]="dataSource"></app-table-planing>
 
