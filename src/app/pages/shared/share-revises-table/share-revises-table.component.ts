@@ -93,7 +93,6 @@ export class ShareRevisesTableComponent implements OnInit {
     const levelStr = this.generateLevelList()
     const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('level', levelStr)
     const resData = await this.$revise.getReviseTable(param).toPromise()
-    console.log("🚀 ~ resData:", resData)
     const resultMap: any = await this.mapRows(resData)
     if (this.dataSource?.data) {
       this.dataSource.data = resultMap;

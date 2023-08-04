@@ -28,6 +28,7 @@ export class QeChamberService {
     return false
   }
   genEndDate(item: any) {
+
     item.inspectionTime = this.loopTime(item.inspectionTime, item.startDate)
     item.reportTime = this.loopReport(item.reportTime, item.inspectionTime)
     item.reportQE = this.loopReport(item.reportQE, item.inspectionTime)
@@ -38,6 +39,7 @@ export class QeChamberService {
     return item
   }
   genEndDateActual(item: any) {
+
     item.inspectionTime = this.loopTime(item.inspectionTime, item.startDate)
     item.actualTime = this.loopTime(item.actualTime, item.startDate)
     item.reportTime = this.loopReport(item.reportTime, item.inspectionTime)
@@ -147,7 +149,7 @@ export class QeChamberService {
         if (foundItem) {
           return {
             at: t.at,
-            hr: 0,
+            hr: t.hr ? t.hr : 0,
             startDate: foundItem.startDate,
             endDate: foundItem.startDate,
             resultDetail: ''
@@ -161,6 +163,22 @@ export class QeChamberService {
 
       })
     }
+  }
+  compareDate(d1: any, d2: any) {
+    console.log("🚀 ~ d1:", d1)
+    console.log("🚀 ~ d2:", d2)
+    console.log(moment(d1).diff(moment(d2), 'hour'))
+    if (
+      moment(d1).diff(moment(d2), 'hour') >= 0
+    ) {
+      return moment(d1).toDate()
+    }
+    if (
+      moment(d1).diff(moment(d2), 'hour') < 0
+    ) {
+      return moment(d2).toDate()
+    }
+    return moment(d2).toDate()
   }
 
   private loopSum(time: TimeForm[] | any, startDate: Date | any) {

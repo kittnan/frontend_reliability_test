@@ -18,8 +18,11 @@ export class RevisesQueuesService {
 
   mergeOldQueues(oldQueues: any, newQueues: any, formRevise: any) {
     this.formRevise = formRevise
+    let tempOldQueues = oldQueues
     const foo = newQueues.map((d: QueueForm) => {
-      const draft = oldQueues.find((draft: QueueForm) => draft.condition?.name == d.condition?.name)
+      const draft = tempOldQueues.find((draft: QueueForm) => {
+        return draft.condition?.name == d.condition?.name
+      })
       if (draft) {
         const inspectionTime = d?.inspectionTime?.map((d: any) => {
           const a = draft.inspectionTime.find((g: any) => g.at == d.at)
@@ -39,7 +42,7 @@ export class RevisesQueuesService {
         draft['inspectionTime'] = inspectionTime
         draft['reportQE'] = reportQE
         draft['reportTime'] = reportTime
-
+        tempOldQueues = tempOldQueues.filter((a: any) => a != draft)
         return {
           ...d,
           ...draft,

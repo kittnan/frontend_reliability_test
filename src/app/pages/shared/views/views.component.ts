@@ -33,7 +33,6 @@ export class ViewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formInput;
-    console.log("🚀 ~ this.form:", this.form)
     if (this.form) {
       this.step1 = this.form.step1
       this.step2 = this.form.step2

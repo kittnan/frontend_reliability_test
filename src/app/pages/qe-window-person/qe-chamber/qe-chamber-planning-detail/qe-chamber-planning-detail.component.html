@@ -3,8 +3,9 @@
   <mat-accordion fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
     <mat-expansion-panel hideToggle *ngFor="let item of queues; let i=index" fxFlex="100" fxLayoutAlign="start stretch"
       fxLayout="row wrap" class="b-left-red" [ngClass]="{'b-left-green': item._id}">
-      <mat-expansion-panel-header class="jump" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-        <mat-panel-title>
+      <mat-expansion-panel-header class="jump" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
+        (click)="jump2('q'+i)">
+        <mat-panel-title [id]="'q'+i">
           {{i+1}}. {{item.condition.name}}
         </mat-panel-title>
       </mat-expansion-panel-header>
@@ -145,7 +146,7 @@
               *ngFor="let time of item.reportQE; let indexTime=index">
               <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
                 <mat-label *ngIf="time.at=='0'">timing report initial</mat-label>
-                <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr)</mat-label>
+                <mat-label *ngIf="time.at!='0'">timing report {{time.at}} (hr) </mat-label>
                 <input matInput [readonly]="true" type="text" value="{{time.endDate|date:'M/d/YYYY, hh:mm a'}}"
                   (click)="openDialogCalendar(time,item,i,indexTime)">
               </mat-form-field>

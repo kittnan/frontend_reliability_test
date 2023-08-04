@@ -65,7 +65,7 @@ export class DialogApproveRevisesComponent implements OnInit {
 
       if (this.data?.form?.level === 19) {
         try {
-          const request = this.data.prevForm[0]
+          const request = this.data.prevForm
           delete request._id
           await this.$request.backup_request(request).toPromise()
           await this.$revise.mergeOverrideForm({

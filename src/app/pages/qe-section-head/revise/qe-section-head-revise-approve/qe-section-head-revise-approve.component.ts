@@ -53,7 +53,7 @@ export class QeSectionHeadReviseApproveComponent implements OnInit {
       this.REVISE = resQuery
       this.getUserApprove()
       const resRequest = await this.$request.get_id(this.formRevise.step1.requestId).toPromise()
-      this.REQUEST = resRequest
+      this.REQUEST = resRequest[0]
 
     })
   }

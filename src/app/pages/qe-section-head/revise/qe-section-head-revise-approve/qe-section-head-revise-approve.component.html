@@ -14,10 +14,11 @@
       [form]="formRevise"></app-compare-step3>
     <app-compare-step4 *ngIf="formRevise && REQUEST" fxFlex="100" [formRevise]="formRevise" [form]="REQUEST"
       [title]="'NEW'"></app-compare-step4>
+
     <app-step4 fxFlex="100" *ngIf="REQUEST" [step4]="REQUEST.step4" [title]="'OLD'"></app-step4>
 
-    <app-plan-reliability-test fxFlex="100" *ngIf="REQUEST" [requestForm]="REQUEST"
-      [queues]="formRevise.table"></app-plan-reliability-test>
+    <app-plan-reliability-test fxFlex="100" *ngIf="REQUEST" [requestForm]="[REQUEST]"
+      [queues]="REQUEST.table"></app-plan-reliability-test>
 
     <app-plan-reliability-test fxFlex="100" *ngIf="formRevise" [requestForm]="REVISE"
       [queues]="formRevise.table"></app-plan-reliability-test>

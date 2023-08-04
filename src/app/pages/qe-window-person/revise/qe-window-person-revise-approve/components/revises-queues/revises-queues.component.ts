@@ -95,22 +95,24 @@ export class RevisesQueuesComponent implements OnInit {
   // }
 
   openDialogCalendar(time: any, item: QueueForm, i: any, indexTime: any) {
-    if (time?.startDate) {
-      const dialogRef = this.dialog.open(DialogDateComponent, {
-        height: '500px',
-        width: '500px',
-        data: time
-      })
-      dialogRef.afterClosed().subscribe(res => {
-        if (res) {
-          time = res
-          time.h = null
-          // this.onCal(item, i)
-        }
-      })
-    } else {
-      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning')
-    }
+    // console.log("🚀 ~ time:", time)
+    // if (time?.startDate) {
+    const dialogRef = this.dialog.open(DialogDateComponent, {
+      height: '500px',
+      width: '500px',
+      data: time
+    })
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        // if(!time.startDate) time.startDate = time.endDate
+        time = res
+        time.h = null
+        // this.onCal(item, i)
+      }
+    })
+    // } else {
+    //   Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning')
+    // }
   }
 
   onSelectHour(item: QueueForm, e: any) {

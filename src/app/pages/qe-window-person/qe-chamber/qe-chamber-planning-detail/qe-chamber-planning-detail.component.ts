@@ -18,7 +18,6 @@ import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog
 import { OperateForm, QueueForm } from '../qe-chamber.component';
 import { QeChamberService } from '../qe-chamber.service';
 import { GenInspectionTableService } from './gen-inspection-table.service';
-import { DialogSelectDateComponent } from '../components/dialog-select-date/dialog-select-date.component';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -71,10 +70,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       this._loading.start()
       this.tempQueues = [...this.queues]
       if (this.queues) {
+        // this.queues.map((d: any) => {
+        //   this.onCal(d, 0)
+        // })
         this.queues = await this.getQueuesDraft(this.queues)
-        this.queues.map((d: any) => {
-          this.onCal(d, 0)
-        })
         this.tableData = await this.mapForTable(this.queues)
         this.shortMenuOption = this.queues.map((a: any, i: number) => {
           return {
@@ -98,12 +97,14 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
 
   async getQueuesDraft(queues: any) {
-    const queueDraft = await this.$queue.getFormId(queues[0].work.requestId).toPromise()
+    let tempQueues = queues
+    const queueDraft = await this.$queue.getFormId(tempQueues[0].work.requestId).toPromise()
 
-    queues = queues.map((d: QueueForm) => {
-      const draft = queueDraft.find((draft: QueueForm) => {
+    tempQueues = queues.map((d: any) => {
+      const draft = queueDraft.find((draft: any) => {
         return draft.condition?.name == d.condition?.name
       })
+
       if (draft) {
         const inspectionTime = d?.inspectionTime?.map((d: any) => {
           const a = draft.inspectionTime.find((g: any) => g.at == d.at)
@@ -115,9 +116,11 @@ export class QeChamberPlanningDetailComponent implements OnInit {
           if (a) return { ...a, index: i, onPlan: a.onPlan == true || a.onPlan == false ? a.onPlan : true }
           return { ...d, index: i, onPlan: true }
         })
-        const reportQE = d?.reportQE?.map((d: any) => {
+        const reportQE: any = d?.reportQE?.map((d: any) => {
           const a = draft.reportQE.find((g: any) => g.at == d.at)
-          if (a) return a
+          if (a) {
+            return a
+          }
           return d
         })
         const reportTime = d?.reportTime?.map((d: any) => {
@@ -129,20 +132,19 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         draft['reportQE'] = reportQE
         draft['reportTime'] = reportTime
         draft['actualTime'] = actualTime
-        return {
-          ...d,
+        const foo = {
           ...draft,
         }
+        return foo
       } else {
         return d
       }
     })
 
-
-    this.requestForm = await this.$request.get_id(queues[0].work.requestId).toPromise()
+    this.requestForm = await this.$request.get_id(tempQueues[0].work.requestId).toPromise()
     this.minDateInitial = new Date(this.requestForm[0].qeReceive.date)
-    queues = await this.setOperateOnQueues(queues)
-    return queues
+    tempQueues = await this.setOperateOnQueues(tempQueues)
+    return tempQueues
   }
   async setOperateOnQueues(queues: any) {
     for (let i = 0; i < queues.length; i++) {
@@ -731,6 +733,12 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     setTimeout(() => {
       this.jump = false
     }, 100);
+  }
+  jump2(id: string) {
+    setTimeout(() => {
+      (document.getElementById(id) as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+
+    }, 500);
   }
 
 
