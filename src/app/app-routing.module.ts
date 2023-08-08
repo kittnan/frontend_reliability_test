@@ -17,6 +17,7 @@ import { QeSectionHeadModule } from './pages/qe-section-head/qe-section-head.mod
 import { QeWindowPersonModule } from './pages/qe-window-person/qe-window-person.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { RequestsModule } from './pages/requests/requests.module';
+import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
 
 const routes: Routes = [
   {
@@ -64,7 +65,8 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    // component: DashboardComponent
+    component: Dashboard2Component
   },
   {
     path: 'guest',

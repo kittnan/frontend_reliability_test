@@ -245,6 +245,7 @@ export class SheetStep1Component implements OnInit {
     const resDelete = await this.$file.delete(file.name).toPromise()
     this.data.files = this.data.files.filter((d: any) => d != file)
     const resUpdate = await this.$step1.update(this.data._id, this.data).toPromise()
+    window.location.reload()
     setTimeout(() => {
       Swal.fire('SUCCESS', '', 'success')
       this._loading.stopAll()

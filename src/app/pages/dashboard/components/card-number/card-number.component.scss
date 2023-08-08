@@ -1,65 +1,8 @@
-.card-head {
-  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  // background-color: rgb(221, 255, 179);
-  background-color: rgba(255, 255, 255, 0.712);
-  padding: 20px;
-  margin: 30px 0;
+.calendar {
+  background-color: transparent;
+  width: 270px !important;
+  height: 320px !important;
 }
-
-.card-body {
-  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  background-color: rgb(255, 255, 255, 0.712);
-  padding: 20px;
-  // margin: 30px 0;
-  height: 100%;
-}
-
-.card-head-item {
-  // height: 170px;
-  overflow: auto;
-}
-
-#text {
-  font-family: verdana;
-  // text-decoration: overline;
-  text-transform: capitalize;
-  font-variant: small-caps;
-  text-align: center;
-  font-size: 60px;
-  letter-spacing: 3px;
-  word-spacing: 3px;
-  // background-color: rgb(84, 84, 84);
-  text-shadow: rgb(0, 148, 158) 2px 2px 2px;
-  line-height: normal;
-}
-
-.material-icons-outlined {
-  color: rgb(0 161 255);
-}
-
-.demo-inline-calendar-card {
-  min-width: 100px;
-  box-shadow: none;
-  background-color: initial;
-}
-
-::ng-deep .mat-card {
-  min-height: 300px;
-}
-
-.example-card {
-  max-width: 400px;
-  background-color: initial;
-  box-shadow: none;
-}
-
-.text-number {
-  font-size: 9rem;
-}
-
-// todo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 .flip-card {
   background-color: transparent;
   width: 190px;
@@ -67,10 +10,17 @@
   perspective: 1000px;
   font-family: sans-serif;
   margin-right: 75px;
+  margin-top: 50px;
 }
 
 .title {
   font-size: 1.5em;
+  font-weight: 900;
+  text-align: center;
+  margin: 0;
+}
+.title-2 {
+  font-size: 12px;
   font-weight: 900;
   text-align: center;
   margin: 0;
@@ -112,6 +62,24 @@
   border-radius: 1rem;
 }
 
+.flip-glass-1 {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+.flip-glass-2 {
+  /* From https://css.glass */
+  background: rgb(230 0 255 / 20%) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
 .flip-card-front {
   background: linear-gradient(
     120deg,
@@ -133,4 +101,10 @@
   );
   color: rgb(98, 80, 255);
   transform: rotateY(180deg);
+}
+
+.calendar-card {
+  height: 100% !important;
+  width: 100% !important;
+  padding: 8px !important;
 }

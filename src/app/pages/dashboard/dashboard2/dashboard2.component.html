@@ -1,0 +1,22 @@
+<div fxLayoutAlign="center stretch" fxLayout="row wrap" class="over-flow">
+  <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="start center">
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <app-card-number fxFlex="auto" [corporate]="corporate" [section]="section" [date]="date"
+        (dateChange)="changeDate($event)"></app-card-number>
+    </div>
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <app-card-number fxFlex="auto" [testPurpose]="testPurpose" [date]="date"
+        (dateChange)="changeDate($event)"></app-card-number>
+    </div>
+    <app-daily-remain fxFlex="100" *ngIf="daily && daily.length>0" [dailyRemain]="daily"></app-daily-remain>
+    <!-- <app-daily-remain2 *ngIf="daily" fxFlex="auto" [daily]="daily"></app-daily-remain2> -->
+
+    <app-report-status fxFlex="100" *ngIf="report" [data]="report"></app-report-status>
+
+    <app-table-chamber fxFlex="100" *ngIf="chamber" [data]="chamber"></app-table-chamber>
+
+    <app-table-operate-remain fxFlex="100" *ngIf="operate" [data]="operate"></app-table-operate-remain>
+
+  </div>

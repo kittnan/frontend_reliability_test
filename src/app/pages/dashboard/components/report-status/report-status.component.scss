@@ -27,3 +27,12 @@ th {
 .text-vertical {
   border-left: 10px solid #f36a5c !important;
 }
+.mat-header-cell,
+.mat-cell {
+  padding: 10px !important;
+}
+
+* {
+  color: rgb(51, 51, 51) !important;
+  font-weight: 900;
+}

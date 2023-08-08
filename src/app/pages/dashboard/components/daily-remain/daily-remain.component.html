@@ -1,49 +1,48 @@
-<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mt-2">
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" class="mt-2 mb-2">
 
   <mat-accordion fxFlex="100" class="example-headers-align" multi>
 
-    <mat-expansion-panel disabled>
+    <mat-expansion-panel disabled class="mat-expansion-panel-custom">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <span class="text-3"> daily remain {{dailyRemain.length}}</span>
+          <span class="text-3" style="color: red;"> daily remain {{dailyRemain.length}}</span>
         </mat-panel-title>
         <mat-panel-description>
-          <button mat-stroked-button color="primary" (click)="openAll()">Expand All</button>
+          <button mat-stroked-button (click)="openAll()" style="color: white;">Expand All</button>
           <button mat-stroked-button color="accent" (click)="closeAll()">Collapse All</button>
         </mat-panel-description>
       </mat-expansion-panel-header>
     </mat-expansion-panel>
     <ng-container *ngFor="let item of dailyRemain; let i=index">
       <mat-expansion-panel (click)="onClickExpand(i)" [expanded]="stageExpand(i)">
-        <mat-expansion-panel-header style="height: 85px;">
+        <mat-expansion-panel-header class="panel-head-custom">
           <mat-panel-title fxFlex="20" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
-            <button mat-stroked-button fxFlex="100">
-              <span class="text-1">{{item.controlNo}}</span>
+            <button mat-button fxFlex="100">
+              <span class="text-1" fxFlex="100">{{item.controlNo}}</span>
             </button>
-            <button mat-stroked-button fxFlex="45" color="accent">
+            <button mat-button fxFlex="75" color="accent">
               <span class="text-1">{{htmlUsername(item.userName)}}</span>
             </button>
-            <button mat-stroked-button fxFlex="45" color="warn">
+            <button mat-button fxFlex="25" color="warn">
               <span class="text-1">{{item.userSection}}</span>
             </button>
           </mat-panel-title>
           <mat-panel-description fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap" fxLayoutGap="10">
 
-            <button mat-stroked-button fxFlex="30" color="primary">
+            <button mat-button fxFlex="30" color="primary">
               <span class="text-2">{{item.model}} | {{item.size}} | {{item.customer}}</span>
             </button>
-            <button mat-stroked-button fxFlex="10" color="accent">
-              <!-- <span class="text-2">{{htmlAt(item.schedule[0]?.at)}}</span> -->
+            <button mat-button fxFlex="10" color="accent">
               <ul>
                 <li *ngFor="let sc of item.schedule; let i=index">
                   {{sc.at}}
                 </li>
               </ul>
             </button>
-            <button mat-stroked-button fxFlex="40" [class]="htmlTimeCSS(item.schedule[0]?.diff)">
+            <button mat-button fxFlex="40" [class]="htmlTimeCSS(item.schedule[0]?.diff)">
               <span class="text-2">{{ htmlPurpose(item.purpose)}}</span>
             </button>
-            <button fxFlex="10" mat-flat-button color="warn">
+            <button mat-button fxFlex="10" mat-flat-button color="warn">
               <span *ngIf="item.schedule[0]?.report" class="text-2">REPORT</span>
               <span *ngIf="!item.schedule[0]?.report" class="text-2">-</span>
             </button>
@@ -51,7 +50,7 @@
             <mat-icon fxFlex="5">zoom_in</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-
+        <div style="margin-top: 30px;"></div>
         <app-step3 *ngIf="item.testingType" [step3]="item.testingType"></app-step3>
         <app-step4 *ngIf="item.testingCondition" [step4]="item.testingCondition"></app-step4>
 

@@ -1,0 +1,93 @@
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
+  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" style="margin: 20px 0;">
+    <div *ngIf="!testPurpose" class="flip-card calendar">
+      <div class="flip-card-inner">
+        <div class="flip-card-front flip-glass-1">
+          <p class="title" style="color: cornsilk;">
+            {{date|mo:'D MMMM YYYY'}}
+          </p>
+        </div>
+        <div class="flip-card-back">
+          <mat-card class="calendar-card" style="margin-right: 75px;">
+            <mat-calendar [(selected)]="date" (selectedChange)="changeDate()"></mat-calendar>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" *ngFor="let item of corporate; let i=index">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <p class="title" style="color: #1ef9ff;">
+            {{item.name |uppercase}}
+          </p>
+          <p class="title-sub" style="color: #1ef9ff;">
+            <span class="material-icons-outlined">
+              timeline
+            </span> {{item.value}}
+          </p>
+        </div>
+        <div class="flip-card-back">
+          <p class="title">Corporate {{item.name |uppercase}}</p>
+          <p class="title-sub">
+            <span class="material-icons-outlined">
+              timeline
+            </span>
+            Remain: {{item.value}}
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" *ngFor="let item of section; let i=index">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <p class="title" style="color: #f6ff00;">
+            {{item.name |uppercase}}
+          </p>
+          <p class="title-sub" style="color: #f6ff00;">
+            <span class="material-icons-outlined">
+              timeline
+            </span> {{item.value}}
+          </p>
+        </div>
+        <div class="flip-card-back">
+          <p class="title">Section {{item.name |uppercase}}</p>
+          <p class="title-sub">
+            <span class="material-icons-outlined">
+              timeline
+            </span>
+            Remain: {{item.value}}
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <div class="flip-card" *ngFor="let item of testPurpose; let i=index">
+      <div class="flip-card-inner">
+        <div class="flip-card-front flip-glass-2">
+          <p class="title-2" style="color: #e9ffc8;">
+            {{item._id.purpose |uppercase}}
+          </p>
+          <p class="title-sub" style="color: #e9ffc8;">
+            <span class="material-icons-outlined">
+              timeline
+            </span> {{item.count}}
+          </p>
+        </div>
+        <div class="flip-card-back">
+          <p class="title-2" style="color: #000000;">
+            {{item._id.purpose |uppercase}}
+          </p>
+          <p class="title-sub" style="color: #000000;">
+            <span class="material-icons-outlined">
+              timeline
+            </span> {{item.count}}
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

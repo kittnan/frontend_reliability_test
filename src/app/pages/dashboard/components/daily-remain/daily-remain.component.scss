@@ -52,3 +52,15 @@
 ul {
   display: inline-block;
 }
+
+.panel-head-custom {
+  height: 100% !important;
+  padding: 1rem;
+  background-color: white !important;
+}
+.mat-expansion-panel-custom {
+  background-color: black !important;
+}
+.mat-primary {
+  color: blue !important;
+}

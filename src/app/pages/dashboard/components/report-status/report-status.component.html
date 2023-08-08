@@ -1,10 +1,11 @@
 <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" fxLayoutGap="30">
-  <div fxFlex="5" fxLayout="row wrap" fxLayoutAlign="center center" class="text-vertical ">
-    <h2 class="t-head">Report</h2>
+  <div fxFlex="5" fxLayout="row wrap" fxLayoutAlign="center center" class="text-vertical"
+    style="background-color: white;">
+    <h2 class=" t-head">Report</h2>
   </div>
 
   <div *ngIf="!data || data.length==0" fxFlex="92" fxLayoutAlign="start stretch" fxLayout="row wrap" class="card-table"
-    style="overflow: auto;">
+    style="overflow: auto; background-color: white;">
     <table fxFlex="100">
       <tr>
         <td>
@@ -14,7 +15,7 @@
     </table>
   </div>
   <div *ngIf="data && data.length>0" fxFlex="92" fxLayoutAlign="start stretch" fxLayout="row wrap" class="card-table"
-    style="overflow: auto;">
+    style="overflow: auto;background-color: white;">
     <mat-form-field fxFlex="100" appearance="standard">
       <mat-label>Search</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>

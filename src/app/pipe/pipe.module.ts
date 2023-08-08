@@ -6,14 +6,14 @@ import { FileSizePipe } from './file-size.pipe';
 
 @NgModule({
   declarations: [
-    FileSizePipe
+    FileSizePipe,
   ],
   imports: [
     CommonModule,
 
   ],
   exports: [
-    FileSizePipe
+    FileSizePipe,
   ]
 })
 export class PipeModule { }

@@ -31,6 +31,10 @@ import { ReportStatusComponent } from './pages/dashboard/components/report-statu
 import { GuestComponent } from './pages/guest/guest.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DailyRemain2Component } from './pages/dashboard/components/daily-remain2/daily-remain2.component';
+import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
+import { CardNumberComponent } from './pages/dashboard/components/card-number/card-number.component';
+import { MomentPipe } from './pipe/moment.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   // return new TranslateHttpLoader(http);
@@ -88,7 +92,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     TableOperateRemainComponent,
     ReportStatusComponent,
     GuestComponent,
-
+    DailyRemain2Component,
+    Dashboard2Component,
+    CardNumberComponent,
+    MomentPipe
   ],
   imports: [
     AppRoutingModule,
