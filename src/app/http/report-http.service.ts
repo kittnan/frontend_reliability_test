@@ -8,15 +8,16 @@ import { environment } from 'src/environments/environment';
 export class ReportHttpService {
 
   private URL = environment.API
+  private SUB: string = 'report'
   constructor(
     private http: HttpClient
   ) { }
 
   upload(formData: any): Observable<any> {
-    return this.http.post(`${this.URL}/report/upload`, formData)
+    return this.http.post(`${this.URL}/${this.SUB}/upload`, formData)
   }
   delete(data: any): Observable<any> {
-    return this.http.delete(`${this.URL}/report/delete/${data}`)
+    return this.http.delete(`${this.URL}/${this.SUB}/delete/${data}`)
   }
 
 
