@@ -71,12 +71,16 @@ export class Dashboard2Component implements OnInit {
   async chamberFn(params: HttpParams) {
     const res: any = await this.$dashboard.chamber(params).toPromise()
     this.chamber = null
-    this.chamber = res
+    setTimeout(() => {
+      this.chamber = res
+    }, 1000);
   }
   async operateFn(params: HttpParams) {
     const res: any = await this.$dashboard.operate(params).toPromise()
     this.operate = null
-    this.operate = res
+    setTimeout(() => {
+      this.operate = res
+    }, 1000);
   }
   async testPurposeFn(params: HttpParams) {
     const res: any = await this.$dashboard.testPurpose(params).toPromise()
