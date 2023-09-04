@@ -88,7 +88,7 @@ export class ApproveService {
         timer: 1000,
         showConfirmButton: false
       })
-      alert('Success')
+      // alert('Success')
       this._loading.stopAll()
       this.link('qe_window_person')
     }, 1000);
@@ -169,7 +169,7 @@ export class ApproveService {
           timer: 1000,
           showConfirmButton: false
         })
-        alert('Success')
+        // alert('Success')
         // this._alert.success('')
 
         this._loading.stopAll()

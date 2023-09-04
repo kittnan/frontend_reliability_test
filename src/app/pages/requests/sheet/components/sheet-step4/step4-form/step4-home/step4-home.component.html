@@ -41,6 +41,8 @@
           *ngIf="con.value===5"></app-high-low>
         <app-heat-shock fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
           *ngIf="con.value===6"></app-heat-shock>
+        <app-temp-room fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
+          *ngIf="con.value===7"></app-temp-room>
       </div>
     </div>
   </ng-container>

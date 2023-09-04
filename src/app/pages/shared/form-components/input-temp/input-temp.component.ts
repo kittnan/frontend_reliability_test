@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Temp } from 'src/app/interface/temp';
+
 
 @Component({
   selector: 'app-input-temp',
@@ -24,13 +24,14 @@ export class InputTempComponent implements OnInit {
     e.srcElement.select()
   }
   emit() {
-    let body: any = {}
-    if (this.icon == 'ac_unit') {
-      body['lowTemp'] = this.form
-    } else {
-      body['highTemp'] = this.form
-    }
-    this.formChange.emit(body)
+    // let body: any = {}
+    // if (this.icon == 'ac_unit') {
+    //   body['lowTemp'] = this.form
+    // } else {
+    //   body['highTemp'] = this.form
+    // }
+    // this.formChange.emit(body)
+    this.formChange.emit(this.form)
   }
 
 }

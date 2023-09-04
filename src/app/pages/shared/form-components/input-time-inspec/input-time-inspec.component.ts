@@ -24,6 +24,8 @@ export class InputTimeInspecComponent implements OnInit {
   }
 
   inputTime(e: KeyboardEvent) {
+
+
     if (this.lockInitial && this.form.length == 1 && Number(e.keyCode) === 8) {
       return e.preventDefault()
     } else {

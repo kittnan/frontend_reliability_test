@@ -51,22 +51,30 @@ export class Dashboard2Component implements OnInit {
   async corporateFn(params: HttpParams) {
     const res: any = await this.$dashboard.corporate(params).toPromise()
     this.corporate = null
-    this.corporate = res
+    setTimeout(() => {
+      this.corporate = res
+    }, 0);
   }
   async sectionFn(params: HttpParams) {
     const res: any = await this.$dashboard.section(params).toPromise()
     this.section = null
-    this.section = res
+    setTimeout(() => {
+      this.section = res
+    }, 0);
   }
   async dailyFn(params: HttpParams) {
     const res: any = await this.$dashboard.daily(params).toPromise()
     this.daily = null
-    this.daily = res
+    setTimeout(() => {
+      this.daily = res
+    }, 200);
   }
   async reportFn(params: HttpParams) {
     const res: any = await this.$dashboard.report(params).toPromise()
     this.report = null
-    this.report = res
+    setTimeout(() => {
+      this.report = res
+    }, 200);
   }
   async chamberFn(params: HttpParams) {
     const res: any = await this.$dashboard.chamber(params).toPromise()
@@ -85,7 +93,9 @@ export class Dashboard2Component implements OnInit {
   async testPurposeFn(params: HttpParams) {
     const res: any = await this.$dashboard.testPurpose(params).toPromise()
     this.testPurpose = null
-    this.testPurpose = res
+    setTimeout(() => {
+      this.testPurpose = res
+    }, 200);
   }
 
 }

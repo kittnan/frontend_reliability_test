@@ -1,0 +1,14 @@
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+  <app-input-temp fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [icon]="'thermostat'" [title]="'Temp'"
+    [(form)]="form.roomTemp" (formChange)="emit($event)"></app-input-temp>
+  <app-input-operate fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.operate"
+    (formChange)="emit($event)"></app-input-operate>
+  <app-input-sample fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.sample"
+    (formChange)="emit($event)"></app-input-sample>
+  <app-input-qty fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.qty"
+    (formChange)="emit($event)"></app-input-qty>
+  <app-input-time-inspec fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.inspection"
+    [lockInitial]="true" [title]="'Inspection'" (formChange)="emit($event)"></app-input-time-inspec>
+  <app-input-time-inspec fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.report"
+    [title]="'Report'" (formChange)="emit($event)"></app-input-time-inspec>
+</div>

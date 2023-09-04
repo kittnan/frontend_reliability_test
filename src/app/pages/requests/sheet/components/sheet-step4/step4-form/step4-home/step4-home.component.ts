@@ -138,6 +138,10 @@ export class Step4HomeComponent implements OnInit {
   async onSelected() {
     this.data.push({
       ...this.selected, data: {
+        roomTemp: {
+          temp: '0',
+          tempVar: '0'
+        },
         lowTemp: {
           temp: '0',
           tempVar: '0'
@@ -201,7 +205,7 @@ export class Step4HomeComponent implements OnInit {
     // console.log(this.data, this.inspection);
     let dataEmit: any
     dataEmit = await this.mapData(this.data, this.inspection)
-    // console.log(dataEmit);
+    console.log(dataEmit);
     this.conditionForm.data = dataEmit
     this.conditionFormChange.emit(this.conditionForm)
   }
@@ -243,8 +247,10 @@ export class Step4HomeComponent implements OnInit {
 
 
   sumString(condition: any) {
+    console.log("🚀 ~ condition:", condition)
     const data: any = condition.data
     let sumStr: string = ''
+    const roomTemp = data && data.roomTemp ? `${data.roomTemp.temp}±${data.roomTemp.tempVar}°C` : ''
     const lowTemp = data && data.lowTemp ? `${data.lowTemp.temp}±${data.lowTemp.tempVar}°C` : ''
     const highTemp = data && data.highTemp ? `${data.highTemp.temp}±${data.highTemp.tempVar}°C` : ''
     const acceleration = data && data.acceleration ? `Acceleration: ${data.acceleration}m/s2` : ''
@@ -274,6 +280,9 @@ export class Step4HomeComponent implements OnInit {
     }
     if (condition && condition.value == 6) {
       sumStr += `${condition.name} ${lowTemp}↔${highTemp} ${timeCycle}`
+    }
+    if (condition && condition.value == 7) {
+      sumStr += `${condition.name} ${roomTemp}`
     }
     return sumStr
 

@@ -18,7 +18,7 @@ export class ConditionTableComponent implements OnInit {
   displayedColumns: string[] = ['item', 'condition', 'operate', 'inspectionDetail', 'inspection', 'report', 'sample', 'qty'];
 
   ngOnInit(): void {
-    console.log(this.data);
+    // console.log(this.data);
 
   }
   getRowSpan(action: string, index: number) {
