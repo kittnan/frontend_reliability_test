@@ -43,6 +43,7 @@ export class RevisesQueuesComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.queues = await this.$reviseQueues.mergeOldQueues(this.formRevise.queues, this.queuesForm, this.formRevise)
     await this.setTablePlan(this.queues, this.formRevise)
+    console.log("🚀 ~ this.queues:", this.queues)
     // this.queues.map((d: any) => {
     //   this.onCal(d, 0)
     // })

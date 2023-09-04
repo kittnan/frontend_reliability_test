@@ -1,4 +1,4 @@
-<div *ngIf="data" fxLayoutAlign="start stretch" fxLayout="row wrap" style="overflow: auto;">
+<div *ngIf="data && data.length!=0" fxLayoutAlign="start stretch" fxLayout="row wrap" style="overflow: auto;">
   <table fxFlex="100" mat-table [dataSource]="data">
     <ng-container matColumnDef="item">
       <th mat-header-cell *matHeaderCellDef>Item</th>
@@ -19,7 +19,8 @@
     </ng-container>
 
     <ng-container matColumnDef="inspectionDetail">
-      <th mat-header-cell *matHeaderCellDef> Inspection Type: {{data[0].dataTable?.inspectionDetail?.name? true :'-'}}
+      <th mat-header-cell *matHeaderCellDef> Inspection Type: {{data && data[0].dataTable?.inspectionDetail?.name? true
+        :'-'}}
       </th>
       <td mat-cell *matCellDef="let element;let i =index" [attr.rowspan]="getRowSpan('row', i)"
         [style.display]="getRowSpan('style', i) ? '' : 'none'">
