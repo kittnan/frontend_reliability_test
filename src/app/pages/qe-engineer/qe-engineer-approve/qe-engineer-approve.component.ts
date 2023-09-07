@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { ApproveService } from '../../shared/approve-form/approve.service';
 
 @Component({
   selector: 'app-qe-engineer-approve',
@@ -28,12 +29,15 @@ export class QeEngineerApproveComponent implements OnInit {
     status: null
   }
   approver: any
+  auth: any = localStorage.getItem('RLS_authorize')
+  selectedFlow: any = 1
   constructor(
     private route: ActivatedRoute,
     private $request: RequestHttpService,
     private _toast: ToastService,
     private _loading: NgxUiLoaderService,
-    private _userApprove: UserApproveService
+    private _userApprove: UserApproveService,
+    private __approve: ApproveService
 
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
@@ -60,6 +64,15 @@ export class QeEngineerApproveComponent implements OnInit {
     }, 1000);
   }
 
+  handleUserApprove() {
+    if (this.selectedFlow === 1) {
+      this.getUserApprove()
+    } else {
+      this.getUserApproveRequest()
+    }
+  }
+
+
   async getUserApprove() {
     const ses_authorize = localStorage.getItem('RLS_authorize')
     if (ses_authorize == 'qe_engineer') {
@@ -84,8 +97,32 @@ export class QeEngineerApproveComponent implements OnInit {
       }
     }
   }
+  async getUserApproveRequest() {
+    this.userApprove = await this._userApprove.getUserApprove(this.userLogin, 'request')
+    const requestor = this.form.step5.find((a: any) => a.level === 1)
+    const select = this.userApprove.find((a: any) => a._id == requestor.prevUser._id)
+    this.approve = {
+      groupList: [],
+      groupStatus: null,
+      level: 5,
+      name: null,
+      selected: select ? select : this.userApprove[0],
+      status: 'qe_section_head'
+    }
+  }
+
+  handleApprove() {
+    console.log(this.form);
+    let formUp = {
+      ...this.form,
+      status: 'qe_section_head',
+      level: 6
+    }
+    this.__approve.send(this.userLogin, this.approve, formUp, '')
+  }
 
   private checkPrevApprove(data: any, level: number) {
+    console.log("🚀 ~ data:", data)
     const prevUserApprove = data.step5.find((s: any) => s.level == level)
     if (prevUserApprove) {
       return this.userApprove.find((u: any) => u._id == prevUserApprove.nextUser._id)

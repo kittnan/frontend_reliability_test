@@ -1,0 +1,3 @@
+6.7
+-Fix wording show of authorize.
+-Add bypass qe_section_head flow from qe_engineer2 ->> request_confirm.

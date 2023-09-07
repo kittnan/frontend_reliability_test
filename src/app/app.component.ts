@@ -90,7 +90,9 @@ export class AppComponent {
       position: {
         right: '0',
         top: '0'
-      }
+      },
+      width: '30%',
+      height: '40%'
     })
     let newAuth: any = null
     dialogRef.afterClosed().subscribe(res => {
@@ -148,7 +150,19 @@ export class AppComponent {
   }
 
   htmlShowAuthLogin() {
-    return localStorage.getItem('RLS_authorize')
+    let str: any = ''
+    switch (localStorage.getItem('RLS_authorize')) {
+      case 'qe_section_head':
+        str = 'qc_dept_head'
+        break;
+      case 'qe_engineer2':
+        str = 'qe_sec_head'
+        break;
+      default:
+        str = localStorage.getItem('RLS_authorize')
+        break;
+    }
+    return str
   }
   htmlShowSectionLogin() {
     if (!localStorage.getItem('RLS_section')) this.onLogout()

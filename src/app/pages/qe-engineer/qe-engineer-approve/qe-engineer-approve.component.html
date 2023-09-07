@@ -4,6 +4,15 @@
     <!-- <app-plan-reliability-test *ngIf="data" fxFlex="100" [requestForm]="[data]" [queues]="data.table">
         </app-plan-reliability-test> -->
 
+    <mat-radio-group *ngIf="auth==='qe_engineer2'" fxFlex="100" class="content-item" [(ngModel)]="selectedFlow"
+      aria-label="Select an option" (change)="handleUserApprove()">
+      <mat-radio-button [value]="1">To Dept Head</mat-radio-button>
+      <mat-radio-button [value]="2">To Requestor</mat-radio-button>
+    </mat-radio-group>
+
+
+
+
     <mat-form-field fxFlex="100" appearance="fill" class="content-item">
       <mat-label>SEND TO...</mat-label>
       <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
@@ -13,9 +22,18 @@
       </mat-select>
     </mat-form-field>
 
-    <app-approve-form *ngIf="form" fxFlex="100" [reject]="true" [userApprove]="approve" [data]="form">
-    </app-approve-form>
+    <div *ngIf="selectedFlow==2" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch" class="content-item">
+      <button fxFlex="30" mat-flat-button color="primary" (click)="handleApprove()">
+        <span class="material-icons-outlined">
+          done_all
+        </span>
+        APPROVE
+      </button>
+    </div>
 
+    <app-approve-form *ngIf="form && selectedFlow==1" fxFlex="100" [reject]="true" [userApprove]="approve"
+      [data]="form">
+    </app-approve-form>
 
   </div>
 

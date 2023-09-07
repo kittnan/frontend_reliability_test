@@ -389,6 +389,12 @@ export class TableRequestComponent implements OnInit {
       case 'qe_window_person_edit_plan':
         return 'EDIT_REPORT'
 
+      case 'qe_section_head':
+        return 'QC_DEPT_HEAD'
+
+      case 'qe_engineer2':
+        return 'QE_SEC_HEAD'
+
       default:
         return status.toUpperCase()
         break;

@@ -1,15 +1,19 @@
 table {
-    table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid rgb(5, 2, 5);
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgb(5, 2, 5);
 }
 
 tr,
 td {
-    border: 1px solid rgb(0, 0, 0);
+  border: 1px solid rgb(0, 0, 0);
 }
 
 .w-full {
-    width: 100%;
+  width: 100%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
 }

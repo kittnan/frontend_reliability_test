@@ -1,13 +1,9 @@
-import { RejectService } from './reject.service';
-import { ApproveService } from './approve.service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { UserHttpService } from 'src/app/http/user-http.service';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+
 import { DialogApproveComponent } from './dialog-approve/dialog-approve.component';
 import { DialogRejectComponent } from './dialog-reject/dialog-reject.component';
-import Swal from 'sweetalert2';
 import { DialogSendmailComponent } from './dialog-sendmail/dialog-sendmail.component';
 
 @Component({
@@ -25,6 +21,7 @@ export class ApproveFormComponent implements OnInit {
   @Input() userApprove: any
   @Input() disable: boolean = true
   @Input() editPlan: boolean = false
+  @Input() secConfirm: boolean = false
 
   userLogin: any
 

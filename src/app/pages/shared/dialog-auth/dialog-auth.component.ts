@@ -20,5 +20,20 @@ export class DialogAuthComponent implements OnInit {
   onClick(item: any) {
     this.dialogRef.close(item)
   }
+  htmlAuth(auth: string) {
+    let str: string = ''
+    switch (auth) {
+      case 'qe_section_head':
+        str = 'qc_dept_head'
+        break;
+      case 'qe_engineer2':
+        str = 'qe_sec_head'
+        break;
+      default:
+        str = auth
+        break;
+    }
+    return str
+  }
 
 }
