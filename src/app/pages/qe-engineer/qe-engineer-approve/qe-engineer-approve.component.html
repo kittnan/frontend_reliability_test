@@ -1,8 +1,7 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
   <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mt-2">
     <app-views fxFlex="100" *ngIf="form" [formInput]="form" [showReport]="false"></app-views>
-    <!-- <app-plan-reliability-test *ngIf="data" fxFlex="100" [requestForm]="[data]" [queues]="data.table">
-        </app-plan-reliability-test> -->
+
 
     <mat-radio-group *ngIf="auth==='qe_engineer2'" fxFlex="100" class="content-item" [(ngModel)]="selectedFlow"
       aria-label="Select an option" (change)="handleUserApprove()">
