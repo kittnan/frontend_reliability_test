@@ -26,13 +26,14 @@ export class Step5Component implements OnInit {
       level = Number(sp)
     }
     const filterStep5 = this.step5.filter((s: any) => s.level <= level && s.date)
-    const level6 = filterStep5.find((a: any) => a.level === 6)
-    const dataLevel6 = await this.$user.getUserById(level6.prevUser._id).toPromise()
-    if (dataLevel6.authorize.some((a: any) => a !== 'qe_section_head')) {
+    const level6 = filterStep5?.find((a: any) => a.level === 6)
+    const dataLevel6 = await this.$user.getUserById(level6?.prevUser._id).toPromise()
+    if (dataLevel6?.authorize?.some((a: any) => a !== 'qe_section_head')) {
       level6.prevStatusForm = 'qe_engineer2'
     }
     const resultMap: any = await this.mapRes(filterStep5)
     this.data = resultMap.sort((a: any, b: any) => Number(a.level) < Number(b.level) ? -1 : Number(a.level > b.level))
+    console.log("🚀 ~ this.data:", this.data)
   }
 
 
@@ -79,10 +80,15 @@ export class Step5Component implements OnInit {
             footer = 'Subchief Level Up'
             state = true
           }
+          if (a.prevStatusForm == "request_confirm_edited") {
+            title = 'REQUEST_CONFIRM'
+            footer = 'Subchief Level Up'
+            state = true
+          }
           return {
             title: title,
             footer: footer,
-            state: true,
+            state: state,
             ...a,
           }
         } else {

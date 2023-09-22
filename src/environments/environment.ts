@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  API: 'http://localhost:40311',
+  // API: 'http://localhost:4031',
   // API: 'http://10.200.90.152:9999',
   // API: 'http://10.200.90.152:40311',
-  // API: 'http://10.200.90.152:4031',
+  API: 'http://10.200.90.152:4031',
   BASE: '/',
   VERSION: '3.2',
   appVersion: require('../../package.json').version + '-dev'

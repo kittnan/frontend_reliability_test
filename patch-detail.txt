@@ -1,3 +1,5 @@
+6.8
+fix input inspection time change to decimal
 6.7
 -Fix wording show of authorize.
 -Add bypass qe_section_head flow from qe_engineer2 ->> request_confirm.

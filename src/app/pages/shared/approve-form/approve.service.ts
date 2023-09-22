@@ -100,12 +100,8 @@ export class ApproveService {
 
   async send(prevUser: any, nextUserApprove: any, form: any, comment: any) {
     this._loading.start()
-    // console.log(nextUserApprove, form, comment);
     const nextStatusForm = this.findNextStatus(form.status, form.level)
-    // console.log(form.status, nextStatusForm);
     const level = this.findNextLevel(form.status, form.level)
-
-
 
     // TODO draft
     if (form.status == 'draft') {
@@ -146,7 +142,6 @@ export class ApproveService {
         followUp: [nextUserApprove.selected._id]
       }
 
-      // console.log(newForm);
 
       await this.$step5.update(step5Prev._id, step5Prev).toPromise()
       await this.$request.update(newForm._id, newForm).toPromise()
@@ -159,7 +154,6 @@ export class ApproveService {
       const toList = [nextUserApprove.selected._id]
       let ccUser = nextUserApprove.groupList.map((g: any) => g._id)
       ccUser = ccUser.concat(form?.followUp?.map((f: any) => f._id))
-      // unique ccUser
       ccUser = [...new Set(ccUser)]
       this.sendMail(toList, newForm.status, newForm._id, ccUser)
       setTimeout(() => {
@@ -169,9 +163,6 @@ export class ApproveService {
           timer: 1000,
           showConfirmButton: false
         })
-        // alert('Success')
-        // this._alert.success('')
-
         this._loading.stopAll()
         this.link(prevUser.authorize)
       }, 1000);
