@@ -28,13 +28,15 @@ export class InputTimeInspecComponent implements OnInit {
 
     const zero = 48;
     const nine = 57;
+    const zeroNum = 96;
+    const nineNum = 105;
     const backspace = 8;
     const dot = 190;
     const comma = 188;
     const tab = 9;
     const enter = 13;
     let listAllow = [backspace, dot, comma, tab, enter];
-    if ((key >= zero && key <= nine) || listAllow.some((a: any) => a == key)) {
+    if ((key >= zero && key <= nine) ||(key >= zeroNum && key <= nineNum)  || listAllow.some((a: any) => a == key)) {
       // if (key === backspace && this.lockInitial) {
       //   if (this.form.length === 1 && lastChar === ',') e.preventDefault();
       // }
