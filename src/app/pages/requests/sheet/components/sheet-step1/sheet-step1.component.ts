@@ -229,7 +229,7 @@ export class SheetStep1Component implements OnInit {
     })
   }
 
-  onClickRemoveFile(file: any) {
+  onClickRemoveFile(file: any,index:number) {
     Swal.fire({
       title: `Do you want to delete ${file.name}?`,
       icon: 'question',
@@ -237,13 +237,14 @@ export class SheetStep1Component implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         this._loading.start()
-        this.removeFile(file)
+        this.removeFile(file,index)
       }
     })
   }
-  async removeFile(file: any) {
+  async removeFile(file: any,index:number) {
     const resDelete = await this.$file.delete(file.name).toPromise()
-    this.data.files = this.data.files.filter((d: any) => d != file)
+    console.log("🚀 ~ resDelete:", resDelete)
+    this.data.files = this.data.files.filter((d: any,i:number) => i!==index)
     const resUpdate = await this.$step1.update(this.data._id, this.data).toPromise()
     window.location.reload()
     setTimeout(() => {
