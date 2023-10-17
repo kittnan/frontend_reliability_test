@@ -1,130 +1,195 @@
-<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" class="over-flow ">
-
-
-  <div fxFlex="95" fxFlex.xl="95" fxFlex.lg="95" fxLayout="row wrap" fxLayoutAlign="center start"
-    class="content-item mt-2">
-
+<div
+  fxFlex="100"
+  fxLayout="row wrap"
+  fxLayoutAlign="center start"
+  class="over-flow"
+>
+  <div
+    fxFlex="95"
+    fxFlex.xl="95"
+    fxFlex.lg="95"
+    fxLayout="row wrap"
+    fxLayoutAlign="center start"
+    class="content-item mt-2"
+  >
     <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
       <span class="box-title"> Table Request </span>
     </div>
     <mat-form-field fxFlex="50" appearance="fill">
       <mat-label>Status</mat-label>
-      <mat-select [(ngModel)]="selected_status" (selectionChange)="onSelectStatus()">
+      <mat-select
+        [(ngModel)]="selected_status"
+        (selectionChange)="onSelectStatus()"
+      >
         <mat-option *ngFor="let st of status" [value]="st">
-          {{st|uppercase}}
+          {{ st | uppercase }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field fxFlex="50" appearance="fill">
       <mat-label>Section</mat-label>
-      <mat-select [(ngModel)]="selected_section" (selectionChange)="onSelectStatus()">
+      <mat-select
+        [(ngModel)]="selected_section"
+        (selectionChange)="onSelectStatus()"
+      >
         <mat-option *ngFor="let st of sections" [value]="st">
-          {{st|uppercase}}
+          {{ st | uppercase }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <div fxFlex="100" fxLayoutAlign="center stretch" fxLayout="row wrap" style="overflow: auto;">
-
+    <div
+      fxFlex="100"
+      fxLayoutAlign="center stretch"
+      fxLayout="row wrap"
+      style="overflow: auto"
+    >
       <mat-form-field fxFlex="100" appearance="standard">
         <mat-label>Search...</mat-label>
-        <input matInput (keyup)="applyFilter($event)" #input>
+        <input matInput (keyup)="applyFilter($event)" #input />
       </mat-form-field>
 
-      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start stretch" style="overflow: auto;">
+      <div
+        fxFlex="100"
+        fxLayout="row wrap"
+        fxLayoutAlign="start stretch"
+        style="overflow: auto"
+      >
         <table fxFlex="100" mat-table [dataSource]="dataSource" matSort>
-
           <ng-container matColumnDef="controlNo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> CONTROL NO. </th>
-            <td mat-cell *matCellDef="let row"> {{row.controlNo}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              CONTROL NO.
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.controlNo }}</td>
           </ng-container>
 
           <ng-container matColumnDef="purpose">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> PURPOSE </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PURPOSE</th>
             <td mat-cell *matCellDef="let row">
-              {{row.purpose?.purpose}}
-              <p *ngIf="row.purpose?.description?.status">{{row.purpose?.description.value}}</p>
+              {{ row.purpose?.purpose }}
+              <p *ngIf="row.purpose?.description?.status">
+                {{ row.purpose?.description.value }}
+              </p>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="requestSubject">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> request Subject </th>
-            <td mat-cell *matCellDef="let row"> {{row.requestSubject}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              request Subject
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.requestSubject }}</td>
           </ng-container>
 
           <ng-container matColumnDef="userRequest">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> USER REQUEST</th>
-            <td mat-cell *matCellDef="let row"> {{row.userRequest |uppercase}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              USER REQUEST
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.userRequest | uppercase }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="modelNo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> MODEL </th>
-            <td mat-cell *matCellDef="let row"> {{row.modelNo}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MODEL</th>
+            <td mat-cell *matCellDef="let row">{{ row.modelNo }}</td>
           </ng-container>
 
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </th>
-            <td mat-cell *matCellDef="let row" class="fb" [class]="row.btn_css"> {{htmlStatus(row.status)}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>STATUS</th>
+            <td mat-cell *matCellDef="let row" class="fb" [class]="row.btn_css">
+              {{ htmlStatus(row.status) }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="ongoing">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> On going To (hrs.) </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              On going To (hrs.)
+            </th>
             <td mat-cell *matCellDef="let row">
               <!-- <span *ngIf="row?.nextApprove?.name">{{row.nextApprove.name |uppercase}}</span> -->
-              {{htmlOngoingTo(row.queues,row)}}
+              {{ htmlOngoingTo(row.queues, row) }}
             </td>
           </ng-container>
 
           <ng-container *ngIf="validQE()" matColumnDef="userApprove">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> user approve </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              user approve
+            </th>
             <td mat-cell *matCellDef="let row">
-              <span *ngIf="row?.nextApprove?.name">{{row.nextApprove.name |uppercase}}</span>
+              <span *ngIf="row?.nextApprove?.name">{{
+                row.nextApprove.name | uppercase
+              }}</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="edit">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let row">
-              <button mat-raised-button color="primary" [ngClass]="{foo: row.btn_text=='edit'}"
-                [disabled]="row.btn_status" (click)="onEdit(row)">
-                <span *ngIf="row.btn_text==='edit'" class="material-icons-outlined">
+              <button
+                mat-raised-button
+                color="primary"
+                [ngClass]="{ foo: row.btn_text == 'edit' }"
+                [disabled]="row.btn_status"
+                (click)="onEdit(row)"
+              >
+                <span
+                  *ngIf="row.btn_text === 'edit'"
+                  class="material-icons-outlined"
+                >
                   edit
                 </span>
-                <span *ngIf="row.btn_text==='approve' || row.btn_text==='revise'" class="material-icons-outlined">
+                <span
+                  *ngIf="
+                    row.btn_text === 'approve' || row.btn_text === 'revise'
+                  "
+                  class="material-icons-outlined"
+                >
                   done
                 </span>
-                <span *ngIf="row.btn_text==='finish'" class="material-icons-outlined">
+                <span
+                  *ngIf="row.btn_text === 'finish'"
+                  class="material-icons-outlined"
+                >
                   done_all
                 </span>
-                {{row.btn_text |uppercase}}
+                {{ row.btn_text | uppercase }}
               </button>
             </td>
           </ng-container>
 
-
-
           <ng-container matColumnDef="btn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
-            <td mat-cell *matCellDef="let row" style="padding: 0 !important; ">
-              <button mat-icon-button color="primary" (click)="onClickView(row)">
-                <span class="material-icons-outlined">
-                  zoom_in
-                </span>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let row" style="padding: 0 !important">
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="onClickView(row)"
+              >
+                <span class="material-icons-outlined"> zoom_in </span>
               </button>
-              <button mat-icon-button color="primary" (click)="onClickViewNewTab(row)">
-                <span class="material-icons-outlined">
-                  open_in_new
-                </span>
-              </button>
-
-              <button [disabled]="row.level<7" mat-icon-button color="primary" (click)="onDownload(row)">
-                <span class="material-icons-outlined">
-                  file_download
-                </span>
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="onClickViewNewTab(row)"
+              >
+                <span class="material-icons-outlined"> open_in_new </span>
               </button>
 
-              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <button
+                [disabled]="row.level < 7"
+                mat-icon-button
+                color="primary"
+                (click)="onDownload(row)"
+              >
+                <span class="material-icons-outlined"> file_download </span>
+              </button>
+
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+              >
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
@@ -134,7 +199,11 @@
                   </mat-icon>
                   <span>Notifications</span>
                 </button>
-                <button *ngIf="validQeWindowAuth()" mat-menu-item (click)="onClickGeneratePlan(row)">
+                <button
+                  *ngIf="validQeWindowAuth()"
+                  mat-menu-item
+                  (click)="onClickGeneratePlan(row)"
+                >
                   <mat-icon>insert_invitation</mat-icon>
                   <span>Generate plan</span>
                 </button>
@@ -142,23 +211,33 @@
                   <mat-icon>edit_calendar</mat-icon>
                   <span>Edit plan</span>
                 </button>
+                <!-- <button mat-menu-item (click)="onClickAdvanceMode(row)">
+                  <mat-icon>edit_calendar</mat-icon>
+                  <span>Advance Mode</span>
+                </button> -->
               </mat-menu>
-
             </td>
           </ng-container>
 
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data </td>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              No data
+            </td>
           </tr>
         </table>
       </div>
-      <mat-paginator fxFlex="100" [pageSizeOptions]="pageSizeOptions" aria-label="Select page of users">
+      <mat-paginator
+        fxFlex="100"
+        [pageSizeOptions]="pageSizeOptions"
+        aria-label="Select page of users"
+      >
       </mat-paginator>
     </div>
   </div>
-
 </div>

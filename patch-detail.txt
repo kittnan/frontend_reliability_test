@@ -1,3 +1,9 @@
+Updated v.0.0.24
+patch detail
+1.Fix can select report or no report at condition.
+2.Room temperature temp require more than 0 .
+3.Fix time inspec input at planing (QE window).
+
 6.8
 fix input inspection time change to decimal and num pad(master)
 6.7

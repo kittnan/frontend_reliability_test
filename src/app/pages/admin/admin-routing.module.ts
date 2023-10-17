@@ -14,6 +14,7 @@ import { GroupComponent } from './operate/group/group.component';
 import { ItemsComponent } from './operate/items/items.component';
 import { UserManageComponent } from './user-manage/user-manage.component';
 import { ApproverComponent } from './approver/approver.component';
+import { AdvanceModeComponent } from './advance-mode/advance-mode.component';
 
 const routes: Routes = [
   {
@@ -22,67 +23,71 @@ const routes: Routes = [
     children: [
       {
         path: 'user-manage',
-        component: UserManageComponent
+        component: UserManageComponent,
       },
 
       {
         path: 'department',
-        component: DepartmentComponent
+        component: DepartmentComponent,
       },
       {
         path: 'section',
-        component: SectionMasterComponent
+        component: SectionMasterComponent,
       },
       {
         path: 'authorize',
-        component: AuthorizeMasterComponent
+        component: AuthorizeMasterComponent,
       },
       {
         path: 'model',
-        component: ModelMasterComponent
+        component: ModelMasterComponent,
       },
       {
         path: 'test-purpose',
-        component: TestPurposeMasterComponent
+        component: TestPurposeMasterComponent,
       },
       {
         path: 'testing-type',
-        component: TestingTypeMasterComponent
+        component: TestingTypeMasterComponent,
       },
       {
         path: 'functional-chamber',
-        component: FunctionChamberComponent
+        component: FunctionChamberComponent,
       },
       {
         path: 'chamber',
-        component: TableComponent
+        component: TableComponent,
       },
       {
         path: 'operate-group',
-        component: GroupComponent
+        component: GroupComponent,
       },
       {
         path: 'operate-items',
-        component: ItemsComponent
+        component: ItemsComponent,
       },
       {
         path: 'request-manage',
-        component: RequestComponent
+        component: RequestComponent,
       },
       {
         path: 'approver',
-        component: ApproverComponent
+        component: ApproverComponent,
+      },
+      {
+        path: 'advance-mode',
+        component: AdvanceModeComponent,
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'request-manage'
-      }
-    ]
-  }
+        redirectTo: 'request-manage',
+      },
+    ],
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

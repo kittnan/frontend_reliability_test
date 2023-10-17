@@ -37,6 +37,7 @@ import { RequestComponent } from './request/request.component';
 import { SharedModule } from '../shared/shared.module';
 import { ApproverComponent } from './approver/approver.component';
 import { DialogApproverComponent } from './approver/dialog-approver/dialog-approver.component';
+import { AdvanceModeComponent } from './advance-mode/advance-mode.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { DialogApproverComponent } from './approver/dialog-approver/dialog-appro
     RequestComponent,
     ApproverComponent,
     DialogApproverComponent,
+    AdvanceModeComponent,
   ],
   imports: [
     CommonModule,

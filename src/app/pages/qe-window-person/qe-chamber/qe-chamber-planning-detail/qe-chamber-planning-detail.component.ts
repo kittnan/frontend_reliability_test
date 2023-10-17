@@ -9,9 +9,7 @@ import { QueueService } from 'src/app/http/queue.service';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
-import {
-  DialogDateStartInspectionComponent,
-} from '../components/dialog-date-start-inspection/dialog-date-start-inspection.component';
+import { DialogDateStartInspectionComponent } from '../components/dialog-date-start-inspection/dialog-date-start-inspection.component';
 import { DialogDateComponent } from '../components/dialog-date/dialog-date.component';
 import { DialogQeChamberComponent } from '../components/dialog-qe-chamber/dialog-qe-chamber.component';
 import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
@@ -23,28 +21,29 @@ import { ActivatedRoute, Params } from '@angular/router';
 @Component({
   selector: 'app-qe-chamber-planning-detail',
   templateUrl: './qe-chamber-planning-detail.component.html',
-  styleUrls: ['./qe-chamber-planning-detail.component.scss']
+  styleUrls: ['./qe-chamber-planning-detail.component.scss'],
 })
 export class QeChamberPlanningDetailComponent implements OnInit {
-  chamberTable!: QueueForm[]
+  chamberTable!: QueueForm[];
   hourList: any[] = [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
-  ]
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    21, 22, 23,
+  ];
   // operateItems: any[] = []
-  requestForm: any
-  tableSource: any
-  tableData: any = null
+  requestForm: any;
+  tableSource: any;
+  tableData: any = null;
   userLogin: any;
-  dateNow = new Date()
-  minDateInitial = new Date()
-  tempQueues: any[] = []
-  editPlan: boolean = false
-  shortMenuOption: any = null
-  jump: boolean = false
+  dateNow = new Date();
+  minDateInitial = new Date();
+  tempQueues: any[] = [];
+  editPlan: boolean = false;
+  shortMenuOption: any = null;
+  jump: boolean = false;
   @Input() queues: any;
   @Input() formInput: any;
-  @Output() queuesChange: EventEmitter<any> = new EventEmitter()
-  @Output() tableChange: EventEmitter<any> = new EventEmitter()
+  @Output() queuesChange: EventEmitter<any> = new EventEmitter();
+  @Output() tableChange: EventEmitter<any> = new EventEmitter();
   constructor(
     private dialog: MatDialog,
     private $qe_chamber: QeChamberService,
@@ -56,103 +55,109 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     private _loading: NgxUiLoaderService,
     private route: ActivatedRoute
   ) {
-    let userLoginStr: any = localStorage.getItem('RLS_userLogin')
-    this.userLogin = JSON.parse(userLoginStr)
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin');
+    this.userLogin = JSON.parse(userLoginStr);
   }
 
   async ngOnInit(): Promise<void> {
     try {
       this.route.queryParams.subscribe((params: Params) => {
         if (params['editPlan'] == 'true') {
-          this.editPlan = true
+          this.editPlan = true;
         }
-      })
-      this._loading.start()
-      this.tempQueues = [...this.queues]
+      });
+      this._loading.start();
+      this.tempQueues = [...this.queues];
       if (this.queues) {
         // this.queues.map((d: any) => {
         //   this.onCal(d, 0)
         // })
-        this.queues = await this.getQueuesDraft(this.queues)
-        this.tableData = await this.mapForTable(this.queues)
+        this.queues = await this.getQueuesDraft(this.queues);
+        this.tableData = await this.mapForTable(this.queues);
         this.shortMenuOption = this.queues.map((a: any, i: number) => {
           return {
             name: a.condition.name.substring(0, 50),
-          }
-        })
+          };
+        });
       }
-
     } catch (error) {
       console.log(error);
-      this._loading.stop()
+      this._loading.stop();
     } finally {
       setTimeout(() => {
-        this._loading.stop()
+        this._loading.stop();
       }, 500);
     }
-
-
   }
 
-
-
   async getQueuesDraft(queues: any) {
-    let tempQueues = queues
-    const queueDraft = await this.$queue.getFormId(tempQueues[0].work.requestId).toPromise()
+    let tempQueues = queues;
+    const queueDraft = await this.$queue
+      .getFormId(tempQueues[0].work.requestId)
+      .toPromise();
 
     tempQueues = queues.map((d: any) => {
       const draft = queueDraft.find((draft: any) => {
-        return draft.condition?.name == d.condition?.name
-      })
+        return draft.condition?.name == d.condition?.name;
+      });
 
       if (draft) {
         const inspectionTime = d?.inspectionTime?.map((d: any) => {
-          const a = draft.inspectionTime.find((g: any) => g.at == d.at)
-          if (a) return a
-          return d
-        })
+          const a = draft.inspectionTime.find((g: any) => g.at == d.at);
+          if (a) return a;
+          return d;
+        });
         const actualTime = d?.inspectionTime?.map((d: any, i: any) => {
-          const a = draft.inspectionTime.find((g: any) => g.at == d.at)
-          if (a) return { ...a, index: i, onPlan: a.onPlan == true || a.onPlan == false ? a.onPlan : true }
-          return { ...d, index: i, onPlan: true }
-        })
+          const a = draft.inspectionTime.find((g: any) => g.at == d.at);
+          if (a)
+            return {
+              ...a,
+              index: i,
+              onPlan: a.onPlan == true || a.onPlan == false ? a.onPlan : true,
+            };
+          return { ...d, index: i, onPlan: true };
+        });
         const reportQE: any = d?.reportQE?.map((d: any) => {
-          const a = draft.reportQE.find((g: any) => g.at == d.at)
+          const a = draft.reportQE.find((g: any) => g.at == d.at);
           if (a) {
-            return a
+            return a;
           }
-          return d
-        })
+          return d;
+        });
         const reportTime = d?.reportTime?.map((d: any) => {
-          const a = draft.reportTime.find((g: any) => g.at == d.at)
-          if (a) return a
-          return d
-        })
-        draft['inspectionTime'] = inspectionTime
-        draft['reportQE'] = reportQE
-        draft['reportTime'] = reportTime
-        draft['actualTime'] = actualTime
+          const a = draft.reportTime.find((g: any) => g.at == d.at);
+          if (a) return a;
+          return d;
+        });
+        draft['inspectionTime'] = inspectionTime;
+        draft['reportQE'] = reportQE;
+        draft['reportTime'] = reportTime;
+        draft['actualTime'] = actualTime;
         const foo = {
           ...draft,
-        }
-        return foo
+        };
+        return foo;
       } else {
-        return d
+        return d;
       }
-    })
+    });
 
-    this.requestForm = await this.$request.get_id(tempQueues[0].work.requestId).toPromise()
-    this.minDateInitial = new Date(this.requestForm[0].qeReceive.date)
-    tempQueues = await this.setOperateOnQueues(tempQueues)
-    return tempQueues
+    this.requestForm = await this.$request
+      .get_id(tempQueues[0].work.requestId)
+      .toPromise();
+    this.minDateInitial = new Date(this.requestForm[0].qeReceive.date);
+    tempQueues = await this.setOperateOnQueues(tempQueues);
+    return tempQueues;
   }
   async setOperateOnQueues(queues: any) {
     for (let i = 0; i < queues.length; i++) {
       if (queues[i]?.operate?.status) {
-        queues[i]['operateTable'] = await this.getOperateToolTableAll(queues[i].startDate)
+        queues[i]['operateTable'] = await this.getOperateToolTableAll(
+          queues[i].startDate
+        );
       }
     }
-    return queues
+    return queues;
   }
   dialogChamber(item: QueueForm) {
     if (item && item.startDate) {
@@ -163,21 +168,17 @@ export class QeChamberPlanningDetailComponent implements OnInit {
           qty: 0,
           // qty: item.work?.qty,
         },
-
-      })
-      dialogRef.afterClosed().subscribe(async res => {
+      });
+      dialogRef.afterClosed().subscribe(async (res) => {
         if (res) {
           // console.log(res);
 
-          item.chamber = res
+          item.chamber = res;
         }
-
-      })
+      });
     } else {
-      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning')
-
+      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning');
     }
-
   }
 
   dialogOperate(item: QueueForm) {
@@ -185,136 +186,114 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       const dialogRef = this.dialog.open(DialogQeOperateComponent, {
         data: {
           startDate: item.startDate,
-          operate: item.operate
-        }
-      })
-      dialogRef.afterClosed().subscribe(res => {
+          operate: item.operate,
+        },
+      });
+      dialogRef.afterClosed().subscribe((res) => {
         if (res) {
           item.operate = {
             attachment: res.attachment,
             checker: res.checker,
             power: res.power,
-            status: true
-          }
+            status: true,
+          };
         }
-      })
+      });
     } else {
-      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning')
+      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning');
     }
-
   }
 
   onSelectHour(item: QueueForm, e: any) {
-    item.startDate = moment(item.startDate).set('hour', e.value).toDate()
-    this.onCal(item, 0)
+    item.startDate = moment(item.startDate).set('hour', e.value).toDate();
+    this.onCal(item, 0);
   }
   onSelectHourEndDate(time: any, item: QueueForm, i: any, e: any) {
-    time.endDate = moment(time.endDate).set('hour', e.value).toDate()
-    const startMo = moment(new Date(time.startDate))
-    const endMo = moment(new Date(time.endDate))
-    time.hr = moment(endMo).diff(startMo, 'hour')
+    time.endDate = moment(time.endDate).set('hour', e.value).toDate();
+    const startMo = moment(new Date(time.startDate));
+    const endMo = moment(new Date(time.endDate));
+    time.hr = moment(endMo).diff(startMo, 'hour');
 
     // this.onCal(item, i)
   }
 
   async onCal(item: any, index: number) {
-    const startDate: any = item.startDate
-    if (startDate) {
-      if (item.actualTime) {
-        item = this.$qe_chamber.genEndDateActual(item)
-      } else {
-        item = this.$qe_chamber.genEndDate(item)
+    setTimeout(async () => {
+      const startDate: any = item.startDate;
+      if (startDate) {
+        if (item.actualTime) {
+          item = this.$qe_chamber.genEndDateActual(item);
+        } else {
+          item = this.$qe_chamber.genEndDate(item);
+        }
+        item.operateTable = await this.getOperateToolTableAll(startDate);
       }
-      item.operateTable = await this.getOperateToolTableAll(startDate)
-    }
+    }, 400);
   }
   onActionDelay(item: any, time: any) {
     try {
       if (time?.delay) {
         if (time.prev?.hr) {
-          time.hr = Number(time.prev.hr) + Number(time.delay)
+          time.hr = Number(time.prev.hr) + Number(time.delay);
         } else {
-          time.prev = { ...time }
-          time.hr = Number(time.hr) + Number(time.delay)
+          time.prev = { ...time };
+          time.hr = Number(time.hr) + Number(time.delay);
         }
         const historyDelayTime = {
           work: item.work,
           condition: item.condition,
           beforeAction: {
-            ...time.prev
+            ...time.prev,
           },
           nextAction: {
-            ...time
-          }
-        }
-        item.historyDelayTime = historyDelayTime
+            ...time,
+          },
+        };
+        item.historyDelayTime = historyDelayTime;
       } else {
-        time['delay'] = 0
-        time['hr'] = Number(time.prev.hr)
+        time['delay'] = 0;
+        time['hr'] = Number(time.prev.hr);
       }
-      const startDate: any = item.startDate
+      const startDate: any = item.startDate;
       if (startDate) {
-        item = this.$qe_chamber.genEndDate(item)
+        item = this.$qe_chamber.genEndDate(item);
       }
     } catch (error) {
       console.log(error);
-
     }
-
-
   }
-
-  // openDialogActual(item: any, time: any) {
-  //   const dialogRef = this.dialog.open(DialogSelectDateComponent, {
-  //     height: '500px',
-  //     width: '500px',
-  //     data: item
-  //   })
-  //   dialogRef.afterClosed().subscribe(selectedDate => {
-  //     if (selectedDate) {
-  //       time.startDate = selectedDate
-  //       const foo = this.$qe_chamber.genEndDateWithActualTime(item, time, selectedDate)
-  //       console.log(foo);
-  //       item.actualTime = foo
-  //       // console.clear()
-  //       // console.log("🚀 ~ item:", item)
-  //       // // this.onCal(item, 0)
-  //     }
-  //   })
-  // }
 
   openDialogInitial(item: any) {
     const dialogRef = this.dialog.open(DialogDateStartInspectionComponent, {
       height: '500px',
       width: '500px',
-      data: item
-    })
-    dialogRef.afterClosed().subscribe(res => {
+      data: item,
+    });
+    dialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        item.startDate = res.startDate
-        item.h = null
-        this.onCal(item, 0)
+        item.startDate = res.startDate;
+        item.h = null;
+        this.onCal(item, 0);
       }
-    })
+    });
   }
-
 
   openDialogCalendar(time: any, item: QueueForm, i: any, indexTime: any) {
     if (time?.startDate) {
       const dialogRef = this.dialog.open(DialogDateComponent, {
         height: '500px',
         width: '500px',
-        data: time
-      })
-      dialogRef.afterClosed().subscribe(res => {
+        data: time,
+      });
+      dialogRef.afterClosed().subscribe((res) => {
         if (res) {
-          time = res
-          time.h = null
+          time = res;
+          time.h = null;
           // this.onCal(item, i)
         }
-      })
+      });
     } else {
-      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning')
+      Swal.fire('PLEASE SELECT DATE INSPECTION INITIAL !!!', '', 'warning');
     }
   }
 
@@ -322,74 +301,66 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     if (a && b) {
       return a.code === b.code;
     }
-    return false
+    return false;
   }
 
   onSelectChecker(e: any, item: OperateForm) {
     item.checker = {
       code: e.value.code,
       name: e.value.name,
-      qty: 1
-    }
+      qty: 1,
+    };
   }
   onSelectPower(e: any, item: OperateForm) {
     item.power = {
       code: e.value.code,
       name: e.value.name,
-      qty: 1
-    }
-
+      qty: 1,
+    };
   }
   onSelectAttachment(e: any, item: OperateForm) {
     item.attachment = {
       code: e.value.code,
       name: e.value.name,
-      qty: 1
-    }
-
+      qty: 1,
+    };
   }
 
   onDelete(item: QueueForm, index: number) {
     Swal.fire({
       title: 'Do you want to delete?',
       icon: 'question',
-      showCancelButton: true
+      showCancelButton: true,
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this.deleteQueue(item)
-
-
+        this.deleteQueue(item);
       }
-    })
+    });
   }
 
   async deleteQueue(item: any) {
-
-
     if (item._id) {
       // this.data = this.data.filter((d: any) => d != item)
-      const r_delete = await this.$queue.delete(item._id).toPromise()
+      const r_delete = await this.$queue.delete(item._id).toPromise();
       if (r_delete && r_delete.acknowledged) {
-        delete item._id
-        const table = await this.mapForTable(this.queues)
-        this.requestForm[0].table = table
-        this.tableData = table
-        this.getOperateToolTableAll(item.startDate)
-        const resUpdate = await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
+        delete item._id;
+        const table = await this.mapForTable(this.queues);
+        this.requestForm[0].table = table;
+        this.tableData = table;
+        this.getOperateToolTableAll(item.startDate);
+        const resUpdate = await this.$request
+          .update(this.requestForm[0]._id, this.requestForm[0])
+          .toPromise();
         // this.getQueuesDraft(this.queues)
-        Swal.fire('SUCCESS', '', 'success')
-
+        Swal.fire('SUCCESS', '', 'success');
 
         // this.queues = [...this.tempQueues]
         // this.queues = await this.getQueuesDraft(this.queues)
         // console.log("🚀 ~ this.queues:", this.queues)
         // this.tableData = await this.mapForTable(this.queues)
 
-
         setTimeout(() => {
           // location.reload()
-
-
         }, 1000);
       }
     } else {
@@ -400,10 +371,10 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     Swal.fire({
       title: 'Do you want to save?',
       icon: 'question',
-      showCancelButton: true
+      showCancelButton: true,
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this.insertDirect([item], index)
+        this.insertDirect([item], index);
 
         // todo ignore check operate (operate tool is flex)
         // if (item.condition?.value == 0) {
@@ -415,15 +386,16 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         //     this.insertDirect([item], index)
         //   }
         // }
-
       }
-    })
-
+    });
   }
 
   async getOperateToolTableAll(startDate: any) {
-    const param: HttpParams = new HttpParams().set('startDate', new Date(startDate).toISOString())
-    const resOperate = await this.$operateItems.remain(param).toPromise()
+    const param: HttpParams = new HttpParams().set(
+      'startDate',
+      new Date(startDate).toISOString()
+    );
+    const resOperate = await this.$operateItems.remain(param).toPromise();
     const mapOperate = resOperate.map((t: any, i: any) => {
       return {
         position: i + 1,
@@ -433,36 +405,39 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         used: t.stock - t.remain,
         remain: t.remain,
         total: t.stock,
-      }
-    })
-    return mapOperate
-
+      };
+    });
+    return mapOperate;
   }
 
   async validRemainOperate(item: any, startDate: any, index: any) {
-    item.operateTable = await this.getOperateToolTableAll(startDate)
-    const operateUse = item.operate
-    const attachment: any = item.operateTable.find((t: any) => t.code === operateUse.attachment.code)
-    const checker: any = item.operateTable.find((t: any) => t.code === operateUse.checker.code)
-    const power: any = item.operateTable.find((t: any) => t.code === operateUse.power.code)
+    item.operateTable = await this.getOperateToolTableAll(startDate);
+    const operateUse = item.operate;
+    const attachment: any = item.operateTable.find(
+      (t: any) => t.code === operateUse.attachment.code
+    );
+    const checker: any = item.operateTable.find(
+      (t: any) => t.code === operateUse.checker.code
+    );
+    const power: any = item.operateTable.find(
+      (t: any) => t.code === operateUse.power.code
+    );
     const obj = {
       data: {
         attachment: attachment.remain || 0,
         checker: checker.remain || 0,
         power: power.remain || 0,
       },
-      status: true
-    }
+      status: true,
+    };
 
-
-
-    if ((attachment?.remain - operateUse?.attachment?.qty) < 0) {
+    if (attachment?.remain - operateUse?.attachment?.qty < 0) {
       obj.status = false;
     }
-    if ((checker?.remain - operateUse?.checker?.qty) < 0) {
+    if (checker?.remain - operateUse?.checker?.qty < 0) {
       obj.status = false;
     }
-    if ((power?.remain - operateUse?.power?.qty) < 0) {
+    if (power?.remain - operateUse?.power?.qty < 0) {
       obj.status = false;
     }
     if (obj.status) {
@@ -473,7 +448,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       // }
       // console.log(item);
 
-      this.insertDirect([item], index)
+      this.insertDirect([item], index);
     } else {
       const html = `
       <p>
@@ -484,262 +459,282 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       </p>
       <p>
         power remain: ${obj.data.power}
-      </p>`
+      </p>`;
       Swal.fire({
         title: `Operate tool!!`,
         icon: 'error',
-        html: html
-      })
+        html: html,
+      });
     }
   }
 
   // ! ยังไม่ใช้
   async onInsert(item: any, index: number) {
-    const r_checkQueue = await this.$queue.check(item).toPromise()
+    const r_checkQueue = await this.$queue.check(item).toPromise();
     if (r_checkQueue.status) {
-      const data = r_checkQueue.text[0]
-      const operateStr = JSON.stringify(data.operate)
+      const data = r_checkQueue.text[0];
+      const operateStr = JSON.stringify(data.operate);
 
       if (data.operate.status) {
-        const r_checkOperate = await this.$operateGroup.getReady(data.startDate, operateStr).toPromise()
+        const r_checkOperate = await this.$operateGroup
+          .getReady(data.startDate, operateStr)
+          .toPromise();
         if (r_checkOperate.status) {
           const data_insert = {
             ...item[0],
-            status: 'draft'
-          }
-          const r_insert = await this.$queue.insert(data_insert).toPromise()
-          this.queues[index] = r_insert[0]
-          Swal.fire('SUCCESS', '', 'success')
-          this.mapForTable(this.queues)
+            status: 'draft',
+          };
+          const r_insert = await this.$queue.insert(data_insert).toPromise();
+          this.queues[index] = r_insert[0];
+          Swal.fire('SUCCESS', '', 'success');
+          this.mapForTable(this.queues);
         } else {
           Swal.fire({
             html: r_checkOperate.text,
-            icon: 'error'
-          })
+            icon: 'error',
+          });
         }
       } else {
         const data_insert = {
           ...item[0],
-          status: 'draft'
-        }
-        const r_insert = await this.$queue.insert(data_insert).toPromise()
-        this.queues[index] = r_insert[0]
-        Swal.fire('SUCCESS', '', 'success')
-        this.mapForTable(this.queues)
-
+          status: 'draft',
+        };
+        const r_insert = await this.$queue.insert(data_insert).toPromise();
+        this.queues[index] = r_insert[0];
+        Swal.fire('SUCCESS', '', 'success');
+        this.mapForTable(this.queues);
       }
-
     } else {
       Swal.fire({
         html: r_checkQueue,
-        icon: 'error'
-      })
+        icon: 'error',
+      });
     }
-
   }
   async onEdit(id: any, item: any, index: number) {
-    const r_checkQueue = await this.$queue.check([item]).toPromise()
+    const r_checkQueue = await this.$queue.check([item]).toPromise();
     if (r_checkQueue.status) {
-      const data = r_checkQueue.text[0]
-      const operateStr = JSON.stringify(data.operate)
+      const data = r_checkQueue.text[0];
+      const operateStr = JSON.stringify(data.operate);
       if (data.operate.status) {
-        const r_checkOperate = await this.$operateGroup.getReady(data.startDate, operateStr).toPromise()
+        const r_checkOperate = await this.$operateGroup
+          .getReady(data.startDate, operateStr)
+          .toPromise();
         if (r_checkOperate.status) {
-          const r_update = await this.$queue.update(item._id, item).toPromise()
+          const r_update = await this.$queue.update(item._id, item).toPromise();
           if (r_update && r_update.acknowledged) {
-            Swal.fire('SUCCESS', '', 'success')
-            this.mapForTable(this.queues)
-
+            Swal.fire('SUCCESS', '', 'success');
+            this.mapForTable(this.queues);
           } else {
-            Swal.fire('', '', 'error')
+            Swal.fire('', '', 'error');
           }
         } else {
           Swal.fire({
             html: r_checkOperate.text,
-            icon: 'error'
-          })
+            icon: 'error',
+          });
         }
       } else {
-        const r_update = await this.$queue.update(item._id, item).toPromise()
+        const r_update = await this.$queue.update(item._id, item).toPromise();
         if (r_update && r_update.acknowledged) {
-          Swal.fire('SUCCESS', '', 'success')
-          this.mapForTable(this.queues)
+          Swal.fire('SUCCESS', '', 'success');
+          this.mapForTable(this.queues);
         } else {
-          Swal.fire('', '', 'error')
+          Swal.fire('', '', 'error');
         }
       }
     } else {
-      Swal.fire(r_checkQueue, '', 'error')
+      Swal.fire(r_checkQueue, '', 'error');
     }
-
   }
 
   async insertDirect(item: any, index: number) {
-    const newItem = item[0]
+    const newItem = item[0];
     if (newItem._id) {
-      const r_update = await this.$queue.update(newItem._id, newItem).toPromise()
+      const r_update = await this.$queue
+        .update(newItem._id, newItem)
+        .toPromise();
       if (r_update && r_update.acknowledged) {
-        const table = await this.mapForTable(this.queues)
-        this.tableData = table
+        const table = await this.mapForTable(this.queues);
+        this.tableData = table;
         Swal.fire({
           title: 'Success',
           icon: 'success',
           showConfirmButton: false,
-          timer: 1000
+          timer: 1000,
         }).then(() => {
-          location.reload()
-        })
+          location.reload();
+        });
         // Swal.fire('SUCCESS', '', 'success')
         // this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
       } else {
-        Swal.fire('', '', 'error')
+        Swal.fire('', '', 'error');
       }
     } else {
-
       if (newItem.condition?.value == 0) {
         newItem.chamber = {
-          "code": null,
-          "name": null
-        }
+          code: null,
+          name: null,
+        };
       }
 
-      const r_insert = await this.$queue.insert(newItem).toPromise()
-      this.queues[index] = r_insert[0]
-      const table = await this.mapForTable(this.queues)
-      this.tableData = table
-      this.queues[index].operateTable = await this.getOperateToolTableAll(newItem.startDate)
-      this.requestForm[0].table = this.tableData
-      const resUpdate = await this.$request.update(this.requestForm[0]._id, this.requestForm[0]).toPromise()
-      this.tableChange.emit(table)
+      const r_insert = await this.$queue.insert(newItem).toPromise();
+      this.queues[index] = r_insert[0];
+      const table = await this.mapForTable(this.queues);
+      this.tableData = table;
+      this.queues[index].operateTable = await this.getOperateToolTableAll(
+        newItem.startDate
+      );
+      this.requestForm[0].table = this.tableData;
+      const resUpdate = await this.$request
+        .update(this.requestForm[0]._id, this.requestForm[0])
+        .toPromise();
+      this.tableChange.emit(table);
       if (resUpdate && resUpdate.acknowledged) {
         Swal.fire({
           title: 'Success',
           icon: 'success',
           showConfirmButton: false,
-          timer: 1000
+          timer: 1000,
         }).then(() => {
-          location.reload()
-        })
+          location.reload();
+        });
         // Swal.fire('SUCCESS', '', 'success')
         // setTimeout(() => {
         // }, 1000);
       }
-
     }
   }
 
-
-
   showOperateItemChecker(operateItems: any) {
     if (operateItems && operateItems.length > 0) {
-      return operateItems.filter((item: any) => item.type === 'checker')
+      return operateItems.filter((item: any) => item.type === 'checker');
     } else {
-      return []
+      return [];
     }
   }
   showOperateItemPower(operateItems: any) {
     if (operateItems && operateItems.length > 0) {
-      return operateItems.filter((item: any) => item.type === 'power')
+      return operateItems.filter((item: any) => item.type === 'power');
     } else {
-      return []
+      return [];
     }
   }
   showOperateItemAttachment(operateItems: any) {
     if (operateItems && operateItems.length > 0) {
-      return operateItems.filter((item: any) => item.type === 'attachment')
+      return operateItems.filter((item: any) => item.type === 'attachment');
     } else {
-      return []
+      return [];
     }
   }
-
-
-
 
   public async mapForTable(queues: any) {
     const header = queues.reduce((prev: any, now: any) => {
-      const temp: any = prev
-      temp.push(now.condition.name)
-      return temp
-    }, [])
-    const receive = header.map((h: any) => this.requestForm[0].qeReceive?.date ? moment(this.requestForm[0].qeReceive.date).format('ddd, D-MMM-YY,h:mm a') : '-')
-    const times_inspection = await this.mapTime(queues, 'inspectionTime')
-    const times_report = await this.mapTime(queues, 'reportTime')
-    let reportStatus = this.formInput?.step4?.data[0]?.reportStatus ? this.formInput.step4.data[0].reportStatus : this.formInput.step4.data[0].data.reportStatus
+      const temp: any = prev;
+      temp.push(now.condition.name);
+      return temp;
+    }, []);
+    const receive = header.map((h: any) =>
+      this.requestForm[0].qeReceive?.date
+        ? moment(this.requestForm[0].qeReceive.date).format(
+            'ddd, D-MMM-YY,h:mm a'
+          )
+        : '-'
+    );
+    const times_inspection = await this.mapTime(queues, 'inspectionTime');
+    const times_report = await this.mapTime(queues, 'reportTime');
+    let reportStatus = this.formInput?.step4?.data[0]?.reportStatus
+      ? this.formInput.step4.data[0].reportStatus
+      : this.formInput.step4.data[0].data.reportStatus;
     if (this.formInput.step4.data[0].data.report.length > 0) {
-      reportStatus = true
+      reportStatus = true;
     }
 
-    const table_inspection: any = await this._qenInspectionTable.genTable(times_inspection, queues, header, 'inspectionTime', times_report, ['Sample Receive', ...receive], reportStatus, this.formInput.step4)
+    const table_inspection: any = await this._qenInspectionTable.genTable(
+      times_inspection,
+      queues,
+      header,
+      'inspectionTime',
+      times_report,
+      ['Sample Receive', ...receive],
+      reportStatus,
+      this.formInput.step4
+    );
     return {
       header: header,
-      data: table_inspection
-    }
+      data: table_inspection,
+    };
   }
 
-
   mapTime(data: any, key: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let times = data.reduce((prev: any, now: any) => {
-        const foo = prev.concat(now[key])
-        return foo
-      }, [])
-      times = Object.values(times.reduce((acc: any, cur: any) => Object.assign(acc, { [cur.at]: cur }), {}))
-      times.sort((a: any, b: any) => a.at - b.at)
-      times.push({ at: -1 })
-      resolve(times)
-    })
+        const foo = prev.concat(now[key]);
+        return foo;
+      }, []);
+      times = Object.values(
+        times.reduce(
+          (acc: any, cur: any) => Object.assign(acc, { [cur.at]: cur }),
+          {}
+        )
+      );
+      times.sort((a: any, b: any) => a.at - b.at);
+      times.push({ at: -1 });
+      resolve(times);
+    });
   }
 
   emit() {
-    this.tableChange.emit(this.tableData)
-    this.queuesChange.emit(this.queues)
+    this.tableChange.emit(this.tableData);
+    this.queuesChange.emit(this.queues);
   }
 
-
-
   async operateAll(startDate: any) {
-    const param: HttpParams = new HttpParams().set('startDate', startDate)
-    return await this.$operateItems.condition(param).toPromise()
-
+    const param: HttpParams = new HttpParams().set('startDate', startDate);
+    return await this.$operateItems.condition(param).toPromise();
   }
 
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
-    return day !== 0
+    return day !== 0;
   };
 
   onConfirmActual(item: any, index: number) {
     Swal.fire({
       title: 'Do you want to confirm actual time?',
       icon: 'question',
-      showCancelButton: true
+      showCancelButton: true,
     }).then((v: SweetAlertResult) => {
       if (v.isConfirmed) {
-        item.inspectionTime = [...item.actualTime]
-        this.insertDirect([item], index)
-
+        item.inspectionTime = [...item.actualTime];
+        this.insertDirect([item], index);
       }
-    })
+    });
   }
 
   jumpTo(i: number) {
-    let elements: any = document.querySelectorAll('.jump')
-    const elements2: any = [...elements]
-    const ids = elements2.map((a: any) => a.id)
+    let elements: any = document.querySelectorAll('.jump');
+    const elements2: any = [...elements];
+    const ids = elements2.map((a: any) => a.id);
 
-    const id: any = ids[i]
+    const id: any = ids[i];
     console.log(id);
-    (document.getElementById(id) as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    (document.getElementById(id) as HTMLElement).scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest',
+    });
     setTimeout(() => {
-      this.jump = false
+      this.jump = false;
     }, 100);
   }
   jump2(id: string) {
     setTimeout(() => {
-      (document.getElementById(id) as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-
+      (document.getElementById(id) as HTMLElement).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      });
     }, 500);
   }
-
-
 }

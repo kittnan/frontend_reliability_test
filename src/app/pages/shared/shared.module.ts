@@ -39,7 +39,11 @@ import { TableOperateComponent } from './table-operate/table-operate.component';
 import { CommentComponent } from './comment/comment.component';
 import { QeReceiveComponent } from './qe-receive/qe-receive.component';
 import { ConditionTableNoChamberComponent } from './condition-table-no-chamber/condition-table-no-chamber.component';
-import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateLoader,
+  TranslatePipe,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DialogApproveComponent } from './approve-form/dialog-approve/dialog-approve.component';
 import { DialogRejectComponent } from './approve-form/dialog-reject/dialog-reject.component';
@@ -54,6 +58,15 @@ import { CompareStep1Component } from './view-compare/compare-step1/compare-step
 import { CompareStep2Component } from './view-compare/compare-step2/compare-step2.component';
 import { CompareStep3Component } from './view-compare/compare-step3/compare-step3.component';
 import { CompareStep4Component } from './view-compare/compare-step4/compare-step4.component';
+import { HeatShockComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/heat-shock/heat-shock.component';
+import { HighLowComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/high-low/high-low.component';
+import { HighTempFormComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-form/high-temp-form.component';
+import { HighTempHumiFormComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-humi-form/high-temp-humi-form.component';
+import { HighTempHumiVibrationFormComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/high-temp-humi-vibration-form/high-temp-humi-vibration-form.component';
+import { InspectionFormComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/inspection-form/inspection-form.component';
+import { LowTempFormComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/low-temp-form/low-temp-form.component';
+import { NoOvenComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/no-oven/no-oven.component';
+import { TempRoomComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/temp-room/temp-room.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -104,8 +117,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     CompareStep1Component,
     CompareStep2Component,
     CompareStep3Component,
-    CompareStep4Component
-
+    CompareStep4Component,
+    HeatShockComponent,
+    HighLowComponent,
+    LowTempFormComponent,
+    HighTempFormComponent,
+    HighTempHumiFormComponent,
+    HighTempHumiVibrationFormComponent,
+    InspectionFormComponent,
+    NoOvenComponent,
+    TempRoomComponent,
   ],
   imports: [
     CommonModule,
@@ -120,9 +141,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [DatePipe, TranslatePipe],
   exports: [
@@ -161,7 +182,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     CompareStep1Component,
     CompareStep2Component,
     CompareStep3Component,
-    CompareStep4Component
-  ]
+    CompareStep4Component,
+    HeatShockComponent,
+    HighLowComponent,
+    LowTempFormComponent,
+    HighTempFormComponent,
+    HighTempHumiFormComponent,
+    HighTempHumiVibrationFormComponent,
+    InspectionFormComponent,
+    NoOvenComponent,
+    TempRoomComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -36,46 +36,17 @@ export class InputTimeInspecComponent implements OnInit {
     const tab = 9;
     const enter = 13;
     let listAllow = [backspace, dot, comma, tab, enter];
-    if ((key >= zero && key <= nine) ||(key >= zeroNum && key <= nineNum)  || listAllow.some((a: any) => a == key)) {
-      // if (key === backspace && this.lockInitial) {
-      //   if (this.form.length === 1 && lastChar === ',') e.preventDefault();
-      // }
-      if(key ===enter || key===tab){
-        this.cal()
+    if (
+      (key >= zero && key <= nine) ||
+      (key >= zeroNum && key <= nineNum) ||
+      listAllow.some((a: any) => a == key)
+    ) {
+      if (key === enter || key === tab) {
+        this.cal();
       }
     } else {
       e.preventDefault();
     }
-
-    // if (this.lockInitial && this.form.length == 1 && Number(e.keyCode) === 8) {
-    //   return e.preventDefault();
-    // } else {
-    //   const comma = 188;
-    //   const backspace = 8;
-    //   const zero = 48;
-    //   const nine = 57;
-    //   const tab = 9;
-    //   const l = 37;
-    //   const u = 38;
-    //   const r = 39;
-    //   const b = 40;
-    //   const dot = 190;
-    //   const key = Number(e.keyCode);
-
-    //   if (
-    //     (key >= zero && key <= nine) ||
-    //     key == comma ||
-    //     key == backspace ||
-    //     key == tab ||
-    //     key == l ||
-    //     key == u ||
-    //     key == r ||
-    //     key == b
-    //   ) {
-    //   } else {
-    //     return e.preventDefault();
-    //   }
-    // }
   }
   cal() {
     let tempSplit: any[] = this.temp.toString().trim().split(',');
@@ -96,16 +67,6 @@ export class InputTimeInspecComponent implements OnInit {
     this.temp = str;
     this.emit();
   }
-  // cal() {
-  //   let tempSplit: any[] = this.temp.toString().trim().split(',');
-  //   tempSplit = tempSplit.map((t: any) => parseInt(t));
-
-  //   tempSplit = tempSplit.filter((t: any) => (isNaN(t) ? false : t || t === 0));
-  //   tempSplit = tempSplit.sort((a: any, b: any) => a - b);
-  //   tempSplit = [...new Set(tempSplit.map((item) => item))];
-  //   this.form = tempSplit;
-  //   this.emit();
-  // }
 
   emit() {
     const body: any = {};

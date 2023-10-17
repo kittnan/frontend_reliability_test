@@ -1,16 +1,72 @@
 <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-  <app-input-temp fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [icon]="'thermostat'" [title]="'High Temp'"
-    [(form)]="form.highTemp" (formChange)="emit($event)"></app-input-temp>
-  <app-input-humi fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.humi"
-    (formChange)="emit($event)"></app-input-humi>
-  <app-input-operate fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.operate"
-    (formChange)="emit($event)"></app-input-operate>
-  <app-input-sample fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.sample"
-    (formChange)="emit($event)"></app-input-sample>
-  <app-input-qty fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.qty"
-    (formChange)="emit($event)"></app-input-qty>
-  <app-input-time-inspec fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.inspection"
-    [title]="'Inspection'" [lockInitial]="true" (formChange)="emit($event)"></app-input-time-inspec>
-  <app-input-time-inspec fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.report"
-    [title]="'Report'" (formChange)="emit($event)"></app-input-time-inspec>
+  <mat-radio-group
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [(ngModel)]="report"
+    appearance="fill"
+    (ngModelChange)="handleReport()"
+  >
+    <mat-radio-button [value]="true">
+      {{ "sheet3.report" | translate }}
+    </mat-radio-button>
+    <mat-radio-button [value]="false">
+      {{ "sheet3.noReport" | translate }}
+    </mat-radio-button>
+  </mat-radio-group>
+  <app-input-temp
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [icon]="'thermostat'"
+    [title]="'High Temp'"
+    [(form)]="form.highTemp"
+    (formChange)="emit($event)"
+  ></app-input-temp>
+  <app-input-humi
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [(form)]="form.humi"
+    (formChange)="emit($event)"
+  ></app-input-humi>
+  <app-input-operate
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [(form)]="form.operate"
+    (formChange)="emit($event)"
+  ></app-input-operate>
+  <app-input-sample
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [(form)]="form.sample"
+    (formChange)="emit($event)"
+  ></app-input-sample>
+  <app-input-qty
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [(form)]="form.qty"
+    (formChange)="emit($event)"
+  ></app-input-qty>
+  <app-input-time-inspec
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [(form)]="form.inspection"
+    [title]="'Inspection'"
+    [lockInitial]="true"
+    (formChange)="emit($event)"
+  ></app-input-time-inspec>
+  <app-input-time-inspec
+    *ngIf="report"
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [(form)]="form.report"
+    [title]="'Report'"
+    (formChange)="emit($event)"
+  ></app-input-time-inspec>
 </div>
