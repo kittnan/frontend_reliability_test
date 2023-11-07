@@ -14,43 +14,59 @@ import { ReportService } from '../shared/table-request/report.service';
 import * as moment from 'moment';
 
 interface ParamsForm {
-  userId: string,
-  status: string,
-  limit: string,
-  skip: string,
-  sort: string,
-  count: string
+  userId: string;
+  status: string;
+  limit: string;
+  skip: string;
+  sort: string;
+  count: string;
 }
 
 @Component({
   selector: 'app-guest',
   templateUrl: './guest.component.html',
-  styleUrls: ['./guest.component.scss']
+  styleUrls: ['./guest.component.scss'],
 })
 export class GuestComponent implements OnInit {
-
   userLogin: any;
   authorize: any;
-  status: any[] = [
-    'ongoing', 'finish', 'all'
-  ]
-  selected_status = 'ongoing'
-  requests: any = []
+  status: any[] = ['ongoing', 'finish', 'all'];
+  selected_status = 'ongoing';
+  requests: any = [];
 
-  displayedColumns: string[] = ['controlNo', 'userRequest', 'purpose', 'requestSubject', 'lotNo', 'modelNo', 'status', 'ongoing', 'btn'];
+  displayedColumns: string[] = [
+    'controlNo',
+    'userRequest',
+    'purpose',
+    'requestSubject',
+    'lotNo',
+    'modelNo',
+    'status',
+    'ongoing',
+    'btn',
+  ];
   pageSizeOptions!: number[];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  params!: ParamsForm
+  params!: ParamsForm;
 
-  ongoing: any = ['draft', 'request', 'reject_request', 'request_approve', 'qe_window_person', 'qe_engineer', 'qe_section_head', 'qe_department_head'];
+  ongoing: any = [
+    'draft',
+    'request',
+    'reject_request',
+    'request_approve',
+    'qe_window_person',
+    'qe_engineer',
+    'qe_section_head',
+    'qe_department_head',
+  ];
   finish: any = ['finish'];
-  all: any = []
+  all: any = [];
 
   interval$!: Subscription;
-  presentCount = 0
+  presentCount = 0;
   constructor(
     private $request: RequestHttpService,
     private router: Router,
@@ -58,13 +74,13 @@ export class GuestComponent implements OnInit {
     private _loading: NgxUiLoaderService,
     private _report: ReportService
   ) {
-    let userLoginStr: any = localStorage.getItem('RLS_userLogin')
-    this.userLogin = JSON.parse(userLoginStr)
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin');
+    this.userLogin = JSON.parse(userLoginStr);
   }
 
   async ngOnInit(): Promise<void> {
-    this._loading.start()
-    const id: any = localStorage.getItem('RLS_id')
+    this._loading.start();
+    const id: any = localStorage.getItem('RLS_id');
     this.authorize = localStorage.getItem('RLS_authorize');
     this.selected_status = 'ongoing';
     // if (this.authorize == 'qe_window_person') this.displayedColumns = ['controlNo', 'userRequest', 'lotNo', 'modelNo', 'status', 'edit', 'chamber', 'btn'];
@@ -76,132 +92,136 @@ export class GuestComponent implements OnInit {
       count: '0',
       limit: '0',
       skip: '0',
-      sort: '-1'
-
-    }
-    this.onSelectStatus()
-    this.interval$ = interval(60000).subscribe(res => this.autoFeed())
+      sort: '-1',
+    };
+    this.onSelectStatus();
+    this.interval$ = interval(60000).subscribe((res) => this.autoFeed());
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this._loading.stopAll()
+      this._loading.stopAll();
     }, 1000);
   }
 
   ngOnDestroy(): void {
-    this.interval$.unsubscribe()
+    this.interval$.unsubscribe();
   }
 
   async autoFeed() {
-    let statusStr: any = null
+    let statusStr: any = null;
     if (this.selected_status == 'ongoing') {
-      statusStr = 'ongoing'
+      statusStr = 'ongoing';
     }
     if (this.selected_status == 'closed') {
-      statusStr = 'finish'
+      statusStr = 'finish';
     }
     if (this.selected_status == 'all') {
-      statusStr = 'all'
+      statusStr = 'all';
     }
-    this.onSelectStatus()
+    this.onSelectStatus();
     // const param: HttpParams = new HttpParams().set('userId', this.params.userId).set('status', statusStr)
     // const count: any = await this.$request.tableCount(param).toPromise()
     // if (count && count.length > 0 && count[0].count != this.presentCount) this.onSelectStatus()
   }
 
   async onSelectStatus() {
-    let status: any = []
-    let statusStr: any = null
+    let status: any = [];
+    let statusStr: any = null;
     if (this.selected_status == 'ongoing') {
       status = this.ongoing;
-      statusStr = 'ongoing'
+      statusStr = 'ongoing';
     }
     if (this.selected_status == 'finish') {
       status = this.finish;
-      statusStr = 'finish'
+      statusStr = 'finish';
     }
     if (this.selected_status == 'all') {
       status = [...this.ongoing, ...this.finish];
-      statusStr = 'all'
+      statusStr = 'all';
     }
-    this.params.status = JSON.stringify(status)
+    this.params.status = JSON.stringify(status);
 
-    const param: HttpParams = new HttpParams().set('status', statusStr)
-    const resData = await this.$request.tableAdmin(param).toPromise()
-    const resultMap: any = await this.mapRows(resData)
-    this.presentCount = resultMap.length
+    const param: HttpParams = new HttpParams().set('status', statusStr);
+    const resData = await this.$request.tableGuest(param).toPromise();
+    const resultMap: any = await this.mapRows(resData);
+    this.presentCount = resultMap.length;
     this.dataSource = new MatTableDataSource(resultMap);
     this.setOption();
-
   }
   private mapRows(data: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const foo = data.map((item: any) => {
         return {
           ...item,
           btn_status: this.rowStatus(item),
           btn_text: this.rowText(item),
           btn_css: this.rowCss(item),
-          userRequest: this.rowUserRequest(item)
-        }
-      })
-      resolve(foo)
-    })
+          userRequest: this.rowUserRequest(item),
+        };
+      });
+      resolve(foo);
+    });
   }
 
   rowUserRequest(item: any) {
-    const resultFind = item.step5.find((i: any) => i.level == 1)
-    if (resultFind?.prevUser?.name) return resultFind.prevUser.name
-    return ''
-
+    const resultFind = item.step5.find((i: any) => i.level == 1);
+    if (resultFind?.prevUser?.name) return resultFind.prevUser.name;
+    return '';
   }
 
-
   private rowText(item: any) {
-    if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit'
-    if (item && item.status === 'draft') return 'edit'
-    if (item && item.status === 'qe_department_head') return 'report'
-    if (item && (item.status === 'close_job' || item.status === 'finish')) return 'finish'
-    return 'approve'
+    if (item && item.status.includes(`reject_${this.authorize}`)) return 'edit';
+    if (item && item.status === 'draft') return 'edit';
+    if (item && item.status === 'qe_department_head') return 'report';
+    if (item && (item.status === 'close_job' || item.status === 'finish'))
+      return 'finish';
+    return 'approve';
   }
 
   private rowStatus(item: any) {
     if (item.status === 'request_confirm' || item.status === 'draft') {
-      if (item.nextApprove && item.nextApprove._id == this.userLogin._id) return false
-      return true
+      if (item.nextApprove && item.nextApprove._id == this.userLogin._id)
+        return false;
+      return true;
     } else {
-
       if (item.status == 'qe_revise') {
-        if (localStorage.getItem('RLS_authorize') == 'qe_window_person') return false
-        return true
-      } else
-        if (item.status === 'qe_engineer' || item.status === 'qe_engineer2') {
-          if (item.status === localStorage.getItem('RLS_authorize')) return false
-          return true
-        } else {
-          if (item.nextApprove && item.nextApprove._id == this.userLogin._id && item.status.includes(localStorage.getItem('RLS_authorize'))) return false
-          return true
-        }
+        if (localStorage.getItem('RLS_authorize') == 'qe_window_person')
+          return false;
+        return true;
+      } else if (
+        item.status === 'qe_engineer' ||
+        item.status === 'qe_engineer2'
+      ) {
+        if (item.status === localStorage.getItem('RLS_authorize')) return false;
+        return true;
+      } else {
+        if (
+          item.nextApprove &&
+          item.nextApprove._id == this.userLogin._id &&
+          item.status.includes(localStorage.getItem('RLS_authorize'))
+        )
+          return false;
+        return true;
+      }
     }
   }
 
   private rowCss(item: any) {
-    if (item && item.status.includes(`reject_${this.authorize}`)) return 'font-red'
-    if (item.status === 'draft') return 'font-grey'
-    if (item.status === 'qe_window_person') return 'font-blue'
-    if (item.status === 'qe_window_person_report') return 'font-yellow'
-    if (item.status === 'finish') return 'font-green'
-    if (item && item.status.includes('qe_engineer')) return 'font-orange'
-    return ''
+    if (item && item.status.includes(`reject_${this.authorize}`))
+      return 'font-red';
+    if (item.status === 'draft') return 'font-grey';
+    if (item.status === 'qe_window_person') return 'font-blue';
+    if (item.status === 'qe_window_person_report') return 'font-yellow';
+    if (item.status === 'finish') return 'font-green';
+    if (item && item.status.includes('qe_engineer')) return 'font-orange';
+    return '';
   }
 
   validAuthorize(item: any, access: any) {
-    if (item.step5.find((i: any) => i.authorize == access)) return true
-    return false
-
+    if (item.step5.find((i: any) => i.authorize == access)) return true;
+    return false;
   }
-
 
   private setOption() {
     this.dataSource.paginator = this.paginator;
@@ -212,18 +232,18 @@ export class GuestComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogViewComponent, {
       data: item,
       width: '90%',
-      height: '90%'
-    })
-
+      height: '90%',
+    });
   }
   onClickViewNewTab(item: any) {
-    const url = this.router.serializeUrl(this.router.createUrlTree([environment.BASE + '/view-page'], {
-      queryParams: {
-        id: item._id
-      }
-    }));
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([environment.BASE + '/view-page'], {
+        queryParams: {
+          id: item._id,
+        },
+      })
+    );
     window.open(url, '_blank');
-
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -233,69 +253,99 @@ export class GuestComponent implements OnInit {
     }
   }
 
-
-
   linkTo(path: any, param: any) {
     this.router.navigate([path], {
       queryParams: {
-        id: param
-      }
-    })
+        id: param,
+      },
+    });
   }
 
   onChamber(item: any) {
-    (item);
+    item;
     this.router.navigate(['/qe-window-person/chamber'], {
       queryParams: {
-        requestId: item.requestId
-      }
-    })
+        requestId: item.requestId,
+      },
+    });
   }
-
-
-
 
   htmlStatus(status: string) {
     switch (status) {
       case 'qe_window_person_report':
-        return 'CONTINUE_TEST'
+        return 'CONTINUE_TEST';
 
       case 'qe_window_person_edit_plan':
-        return 'EDIT_REPORT'
+        return 'EDIT_REPORT';
 
       default:
-        return status.toUpperCase()
+        return status.toUpperCase();
         break;
     }
   }
 
-
   async onDownload(item: any) {
-    this._loading.start()
-    const res_form = await lastValueFrom(this.$request.get_id(item._id))
-    const form = res_form[0]
+    this._loading.start();
+    const res_form = await lastValueFrom(this.$request.get_id(item._id));
+    const form = res_form[0];
     setTimeout(() => {
-      this._report.genReportExcel(form)
+      this._report.genReportExcel(form);
     }, 500);
   }
 
-  htmlOngoingTo(q: any, item: any) {
-    const foundItem = item.queues.find((i: any) => i.condition['value'] != 0)
-    if (foundItem && foundItem?.inspectionTime.length >= 2) {
-      const item = foundItem.inspectionTime.find((i: any) => {
-        const diff = moment().diff(moment(i.startDate), 'hours')
-        if (diff <= 0) return true
-        return false
-      })
-      if (item) {
-        const index = foundItem.inspectionTime.indexOf(item)
-        const prev = foundItem.inspectionTime[index - 1]
-        if (prev) {
-          const diff = moment().diff(moment(prev.endDate), 'hours')
-          if (diff > 0) return `${Number(prev.at + diff)} / ${item.at}`
-        }
+  // htmlOngoingTo(q: any, item: any) {
+  //   const foundItem = item.queues.find((i: any) => i.condition['value'] != 0)
+  //   if (foundItem && foundItem?.inspectionTime.length >= 2) {
+  //     const item = foundItem.inspectionTime.find((i: any) => {
+  //       const diff = moment().diff(moment(i.startDate), 'hours')
+  //       if (diff <= 0) return true
+  //       return false
+  //     })
+  //     if (item) {
+  //       const index = foundItem.inspectionTime.indexOf(item)
+  //       const prev = foundItem.inspectionTime[index - 1]
+  //       if (prev) {
+  //         const diff = moment().diff(moment(prev.endDate), 'hours')
+  //         if (diff > 0) return `${Number(prev.at + diff)} / ${item.at}`
+  //       }
+  //     }
+  //   }
+  //   return '-'
+  // }
+  htmlOngoingTo(item: any) {
+    if (item.status == 'qe_window_person_report') {
+      const queues = item.queues;
+      const mergeInspectTime = queues.reduce((p: any, n: any) => {
+        const inspec = n.inspectionTime.reduce((p2: any, n2: any) => {
+          return p2.concat(n2);
+        }, []);
+        return p.concat(inspec);
+      }, []);
+      const sorted = mergeInspectTime.sort(
+        (a: any, b: any) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      );
+
+      const queueToday = sorted.find((a: any) => {
+        const ms = moment(a.startDate);
+        const me = moment(a.endDate);
+        const between = moment().isBetween(ms, me);
+        return between;
+      });
+      if (queueToday) {
+        const h = this.calRange(queueToday);
+        let text = queueToday.at == 0 ? 'Initial' : queueToday.at;
+        return `${h} / ${text}`;
       }
     }
-    return '-'
+    return '-';
+  }
+  calRange(queue: any) {
+    const diff1 = moment().diff(moment(queue.endDate), 'hour');
+    if (queue.at == 0) {
+      return queue.hr - Math.abs(diff1);
+    } else {
+      return queue.at - Math.abs(diff1);
+    }
   }
 }

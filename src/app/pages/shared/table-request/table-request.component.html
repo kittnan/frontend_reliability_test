@@ -108,7 +108,11 @@
             </th>
             <td mat-cell *matCellDef="let row">
               <!-- <span *ngIf="row?.nextApprove?.name">{{row.nextApprove.name |uppercase}}</span> -->
-              {{ htmlOngoingTo(row.queues, row) }}
+              <!-- {{ htmlOngoingTo(row.queues, row) }} -->
+              <span class="text-ongoing">
+                {{ htmlOngoingTo(row) }}
+              </span>
+              <!-- {{ row.ongoing }} -->
             </td>
           </ng-container>
 

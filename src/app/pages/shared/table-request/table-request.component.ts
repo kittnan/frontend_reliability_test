@@ -209,11 +209,49 @@ export class TableRequestComponent implements OnInit {
           btn_text: this.rowText(item),
           btn_css: this.rowCss(item),
           userRequest: this.rowUserRequest(item),
+          // ongoing: this.rowOngoing(item),
         };
       });
       resolve(foo);
     });
   }
+  // rowOngoing(item: any) {
+  //   // console.log('🚀 ~ item:', item);
+  //   const allInspection = item.queues.reduce((p: any, n: any) => {
+  //     return p.concat(n.inspectionTime);
+  //   }, []);
+  //   const key = 'startDate';
+  //   const arrayUniqueByKey = [
+  //     ...new Map(allInspection.map((item: any) => [item[key], item])).values(),
+  //   ];
+  //   const arrSorted = arrayUniqueByKey.sort(
+  //     (a: any, b: any) =>
+  //       new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  //   );
+
+  //   const isBetween = arrSorted.filter((a: any) =>
+  //     moment().isBetween(moment(a.startDate), moment(a.endDate))
+  //   );
+  //   const notStart: any = arrSorted.find(
+  //     (a: any) => moment(a.startDate).diff(moment()) > 0
+  //   );
+  //   // const passed: any = arrSorted.some(
+  //   //   (a: any) => moment().diff(moment(a.endDate)) > 0
+  //   // );
+  //   // if (!passed) {
+  //   //   return 'PASSED';
+  //   // }
+  //   if (isBetween.length === 0) {
+  //     if (notStart) {
+  //       return `Start In ${moment(notStart.startDate).format(
+  //         'YYYY-MMM-DD, HH:mm'
+  //       )}`;
+  //     }
+  //   } else {
+  //     return isBetween.length;
+  //   }
+  //   return '';
+  // }
 
   rowUserRequest(item: any) {
     const resultFind = item.step5.find((i: any) => i.level == 1);
@@ -313,6 +351,7 @@ export class TableRequestComponent implements OnInit {
     this.pageSizeOptions = [1, 5, 10, 25, 100];
   }
   onClickView(item: any) {
+    console.log('🚀 ~ item:', item);
     const dialogRef = this.dialog.open(DialogViewComponent, {
       data: item,
       width: '90%',
@@ -423,26 +462,67 @@ export class TableRequestComponent implements OnInit {
       this._report.genReportExcel(form);
     }, 500);
   }
+  htmlOngoingTo(item: any) {
+    if (item.status == 'qe_window_person_report') {
+      const queues = item.queues;
+      const mergeInspectTime = queues.reduce((p: any, n: any) => {
+        const inspec = n.inspectionTime.reduce((p2: any, n2: any) => {
+          return p2.concat(n2);
+        }, []);
+        return p.concat(inspec);
+      }, []);
+      const sorted = mergeInspectTime.sort(
+        (a: any, b: any) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      );
 
-  htmlOngoingTo(q: any, item: any) {
-    const foundItem = item.queues.find((i: any) => i.condition['value'] != 0);
-    if (foundItem && foundItem?.inspectionTime.length >= 2) {
-      const item = foundItem.inspectionTime.find((i: any) => {
-        const diff = moment().diff(moment(i.startDate), 'hours');
-        if (diff <= 0) return true;
-        return false;
+      const queueToday = sorted.find((a: any) => {
+        const ms = moment(a.startDate);
+        const me = moment(a.endDate);
+        const between = moment().isBetween(ms, me);
+        return between;
       });
-      if (item) {
-        const index = foundItem.inspectionTime.indexOf(item);
-        const prev = foundItem.inspectionTime[index - 1];
-        if (prev) {
-          const diff = moment().diff(moment(prev.endDate), 'hours');
-          if (diff > 0) return `${Number(prev.at + diff)} / ${item.at}`;
-        }
+      if (queueToday) {
+        const h = this.calRange(queueToday);
+        let text = queueToday.at == 0 ? 'Initial' : queueToday.at;
+        return `${h} / ${text}`;
       }
     }
     return '-';
   }
+
+  calRange(queue: any) {
+    const diff1 = moment().diff(moment(queue.endDate), 'hour');
+    if (queue.at == 0) {
+      return queue.hr - Math.abs(diff1);
+    } else {
+      return queue.at - Math.abs(diff1);
+    }
+  }
+
+  // htmlOngoingTo(q: any, item: any) {
+  //   const foundItem = item.queues.find((i: any) => i.condition['value'] != 0);
+
+  //   if (foundItem && foundItem?.inspectionTime.length >= 2) {
+  //     const itemInspec = foundItem.inspectionTime.find((i: any) => {
+  //       const diff = moment().diff(moment(i.startDate), 'hours');
+  //       if (diff <= 0) return true;
+  //       return false;
+  //     });
+  //     if (item.controlNo == 'DST-23-10-021-003059') {
+  //       console.log(itemInspec);
+  //     }
+  //     if (itemInspec) {
+  //       const index = foundItem.inspectionTime.indexOf(itemInspec);
+  //       const prev = foundItem.inspectionTime[index - 1];
+  //       if (prev) {
+  //         const diff = moment().diff(moment(prev.endDate), 'hours');
+  //         if (diff > 0) return `${Number(prev.at + diff)} / ${itemInspec.at}`;
+  //       }
+  //     }
+  //   }
+  //   return '-';
+  // }
   validQE() {
     if (this.authorize.includes('qe') || this.authorize.includes('admin'))
       return true;
