@@ -1,3 +1,7 @@
+ 0.0.29
+-New advance mode for admin.
+-Fix edit plan (Incase edited from advance mode)
+
 0.0.28
 -Fix ongoing time in all page.
 -Add new API tableShowGuest for guest user.
