@@ -1,3 +1,8 @@
+0.0.28
+-Fix ongoing time in all page.
+-Add new API tableShowGuest for guest user.
+-Fix color of ongoing time.
+
 Updated v.0.0.24
 patch detail
 1.Fix can select report or no report at condition.
