@@ -122,7 +122,7 @@
                 matInput
                 type="number"
                 [(ngModel)]="time.hr"
-                (ngModelChange)="onCal(item, i)"
+                (ngModelChange)="onCalNormal(item, i)"
               />
             </mat-form-field>
 
@@ -187,7 +187,7 @@
                   [disabled]="time.onPlan"
                   type="number"
                   [(ngModel)]="time.hr"
-                  (ngModelChange)="onCal(item, i)"
+                  (ngModelChange)="onCalActual(item, i)"
                 />
               </mat-form-field>
 

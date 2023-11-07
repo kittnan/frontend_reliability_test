@@ -4,31 +4,29 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { TranslateService } from '@ngx-translate/core';
 
-
 interface requestForm {
-  step1: any,
-  step2: any
+  step1: any;
+  step2: any;
 }
 @Component({
   selector: 'app-sheet',
   templateUrl: './sheet.component.html',
-  styleUrls: ['./sheet.component.scss']
+  styleUrls: ['./sheet.component.scss'],
 })
 export class SheetComponent implements OnInit {
-
-  params: any
-  formId: any
+  params: any;
+  formId: any;
   request: requestForm = {
     step1: null,
-    step2: null
-  }
+    step2: null,
+  };
   constructor(
     private active: ActivatedRoute,
     private $request: RequestHttpService,
     private _loading: NgxUiLoaderService,
-    public translate: TranslateService,
+    public translate: TranslateService
   ) {
-    this.active.queryParams.subscribe(params => this.params = params)
+    this.active.queryParams.subscribe((params) => (this.params = params));
 
     translate.addLangs(['en', 'th']);
     translate.setDefaultLang('en');
@@ -36,14 +34,15 @@ export class SheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._loading.start()
-    if (this.params && this.params['id']) {
-      this.formId = this.params['id']
-      this.$request.get_id(this.params['id']).subscribe(res => {
-        this.request = res[0]
-      })
-    }
+    console.log(this.params);
 
+    this._loading.start();
+    if (this.params && this.params['id']) {
+      this.formId = this.params['id'];
+      this.$request.get_id(this.params['id']).subscribe((res) => {
+        this.request = res[0];
+      });
+    }
   }
 
   onTranslate() {
@@ -58,11 +57,16 @@ export class SheetComponent implements OnInit {
     }
   }
   emit(e: any) {
-    this.formId = e
+    this.formId = e;
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this._loading.stopAll()
+      this._loading.stopAll();
     }, 1000);
+  }
+
+  handleHeader() {
+    if (localStorage.getItem('RLS_authorize') == 'admin') return '';
+    return 'disable-head';
   }
 }

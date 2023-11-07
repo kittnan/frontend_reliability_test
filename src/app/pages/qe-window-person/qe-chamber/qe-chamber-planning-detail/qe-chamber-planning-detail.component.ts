@@ -206,7 +206,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
   onSelectHour(item: QueueForm, e: any) {
     item.startDate = moment(item.startDate).set('hour', e.value).toDate();
-    this.onCal(item, 0);
+    this.onCalNormal(item, 0);
   }
   onSelectHourEndDate(time: any, item: QueueForm, i: any, e: any) {
     time.endDate = moment(time.endDate).set('hour', e.value).toDate();
@@ -217,14 +217,35 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     // this.onCal(item, i)
   }
 
-  async onCal(item: any, index: number) {
+  // async onCal(item: any, index: number) {
+  //   console.log('%^&*()');
+  //   setTimeout(async () => {
+  //     const startDate: any = item.startDate;
+  //     if (startDate) {
+  //       if (item.actualTime) {
+  //         item = this.$qe_chamber.genEndDateActual(item);
+  //       } else {
+  //         item = this.$qe_chamber.genEndDate(item);
+  //       }
+  //       item.operateTable = await this.getOperateToolTableAll(startDate);
+  //     }
+  //   }, 400);
+  // }
+  onCalNormal(item: any, index: number) {
+    setTimeout(async () => {
+      const startDate: any = item.startDate;
+      if (startDate) {
+        item = this.$qe_chamber.genEndDate(item);
+        item.operateTable = await this.getOperateToolTableAll(startDate);
+      }
+    }, 400);
+  }
+  onCalActual(item: any, index: number) {
     setTimeout(async () => {
       const startDate: any = item.startDate;
       if (startDate) {
         if (item.actualTime) {
           item = this.$qe_chamber.genEndDateActual(item);
-        } else {
-          item = this.$qe_chamber.genEndDate(item);
         }
         item.operateTable = await this.getOperateToolTableAll(startDate);
       }
@@ -273,7 +294,7 @@ export class QeChamberPlanningDetailComponent implements OnInit {
       if (res) {
         item.startDate = res.startDate;
         item.h = null;
-        this.onCal(item, 0);
+        this.onCalNormal(item, 0);
       }
     });
   }

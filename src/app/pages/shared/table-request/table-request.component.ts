@@ -677,19 +677,27 @@ export class TableRequestComponent implements OnInit {
   }
 
   onClickAdvanceMode(row: any) {
-    if (localStorage.getItem('RLS_authorize') == 'admin') {
-      this.router.navigate(['admin/advance-mode'], {
-        queryParams: {
-          _id: row._id,
-        },
-      });
-    } else {
-      Swal.fire({
-        title: 'No Access!!',
-        icon: 'warning',
-        text: 'Only Admin',
-        allowOutsideClick: false,
-      });
-    }
+    // alert();
+
+    this.router.navigate(['request/sheet'], {
+      queryParams: {
+        id: row._id,
+      },
+    });
+
+    // if (localStorage.getItem('RLS_authorize') == 'admin') {
+    //   this.router.navigate(['admin/advance-mode'], {
+    //     queryParams: {
+    //       _id: row._id,
+    //     },
+    //   });
+    // } else {
+    //   Swal.fire({
+    //     title: 'No Access!!',
+    //     icon: 'warning',
+    //     text: 'Only Admin',
+    //     allowOutsideClick: false,
+    //   });
+    // }
   }
 }

@@ -1,4 +1,10 @@
-::ng-deep .mat-horizontal-stepper-header {
+// .mat-horizontal-stepper-header {
+//   pointer-events: none !important;
+// }
+// ::ng-deep .mat-horizontal-stepper-header {
+//   pointer-events: none !important;
+// }
+.disable-head {
   pointer-events: none !important;
 }
 

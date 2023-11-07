@@ -37,6 +37,7 @@ export class QeChamberService {
   genEndDateActual(item: any) {
     item.inspectionTime = this.loopTime(item.inspectionTime, item.startDate);
     item.actualTime = this.loopTime(item.actualTime, item.startDate);
+
     item.reportTime = this.loopReport(item.reportTime, item.inspectionTime);
     item.reportQE = this.loopReport(item.reportQE, item.inspectionTime);
     const endDate: any = this.loopSum(item.actualTime, item.startDate);
