@@ -466,10 +466,13 @@ export class TableRequestComponent implements OnInit {
     if (item.status == 'qe_window_person_report') {
       const queues = item.queues;
       const mergeInspectTime = queues.reduce((p: any, n: any) => {
-        const inspec = n.inspectionTime.reduce((p2: any, n2: any) => {
-          return p2.concat(n2);
-        }, []);
-        return p.concat(inspec);
+        if (n.condition.value != '0') {
+          const inspec = n.inspectionTime.reduce((p2: any, n2: any) => {
+            return p2.concat(n2);
+          }, []);
+          return p.concat(inspec);
+        }
+        return p;
       }, []);
       const sorted = mergeInspectTime.sort(
         (a: any, b: any) =>

@@ -11,11 +11,10 @@ import { ToastService } from './toast.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RevisesHttpService } from '../http/revises-http.service';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-
-  URL: string = environment.API
+  URL: string = environment.API;
 
   constructor(
     private http: HttpClient,
@@ -26,62 +25,111 @@ export class LoginService {
     private dialog: MatDialog,
     private $request: RequestHttpService,
     private $revise: RevisesHttpService
-  ) { }
+  ) {}
 
   onLogin(data: any) {
-    this.login(data).subscribe(res => {
+    this.login(data).subscribe((res) => {
       if (res.length > 0) {
-        localStorage.setItem('RLS_version', environment.VERSION)
+        localStorage.setItem('RLS_version', environment.VERSION);
         const user = {
           ...res[0],
-          name: this.shortName(res[0].name)
+          name: this.shortName(res[0].name),
         };
         if (user.authorize.find((u: any) => u == 'guest')) {
-          this.setToken()
+          this.setToken();
           localStorage.setItem('RLS_id', user._id);
           localStorage.setItem('RLS_authorize', user.authorize[0]);
           localStorage.setItem('RLS_userName', user.name);
-          let userLoginStr = JSON.stringify(user)
-          localStorage.setItem('RLS_userLogin', userLoginStr)
-          localStorage.setItem('RLS_section', 'guest')
-          this._loading.start()
+          let userLoginStr = JSON.stringify(user);
+          localStorage.setItem('RLS_userLogin', userLoginStr);
+          localStorage.setItem('RLS_section', 'guest');
+          this._loading.start();
           this.router.navigate(['/guest']).then((boo: any) => {
-            window.location.reload()
-          })
+            window.location.reload();
+          });
         } else {
-          let newAuth = ''
+          let newAuth = '';
           if (user?.authorize.length > 1) {
-            const auth = user.authorize.sort()
+            const auth = user.authorize.sort();
             const dialogRef = this.dialog.open(DialogAuthComponent, {
               data: auth,
               hasBackdrop: true,
               disableClose: true,
               width: '500px',
-            })
-            dialogRef.afterClosed().subscribe(res => {
-              newAuth = res
+            });
+            dialogRef.afterClosed().subscribe((res) => {
+              newAuth = res;
               if (user?.section?.length > 1) {
-                this.selectSection(user, newAuth, user.section)
+                this.selectSection(user, newAuth, user.section);
               } else {
-                this.setAuth(user, newAuth, user.section[0])
+                this.setAuth(user, newAuth, user.section[0]);
               }
-            })
+            });
           } else {
-            newAuth = user.authorize
+            newAuth = user.authorize;
             if (user?.section?.length > 1) {
-              this.selectSection(user, newAuth, user.section)
+              this.selectSection(user, newAuth, user.section);
             } else {
-              this.setAuth(user, newAuth, user.section)
+              this.setAuth(user, newAuth, user.section);
             }
           }
         }
-
-
-
       } else {
-        this._toast.danger('login failed!!')
+        this._toast.danger('login failed!!');
       }
-    })
+    });
+  }
+  onLoginSSO(data: any) {
+    this.loginSSO(data).subscribe((res) => {
+      if (res.length > 0) {
+        localStorage.setItem('RLS_version', environment.VERSION);
+        const user = {
+          ...res[0],
+          name: this.shortName(res[0].name),
+        };
+        if (user.authorize.find((u: any) => u == 'guest')) {
+          this.setToken();
+          localStorage.setItem('RLS_id', user._id);
+          localStorage.setItem('RLS_authorize', user.authorize[0]);
+          localStorage.setItem('RLS_userName', user.name);
+          let userLoginStr = JSON.stringify(user);
+          localStorage.setItem('RLS_userLogin', userLoginStr);
+          localStorage.setItem('RLS_section', 'guest');
+          this._loading.start();
+          this.router.navigate(['/guest']).then((boo: any) => {
+            window.location.reload();
+          });
+        } else {
+          let newAuth = '';
+          if (user?.authorize.length > 1) {
+            const auth = user.authorize.sort();
+            const dialogRef = this.dialog.open(DialogAuthComponent, {
+              data: auth,
+              hasBackdrop: true,
+              disableClose: true,
+              width: '500px',
+            });
+            dialogRef.afterClosed().subscribe((res) => {
+              newAuth = res;
+              if (user?.section?.length > 1) {
+                this.selectSection(user, newAuth, user.section);
+              } else {
+                this.setAuth(user, newAuth, user.section[0]);
+              }
+            });
+          } else {
+            newAuth = user.authorize;
+            if (user?.section?.length > 1) {
+              this.selectSection(user, newAuth, user.section);
+            } else {
+              this.setAuth(user, newAuth, user.section);
+            }
+          }
+        }
+      } else {
+        this._toast.danger('login failed!!');
+      }
+    });
   }
 
   selectSection(user: any, newAuth: any, sections: any[]) {
@@ -90,204 +138,207 @@ export class LoginService {
       hasBackdrop: true,
       disableClose: true,
       width: '500px',
-    })
-    dialogRef.afterClosed().subscribe(res => {
-      const section = res
-      this.setAuth(user, newAuth, section)
-    })
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      const section = res;
+      this.setAuth(user, newAuth, section);
+    });
   }
 
   private setAuth(user: any, newAuth: any, section: any) {
-    this.setToken()
+    this.setToken();
     localStorage.setItem('RLS_id', user._id);
     localStorage.setItem('RLS_authorize', newAuth);
-    localStorage.setItem('RLS_section', section)
+    localStorage.setItem('RLS_section', section);
     localStorage.setItem('RLS_userName', user.name);
-    let userLoginStr = JSON.stringify(user)
-    localStorage.setItem('RLS_userLogin', userLoginStr)
-    this._loading.start()
-    this.validFormId(localStorage.getItem('RLS_authorize'))
-
+    let userLoginStr = JSON.stringify(user);
+    localStorage.setItem('RLS_userLogin', userLoginStr);
+    this._loading.start();
+    this.validFormId(localStorage.getItem('RLS_authorize'));
   }
 
   private shortName(name: string) {
-    const sptName: string[] = name.trim().split(' ').filter((d: any) => d != '')
+    const sptName: string[] = name
+      .trim()
+      .split(' ')
+      .filter((d: any) => d != '');
 
     if (sptName.length > 1) {
-      const fName = sptName[0]
-      const lName: string = sptName.length > 1 ? '-' + sptName[1].split('')[0] : ''
-      return `${fName}${lName}`
+      const fName = sptName[0];
+      const lName: string =
+        sptName.length > 1 ? '-' + sptName[1].split('')[0] : '';
+      return `${fName}${lName}`;
     } else {
-      return sptName[0]
+      return sptName[0];
     }
   }
 
   login(data: any): Observable<any> {
-    return this.http.post(`${this.URL}/user/login`, data)
+    return this.http.post(`${this.URL}/user/login`, data);
+  }
+  loginSSO(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/login/auth`, data);
   }
 
   async validFormId(auth: any) {
     if (localStorage.getItem('RLS_token')) {
-      this.route.queryParams.subscribe(async res => {
-        const { id, status } = res
-        let resRequest: any = []
+      this.route.queryParams.subscribe(async (res) => {
+        const { id, status } = res;
+        let resRequest: any = [];
         if (id) {
           if (status?.toLowerCase().includes('revise')) {
-            resRequest = await this.$revise.getByRequestId(new HttpParams().set('id', id)).toPromise()
+            resRequest = await this.$revise
+              .getByRequestId(new HttpParams().set('id', id))
+              .toPromise();
           } else {
-            resRequest = await this.$request.get_id(id).toPromise()
+            resRequest = await this.$request.get_id(id).toPromise();
           }
         } else {
-          resRequest = []
+          resRequest = [];
         }
-        let newUrl = ''
+        let newUrl = '';
         if (resRequest && resRequest.length > 0) {
           if (resRequest[0].status == status) {
             switch (status) {
               case 'request_confirm':
-                this.validPermissionRequestConfirm(auth)
+                this.validPermissionRequestConfirm(auth);
                 break;
 
               case 'request_confirm_edited':
-                this.validPermissionRequestConfirm(auth)
+                this.validPermissionRequestConfirm(auth);
                 break;
 
               case 'request_confirm_revise':
-                this.validPermissionRequestConfirm(auth)
+                this.validPermissionRequestConfirm(auth);
                 break;
 
               case 'request_approve':
-                this.validPermissionApprove(auth)
+                this.validPermissionApprove(auth);
                 break;
 
               case 'qe_window_person':
-                this.validPermissionQEWindowChamber(auth)
+                this.validPermissionQEWindowChamber(auth);
                 break;
 
               case 'qe_engineer':
-                this.validPermissionQEEngineer(auth)
+                this.validPermissionQEEngineer(auth);
                 break;
 
               case 'qe_engineer2':
-                this.validPermissionQEEngineer2(auth)
+                this.validPermissionQEEngineer2(auth);
                 break;
 
               case 'qe_section_head':
-                this.validPermissionQESectionHead(auth)
+                this.validPermissionQESectionHead(auth);
                 break;
 
               case 'qe_window_person_report':
-                this.validPermissionQEWindowReport(auth)
+                this.validPermissionQEWindowReport(auth);
                 break;
 
               case 'qe_revise':
-                this.validPermissionQEWindowReport(auth)
+                this.validPermissionQEWindowReport(auth);
                 break;
 
               case 'reject_request':
-                this.validPermissionRequest(auth)
+                this.validPermissionRequest(auth);
                 break;
 
               case 'reject_request_approve':
-                this.validPermissionApprove(auth)
+                this.validPermissionApprove(auth);
                 break;
 
               case 'reject_qe_window_person':
-                this.validPermissionQEWindowChamber(auth)
+                this.validPermissionQEWindowChamber(auth);
                 break;
 
               case 'reject_qe_window_person':
-                this.validPermissionQEWindowChamber(auth)
+                this.validPermissionQEWindowChamber(auth);
                 break;
 
               case 'reject_qe_engineer':
-                this.validPermissionQEEngineer(auth)
+                this.validPermissionQEEngineer(auth);
                 break;
 
               case 'reject_qe_section_head':
-                this.validPermissionQESectionHead(auth)
+                this.validPermissionQESectionHead(auth);
                 break;
 
-
-
               case 'request_revise':
-                this.validPermissionApprove(auth)
+                this.validPermissionApprove(auth);
                 break;
 
               case 'request_approve_revise':
-                this.validPermissionQEWindowChamber(auth)
+                this.validPermissionQEWindowChamber(auth);
                 break;
 
               case 'qe_window_person_revise':
-                this.validPermissionQEEngineer(auth)
+                this.validPermissionQEEngineer(auth);
                 break;
 
               case 'qe_engineer_revise':
-                this.validPermissionQEEngineer2(auth)
+                this.validPermissionQEEngineer2(auth);
                 break;
 
               case 'qe_engineer_revise2':
-                this.validPermissionQESectionHead(auth)
+                this.validPermissionQESectionHead(auth);
                 break;
 
               case 'qe_section_head_revise':
-                this.validPermissionRequestConfirm(auth)
+                this.validPermissionRequestConfirm(auth);
                 break;
 
               case 'reject_request_revise':
-                this.validPermissionRequest(auth)
+                this.validPermissionRequest(auth);
                 break;
 
               case 'reject_qe_window_person_revise':
-                this.validPermissionQEWindowChamber(auth)
+                this.validPermissionQEWindowChamber(auth);
                 break;
 
-              default: this.viewPage()
+              default:
+                this.viewPage();
                 break;
             }
           } else {
-            this.viewPage()
+            this.viewPage();
           }
-
         } else {
           console.log(auth);
 
           if (auth == 'admin') {
-            newUrl = "/admin"
+            newUrl = '/admin';
           }
           if (auth == 'request') {
-            newUrl = "/request"
+            newUrl = '/request';
           }
           if (auth == 'request_approve') {
-            newUrl = "/approve"
+            newUrl = '/approve';
           }
           if (auth == 'qe_window_person') {
-            newUrl = "/qe-window-person"
+            newUrl = '/qe-window-person';
           }
           if (auth == 'qe_engineer') {
-            newUrl = "/qe-engineer"
+            newUrl = '/qe-engineer';
           }
           if (auth == 'qe_engineer2') {
-            newUrl = "/qe-engineer"
+            newUrl = '/qe-engineer';
           }
           if (auth == 'qe_section_head') {
-            newUrl = "/qe-section-head"
+            newUrl = '/qe-section-head';
           }
           if (auth == 'qe_department_head') {
-            newUrl = "/qe-department-head"
+            newUrl = '/qe-department-head';
           }
           if (auth == 'guest') {
-            newUrl = "/guest"
+            newUrl = '/guest';
           }
           this.router.navigate([newUrl]).then((boo: any) => {
-            window.location.reload()
-          })
+            window.location.reload();
+          });
           // Swal.fire('')
         }
-
-      })
-
-
+      });
     }
   }
 
@@ -295,11 +346,12 @@ export class LoginService {
     // console.log(auth);
     switch (auth) {
       case 'request':
-        const url = '/request/sheet'
-        this.goLink(url)
+        const url = '/request/sheet';
+        this.goLink(url);
         break;
 
-      default: this.viewPage()
+      default:
+        this.viewPage();
         break;
     }
   }
@@ -307,35 +359,37 @@ export class LoginService {
     // console.log(auth);
     switch (auth) {
       case 'request':
-        const url = '/request/confirm'
-        this.goLink(url)
+        const url = '/request/confirm';
+        this.goLink(url);
         break;
 
-      default: this.viewPage()
+      default:
+        this.viewPage();
         break;
     }
   }
   validPermissionApprove(auth: any) {
     switch (auth) {
       case 'request_approve':
-        const url = '/approve/approve-request'
-        this.goLink(url)
+        const url = '/approve/approve-request';
+        this.goLink(url);
         break;
 
-      default: this.viewPage()
+      default:
+        this.viewPage();
         break;
     }
-
   }
   validPermissionQEWindowChamber(auth: any) {
     // console.log(auth);
     switch (auth) {
       case 'qe_window_person':
-        const url = '/qe-window-person/chamber'
-        this.goLink(url)
+        const url = '/qe-window-person/chamber';
+        this.goLink(url);
         break;
 
-      default: this.viewPage()
+      default:
+        this.viewPage();
         break;
     }
   }
@@ -343,11 +397,12 @@ export class LoginService {
     // console.log(auth);
     switch (auth) {
       case 'qe_window_person':
-        const url = '/qe-window-person/report'
-        this.goLink(url)
+        const url = '/qe-window-person/report';
+        this.goLink(url);
         break;
 
-      default: this.viewPage()
+      default:
+        this.viewPage();
         break;
     }
   }
@@ -355,11 +410,12 @@ export class LoginService {
     // console.log(auth);
     switch (auth) {
       case 'qe_engineer':
-        const url = '/qe-engineer/approve-request'
-        this.goLink(url)
+        const url = '/qe-engineer/approve-request';
+        this.goLink(url);
         break;
 
-      default: this.viewPage()
+      default:
+        this.viewPage();
         break;
     }
   }
@@ -367,11 +423,12 @@ export class LoginService {
     // console.log('validPermissionQEEngineer2');
     switch (auth) {
       case 'qe_engineer2':
-        const url = '/qe-engineer/approve-request'
-        this.goLink(url)
+        const url = '/qe-engineer/approve-request';
+        this.goLink(url);
         break;
 
-      default: this.viewPage()
+      default:
+        this.viewPage();
         break;
     }
   }
@@ -379,33 +436,34 @@ export class LoginService {
     // console.log(auth);
     switch (auth) {
       case 'qe_section_head':
-        const url = '/qe-section-head/approve-request'
-        this.goLink(url)
+        const url = '/qe-section-head/approve-request';
+        this.goLink(url);
         break;
 
-      default: this.viewPage()
+      default:
+        this.viewPage();
         break;
     }
   }
   viewPage() {
-    const url = '/view-page'
-    this.goLink(url)
+    const url = '/view-page';
+    this.goLink(url);
   }
-
 
   goLink(url: string) {
-    this.router.navigate([url], { queryParamsHandling: 'preserve' }).then((boo: any) => {
-      window.location.reload()
-    })
+    this.router
+      .navigate([url], { queryParamsHandling: 'preserve' })
+      .then((boo: any) => {
+        window.location.reload();
+      });
   }
 
-
   private setToken() {
-    const token = uuid()
-    localStorage.setItem('RLS_token', token)
+    const token = uuid();
+    localStorage.setItem('RLS_token', token);
   }
 
   getProFileById(id: string) {
-    return this.http.get(`${this.URL}/user/id/${id}`,)
+    return this.http.get(`${this.URL}/user/id/${id}`);
   }
 }

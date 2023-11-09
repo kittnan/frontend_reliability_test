@@ -1,3 +1,7 @@
+ 0.0.30
+-New feature login with sso.
+-Fixed ongoing time , show only oven condition.
+
  0.0.29
 -New advance mode for admin.
 -Fix edit plan (Incase edited from advance mode)

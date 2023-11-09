@@ -90,10 +90,23 @@
   background-color: #111113a3;
   font-family: monospace;
 }
+.btn-submit2 {
+  background-color: rgb(23 171 255);
+  font-family: monospace;
+}
 ::ng-deep mat-label {
   font-family: monospace;
 }
 
 .card-foot {
   height: 200px;
+}
+
+.text-login-sso {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.text-login-sso:hover {
+  color: blue;
+  text-decoration: underline;
 }

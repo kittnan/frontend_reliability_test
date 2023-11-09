@@ -1,38 +1,112 @@
 <div class="container" fxLayout="row wrap" fxLayoutAlign="center center">
   <div class="card-login">
-
     <div class="card-head" fxLayout="row wrap" fxLayoutAlign="center center">
-      <div fxFlex="100" fxLayoutAlign="center center" style="text-align: center;">
+      <div
+        fxFlex="100"
+        fxLayoutAlign="center center"
+        style="text-align: center"
+      >
         <span fxFlex="100" class="card-title2" fxLayoutAlign="center center">
           Reliability Control System
         </span>
       </div>
     </div>
 
-    <form [formGroup]="LoginForm" (submit)="onLogin()" class="card-body" fxLayout="row wrap"
-      fxLayoutAlign="center center">
+    <form
+      *ngIf="mode == 'normal'"
+      [formGroup]="LoginForm"
+      (submit)="onLogin()"
+      class="card-body"
+      fxLayout="row wrap"
+      fxLayoutAlign="center center"
+    >
       <mat-form-field fxFlex="80" appearance="fill">
         <mat-label>Username</mat-label>
-        <input matInput placeholder="" formControlName="username">
+        <input matInput placeholder="" formControlName="username" />
       </mat-form-field>
       <mat-form-field fxFlex="80" appearance="fill">
         <mat-label>Password</mat-label>
-        <input matInput type="password" placeholder="" formControlName="password">
+        <input
+          matInput
+          type="password"
+          placeholder=""
+          formControlName="password"
+        />
       </mat-form-field>
 
       <div class="card-footer" fxFlex="80" fxLayoutAlign="center center">
-        <button class="btn-submit" type="submit" mat-raised-button fxFlex="100" style="margin-top: 10px;">
-          LOGIN <span class="material-icons-outlined">
-            lock_open
-          </span>
+        <button
+          class="btn-submit"
+          type="submit"
+          mat-raised-button
+          fxFlex="100"
+          style="margin-top: 10px"
+        >
+          LOGIN <span class="material-icons-outlined"> lock_open </span>
+        </button>
+      </div>
+    </form>
+    <form
+      *ngIf="mode == 'sso'"
+      [formGroup]="LoginForm"
+      (submit)="onLoginSSO()"
+      class="card-body"
+      fxLayout="row wrap"
+      fxLayoutAlign="center center"
+    >
+      <mat-form-field fxFlex="80" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          placeholder="same a window"
+          formControlName="username"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex="80" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="same a window"
+          formControlName="password"
+        />
+      </mat-form-field>
 
+      <div class="card-footer" fxFlex="80" fxLayoutAlign="center center">
+        <button
+          class="btn-submit2"
+          type="submit"
+          mat-raised-button
+          fxFlex="100"
+          style="margin-top: 10px"
+        >
+          LOGIN SSO <span class="material-icons-outlined"> lock_open </span>
         </button>
       </div>
     </form>
 
-    <div fxLayout="row wrap" fxLayoutAlign="end end" class="card-foot">
-      <span style="margin-right: 10px;">develop by IT-SD. v.{{appVersion}}</span>
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between end"
+      class="card-foot"
+    >
+      <span
+        *ngIf="mode == 'normal'"
+        (click)="mode = 'sso'"
+        class="text-login-sso"
+      >
+        Login With SSO
+      </span>
+      <span
+        *ngIf="mode == 'sso'"
+        (click)="mode = 'normal'"
+        class="text-login-sso"
+      >
+        Login
+      </span>
+      <span style="margin-right: 10px"
+        >develop by IT-SD. v.{{ appVersion }}</span
+      >
     </div>
-
   </div>
 </div>
