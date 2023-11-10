@@ -1,6 +1,7 @@
  0.0.30
 -New feature login with sso.
 -Fixed ongoing time , show only oven condition.
+-Hide advance mode.
 
  0.0.29
 -New advance mode for admin.
