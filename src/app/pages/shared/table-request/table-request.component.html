@@ -47,7 +47,7 @@
     >
       <mat-form-field fxFlex="100" appearance="standard">
         <mat-label>Search...</mat-label>
-        <input matInput (keyup)="applyFilter($event)" #input />
+        <input matInput (input)="applyFilter($event)" #input />
       </mat-form-field>
 
       <div
@@ -214,6 +214,10 @@
                 <button mat-menu-item (click)="onClickEditPlan(row)">
                   <mat-icon>edit_calendar</mat-icon>
                   <span>Edit plan</span>
+                </button>
+                <button mat-menu-item (click)="onClickActualPlan(row)">
+                  <mat-icon>edit_calendar</mat-icon>
+                  <span>Actual plan</span>
                 </button>
                 <button mat-menu-item (click)="onClickAdvanceMode(row)">
                   <mat-icon>admin_panel_settings</mat-icon>

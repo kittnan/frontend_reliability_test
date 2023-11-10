@@ -7,7 +7,9 @@ import { QeWindowPersonComponent } from './qe-window-person.component';
 import { QeWindowReportComponent } from './qe-window-report/qe-window-report.component';
 import { QeWindowPersonReviseTableComponent } from './revise/qe-window-person-revise-table/qe-window-person-revise-table.component';
 import { QeWindowPersonReviseApproveComponent } from './revise/qe-window-person-revise-approve/qe-window-person-revise-approve.component';
-
+import { PlanComponent } from './plan/plan.component';
+import { PlanEditComponent } from './plan-edit/plan-edit.component';
+import { PlanActualComponent } from './plan-actual/plan-actual.component';
 
 const routes: Routes = [
   {
@@ -16,40 +18,52 @@ const routes: Routes = [
     children: [
       {
         path: 'manage',
-        component: QeApproveManageComponent
+        component: QeApproveManageComponent,
       },
       {
         path: 'approve-request',
-        component: QeWindowApproveComponent
+        component: QeWindowApproveComponent,
       },
+      // {
+      //   path: 'chamber',
+      //   component: QeChamberComponent,
+      // },
       {
         path: 'chamber',
-        component: QeChamberComponent
+        component: PlanComponent,
+      },
+      {
+        path: 'plan-edit',
+        component: PlanEditComponent,
+      },
+      {
+        path: 'plan-actual',
+        component: PlanActualComponent,
       },
 
       {
         path: 'report',
-        component: QeWindowReportComponent
+        component: QeWindowReportComponent,
       },
       {
         path: 'revises-table',
-        component: QeWindowPersonReviseTableComponent
+        component: QeWindowPersonReviseTableComponent,
       },
       {
         path: 'revises-approve',
-        component: QeWindowPersonReviseApproveComponent
+        component: QeWindowPersonReviseApproveComponent,
       },
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'manage'
-      }
-    ]
-  }
+        redirectTo: 'manage',
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class QeWindowPersonRoutingModule { }
+export class QeWindowPersonRoutingModule {}

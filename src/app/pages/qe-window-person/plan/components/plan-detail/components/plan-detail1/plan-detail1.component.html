@@ -1,0 +1,157 @@
+<div
+  fxFlex="100"
+  fxLayoutAlign="space-between stretch"
+  fxLayout="row wrap"
+  class="box-body mtb-4"
+>
+  <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
+    <button mat-stroked-button color="primary">{{ index + 1 }}.1 DETAIL</button>
+  </div>
+  <mat-form-field
+    fxFlex="45"
+    fxFlex.lt-md="100"
+    *ngIf="item.condition"
+    appearance="legacy"
+  >
+    <mat-label>Condition Name</mat-label>
+    <input matInput [(ngModel)]="item.condition.name" [readonly]="true" />
+  </mat-form-field>
+
+  <mat-form-field
+    fxFlex="45"
+    fxFlex.lt-md="100"
+    *ngIf="item.work"
+    appearance="legacy"
+  >
+    <mat-label>Qty</mat-label>
+    <input matInput [(ngModel)]="item.work.qty" [readonly]="true" />
+  </mat-form-field>
+
+  <mat-divider fxFlex="100"></mat-divider>
+  <h4 fxFlex="100">Inspection Initial</h4>
+
+  <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
+    <mat-label>date inspection initial</mat-label>
+    <input
+      matInput
+      [readonly]="true"
+      type="text"
+      value="{{ item.startDate | date : 'M/d/YYYY, hh:mm a' }}"
+      (click)="openDialogInitial(item)"
+    />
+  </mat-form-field>
+
+  <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="fill">
+    <mat-label>time start inspection initial </mat-label>
+    <mat-select
+      [(ngModel)]="item.h"
+      (selectionChange)="onSelectHour(item, $event)"
+    >
+      <mat-option *ngFor="let h of hourList; let i = index" [value]="h">{{
+        h
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-divider fxFlex="100"></mat-divider>
+
+  <h4 fxFlex="100">Inspection Time</h4>
+
+  <div fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
+    <div
+      fxFlex="45"
+      fxFlex.lt-md="100"
+      fxLayoutAlign="start stretch"
+      fxLayout="row wrap"
+      *ngFor="let time of item.inspectionTime; let indexTime = index"
+    >
+      <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+        <mat-label *ngIf="time.at == '0'">date inspection initial</mat-label>
+        <mat-label *ngIf="time.at != '0'"
+          >date inspection {{ time.at }} (hr)</mat-label
+        >
+        <input
+          matInput
+          type="text"
+          value="{{ time.startDate | date : 'M/d/YYYY, hh:mm a' }}"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+        <mat-label *ngIf="time.at == '0'">timing inspection initial</mat-label>
+        <mat-label *ngIf="time.at != '0'"
+          >timing inspection {{ time.at }} (hr)</mat-label
+        >
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="time.hr"
+          (ngModelChange)="onCalNormal(item)"
+        />
+      </mat-form-field>
+    </div>
+
+    <mat-divider fxFlex="100"></mat-divider>
+    <h4 fxFlex="100">End Time</h4>
+    <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="legacy">
+      <mat-label>END DATE</mat-label>
+      <input
+        matInput
+        [value]="item.endDate | date : 'EEEE, d MMMM y, h:mm a'"
+        [readonly]="true"
+      />
+    </mat-form-field>
+
+    <ng-container *ngIf="formInput?.step4?.data[0].data.report.length > 0">
+      <mat-divider fxFlex="100"></mat-divider>
+      <h4 fxFlex="100">Report QE Time</h4>
+      <div
+        fxFlex="100"
+        fxLayoutAlign="space-between stretch"
+        fxLayout="row wrap"
+      >
+        <div
+          fxFlex="45"
+          fxFlex.lt-md="100"
+          fxLayoutAlign="start stretch"
+          fxLayout="row wrap"
+          *ngFor="let time of item.reportQE; let indexTime = index"
+        >
+          <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+            <mat-label *ngIf="time.at == '0'">timing report initial</mat-label>
+            <mat-label *ngIf="time.at != '0'"
+              >timing report {{ time.at }} (hr)
+            </mat-label>
+            <input
+              matInput
+              [readonly]="true"
+              type="text"
+              value="{{ time.endDate | date : 'M/d/YYYY, hh:mm a' }}"
+              (click)="openDialogCalendar(time)"
+            />
+          </mat-form-field>
+          <mat-form-field fxFlex="50" fxFlex.lt-md="100" appearance="fill">
+            <mat-label *ngIf="time.at == '0'">timing report initial</mat-label>
+            <mat-label *ngIf="time.at != '0'"
+              >timing report {{ time.at }} (hr)</mat-label
+            >
+            <mat-select
+              (selectionChange)="onSelectHourEndDate(time, item, index, $event)"
+              [(ngModel)]="time.h"
+            >
+              <mat-option
+                *ngFor="let h of hourList; let i = index"
+                [value]="h"
+                >{{ h }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </ng-container>
+
+    <mat-divider
+      *ngIf="item.condition.value != 0"
+      fxFlex="100"
+      class="mtb-4"
+    ></mat-divider>
+  </div>
+</div>

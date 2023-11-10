@@ -1,0 +1,136 @@
+::ng-deep .mat-expansion-panel-body {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.color-primary {
+  color: #007bf7;
+}
+
+.color-secondary {
+  color: #5052ff;
+}
+
+.w-7 {
+  font-weight: 700;
+}
+
+.w-5 {
+  font-weight: 500;
+}
+
+th,
+td {
+  padding: 10px;
+}
+
+.b-left-red {
+  border-left: 20px solid rgb(241, 125, 125);
+}
+
+.b-left-green {
+  border-left: 20px solid rgb(118, 255, 118);
+  // background-color: rgb(118 255 118 / 22%);
+}
+
+.red {
+  background-color: rgb(241, 125, 125);
+}
+
+.green {
+  background-color: rgb(118, 255, 118);
+}
+
+::ng-deep.mat-stroked-button {
+  margin: 5px 0;
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+  text-transform: capitalize !important;
+  // font-weight: bold;
+}
+
+::ng-deep .mat-divider {
+  margin: 10px 0;
+}
+
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.table > tr > th {
+  border: 1px solid black;
+}
+.table > tr > td {
+  border: 1px solid black;
+}
+::ng-deep span.mat-radio-label-content {
+  color: red;
+}
+
+::ng-deep .mat-radio-outer-circle {
+  border-color: rgb(41 252 145);
+}
+::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: #58b0f8;
+}
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle,
+.mat-radio-button.mat-accent
+  .mat-radio-ripple
+  .mat-ripple-element:not(.mat-radio-persistent-ripple),
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+.mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: #58b0f8;
+}
+
+.shortMenu {
+  display: block;
+  position: fixed;
+  bottom: 0%;
+  left: 10px;
+  z-index: 1;
+}
+.d-hide {
+  display: block;
+  transform: translateX(-100%);
+  opacity: 0 !important;
+  margin-bottom: 0;
+  transition: 1s ease-in-out all;
+}
+.d-show {
+  display: block;
+  transform: translateX(0);
+  height: auto !important;
+  margin-bottom: 22px;
+  opacity: 1 !important;
+  transition: 0.25s ease-in-out all;
+}
+.jump {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(15.2px);
+  -webkit-backdrop-filter: blur(15.2px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px;
+
+  list-style: none;
+}
+.jump li {
+  cursor: pointer;
+  border-bottom: 1px solid black;
+}
+.jump li a {
+  color: rgb(255, 99, 99);
+  font-weight: 900;
+  font-family: monospace;
+}
+.jump li:hover a {
+  color: red;
+  background-color: whitesmoke;
+}

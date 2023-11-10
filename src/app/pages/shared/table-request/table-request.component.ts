@@ -642,7 +642,23 @@ export class TableRequestComponent implements OnInit {
       showCancelButton: true,
     }).then((v: SweetAlertResult) => {
       if (v.isConfirmed) {
-        this.router.navigate(['qe-window-person/chamber'], {
+        this.router.navigate(['qe-window-person/plan-edit'], {
+          queryParams: {
+            id: row.requestId,
+            editPlan: true,
+          },
+        });
+      }
+    });
+  }
+  onClickActualPlan(row: any) {
+    Swal.fire({
+      title: 'Do you want to actual plan?',
+      icon: 'question',
+      showCancelButton: true,
+    }).then((v: SweetAlertResult) => {
+      if (v.isConfirmed) {
+        this.router.navigate(['qe-window-person/plan-actual'], {
           queryParams: {
             id: row.requestId,
             editPlan: true,

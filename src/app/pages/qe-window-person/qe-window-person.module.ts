@@ -23,7 +23,15 @@ import { QeWindowPersonReviseApproveComponent } from './revise/qe-window-person-
 import { TablePlaningComponent } from './revise/qe-window-person-revise-approve/components/table-planing/table-planing.component';
 import { RevisesQueuesComponent } from './revise/qe-window-person-revise-approve/components/revises-queues/revises-queues.component';
 import { DialogSelectDateComponent } from './qe-chamber/components/dialog-select-date/dialog-select-date.component';
-
+import { PlanTableComponent } from './plan/components/plan-table/plan-table.component';
+import { PlanDetailComponent } from './plan/components/plan-detail/plan-detail.component';
+import { PlanComponent } from './plan/plan.component';
+import { PlanDetail1Component } from './plan/components/plan-detail/components/plan-detail1/plan-detail1.component';
+import { PlanDetail2Component } from './plan/components/plan-detail/components/plan-detail2/plan-detail2.component';
+import { PlanDetail3Component } from './plan/components/plan-detail/components/plan-detail3/plan-detail3.component';
+import { PlanEditComponent } from './plan-edit/plan-edit.component';
+import { PlanActualComponent } from './plan-actual/plan-actual.component';
+import { PlanActualDetailComponent } from './plan-actual/components/plan-actual-detail/plan-actual-detail.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +51,15 @@ import { DialogSelectDateComponent } from './qe-chamber/components/dialog-select
     TablePlaningComponent,
     RevisesQueuesComponent,
     DialogSelectDateComponent,
+    PlanComponent,
+    PlanTableComponent,
+    PlanDetailComponent,
+    PlanDetail1Component,
+    PlanDetail2Component,
+    PlanDetail3Component,
+    PlanEditComponent,
+    PlanActualComponent,
+    PlanActualDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -52,9 +69,8 @@ import { DialogSelectDateComponent } from './qe-chamber/components/dialog-select
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
   ],
-  exports: [
-  ]
+  exports: [],
 })
-export class QeWindowPersonModule { }
+export class QeWindowPersonModule {}
