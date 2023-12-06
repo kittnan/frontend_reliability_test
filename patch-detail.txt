@@ -1,3 +1,6 @@
+ 0.0.35
+ -Fix input temp format.
+
  0.0.34
  -Fix css file remain change to scss .
  -Fix request step (input require) and text size for better focus.

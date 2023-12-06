@@ -13,10 +13,13 @@
         (ngModelChange)="handleTemp()"
         (click)="selectElem($event)"
       />
-      <span matSuffix> ± </span>
+      <span matSuffix> ℃  </span>
     </mat-form-field>
     <mat-form-field fxFlex="45" appearance="fill">
       <mat-label></mat-label>
+      <span matPrefix>
+        ±
+      </span>
       <input
         matInput
         id="cel"
@@ -24,6 +27,7 @@
         [(ngModel)]="form.tempVar"
         (ngModelChange)="handleVar()"
         (click)="selectElem($event)"
+        style="text-align: center;"
       />
       <span matSuffix> ℃ </span>
     </mat-form-field>
