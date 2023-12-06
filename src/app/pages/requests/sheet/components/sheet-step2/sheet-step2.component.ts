@@ -149,19 +149,22 @@ export class SheetStep2Component implements OnInit {
   }
 
   handleValidClassDescription(purpose: any) {
-    if(purpose.checked){
-      if(purpose.description.status ){
-        if(purpose.description.value.trim() == ''){
+    if (purpose.checked) {
+      if (purpose.description.status) {
+        if (purpose.description.value.trim() == '') {
           return 'text-red'
         }
       }
     }
     return ''
   }
-  handleDescription(){
-    if(this.testPurposeForm.value?.description?.status && this.testPurposeForm.value.description.value.trim()!==''){
+  handleDescription() {
+    console.log(this.testPurposeForm.value?.description);
+
+    if (this.testPurposeForm.value?.description?.status && this.testPurposeForm.value.description.value.trim() !== '') {
       return false
     }
+    if (!this.testPurposeForm.value?.description?.status) return false
     return true
   }
 
