@@ -30,7 +30,6 @@ export class LoginService {
   onLogin(data: any) {
     this.login(data).subscribe((res) => {
       if (res.length > 0) {
-        localStorage.setItem('RLS_version', environment.VERSION);
         const user = {
           ...res[0],
           name: this.shortName(res[0].name),
@@ -82,7 +81,6 @@ export class LoginService {
   onLoginSSO(data: any) {
     this.loginSSO(data).subscribe((res) => {
       if (res.length > 0) {
-        localStorage.setItem('RLS_version', environment.VERSION);
         const user = {
           ...res[0],
           name: this.shortName(res[0].name),
@@ -330,6 +328,9 @@ export class LoginService {
           if (auth == 'qe_department_head') {
             newUrl = '/qe-department-head';
           }
+          if (auth == 'qe_technical') {
+            newUrl = '/admin';
+          }
           if (auth == 'guest') {
             newUrl = '/guest';
           }
@@ -445,6 +446,7 @@ export class LoginService {
         break;
     }
   }
+
   viewPage() {
     const url = '/view-page';
     this.goLink(url);

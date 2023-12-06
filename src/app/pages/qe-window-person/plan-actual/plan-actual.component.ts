@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { ApproverForm } from '../../admin/approver/dialog-approver/dialog-approver.component';
 import { PlanService } from '../plan/plan.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-plan-actual',
@@ -30,7 +31,8 @@ export class PlanActualComponent implements OnInit {
     private routeActive: ActivatedRoute,
     private $request: RequestHttpService,
     private loader$: NgxUiLoaderService,
-    private plan$: PlanService
+    private plan$: PlanService,
+    private router: Router
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin');
     this.userLogin = JSON.parse(userLoginStr);
@@ -39,11 +41,14 @@ export class PlanActualComponent implements OnInit {
   ngOnInit(): void {
     try {
       this.routeActive.queryParams.subscribe(async (params: any) => {
+        console.clear();
         const { id, editPlan } = params;
         const resData = await this.$request.get_id(id).toPromise();
+        console.log('🚀 ~ resData:', resData);
         this.request = resData[0];
         this.dataSource.data = this.plan$.setDataTable(resData[0]);
-        this.planing = this.plan$.genPlan(this.dataSource.data);
+        this.planing = this.request.queues;
+        // this.planing = this.plan$.genPlan(this.dataSource.data);
         console.log('🚀 ~ this.planing:', this.planing);
       });
     } catch (error) {
@@ -65,5 +70,16 @@ export class PlanActualComponent implements OnInit {
       block: 'start',
       inline: 'nearest',
     });
+  }
+
+  handleQrCode() {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([environment.BASE + '/qr-code-request'], {
+        queryParams: {
+          id: this.request._id,
+        },
+      })
+    );
+    window.open(url, '_blank');
   }
 }

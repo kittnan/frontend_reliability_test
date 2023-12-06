@@ -2,15 +2,15 @@
   <div fxFlex="100" *ngFor="let purpose of testPurposes" class="form-grey">
     <mat-radio-button [value]="purpose.name" [checked]="purpose.checked"
       [ngClass]="{'mb10': purpose['description'].status==false}" (change)="onCheckRadio($event,purpose)"
-      fxLayoutAlign="start center" style="margin-right: 10px;text-transform: capitalize;">
+      fxLayoutAlign="start center" style="margin-right: 10px;text-transform: capitalize;" [class]="handleValidClassDescription(purpose)"  >
       {{compareTranslate(purpose.name) | translate}}
     </mat-radio-button>
     <mat-form-field *ngIf="purpose['description'].status" fxFlex="auto" class="full-width" appearance="fill">
-      <mat-label>
+      <mat-label  >
         {{'sheet2.description' |translate}}
       </mat-label>
-      <input [disabled]="!purpose.checked" [value]="purpose['description'].value" [id]="purpose._id"
-        (change)="onInputDescription($event)" matInput class="full-width">
+      <input [disabled]="!purpose.checked" [(ngModel)]="purpose['description'].value" [value]="purpose['description'].value" [id]="purpose._id"
+        (input)="onInputDescription($event)" matInput class="full-width">
     </mat-form-field>
   </div>
 </div>
@@ -24,7 +24,7 @@
       Back
     </span>
   </button>
-  <button [disabled]="testPurposeForm.invalid" fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
+  <button [disabled]="testPurposeForm.invalid || handleDescription()" fxFlex="30" mat-raised-button color="primary" (click)="onNext()">
 
     <span class="material-icons-outlined">
       keyboard_double_arrow_right

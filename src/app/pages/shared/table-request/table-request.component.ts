@@ -164,7 +164,10 @@ export class TableRequestComponent implements OnInit {
     }
     this.params.status = JSON.stringify(status);
 
-    if (localStorage.getItem('RLS_authorize') === 'admin') {
+    if (
+      localStorage.getItem('RLS_authorize') === 'admin' ||
+      localStorage.getItem('RLS_authorize') === 'qe_technical'
+    ) {
       const param: HttpParams = new HttpParams().set('status', statusStr);
       const resData = await this.$request.tableAdmin(param).toPromise();
       const resultMap: any = await this.mapRows(resData);
@@ -348,6 +351,7 @@ export class TableRequestComponent implements OnInit {
   private setOption() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
     this.pageSizeOptions = [1, 5, 10, 25, 100];
   }
   onClickView(item: any) {

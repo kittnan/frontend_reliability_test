@@ -9,7 +9,17 @@
     class="mtb-4"
   >
     <a id="top"></a>
-
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end center">
+      <button
+        mat-raised-button
+        color="primary"
+        style="margin-right: 10px"
+        (click)="handleQrCode()"
+      >
+        <span class="material-symbols-outlined"> qr_code_2 </span>
+        <span> QR CODE </span>
+      </button>
+    </div>
     <app-views
       [showTest]="false"
       [showReport]="false"
@@ -21,6 +31,7 @@
       fxFlex="100"
       [form]="request"
       (formChange)="qeReceiveEmit($event)"
+      [disable]="true"
     ></app-qe-receive>
     <app-plan-table
       *ngIf="

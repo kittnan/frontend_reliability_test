@@ -29,7 +29,11 @@ export class AuthService {
     return false;
   }
   getAuthorizeAdmin() {
-    if (localStorage.getItem('RLS_authorize') == 'admin') return true;
+    if (
+      localStorage.getItem('RLS_authorize') == 'admin' ||
+      localStorage.getItem('RLS_authorize') == 'qe_technical'
+    )
+      return true;
     return false;
   }
   getAuthorizeQeWindowPerson() {

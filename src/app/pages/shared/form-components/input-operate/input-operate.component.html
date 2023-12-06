@@ -2,11 +2,10 @@
     <span class="material-icons-outlined">
     build
   </span>
-    <mat-form-field fxFlex="90" appearance="fill">
-        <mat-label>Operate</mat-label>
-        <mat-select [disabled]="disable" [(ngModel)]="form" (ngModelChange)="emit()" [compareWith]="objectComparisonFunction">
-
-            <mat-option *ngFor="let item of items" [value]="item">
+    <mat-form-field fxFlex="90" appearance="fill" style="font-size: 18px; ">
+        <mat-label style="color: red;">Operate</mat-label>
+        <mat-select [disabled]="disable" [(ngModel)]="form" (ngModelChange)="emit()" [compareWith]="objectComparisonFunction" style="color: red;" >
+            <mat-option *ngFor="let item of items" [value]="item"  >
                 {{item.text |uppercase}}
             </mat-option>
         </mat-select>

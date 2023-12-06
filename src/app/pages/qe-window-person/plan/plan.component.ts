@@ -39,7 +39,7 @@ export class PlanComponent implements OnInit {
     this.userLogin = JSON.parse(userLoginStr);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     try {
       this.routeActive.queryParams.subscribe(async (params: any) => {
         const { id, editPlan } = params;
@@ -47,6 +47,15 @@ export class PlanComponent implements OnInit {
         this.request = resData[0];
         this.dataSource.data = this.plan$.setDataTable(resData[0]);
         this.planing = this.plan$.genPlan(this.dataSource.data);
+
+        const resultUserApprove = await this.plan$.getUserApprove(
+          this.userLogin,
+          this.request,
+          this.userApprove,
+          'qe_engineer'
+        );
+        this.userApprove = resultUserApprove.userApprove;
+        this.approve = resultUserApprove.approver;
       });
     } catch (error) {
       console.log('🚀 ~ error:', error);

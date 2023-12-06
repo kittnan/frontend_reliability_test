@@ -10,7 +10,7 @@ import { ApproverForm } from './../../../../admin/approver/dialog-approver/dialo
 @Component({
   selector: 'app-sheet-step5',
   templateUrl: './sheet-step5.component.html',
-  styleUrls: ['./sheet-step5.component.css']
+  styleUrls: ['./sheet-step5.component.scss']
 })
 export class SheetStep5Component implements OnInit {
   @Input() formId: any;

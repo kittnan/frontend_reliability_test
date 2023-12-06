@@ -66,7 +66,6 @@ export class PlanService {
         select = this.checkPrevApprove(request, 3, userApprove);
       }
     }
-
     let approver = await this._userApprove.approver(
       authorize,
       request.level,

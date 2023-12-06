@@ -189,41 +189,58 @@
                 <span class="material-icons-outlined"> file_download </span>
               </button>
 
-              <button
-                mat-icon-button
-                [matMenuTriggerFor]="menu"
-                aria-label="Example icon-button with a menu"
-              >
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="onClickToggleFollowUp(row)">
-                  <mat-icon class="material-icons-outlined">
-                    notifications
-                  </mat-icon>
-                  <span>Notifications</span>
-                </button>
+              <ng-container *ngIf="authorize == 'admin'">
                 <button
-                  *ngIf="validQeWindowAuth()"
-                  mat-menu-item
-                  (click)="onClickGeneratePlan(row)"
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  aria-label="Example icon-button with a menu"
                 >
-                  <mat-icon>insert_invitation</mat-icon>
-                  <span>Generate plan</span>
+                  <mat-icon>more_vert</mat-icon>
                 </button>
-                <button mat-menu-item (click)="onClickEditPlan(row)">
-                  <mat-icon>edit_calendar</mat-icon>
-                  <span>Edit plan</span>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="onClickToggleFollowUp(row)">
+                    <mat-icon class="material-icons-outlined">
+                      notifications
+                    </mat-icon>
+                    <span>Notifications</span>
+                  </button>
+                  <button
+                    *ngIf="validQeWindowAuth()"
+                    mat-menu-item
+                    (click)="onClickGeneratePlan(row)"
+                  >
+                    <mat-icon>insert_invitation</mat-icon>
+                    <span>Generate plan</span>
+                  </button>
+                  <button mat-menu-item (click)="onClickEditPlan(row)">
+                    <mat-icon>edit_calendar</mat-icon>
+                    <span>Edit plan</span>
+                  </button>
+                  <button mat-menu-item (click)="onClickActualPlan(row)">
+                    <mat-icon>edit_calendar</mat-icon>
+                    <span>Actual plan</span>
+                  </button>
+                  <button mat-menu-item (click)="onClickAdvanceMode(row)">
+                    <mat-icon>admin_panel_settings</mat-icon>
+                    <span>Advance Mode</span>
+                  </button>
+                </mat-menu>
+              </ng-container>
+              <ng-container *ngIf="authorize == 'qe_technical'">
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  aria-label="Example icon-button with a menu"
+                >
+                  <mat-icon>more_vert</mat-icon>
                 </button>
-                <button mat-menu-item (click)="onClickActualPlan(row)">
-                  <mat-icon>edit_calendar</mat-icon>
-                  <span>Actual plan</span>
-                </button>
-                <button mat-menu-item (click)="onClickAdvanceMode(row)">
-                  <mat-icon>admin_panel_settings</mat-icon>
-                  <span>Advance Mode</span>
-                </button>
-              </mat-menu>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="onClickActualPlan(row)">
+                    <mat-icon>edit_calendar</mat-icon>
+                    <span>Actual plan</span>
+                  </button>
+                </mat-menu>
+              </ng-container>
             </td>
           </ng-container>
 

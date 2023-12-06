@@ -66,7 +66,14 @@ export class SheetComponent implements OnInit {
   }
 
   handleHeader() {
-    if (localStorage.getItem('RLS_authorize') == 'admin') return '';
-    return 'disable-head';
+    if (localStorage.getItem('RLS_authorize') != 'admin') {
+      let element: any = document.querySelectorAll(
+        '.mat-horizontal-stepper-header-container'
+      );
+      element && element.length > 0
+        ? (element[0].style.pointerEvents = 'none')
+        : '';
+    }
+    return '';
   }
 }

@@ -18,69 +18,74 @@ import { QeWindowPersonModule } from './pages/qe-window-person/qe-window-person.
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { RequestsModule } from './pages/requests/requests.module';
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
+import { QrCodeRequestComponent } from './pages/shared/qr-code-request/qr-code-request.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'request',
     loadChildren: () => RequestsModule,
-    canActivate: [RequestGuard]
+    canActivate: [RequestGuard],
   },
   {
     path: 'approve',
     loadChildren: () => ApproveModule,
-    canActivate: [ApproveGuard]
+    canActivate: [ApproveGuard],
   },
   {
     path: 'admin',
     loadChildren: () => AdminModule,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard],
   },
   {
     path: 'qe-window-person',
     loadChildren: () => QeWindowPersonModule,
-    canActivate: [QeWindowPersonGuard]
+    canActivate: [QeWindowPersonGuard],
   },
   {
     path: 'qe-engineer',
     loadChildren: () => QeEngineerModule,
-    canActivate: [QeEngineerGuard]
+    canActivate: [QeEngineerGuard],
   },
   {
     path: 'qe-section-head',
     loadChildren: () => QeSectionHeadModule,
-    canActivate: [QeSectionHeadGuard]
+    canActivate: [QeSectionHeadGuard],
   },
   {
     path: 'view-page',
-    component: ViewPageComponent
+    component: ViewPageComponent,
   },
   {
     path: 'dashboard',
     // component: DashboardComponent
-    component: Dashboard2Component
+    component: Dashboard2Component,
   },
   {
     path: 'guest',
-    component: GuestComponent
+    component: GuestComponent,
+  },
+  {
+    path: 'qr-code-request',
+    component: QrCodeRequestComponent,
   },
 
   {
     path: '**',
-    component: NotFoundComponent
-  }
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

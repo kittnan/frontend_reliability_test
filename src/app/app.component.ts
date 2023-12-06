@@ -6,7 +6,6 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { environment } from 'src/environments/environment';
 import { v4 as uuid } from 'uuid';
 import { DialogAuthComponent } from './pages/shared/dialog-auth/dialog-auth.component';
-import { HandleVersionService } from './services/handle-version.service';
 import { ToastService } from './services/toast.service';
 
 @Component({
@@ -29,8 +28,7 @@ export class AppComponent {
     private dialog: MatDialog,
     private _toast: ToastService,
     private _router: Router,
-    private translate: TranslateService,
-    private $handleVersion: HandleVersionService
+    private translate: TranslateService
   ) {
     this.userLogin = localStorage.getItem('RLS_userName');
     this.authorize = localStorage.getItem('RLS_authorize');
@@ -41,7 +39,6 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.$handleVersion.start();
     // if (this.swUpdate.isEnabled) {
     //   this.swUpdate.available.subscribe(() => {
     //     if (confirm("New version available. Load New Version?")) {
@@ -457,6 +454,33 @@ export class AppComponent {
             {
               path: '/guest',
               icon: 'home',
+              title: 'manage',
+            },
+          ],
+        },
+      ];
+    }
+
+    if (this.authorize == 'qe_technical') {
+      this.sideItems = [
+        {
+          title: 'dashboard',
+          icon: 'dashboard',
+          items: [
+            {
+              path: '/dashboard',
+              icon: 'dashboard',
+              title: 'main',
+            },
+          ],
+        },
+        {
+          title: 'request',
+          icon: 'feed',
+          items: [
+            {
+              path: '/admin/request-manage',
+              icon: 'feed',
               title: 'manage',
             },
           ],

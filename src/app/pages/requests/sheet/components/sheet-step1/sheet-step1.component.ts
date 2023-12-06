@@ -35,7 +35,7 @@ export interface ModelNo {
 @Component({
   selector: 'app-sheet-step1',
   templateUrl: './sheet-step1.component.html',
-  styleUrls: ['./sheet-step1.component.css'],
+  styleUrls: ['./sheet-step1.component.scss'],
 })
 export class SheetStep1Component implements OnInit {
   @Input() formId: any;
@@ -500,5 +500,11 @@ export class SheetStep1Component implements OnInit {
 
   sendLog(data: any) {
     this.$log.insertLogFlow(data).subscribe((res) => console.log(res));
+  }
+  handleAdmin(){
+    if(localStorage.getItem("RLS_authorize")=='admin'){
+      return true
+    }
+    return false
   }
 }

@@ -27,7 +27,7 @@ interface listForm {
 @Component({
   selector: 'app-sheet-step3',
   templateUrl: './sheet-step3.component.html',
-  styleUrls: ['./sheet-step3.component.css']
+  styleUrls: ['./sheet-step3.component.scss']
 })
 export class SheetStep3Component implements OnInit {
   @Input() formId: any

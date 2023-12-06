@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-sheet-step2',
   templateUrl: './sheet-step2.component.html',
-  styleUrls: ['./sheet-step2.component.css']
+  styleUrls: ['./sheet-step2.component.scss']
 })
 export class SheetStep2Component implements OnInit {
   @Input() formId: any
@@ -22,7 +22,7 @@ export class SheetStep2Component implements OnInit {
     _id: new FormControl(null),
     requestId: new FormControl(null),
     purpose: new FormControl('', Validators.required),
-    description: new FormControl()
+    description: new FormControl(),
   })
   testPurposes: any = []
 
@@ -78,7 +78,7 @@ export class SheetStep2Component implements OnInit {
     })
   }
   onInputDescription(event: any) {
-    const value = event.target.value
+    const value: any = event.target.value
     this.testPurposeForm.patchValue({
       description: {
         status: true,
@@ -94,6 +94,7 @@ export class SheetStep2Component implements OnInit {
     this.testPurposeForm.patchValue({
       requestId: this.formId
     })
+
     Swal.fire({
       title: `Do you want to save draft?`,
       icon: 'question',
@@ -145,6 +146,23 @@ export class SheetStep2Component implements OnInit {
 
   onBack() {
     this._stepper.previous()
+  }
+
+  handleValidClassDescription(purpose: any) {
+    if(purpose.checked){
+      if(purpose.description.status ){
+        if(purpose.description.value.trim() == ''){
+          return 'text-red'
+        }
+      }
+    }
+    return ''
+  }
+  handleDescription(){
+    if(this.testPurposeForm.value?.description?.status && this.testPurposeForm.value.description.value.trim()!==''){
+      return false
+    }
+    return true
   }
 
 
