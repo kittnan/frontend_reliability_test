@@ -111,7 +111,7 @@ export class PlanService {
           attachment: {},
           checker: {},
           power: {},
-          status: selected.condition.data.operate.value,
+          status: selected.condition?.data?.operate?.value,
         },
         work: {
           requestId: selected.step1.requestId,

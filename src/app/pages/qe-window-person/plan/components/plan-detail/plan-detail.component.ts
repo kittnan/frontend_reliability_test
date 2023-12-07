@@ -62,7 +62,7 @@ export class PlanDetailComponent implements OnInit {
       const draft = queueDraft.find((draft: any) => {
         return (
           draft.condition?.name == d.condition?.name &&
-          draft.operate.status == d.operate.status
+          draft.operate?.status == d.operate?.status
         );
       });
 
