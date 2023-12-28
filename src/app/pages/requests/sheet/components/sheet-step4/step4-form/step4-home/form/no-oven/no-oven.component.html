@@ -1,14 +1,16 @@
 <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
 
   <mat-radio-group fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(ngModel)]="form.reportStatus"
-    appearance="fill" (ngModelChange)="emit()">
-    <mat-radio-button [value]="true">
+    appearance="fill" (ngModelChange)="emit()" style="font-size: 18px;" >
+    <mat-radio-button [value]="true"  style="color: green;">
       {{'sheet3.report' | translate}}
     </mat-radio-button>
-    <mat-radio-button [value]="false">
+    <mat-radio-button [value]="false" style="color: red;">
       {{'sheet3.noReport' | translate}}
     </mat-radio-button>
   </mat-radio-group>
+
+
 
 
   <app-input-qty fxFlex.gt-lg="33" fxFlex.gt-md="50" fxFlex.gt-xs="100" [(form)]="form.qty"

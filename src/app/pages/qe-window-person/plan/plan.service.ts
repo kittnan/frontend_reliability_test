@@ -99,6 +99,7 @@ export class PlanService {
 
   genPlan(data: any[]) {
     return data.map((selected: any) => {
+      console.log("🚀 ~ selected:", selected)
       const temp: any = {
         startDate: null,
         endDate: null,

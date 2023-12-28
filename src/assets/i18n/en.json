@@ -29,7 +29,10 @@
   "sheet3": {
     "report": "report",
     "noReport": "no report",
-    "detailTest": "detail test"
+    "detailTest": "detail test",
+    "roomTemp":"testing on room temperature",
+    "temp":"testing on requirement temperature"
+
   },
   "header-sheet": {
     "step1": "Sheet Detail",

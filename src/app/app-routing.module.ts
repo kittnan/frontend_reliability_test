@@ -18,7 +18,8 @@ import { QeWindowPersonModule } from './pages/qe-window-person/qe-window-person.
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { RequestsModule } from './pages/requests/requests.module';
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
-import { QrCodeRequestComponent } from './pages/shared/qr-code-request/qr-code-request.component';
+import { QeTechnicalModule } from './pages/qe-technical/qe-technical.module';
+import { QeTechnicalGuard } from './guards/qe-technical.guard';
 
 const routes: Routes = [
   {
@@ -61,6 +62,11 @@ const routes: Routes = [
     canActivate: [QeSectionHeadGuard],
   },
   {
+    path: 'qe-technical',
+    loadChildren: () => QeTechnicalModule,
+    canActivate: [QeTechnicalGuard],
+  },
+  {
     path: 'view-page',
     component: ViewPageComponent,
   },
@@ -73,10 +79,7 @@ const routes: Routes = [
     path: 'guest',
     component: GuestComponent,
   },
-  {
-    path: 'qr-code-request',
-    component: QrCodeRequestComponent,
-  },
+
 
   {
     path: '**',

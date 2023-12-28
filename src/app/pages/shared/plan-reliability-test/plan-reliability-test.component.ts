@@ -35,7 +35,6 @@ export class PlanReliabilityTestComponent implements OnInit {
   }
 
   downLoadExcel() {
-    // alert()
     const table = document.getElementById('excel')
     const wb: XLSX.WorkBook = XLSX.utils.table_to_book(table)
     XLSX.writeFile(wb, 'foo.xlsx', {

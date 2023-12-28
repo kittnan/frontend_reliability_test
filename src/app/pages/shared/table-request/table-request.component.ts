@@ -700,7 +700,6 @@ export class TableRequestComponent implements OnInit {
   }
 
   onClickAdvanceMode(row: any) {
-    // alert();
 
     this.router.navigate(['request/sheet'], {
       queryParams: {

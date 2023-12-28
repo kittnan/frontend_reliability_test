@@ -25,7 +25,9 @@
   "sheet3": {
     "report": "ต้องการรายงาน",
     "noReport": "ไม่ต้องการรายงาน",
-    "detailTest": "รายละเอียดเงื่อนไขการทดสอบ​"
+    "detailTest": "รายละเอียดเงื่อนไขการทดสอบ​",
+    "roomTemp":"อุณหภูมิห้อง",
+    "temp":"อุณหภูมิที่ต้องการ"
   },
   "Optical characteristic measurement for Sample product": "วัด optical characteristic​",
   "Evaluation safe lauch concept ": "การประเมินงานของ Pre-launch​",

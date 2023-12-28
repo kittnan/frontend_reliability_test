@@ -15,6 +15,9 @@ import { ItemsComponent } from './operate/items/items.component';
 import { UserManageComponent } from './user-manage/user-manage.component';
 import { ApproverComponent } from './approver/approver.component';
 import { AdvanceModeComponent } from './advance-mode/advance-mode.component';
+import { QrCodeChamberComponent } from './qr-code/qr-code-chamber/qr-code-chamber.component';
+import { QrCodeOperateComponent } from './qr-code/qr-code-operate/qr-code-operate.component';
+import { QrCodePreviewComponent } from './qr-code/qr-code-preview/qr-code-preview.component';
 
 const routes: Routes = [
   {
@@ -25,7 +28,6 @@ const routes: Routes = [
         path: 'user-manage',
         component: UserManageComponent,
       },
-
       {
         path: 'department',
         component: DepartmentComponent,
@@ -78,6 +80,19 @@ const routes: Routes = [
         path: 'advance-mode',
         component: AdvanceModeComponent,
       },
+      {
+        path: 'qr-code-chamber',
+        component: QrCodeChamberComponent,
+      },
+      {
+        path: 'qr-code-operate',
+        component: QrCodeOperateComponent,
+      },
+      {
+        path: 'qr-code-preview',
+        component: QrCodePreviewComponent,
+      },
+
       {
         path: '',
         pathMatch: 'full',

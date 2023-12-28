@@ -1,0 +1,58 @@
+.box-content {
+  box-shadow: 2px 2px 8px 4px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  border-radius: 20px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-icon {
+  color: #3e75ff;
+}
+.font-red {
+  color: red;
+}
+.font-grey {
+  color: grey;
+}
+.font-blue {
+  color: blue;
+}
+.font-yellow {
+  color: #d82be7;
+}
+.font-orange {
+  color: orange;
+}
+.font-green {
+  color: green;
+}
+.fb {
+  font-weight: bold;
+}
+
+.foo {
+  background-color: #ffad2e !important;
+}
+
+th {
+  text-transform: uppercase;
+}
+td.mat-cell {
+  padding: 10px;
+}
+th.mat-header-cell {
+  padding: 10px;
+}
+.text-ongoing {
+  color: rgb(107 206 107);
+  font-weight: 900;
+}

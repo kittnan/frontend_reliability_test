@@ -38,6 +38,9 @@ import { SharedModule } from '../shared/shared.module';
 import { ApproverComponent } from './approver/approver.component';
 import { DialogApproverComponent } from './approver/dialog-approver/dialog-approver.component';
 import { AdvanceModeComponent } from './advance-mode/advance-mode.component';
+import { QrCodeChamberComponent } from './qr-code/qr-code-chamber/qr-code-chamber.component';
+import { QrCodeOperateComponent } from './qr-code/qr-code-operate/qr-code-operate.component';
+import { QrCodePreviewComponent } from './qr-code/qr-code-preview/qr-code-preview.component';
 
 
 @NgModule({
@@ -73,6 +76,9 @@ import { AdvanceModeComponent } from './advance-mode/advance-mode.component';
     ApproverComponent,
     DialogApproverComponent,
     AdvanceModeComponent,
+    QrCodeChamberComponent,
+    QrCodeOperateComponent,
+    QrCodePreviewComponent,
   ],
   imports: [
     CommonModule,

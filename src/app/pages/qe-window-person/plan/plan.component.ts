@@ -45,9 +45,10 @@ export class PlanComponent implements OnInit {
         const { id, editPlan } = params;
         const resData = await this.$request.get_id(id).toPromise();
         this.request = resData[0];
-        this.dataSource.data = this.plan$.setDataTable(resData[0]);
+        console.log("🚀 ~ this.request:", this.request)
+        // this.dataSource.data = this.plan$.setDataTable(resData[0]);
         // console.log("🚀 ~ this.dataSource.data:", this.dataSource.data)
-        this.planing = this.plan$.genPlan(this.dataSource.data);
+        this.planing = this.plan$.genPlan(this.request.queues);
 
         const resultUserApprove = await this.plan$.getUserApprove(
           this.userLogin,

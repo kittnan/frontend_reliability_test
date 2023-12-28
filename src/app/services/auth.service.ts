@@ -30,8 +30,7 @@ export class AuthService {
   }
   getAuthorizeAdmin() {
     if (
-      localStorage.getItem('RLS_authorize') == 'admin' ||
-      localStorage.getItem('RLS_authorize') == 'qe_technical'
+      localStorage.getItem('RLS_authorize') == 'admin'
     )
       return true;
     return false;
@@ -55,6 +54,12 @@ export class AuthService {
   }
   getAuthorizeQeSectionHead() {
     if (localStorage.getItem('RLS_authorize') == 'qe_section_head') return true;
+    if (localStorage.getItem('RLS_authorize') == 'admin') return true;
+
+    return false;
+  }
+  getAuthorizeQeTechnical() {
+    if (localStorage.getItem('RLS_authorize') == 'qe_technical') return true;
     if (localStorage.getItem('RLS_authorize') == 'admin') return true;
 
     return false;

@@ -302,7 +302,6 @@ export class LoginService {
             this.viewPage();
           }
         } else {
-          console.log(auth);
 
           if (auth == 'admin') {
             newUrl = '/admin';
@@ -329,7 +328,7 @@ export class LoginService {
             newUrl = '/qe-department-head';
           }
           if (auth == 'qe_technical') {
-            newUrl = '/admin';
+            newUrl = '/qe-technical';
           }
           if (auth == 'guest') {
             newUrl = '/guest';
@@ -446,6 +445,7 @@ export class LoginService {
         break;
     }
   }
+
 
   viewPage() {
     const url = '/view-page';

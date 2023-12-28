@@ -40,6 +40,7 @@ export class HighTempHumiVibrationFormComponent implements OnInit {
     },
   };
   report: boolean = false;
+  roomTemp: boolean = false;
 
   constructor() {}
 

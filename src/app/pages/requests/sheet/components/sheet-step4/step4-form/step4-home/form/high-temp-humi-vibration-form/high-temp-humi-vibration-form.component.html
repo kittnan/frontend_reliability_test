@@ -11,15 +11,34 @@
     [(ngModel)]="report"
     appearance="fill"
     (ngModelChange)="handleReport()"
+    style="font-size: 18px"
   >
-    <mat-radio-button [value]="true">
+    <mat-radio-button [value]="true" style="color: green">
       {{ "sheet3.report" | translate }}
     </mat-radio-button>
-    <mat-radio-button [value]="false">
+    <mat-radio-button [value]="false" style="color: red">
       {{ "sheet3.noReport" | translate }}
     </mat-radio-button>
   </mat-radio-group>
-  <app-input-temp
+
+  <mat-radio-group
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [(ngModel)]="roomTemp"
+    appearance="fill"
+    style="font-size: 18px"
+  >
+    <mat-radio-button [value]="true" style="color: rgb(81, 200, 255)">
+      {{ "sheet3.roomTemp" | translate }}
+    </mat-radio-button>
+    <mat-radio-button [value]="false" style="color: rgb(245, 144, 49)">
+      {{ "sheet3.temp" | translate }}
+    </mat-radio-button>
+  </mat-radio-group>
+
+  <ng-container *ngIf="!roomTemp">
+    <app-input-temp
     fxFlex.gt-lg="33"
     fxFlex.gt-md="50"
     fxFlex.gt-xs="100"
@@ -28,6 +47,21 @@
     [(form)]="form.highTemp"
     (formChange)="emit($event)"
   ></app-input-temp>
+  </ng-container>
+  <ng-container *ngIf="roomTemp">
+    <!-- <app-input-temp
+    fxFlex.gt-lg="33"
+    fxFlex.gt-md="50"
+    fxFlex.gt-xs="100"
+    [icon]="'thermostat'"
+    [title]="'High Temp'"
+    [(form)]="form.highTemp"
+    (formChange)="emit($event)"
+  ></app-input-temp> -->
+  </ng-container>
+
+
+
   <app-input-humi
     fxFlex.gt-lg="33"
     fxFlex.gt-md="50"

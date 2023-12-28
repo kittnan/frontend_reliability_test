@@ -25,7 +25,11 @@ export class PlanDetail1Component implements OnInit {
     private planDetail1$: PlanDetail1Service
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // console.log(this.item);
+    // console.log(this.formInput);
+
+  }
 
   openDialogInitial(item: any) {
     const dialogRef = this.dialog.open(DialogDateStartInspectionComponent, {
@@ -58,6 +62,7 @@ export class PlanDetail1Component implements OnInit {
   }
 
   openDialogCalendar(time: any) {
+    console.log("🚀 ~ time:", time)
     if (time?.startDate) {
       const dialogRef = this.dialog.open(DialogDateComponent, {
         height: '500px',

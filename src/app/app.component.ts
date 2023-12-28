@@ -267,6 +267,22 @@ export class AppComponent {
             },
           ],
         },
+        {
+          title: 'qr code',
+          icon: 'qr_code_scanner',
+          items: [
+            // {
+            //   path: '/admin/qr-code-chamber',
+            //   icon: 'qr_code_2',
+            //   title: 'chamber',
+            // },
+            {
+              path: '/admin/qr-code-operate',
+              icon: 'qr_code_2',
+              title: 'operate',
+            },
+          ],
+        },
       ];
     }
     if (this.authorize == 'request') {
@@ -479,7 +495,7 @@ export class AppComponent {
           icon: 'feed',
           items: [
             {
-              path: '/admin/request-manage',
+              path: '/qe-technical/manage',
               icon: 'feed',
               title: 'manage',
             },
