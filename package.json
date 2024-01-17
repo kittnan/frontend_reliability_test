@@ -1,6 +1,6 @@
 {
   "name": "reliability",
-  "version": "0.0.38",
+  "version": "0.0.41",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
