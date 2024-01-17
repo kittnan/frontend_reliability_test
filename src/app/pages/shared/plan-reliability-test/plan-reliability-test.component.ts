@@ -63,7 +63,6 @@ export class PlanReliabilityTestComponent implements OnInit {
     // console.log(this.requestForm);
 
     // const nextApprove = this.requestForm[0].step5[0].prevUser
-    // console.log("🚀 ~ nextApprove:", nextApprove)
     const resUpdate = await this.$request.update(this.requestForm[0]._id, {
       ...this.requestForm[0],
       level: 11,

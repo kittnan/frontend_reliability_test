@@ -256,7 +256,6 @@ export class Step4HomeComponent implements OnInit {
   }
 
   sumString(condition: any) {
-    // console.log("🚀 ~ condition:", condition)
     const data: any = condition.data;
     let sumStr: string = '';
     const roomTemp =

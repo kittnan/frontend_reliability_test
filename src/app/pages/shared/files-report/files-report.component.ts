@@ -42,10 +42,8 @@ export class FilesReportComponent implements OnInit {
   ngOnInit(): void {
     this.validCompleteFile()
     const resultMap = this.mapReportQE()
-    // console.log("🚀 ~ resultMap:", resultMap)
     const resultUnique = [...new Map(resultMap.map((item: any) => [item['at'], item])).values()];
     const resultSort = resultUnique.sort((a: any, b: any) => a.at - b.at)
-    // console.log("🚀 ~ resultSort:", resultSort)
     this.inspectionTime = resultSort
   }
   mapReportQE() {
@@ -152,7 +150,6 @@ export class FilesReportComponent implements OnInit {
         // const type = files[i].name.split('.').pop()
         // const filename = `${controlNo}-${at}Hr-${i + 1}.${type}`
         const filename = files[i].name
-        // console.log("🚀 ~ filename:", filename)
         formData.append('Files', files[i], filename)
 
         if (i + 1 == files.length) resolve(formData)

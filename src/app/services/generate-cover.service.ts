@@ -30,7 +30,6 @@ export class GenerateCoverService {
         await wb.xlsx.load(buff)
 
         const ws1 = wb.getWorksheet('Cover')
-        console.log("🚀 ~ ws1:", ws1)
 
 
         ws1.getCell('G8').value = request.step1.customer

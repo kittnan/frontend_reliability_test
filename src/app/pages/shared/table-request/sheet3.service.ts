@@ -53,7 +53,6 @@ export class Sheet3Service {
 
     })
     const addFirstColumn = result_merge.map((m: any) => [''].concat(m))
-    // console.log("🚀 ~ addFirstColumn:", addFirstColumn)
     let c = 0
     const foo = addFirstColumn.reduce((p: any, n: any) => {
       c += 1;

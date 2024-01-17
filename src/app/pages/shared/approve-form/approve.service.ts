@@ -175,7 +175,6 @@ export class ApproveService {
 
 
       const oldStep = form.step5.find((step: any) => step.nextStatusForm == nextStatusForm)
-      // console.log("🚀 ~ oldStep:", oldStep)
 
       if (oldStep) {
         const prev = {

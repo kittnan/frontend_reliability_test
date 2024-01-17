@@ -7,6 +7,11 @@ import { UserApproveService } from 'src/app/services/user-approve.service';
 import { PlanService } from './plan.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApproverForm } from '../../admin/approver/dialog-approver/dialog-approver.component';
+import { QueueService } from 'src/app/http/queue.service';
+import { PlanDetailComponent } from './components/plan-detail/plan-detail.component';
+import * as moment from 'moment';
+import { GenInspectionTableService } from '../qe-chamber/qe-chamber-planning-detail/gen-inspection-table.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-plan',
@@ -33,7 +38,9 @@ export class PlanComponent implements OnInit {
     private routeActive: ActivatedRoute,
     private $request: RequestHttpService,
     private loader$: NgxUiLoaderService,
-    private plan$: PlanService
+    private plan$: PlanService,
+    private $queue: QueueService,
+    private _qenInspectionTable: GenInspectionTableService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin');
     this.userLogin = JSON.parse(userLoginStr);
@@ -45,10 +52,42 @@ export class PlanComponent implements OnInit {
         const { id, editPlan } = params;
         const resData = await this.$request.get_id(id).toPromise();
         this.request = resData[0];
-        console.log("🚀 ~ this.request:", this.request)
-        // this.dataSource.data = this.plan$.setDataTable(resData[0]);
-        // console.log("🚀 ~ this.dataSource.data:", this.dataSource.data)
-        this.planing = this.plan$.genPlan(this.request.queues);
+        const setTableData = this.plan$.setDataTable(this.request)
+        this.planing = this.plan$.genPlan(setTableData);
+
+        // if (this.request.queues.length == 0) {
+        //   this.planing = this.plan$.genNewPlan(this.request)
+        //   const formUpdate = this.planing.map((item: any) => {
+        //     if (item.condition?.value == 0) {
+        //       item.chamber = {
+        //         code: null,
+        //         name: null
+        //       }
+        //     }
+        //     return item
+        //   })
+        //   const resInsert: any = await this.$queue.insert(formUpdate).toPromise()
+        //   const table: any = await this.mapForTable(formUpdate, this.request)
+        //   this.request.table = table
+        //   const resUpdate = await this.$request
+        //     .update(this.request._id, this.request)
+        //     .toPromise();
+        //   if (resUpdate && resUpdate.acknowledged) {
+        //     Swal.fire({
+        //       title: 'Success',
+        //       icon: 'success',
+        //       showConfirmButton: false,
+        //       timer: 1000,
+        //     }).then(() => {
+        //       location.reload();
+        //     });
+        //   }
+        // } else {
+        //   const setTableData = this.plan$.setDataTable(this.request)
+        //   this.planing = this.plan$.genPlan(setTableData);
+        // }
+
+        // // this.dataSource.data = this.plan$.setDataTable(resData[0]);
 
         const resultUserApprove = await this.plan$.getUserApprove(
           this.userLogin,
@@ -64,12 +103,64 @@ export class PlanComponent implements OnInit {
     }
   }
 
+  public async mapForTable(queues: any, request: any) {
+    const header = queues.reduce((prev: any, now: any) => {
+      const temp: any = prev;
+      temp.push(now.condition.name);
+      return temp;
+    }, []);
+    const receive = header.map((h: any) =>
+      request.qeReceive?.date
+        ? moment(request.qeReceive.date).format('ddd, D-MMM-YY,h:mm a')
+        : '-'
+    );
+    const times_inspection = await this.mapTime(queues, 'inspectionTime');
+    const times_report = await this.mapTime(queues, 'reportTime');
+    let reportStatus = request?.step4?.data[0]?.reportStatus
+      ? request.step4.data[0].reportStatus
+      : request.step4.data[0].data.reportStatus;
+    if (request.step4.data[0].data.report.length > 0) {
+      reportStatus = true;
+    }
+
+    const table_inspection: any = await this._qenInspectionTable.genTable(
+      times_inspection,
+      queues,
+      header,
+      'inspectionTime',
+      times_report,
+      ['Sample Receive', ...receive],
+      reportStatus,
+      request.step4
+    );
+    return {
+      header: header,
+      data: table_inspection,
+    };
+  }
+  mapTime(data: any, key: any) {
+    return new Promise((resolve) => {
+      let times = data.reduce((prev: any, now: any) => {
+        const foo = prev.concat(now[key]);
+        return foo;
+      }, []);
+      times = Object.values(
+        times.reduce(
+          (acc: any, cur: any) => Object.assign(acc, { [cur.at]: cur }),
+          {}
+        )
+      );
+      times.sort((a: any, b: any) => a.at - b.at);
+      times.push({ at: -1 });
+      resolve(times);
+    });
+  }
+
+
   qeReceiveEmit(e_form: any) {
-    this.loader$.start();
     setTimeout(() => {
       this.request = e_form;
       this.dataSource.data = this.plan$.setDataTable(this.request);
-      this.loader$.stopAll();
     }, 200);
   }
 

@@ -40,7 +40,6 @@ export class DialogRejectRevisesComponent implements OnInit {
       // this._loader.start()
       const time = moment().format('YYYY-MM-DD, HH.mm')
       const newComment = this.comment ? `[${time}]${this.data.userLogin.name}-> ${this.comment}` : null
-      // console.log("🚀 ~ newComment:", newComment)
 
       const userApprove = {
         _id: this.select._id,
@@ -48,7 +47,6 @@ export class DialogRejectRevisesComponent implements OnInit {
       }
       // console.log(this.select.level);
 
-      // console.log("🚀 ~ userApprove:", userApprove)
       const updateData = {
         ...this.data.form,
         nextApprove: userApprove,
@@ -57,7 +55,6 @@ export class DialogRejectRevisesComponent implements OnInit {
         status: this.generateNextStatus(this.select.level),
         historyApprove: this.genHistoryApprove(this.data.form.historyApprove, this.userLogin, this.data.form)
       }
-      // console.log("🚀 ~ updateData:", updateData)
 
       // Swal.fire({
       //   showCancelButton: true

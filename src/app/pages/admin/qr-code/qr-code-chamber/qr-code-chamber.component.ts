@@ -32,7 +32,6 @@ export class QrCodeChamberComponent implements OnInit {
         return a['__zone_symbol__value']
       })
       this.dataSource = new MatTableDataSource(mapChamber)
-      // console.log("🚀 ~ resChamber:", resChamber)
     } catch (error) {
       console.log("🚀 ~ error:", error)
 

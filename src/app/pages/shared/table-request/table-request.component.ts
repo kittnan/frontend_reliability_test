@@ -610,8 +610,6 @@ export class TableRequestComponent implements OnInit {
         if (form.step4.data[0].data.report.length > 0) {
           reportStatus = true;
         }
-        console.log(form.step4);
-
         const table_inspection: any = await this._qenInspectionTable.genTable(
           times_inspection,
           queues,
@@ -622,8 +620,6 @@ export class TableRequestComponent implements OnInit {
           reportStatus,
           form.step4
         );
-        console.log('🚀 ~ table_inspection:', table_inspection);
-
         const table = {
           header: header,
           data: table_inspection,

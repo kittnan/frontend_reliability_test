@@ -49,7 +49,6 @@ export class DialogApproveRevisesComponent implements OnInit {
         _id: this.data.userApprove.selected._id,
         name: this.data.userApprove.selected.name
       }
-      // console.log("🚀 ~ userApprove:", userApprove)
 
 
       const updateData = {

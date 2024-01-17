@@ -191,7 +191,6 @@ export class RevisesTableComponent implements OnInit {
         if (diff <= 0) return true
         return false
       })
-      // console.log("🚀 ~ item:", item)
       if (item) {
         const index = foundItem.inspectionTime.indexOf(item)
         const prev = foundItem.inspectionTime[index - 1]

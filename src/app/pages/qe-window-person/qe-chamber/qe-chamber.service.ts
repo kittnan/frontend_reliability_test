@@ -95,7 +95,6 @@ export class QeChamberService {
   //         console.log(item.actualTime[i - 1]);
 
   //         const newHR = this.calNewHR(item.actualTime[i - 1], t)
-  //         console.log("🚀 ~ newHR:", newHR)
   //         item.actualTime[i - 1].hr = newHR
   //         const diffAt = Number(t.at) - Number(item.actualTime[i - 1].at)
   //         item.actualTime[i - 1].endDate = moment(item.actualTime[i - 1].endDate).add(Number(t.hr), 'hours').add(diffAt, 'hours').toDate()

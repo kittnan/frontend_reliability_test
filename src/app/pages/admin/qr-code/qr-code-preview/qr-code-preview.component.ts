@@ -29,7 +29,6 @@ export class QrCodePreviewComponent implements OnInit {
         mapChamber = mapChamber.map((a: any) => {
           return a['__zone_symbol__value']
         })
-        console.log("🚀 ~ mapChamber:", mapChamber)
         this.codes= mapChamber
       })
     } catch (error) {

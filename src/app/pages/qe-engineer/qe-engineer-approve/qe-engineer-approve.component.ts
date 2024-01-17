@@ -122,7 +122,6 @@ export class QeEngineerApproveComponent implements OnInit {
   }
 
   private checkPrevApprove(data: any, level: number) {
-    console.log("🚀 ~ data:", data)
     const prevUserApprove = data.step5.find((s: any) => s.level == level)
     if (prevUserApprove) {
       return this.userApprove.find((u: any) => u._id == prevUserApprove.nextUser._id)

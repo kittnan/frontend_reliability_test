@@ -378,7 +378,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
 
         // this.queues = [...this.tempQueues]
         // this.queues = await this.getQueuesDraft(this.queues)
-        // console.log("🚀 ~ this.queues:", this.queues)
         // this.tableData = await this.mapForTable(this.queues)
 
         setTimeout(() => {

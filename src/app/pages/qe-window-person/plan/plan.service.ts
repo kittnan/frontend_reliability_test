@@ -6,7 +6,7 @@ import { ApproverForm } from '../../admin/approver/dialog-approver/dialog-approv
   providedIn: 'root',
 })
 export class PlanService {
-  constructor(private _userApprove: UserApproveService) {}
+  constructor(private _userApprove: UserApproveService) { }
 
   setDataTable(request: any) {
     const conditions = request.step4.data;
@@ -99,20 +99,23 @@ export class PlanService {
 
   genPlan(data: any[]) {
     return data.map((selected: any) => {
-      console.log("🚀 ~ selected:", selected)
       const temp: any = {
         startDate: null,
         endDate: null,
         inspectionTime: this.genInspectionTime(
           selected.condition.data.inspection
         ),
-        reportQE: this.genInspectionTime(selected.condition.data.report),
-        reportTime: this.genInspectionTime(selected.condition.data.report),
+        reportQE: this.genInspectionTime(
+          selected.condition.data.report
+        ),
+        reportTime: this.genInspectionTime(
+          selected.condition.data.report
+        ),
         operate: {
           attachment: {},
           checker: {},
           power: {},
-          status: selected.condition?.data?.operate?.value,
+          status: selected.condition.data.operate.value,
         },
         work: {
           requestId: selected.step1.requestId,
@@ -130,6 +133,38 @@ export class PlanService {
     });
   }
 
+
+  // genPlan(request: any, data: any[]) {
+  //   return data.map((selected: any) => {
+  //     let data = {
+  //       inspection: selected.inspectionTime,
+  //       report: selected.reportTime,
+  //       operate: selected.operate,
+  //       step1: request.step1
+  //     }
+  //     const temp: any = {
+  //       startDate: null,
+  //       endDate: null,
+  //       inspectionTime: this.genInspectionTime(
+  //         data.inspection
+  //       ),
+  //       reportQE: this.genInspectionTime(data.report),
+  //       reportTime: this.genInspectionTime(data.report),
+  //       operate: {
+  //         attachment: {},
+  //         checker: {},
+  //         power: {},
+  //         status: data?.operate?.value,
+  //       },
+  //       work: selected.work,
+  //       condition: selected.condition,
+  //       model: data.step1.modelNo,
+  //       status: 'draft',
+  //     };
+  //     return temp;
+  //   });
+  // }
+
   genInspectionTime(time: any[]) {
     return time.map((t: any) => {
       const temp: any = {
@@ -140,5 +175,44 @@ export class PlanService {
       };
       return temp;
     });
+  }
+
+  genNewPlan(request: any) {
+    const dataSetTable: any = this.setDataTable(request)
+    return dataSetTable.map((selected: any) => {
+      const temp: any = {
+        startDate: null,
+        endDate: null,
+        inspectionTime: this.genInspectionTime(
+          selected.condition.data.inspection
+        ),
+        reportQE: this.genInspectionTime(
+          selected.condition.data.report
+        ),
+        reportTime: this.genInspectionTime(
+          selected.condition.data.report
+        ),
+        operate: {
+          attachment: {},
+          checker: {},
+          power: {},
+          status: selected.condition.data.operate.value,
+        },
+        work: {
+          requestId: selected.step1.requestId,
+          qty: selected.condition.data.qty,
+          controlNo: selected.step1.controlNo,
+        },
+        condition: {
+          name: selected.condition.dataTable.name,
+          value: selected.condition.value,
+        },
+        model: selected.step1.modelNo,
+        status: 'draft',
+      };
+      return temp;
+    });
+
+
   }
 }

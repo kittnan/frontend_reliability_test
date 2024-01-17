@@ -150,7 +150,6 @@ export class QeChamberPlanningComponent implements OnInit {
   //     }
   //     return temp
   //   })
-  //   // console.log("🚀 ~ file: qe-chamber-planning.component.ts:99 ~ QeChamberPlanningComponent ~ createPlaning ~ this.chamberTable", this.chamberTable)
   //   this.dataChange.emit(this.chamberTable)
   //   // return this.chamberTable
   // }

@@ -26,12 +26,6 @@ export class QrCodeOperateComponent implements OnInit {
   ) { }
   async ngOnInit(): Promise<void> {
     try {
-      // console.log('1');
-
-      // const gpp = await this.foo()
-      // console.log("🚀 ~ gpp:", gpp)
-      // this.dataSource = new MatTableDataSource(mapChamber)
-      // console.log("🚀 ~ resOperate:", resOperate)
     } catch (error) {
       console.log("🚀 ~ error:", error)
 
@@ -51,7 +45,6 @@ export class QrCodeOperateComponent implements OnInit {
           return await QRCode.toDataURL(a)
         })
       );
-      console.log("🚀 ~ bb:", bb)
       resolve(bb)
     })
 
@@ -77,7 +70,6 @@ export class QrCodeOperateComponent implements OnInit {
         mapData = mapData.map((a: any) => {
           return a['__zone_symbol__value']
         })
-        console.log("🚀 ~ mapData:", mapData)
         this.dataSource = new MatTableDataSource(mapData)
       }
     }

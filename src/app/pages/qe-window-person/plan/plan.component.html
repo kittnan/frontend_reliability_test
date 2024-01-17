@@ -8,11 +8,11 @@
     <app-qe-receive fxFlex="100" [form]="request" (formChange)="qeReceiveEmit($event)"></app-qe-receive>
 
     <app-plan-table *ngIf="
-        request.qeReceive?.qty && dataSource && dataSource.data.length != 0
+        request.qeReceive?.qty &&  request.qeReceive?.date && dataSource && dataSource.data.length != 0
       " fxFlex="100" [dataSource]="dataSource"></app-plan-table>
 
-    <app-plan-detail *ngIf="planing && planing.length != 0" fxFlex="100" [(queues)]="planing"
-      [formInput]="request"></app-plan-detail>
+    <app-plan-detail *ngIf="  request.qeReceive?.qty &&  request.qeReceive?.date && planing && planing.length != 0"
+      fxFlex="100" [(queues)]="planing" [formInput]="request"></app-plan-detail>
 
     <mat-form-field fxFlex="100" appearance="fill" class="content-item">
       <mat-label>SEND TO...</mat-label>

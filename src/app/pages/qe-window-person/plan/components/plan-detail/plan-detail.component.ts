@@ -38,7 +38,7 @@ export class PlanDetailComponent implements OnInit {
     private _qenInspectionTable: GenInspectionTableService,
     private _loading: NgxUiLoaderService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.queues = await this.getQueuesDraft(this.queues);
@@ -137,7 +137,7 @@ export class PlanDetailComponent implements OnInit {
     }, 500);
   }
 
-  syncData(e: any, index: number) {}
+  syncData(e: any, index: number) { }
 
   async onDraft(item: any, index: number, startDate: any) {
     const table = await this.mapForTable(this.queues, this.formInput);
@@ -242,7 +242,6 @@ export class PlanDetailComponent implements OnInit {
 
         // this.queues = [...this.tempQueues]
         // this.queues = await this.getQueuesDraft(this.queues)
-        // console.log("🚀 ~ this.queues:", this.queues)
         // this.tableData = await this.mapForTable(this.queues)
 
         setTimeout(() => {
@@ -266,10 +265,10 @@ export class PlanDetailComponent implements OnInit {
     );
     const times_inspection = await this.mapTime(queues, 'inspectionTime');
     const times_report = await this.mapTime(queues, 'reportTime');
-    let reportStatus = this.formInput?.step4?.data[0]?.reportStatus
-      ? this.formInput.step4.data[0].reportStatus
-      : this.formInput.step4.data[0].data.reportStatus;
-    if (this.formInput.step4.data[0].data.report.length > 0) {
+    let reportStatus = request?.step4?.data[0]?.reportStatus
+      ? request.step4.data[0].reportStatus
+      : request.step4.data[0].data.reportStatus;
+    if (request.step4.data[0].data.report.length > 0) {
       reportStatus = true;
     }
 
@@ -281,7 +280,7 @@ export class PlanDetailComponent implements OnInit {
       times_report,
       ['Sample Receive', ...receive],
       reportStatus,
-      this.formInput.step4
+      request.step4
     );
     return {
       header: header,
