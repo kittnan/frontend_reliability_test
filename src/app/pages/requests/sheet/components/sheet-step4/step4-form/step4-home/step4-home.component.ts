@@ -43,7 +43,7 @@ export class Step4HomeComponent implements OnInit {
   constructor(
     private $master: MasterHttpService,
     private $step3: Step3HttpService
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.condition_list = await this.$master.getFunctionChamber().toPromise();

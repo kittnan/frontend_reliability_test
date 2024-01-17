@@ -1,26 +1,9 @@
-<div
-  fxFlex="100"
-  fxLayoutAlign="start stretch"
-  fxLayout="row wrap"
-  style="margin-bottom: 30px"
->
+<div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap" style="margin-bottom: 30px">
   <mat-accordion fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-    <mat-expansion-panel
-      hideToggle
-      *ngFor="let item of queues; let i = index"
-      fxFlex="100"
-      fxLayoutAlign="start stretch"
-      fxLayout="row wrap"
-      class="b-left-red"
-      [ngClass]="{ 'b-left-green': item._id }"
-    >
-      <mat-expansion-panel-header
-        class="jump"
-        fxFlex="100"
-        fxLayoutAlign="start stretch"
-        fxLayout="row wrap"
-        (click)="jump2('q' + i)"
-      >
+    <mat-expansion-panel hideToggle *ngFor="let item of queues; let i = index" fxFlex="100"
+      fxLayoutAlign="start stretch" fxLayout="row wrap" class="b-left-red" [ngClass]="{ 'b-left-green': item._id }">
+      <mat-expansion-panel-header class="jump" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
+        (click)="jump2('q' + i)">
         <mat-panel-title [id]="'q' + i">
           {{ i + 1 }}. {{ item.condition.name }}
         </mat-panel-title>
@@ -32,28 +15,14 @@
         fxLayout="row wrap"
         class="box-body mtb-4"
       > -->
-      <app-plan-detail1
-        *ngIf="formInput"
-        fxFlex="100"
-        [index]="i"
-        [item]="item"
-        [formInput]="formInput"
-      ></app-plan-detail1>
+      <app-plan-detail1 *ngIf="formInput" fxFlex="100" [index]="i" [item]="item"
+        [formInput]="formInput"></app-plan-detail1>
 
-      <app-plan-detail2
-        *ngIf="formInput && item.condition.value != 0"
-        fxFlex="100"
-        [index]="i"
-        [item]="item"
-        [formInput]="formInput"
-      ></app-plan-detail2>
+      <app-plan-detail2 *ngIf="formInput && item.condition.value != 0" fxFlex="100" [index]="i" [item]="item"
+        [formInput]="formInput"></app-plan-detail2>
 
       <div fxFlex="100" fxLayoutAlign="end stretch" fxLayout="row wrap">
-        <button
-          color="primary"
-          mat-button
-          (click)="onDraft(item, i, item.startDate)"
-        >
+        <button color="primary" mat-button (click)="onDraft(item, i, item.startDate)">
           <span class="material-icons-outlined"> save </span>
           SAVE DRAFT
         </button>
@@ -66,13 +35,8 @@
       <!-- </div> -->
     </mat-expansion-panel>
   </mat-accordion>
-  <app-plan-reliability-test
-    *ngIf="tableData"
-    fxFlex="100"
-    class="mt-3"
-    [requestForm]="[formInput]"
-    [queues]="tableData"
-  >
+  <app-plan-reliability-test *ngIf="tableData" fxFlex="100" class="mt-3" [requestForm]="[formInput]"
+    [queues]="tableData">
   </app-plan-reliability-test>
 </div>
 

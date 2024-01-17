@@ -1,80 +1,36 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-  <div
-    *ngIf="form"
-    #content
-    fxFlex.gt-md="80"
-    fxFlex.lt-md="100"
-    fxLayoutAlign="center stretch"
-    fxLayout="row wrap"
-    class="mtb-4"
-  >
+  <div *ngIf="form" #content fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+    class="mtb-4">
     <a id="top"></a>
 
-    <app-views
-      [showTest]="false"
-      [showReport]="false"
-      fxFlex="100"
-      [formInput]="form"
-    ></app-views>
+    <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="form"></app-views>
 
-    <app-qe-receive
-      fxFlex="100"
-      [form]="form"
-      (formChange)="qeReceiveEmit($event)"
-    ></app-qe-receive>
+    <app-qe-receive fxFlex="100" [form]="form" (formChange)="qeReceiveEmit($event)"></app-qe-receive>
 
     <ng-container *ngIf="form.qeReceive.qty">
-      <app-qe-chamber-planning
-        *ngIf="dataSource && dataSource.length != 0"
-        fxFlex="100"
-        [data]="dataSource"
-        (dataChange)="emitted($event)"
-      ></app-qe-chamber-planning>
-      <app-qe-chamber-planning-detail
-        *ngIf="chamberTable && chamberTable.length != 0"
-        fxFlex="100"
-        [(queues)]="chamberTable"
-        (dataChange)="dataChange($event)"
-        (tableChange)="tableChange($event)"
-        (approveChange)="approveChange($event)"
-        [formInput]="form"
-      >
+      <app-qe-chamber-planning *ngIf="dataSource && dataSource.length != 0" fxFlex="100" [data]="dataSource"
+        (dataChange)="emitted($event)"></app-qe-chamber-planning>
+      <app-qe-chamber-planning-detail *ngIf="chamberTable && chamberTable.length != 0" fxFlex="100"
+        [(queues)]="chamberTable" (dataChange)="dataChange($event)" (tableChange)="tableChange($event)"
+        (approveChange)="approveChange($event)" [formInput]="form">
       </app-qe-chamber-planning-detail>
 
       <mat-form-field fxFlex="100" appearance="fill" class="content-item">
         <mat-label>SEND TO...</mat-label>
-        <mat-select
-          [compareWith]="objectComparisonFunction"
-          [(ngModel)]="approve.selected"
-        >
-          <mat-option
-            *ngFor="let item of userApprove; let i = index"
-            [value]="item"
-          >
+        <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
+          <mat-option *ngFor="let item of userApprove; let i = index" [value]="item">
             {{ approve.groupStatus ? approve.name : item.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <app-approve-form
-        fxFlex="100"
-        [reject]="validReject()"
-        [userApprove]="approve"
-        [data]="form"
-        [approve]="true"
-        [editPlan]="editPlan"
-      >
+      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="true"
+        [editPlan]="editPlan">
       </app-approve-form>
     </ng-container>
 
     <ng-container *ngIf="!form.qeReceive.qty">
-      <app-approve-form
-        fxFlex="100"
-        [reject]="validReject()"
-        [userApprove]="approve"
-        [data]="form"
-        [approve]="false"
-        [editPlan]="editPlan"
-      >
+      <app-approve-form fxFlex="100" [reject]="validReject()" [userApprove]="approve" [data]="form" [approve]="false"
+        [editPlan]="editPlan">
       </app-approve-form>
     </ng-container>
     <a id="down"></a>

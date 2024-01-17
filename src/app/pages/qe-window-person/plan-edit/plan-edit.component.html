@@ -1,41 +1,17 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-  <div
-    *ngIf="request"
-    #content
-    fxFlex.gt-md="80"
-    fxFlex.lt-md="100"
-    fxLayoutAlign="center stretch"
-    fxLayout="row wrap"
-    class="mtb-4"
-  >
+  <div *ngIf="request" #content fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+    class="mtb-4">
     <a id="top"></a>
 
-    <app-views
-      [showTest]="false"
-      [showReport]="false"
-      fxFlex="100"
-      [formInput]="request"
-    ></app-views>
+    <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="request"></app-views>
 
-    <app-qe-receive
-      fxFlex="100"
-      [form]="request"
-      (formChange)="qeReceiveEmit($event)"
-    ></app-qe-receive>
-    <app-plan-table
-      *ngIf="
+    <app-qe-receive fxFlex="100" [form]="request" (formChange)="qeReceiveEmit($event)"></app-qe-receive>
+    <app-plan-table *ngIf="
         request.qeReceive?.qty && dataSource && dataSource.data.length != 0
-      "
-      fxFlex="100"
-      [dataSource]="dataSource"
-    ></app-plan-table>
+      " fxFlex="100" [dataSource]="dataSource"></app-plan-table>
 
-    <app-plan-detail
-      *ngIf="planing && planing.length != 0"
-      fxFlex="100"
-      [(queues)]="planing"
-      [formInput]="request"
-    ></app-plan-detail>
+    <app-plan-detail *ngIf="planing && planing.length != 0" fxFlex="100" [(queues)]="planing"
+      [formInput]="request"></app-plan-detail>
 
     <a id="down"></a>
   </div>

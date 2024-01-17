@@ -159,7 +159,6 @@ export class SheetStep2Component implements OnInit {
     return ''
   }
   handleDescription() {
-    console.log(this.testPurposeForm.value?.description);
 
     if (this.testPurposeForm.value?.description?.status && this.testPurposeForm.value.description.value.trim() !== '') {
       return false

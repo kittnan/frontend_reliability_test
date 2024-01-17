@@ -20,13 +20,14 @@ export class GenerateQrcodeService {
           background: 'white',
           scale: 3,
         };
-        var doc: any = new jsPDF('p', 'mm', 'a4');
+        var doc: any = new jsPDF('l', 'mm',[51,22]);
+        // doc.setPageSize(51,24)
         for (let index = 0; index < div.length; index++) {
           const d = div[index];
           const can = await html2canvas(d, options)
           let img = can.toDataURL('image/PNG');
-          const bufferX = 5;
-          const bufferY = 2;
+          const bufferX = 0;
+          const bufferY = 0;
           const imgProps = (<any>doc).getImageProperties(img);
           const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
           const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
@@ -58,7 +59,7 @@ export class GenerateQrcodeService {
                 'FAST'
               );
             } else {
-              doc = await doc.addPage('a4', 'p');
+              doc = await doc.addPage( 'l');
               doc = await doc.addImage(
                 img,
                 'PNG',

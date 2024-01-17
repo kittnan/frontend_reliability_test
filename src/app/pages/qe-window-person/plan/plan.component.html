@@ -1,76 +1,34 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-  <div
-    *ngIf="request"
-    #content
-    fxFlex.gt-md="80"
-    fxFlex.lt-md="100"
-    fxLayoutAlign="center stretch"
-    fxLayout="row wrap"
-    class="mtb-4"
-  >
+  <div *ngIf="request" #content fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+    class="mtb-4">
     <a id="top"></a>
 
-    <app-views
-      [showTest]="false"
-      [showReport]="false"
-      fxFlex="100"
-      [formInput]="request"
-    ></app-views>
+    <app-views [showTest]="false" [showReport]="false" fxFlex="100" [formInput]="request"></app-views>
 
-    <app-qe-receive
-      fxFlex="100"
-      [form]="request"
-      (formChange)="qeReceiveEmit($event)"
-    ></app-qe-receive>
+    <app-qe-receive fxFlex="100" [form]="request" (formChange)="qeReceiveEmit($event)"></app-qe-receive>
 
-    <app-plan-table
-      *ngIf="
+    <app-plan-table *ngIf="
         request.qeReceive?.qty && dataSource && dataSource.data.length != 0
-      "
-      fxFlex="100"
-      [dataSource]="dataSource"
-    ></app-plan-table>
+      " fxFlex="100" [dataSource]="dataSource"></app-plan-table>
 
-    <app-plan-detail
-      *ngIf="planing && planing.length != 0"
-      fxFlex="100"
-      [(queues)]="planing"
-      [formInput]="request"
-    ></app-plan-detail>
+    <app-plan-detail *ngIf="planing && planing.length != 0" fxFlex="100" [(queues)]="planing"
+      [formInput]="request"></app-plan-detail>
 
     <mat-form-field fxFlex="100" appearance="fill" class="content-item">
       <mat-label>SEND TO...</mat-label>
-      <mat-select
-        [compareWith]="objectComparisonFunction"
-        [(ngModel)]="approve.selected"
-      >
-        <mat-option
-          *ngFor="let item of userApprove; let i = index"
-          [value]="item"
-        >
+      <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
+        <mat-option *ngFor="let item of userApprove; let i = index" [value]="item">
           {{ approve.groupStatus ? approve.name : item.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <app-approve-form
-      *ngIf="request.qeReceive.qty"
-      fxFlex="100"
-      [reject]="validReject()"
-      [userApprove]="approve"
-      [data]="request"
-      [approve]="true"
-    >
+    <app-approve-form *ngIf="request.qeReceive.qty" fxFlex="100" [reject]="validReject()" [userApprove]="approve"
+      [data]="request" [approve]="true">
     </app-approve-form>
 
-    <app-approve-form
-      *ngIf="!request.qeReceive.qty"
-      fxFlex="100"
-      [reject]="validReject()"
-      [userApprove]="approve"
-      [data]="request"
-      [approve]="false"
-    >
+    <app-approve-form *ngIf="!request.qeReceive.qty" fxFlex="100" [reject]="validReject()" [userApprove]="approve"
+      [data]="request" [approve]="false">
     </app-approve-form>
     <a id="down"></a>
   </div>

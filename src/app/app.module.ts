@@ -52,35 +52,35 @@ export function HttpLoaderFactory(http: HttpClient) {
 // }
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-  bgsColor: '#673ab7',
-  bgsOpacity: 0.5,
-  bgsPosition: 'bottom-right',
-  bgsSize: 60,
-  bgsType: 'ball-spin',
-  blur: 15,
-  delay: 0,
-  fastFadeOut: true,
-  fgsColor: '#673ab7',
-  fgsPosition: 'center-center',
-  fgsSize: 60,
-  fgsType: 'cube-grid',
-  gap: 24,
-  logoPosition: 'center-center',
-  logoSize: 120,
-  logoUrl: '',
-  masterLoaderId: 'master',
-  overlayBorderRadius: '0',
-  overlayColor: 'rgba(145,145,145,0.8)',
-  pbColor: '#000000',
-  pbDirection: 'ltr',
-  pbThickness: 3,
-  hasProgressBar: true,
-  text: '',
-  textColor: '#FFFFFF',
-  textPosition: 'center-center',
-  maxTime: -1,
-  minTime: 300,
-};
+  "bgsColor": "#5df29b",
+  "bgsOpacity": 0.5,
+  "bgsPosition": "bottom-right",
+  "bgsSize": 60,
+  "bgsType": "double-bounce",
+  "blur": 13,
+  "delay": 0,
+  "fastFadeOut": true,
+  "fgsColor": "#5df29b",
+  "fgsPosition": "center-center",
+  "fgsSize": 60,
+  "fgsType": "square-jelly-box",
+  "gap": 24,
+  "logoPosition": "center-center",
+  "logoSize": 120,
+  "logoUrl": "",
+  "masterLoaderId": "master",
+  "overlayBorderRadius": "0",
+  "overlayColor": "rgba(179,179,179,0.8)",
+  "pbColor": "#5df29b",
+  "pbDirection": "ltr",
+  "pbThickness": 3,
+  "hasProgressBar": true,
+  "text": "",
+  "textColor": "#FFFFFF",
+  "textPosition": "center-center",
+  "maxTime": -1,
+  "minTime": 100
+}
 
 @NgModule({
   declarations: [
@@ -116,12 +116,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderRouterModule,
     NgxUiLoaderHttpModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000',
-    }),
+    // ServiceWorkerModule.register('ngsw-worker.js', {
+    //   enabled: environment.production,
+    //   // Register the ServiceWorker as soon as the application is stable
+    //   // or after 30 seconds (whichever comes first).
+    //   registrationStrategy: 'registerWhenStable:30000',
+    // }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -133,4 +133,4 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

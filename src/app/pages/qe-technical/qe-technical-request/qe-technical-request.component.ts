@@ -41,6 +41,7 @@ export class QeTechnicalRequestComponent implements OnInit {
 
       this.routeActive.queryParams.subscribe(async (params: any) => {
         const { id, editPlan } = params;
+        console.log("🚀 ~ id:", id)
         const resData = await this.$request.get_id(id).toPromise();
         this.request = resData[0];
         const resScan = await this.$scanHistory.get(new HttpParams().set('runNo', JSON.stringify([this.request.step1.controlNo]))).toPromise()

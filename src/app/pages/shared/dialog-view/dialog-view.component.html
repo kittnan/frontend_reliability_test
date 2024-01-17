@@ -8,8 +8,8 @@
     <app-view-log *ngIf="form?._id" fxFlex="100" [formId]="form._id"></app-view-log>
     <app-plan-reliability-test fxFlex="100" *ngIf="form &&form.table" [requestForm]="[form]"
       [queues]="form.table"></app-plan-reliability-test>
-    <app-comment *ngIf="form" fxFlex="100" [comment]="form?.comment? form.comment:null"></app-comment>
-    <app-files-report *ngIf="form" fxFlex="100" [form]="form" [queues]="form.queues" [show]="false"></app-files-report>
+      <app-files-report *ngIf="form" fxFlex="100" [form]="form" [queues]="form.queues" [show]="false"></app-files-report>
+      <app-comment *ngIf="form" fxFlex="100" [comment]="form?.comment? form.comment :null"></app-comment>
   </div>
 
 </div>
