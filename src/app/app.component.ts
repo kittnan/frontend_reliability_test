@@ -259,6 +259,11 @@ export class AppComponent {
               icon: 'hardware',
               title: 'items',
             },
+            {
+              path: '/admin/equipment',
+              icon: 'hardware',
+              title: 'equipments',
+            },
           ],
         },
         {

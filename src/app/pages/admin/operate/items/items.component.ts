@@ -36,7 +36,7 @@ export class ItemsComponent implements OnInit {
   async getMaster() {
     const resData = await this._operate_items.get().toPromise()
     this.dataSource = new MatTableDataSource(resData)
-    this.displayedColumns = ['no', 'code','type','name','stock','qty','qtyNon','status','action']
+    this.displayedColumns = ['no', 'code', 'type', 'name', 'stock', 'qty', 'qtyNon', 'status', 'action']
     this.tableConfig()
   }
 
@@ -57,9 +57,9 @@ export class ItemsComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef: MatDialogRef<any> = this.dialog.open(ItemsDialogComponent,{
-      minWidth:100,
-      maxWidth:300
+    const dialogRef: MatDialogRef<any> = this.dialog.open(ItemsDialogComponent, {
+      minWidth: 100,
+      maxWidth: 300
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res && res.length > 0) {
@@ -70,8 +70,8 @@ export class ItemsComponent implements OnInit {
 
   onEdit(item: any) {
     const dialogRef: MatDialogRef<any> = this.dialog.open(ItemsDialogComponent, {
-      minWidth:100,
-      maxWidth:300,
+      minWidth: 100,
+      maxWidth: 300,
       data: item
     });
     dialogRef.afterClosed().subscribe(res => {

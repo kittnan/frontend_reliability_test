@@ -18,6 +18,7 @@ import { AdvanceModeComponent } from './advance-mode/advance-mode.component';
 import { QrCodeChamberComponent } from './qr-code/qr-code-chamber/qr-code-chamber.component';
 import { QrCodeOperateComponent } from './qr-code/qr-code-operate/qr-code-operate.component';
 import { QrCodePreviewComponent } from './qr-code/qr-code-preview/qr-code-preview.component';
+import { EquipmentComponent } from './operate/equipment/equipment.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,10 @@ const routes: Routes = [
       {
         path: 'qr-code-preview',
         component: QrCodePreviewComponent,
+      },
+      {
+        path: 'equipment',
+        component: EquipmentComponent,
       },
 
       {
