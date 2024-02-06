@@ -20,6 +20,7 @@ import { RequestsModule } from './pages/requests/requests.module';
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
 import { QeTechnicalModule } from './pages/qe-technical/qe-technical.module';
 import { QeTechnicalGuard } from './guards/qe-technical.guard';
+import { DashboardGanttEquipmentComponent } from './pages/dashboard-gantt-equipment/dashboard-gantt-equipment.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,10 @@ const routes: Routes = [
   {
     path: 'guest',
     component: GuestComponent,
+  },
+  {
+    path: 'dashboard-gantt-equipment',
+    component: DashboardGanttEquipmentComponent,
   },
 
 

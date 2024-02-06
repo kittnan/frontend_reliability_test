@@ -1,0 +1,15 @@
+.mat-cell,.mat-header-cell{
+  padding: 10px !important;
+}
+th.mat-header-cell{
+  text-transform: capitalize !important;
+  font-weight: 700 !important;
+  color: black;
+}
+.text-link{
+  cursor: pointer;
+  color: blue;
+}
+.text-link:hover{
+  text-decoration: underline;
+}

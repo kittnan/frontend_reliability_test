@@ -11,7 +11,7 @@ import { TrackingOperateHttpService } from 'src/app/http/tracking-operate-http.s
   styleUrls: ['./qr-code-operate.component.scss']
 })
 export class QrCodeOperateComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'code', 'qrcode'];
+  displayedColumns: string[] = ['select', 'code', 'name', 'location', 'qrcode'];
   dataSource: any = null
   selection = new SelectionModel<any>(true, []);
 
@@ -19,6 +19,8 @@ export class QrCodeOperateComponent implements OnInit {
   numberStart!: string
   numberEnd!: string
   digit!: string
+  location!: string
+  name!: string
 
   constructor(
     private router: Router,
@@ -26,29 +28,18 @@ export class QrCodeOperateComponent implements OnInit {
   ) { }
   async ngOnInit(): Promise<void> {
     try {
+      let qrStr: any = localStorage.getItem('RLS_qr')
+      qrStr = qrStr ? JSON.parse(qrStr) : null
+      if (qrStr) {
+        this.dataSource = new MatTableDataSource(qrStr)
+      }
+
     } catch (error) {
       console.log("🚀 ~ error:", error)
 
     }
   }
 
-
-  foo() {
-    return new Promise(resolve => {
-      console.log('2');
-
-      let arr = ['1', '2', '3', '4', '5', '6', '7']
-      const bb = Promise.all(
-        arr.map(async (a: any) => {
-          console.log('-');
-
-          return await QRCode.toDataURL(a)
-        })
-      );
-      resolve(bb)
-    })
-
-  }
 
   async handleRunNumber() {
     const startNum = Number(this.numberStart)
@@ -64,7 +55,10 @@ export class QrCodeOperateComponent implements OnInit {
         let mapData = await values.map(async (a: any) => {
           return {
             code: a,
-            qrcode: await QRCode.toDataURL(a)
+            qrcode: await QRCode.toDataURL(a),
+            name: this.name,
+            location: this.location,
+            no: a.toString().split('-')[2]
           }
         })
         mapData = mapData.map((a: any) => {
@@ -106,22 +100,23 @@ export class QrCodeOperateComponent implements OnInit {
 
 
   handlePreview() {
-    const selected = this.selection.selected.map((a: any) => a.code)
+    const selected = this.selection.selected
     const route = 'admin/qr-code-preview';
     const codeStr = JSON.stringify(selected)
-    this.router.navigate([route], {
-      queryParams: {
-        code: codeStr
-      }
-    });
+    localStorage.setItem('RLS_qr', codeStr)
+    this.router.navigate([route]);
+    // this.router.navigate([route], {
+    //   queryParams: {
+    //     code: codeStr
+    //   }
+    // });
   }
 
   async createData() {
     try {
       const dataCreate = this.selection.selected.map((a: any) => {
         return {
-          code: a.code,
-          location: null,
+          ...a,
           status: 'normal'
         }
       })

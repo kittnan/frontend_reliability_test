@@ -165,6 +165,11 @@ export class AppComponent {
               icon: 'dashboard',
               title: 'main',
             },
+            {
+              path: '/dashboard-gantt-equipment',
+              icon: 'poll',
+              title: 'equipment',
+            },
           ],
         },
         {
@@ -333,6 +338,11 @@ export class AppComponent {
               icon: 'dashboard',
               title: 'main',
             },
+            {
+              path: '/dashboard-gantt-equipment',
+              icon: 'poll',
+              title: 'equipment',
+            },
           ],
         },
         {
@@ -363,6 +373,11 @@ export class AppComponent {
               path: '/dashboard',
               icon: 'dashboard',
               title: 'main',
+            },
+            {
+              path: '/dashboard-gantt-equipment',
+              icon: 'poll',
+              title: 'equipment',
             },
           ],
         },
@@ -395,6 +410,11 @@ export class AppComponent {
               icon: 'dashboard',
               title: 'main',
             },
+            {
+              path: '/dashboard-gantt-equipment',
+              icon: 'poll',
+              title: 'equipment',
+            },
           ],
         },
         {
@@ -425,6 +445,11 @@ export class AppComponent {
               path: '/dashboard',
               icon: 'dashboard',
               title: 'main',
+            },
+            {
+              path: '/dashboard-gantt-equipment',
+              icon: 'poll',
+              title: 'equipment',
             },
           ],
         },
@@ -487,6 +512,11 @@ export class AppComponent {
               path: '/dashboard',
               icon: 'dashboard',
               title: 'main',
+            },
+            {
+              path: '/dashboard-gantt-equipment',
+              icon: 'poll',
+              title: 'equipment',
             },
           ],
         },

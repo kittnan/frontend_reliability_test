@@ -16,6 +16,10 @@ export class ScanHistoryHttpService {
   get(params: HttpParams): Observable<any> {
     return this.http.get(`${this.URL}/${this.sub}`, { params: params })
   }
+
+  hold(params: HttpParams): Observable<any> {
+    return this.http.get(`${this.URL}/${this.sub}/hold`, { params: params })
+  }
   insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/${this.sub}/insert`, data)
   }

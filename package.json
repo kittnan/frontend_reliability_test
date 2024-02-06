@@ -26,6 +26,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@sweetalert2/ngx-sweetalert2": "^12.0.2",
+    "echarts": "^5.4.3",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",

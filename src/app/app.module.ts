@@ -41,6 +41,7 @@ import { DailyRemain2Component } from './pages/dashboard/components/daily-remain
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
 import { CardNumberComponent } from './pages/dashboard/components/card-number/card-number.component';
 import { MomentPipe } from './pipe/moment.pipe';
+import { DashboardGanttEquipmentComponent } from './pages/dashboard-gantt-equipment/dashboard-gantt-equipment.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   // return new TranslateHttpLoader(http);
@@ -102,6 +103,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     Dashboard2Component,
     CardNumberComponent,
     MomentPipe,
+    DashboardGanttEquipmentComponent,
   ],
   imports: [
     AppRoutingModule,
