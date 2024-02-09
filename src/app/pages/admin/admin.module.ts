@@ -91,6 +91,9 @@ import { EquipmentComponent } from './operate/equipment/equipment.component';
     ReactiveFormsModule,
     HttpClientModule,
     SharedModule
+  ],
+  exports:[
+    QrCodePreviewComponent
   ]
 })
 export class AdminModule { }

@@ -73,7 +73,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
         //   this.onCal(d, 0)
         // })
         this.queues = await this.getQueuesDraft(this.queues);
-        console.log('🚀 ~ this.queues:', this.queues);
         this.tableData = await this.mapForTable(this.queues);
         this.shortMenuOption = this.queues.map((a: any, i: number) => {
           return {
@@ -739,7 +738,6 @@ export class QeChamberPlanningDetailComponent implements OnInit {
     const ids = elements2.map((a: any) => a.id);
 
     const id: any = ids[i];
-    console.log(id);
     (document.getElementById(id) as HTMLElement).scrollIntoView({
       behavior: 'smooth',
       block: 'start',

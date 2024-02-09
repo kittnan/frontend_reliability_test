@@ -26,8 +26,7 @@ export class PlanDetail1Component implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // console.log(this.item);
-    // console.log(this.formInput);
+
 
   }
 

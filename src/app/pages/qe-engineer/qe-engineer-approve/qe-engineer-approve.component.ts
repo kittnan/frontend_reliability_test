@@ -112,7 +112,6 @@ export class QeEngineerApproveComponent implements OnInit {
   }
 
   handleApprove() {
-    console.log(this.form);
     let formUp = {
       ...this.form,
       status: 'qe_section_head',

@@ -12,7 +12,6 @@ export class PlanActualDetailComponent implements OnInit {
   constructor(private $qe_chamber: QeChamberService) {}
 
   ngOnInit(): void {
-    console.log(this.queues);
   }
 
   jump2(id: string) {

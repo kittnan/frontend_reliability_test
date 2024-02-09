@@ -55,7 +55,6 @@ export class DashboardGanttEquipmentComponent implements OnInit {
       this.dataSource.sort = this.sort;
       // this.onRunChart()
     }, 300);
-    // console.log("🚀 ~ mapData:", mapData)
   }
 
   // todo show display

@@ -29,7 +29,6 @@ export class Dashboard2Component implements OnInit {
     this.getData()
   }
   changeDate(date: any) {
-    console.log(date);
     this.date = date
     this.getData()
   }

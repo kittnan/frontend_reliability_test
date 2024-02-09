@@ -34,7 +34,6 @@ export class QrCodePreviewComponent implements OnInit {
           return a['__zone_symbol__value']
         })
         this.codes = mapChamber
-        console.log("🚀 ~ this.codes:", this.codes)
       }
       // this.route.queryParams.subscribe(async (p: any) => {
       //   const data = JSON.parse(p['code'])

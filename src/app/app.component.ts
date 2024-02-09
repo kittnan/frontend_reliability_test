@@ -541,7 +541,6 @@ export class AppComponent {
   }
 
   onLogout() {
-    console.log(environment.BASE);
     this._loading.start();
     localStorage.removeItem('RLS_token');
     localStorage.removeItem('RLS_id');

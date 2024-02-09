@@ -39,6 +39,9 @@ export class RequestHttpService {
   getByCondition(data: any): Observable<any> {
     return this.http.post(`${this.URL}/request_form/getByCondition`, data);
   }
+  updateControlNo(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/request_form/updateControlNo/${id}`, data);
+  }
 
   // ! new !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   getRequestTable(params: any): Observable<any> {

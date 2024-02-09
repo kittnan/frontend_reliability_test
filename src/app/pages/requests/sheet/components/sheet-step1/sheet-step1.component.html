@@ -1,7 +1,6 @@
 <form [formGroup]="requestForm">
   <div fxLayout="row wrap" fxLayoutAlign="space-evenly center">
 
-    <!-- <button (click)="onTranslate()">FGHJK</button> -->
 
     <div fxFlex="100" class="title-head">
       <div fxLayout="row wrap" fxLayoutAlign="center start">
@@ -38,17 +37,6 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-
-    <!-- <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
-      <mat-label>Model No.</mat-label>
-      <mat-select formControlName="modelNo" name="modelNo" (selectionChange)="onSelectModelNo(); onSelectCorporate();">
-        <ng-container *ngFor="let item of models; let i=index">
-          <mat-option [value]="item.modelNo">
-            {{item.modelNo}}
-          </mat-option>
-        </ng-container>
-      </mat-select>
-    </mat-form-field> -->
 
     <mat-form-field fxFlex="40" fxFlex.sm="100" appearance="fill">
       <mat-label>{{'sheet1.modelNo' |translate}}</mat-label>
@@ -90,11 +78,6 @@
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
       <mat-label>{{'sheet1.section'|translate}}</mat-label>
       <input [readonly]="true" formControlName="department" matInput>
-      <!-- <mat-select [disabled]="true" formControlName="department" name="department"
-        (selectionChange)="onSelectCorporate()">]
-        <mat-option *ngFor="let department of departments; let i=index" [value]="department.name">
-          {{department.name |uppercase}}</mat-option>
-      </mat-select> -->
     </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">

@@ -156,7 +156,6 @@ export class RevisesSheet4Component implements OnInit {
           return false;
         })
       );
-      console.log(this.condition_list);
 
       // this.condition_list = this.condition_list.filter((c: any) => {
 

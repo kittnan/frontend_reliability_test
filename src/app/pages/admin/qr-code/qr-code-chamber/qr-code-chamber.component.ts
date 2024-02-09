@@ -66,14 +66,12 @@ export class QrCodeChamberComponent implements OnInit {
 
   async generateQR(text: string) {
     try {
-      console.log(await QRCode.toDataURL(text))
     } catch (err) {
       console.error(err)
     }
   }
 
   handlePreview() {
-    console.log(this.selection.selected);
     const selected = this.selection.selected.map((a: any) => a.code)
     const route = 'admin/qr-code-preview';
     const codeStr = JSON.stringify(selected)

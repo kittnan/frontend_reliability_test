@@ -11,7 +11,6 @@ export class DailyRemain2Component implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.daily);
     this.daily = this.daily.sort((a: any, b: any) => {
       const a_date = moment(a.atItem.endDate)
       const b_date = moment(b.atItem.endDate)

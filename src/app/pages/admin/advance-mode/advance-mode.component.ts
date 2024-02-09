@@ -45,7 +45,6 @@ export class AdvanceModeComponent implements OnInit {
             .toPromise();
           if (resData && resData.length > 0) {
             this.request = resData[0];
-            console.log('🚀 ~ this.request:', this.request);
             this.conditionFormData = this.request.step4.data;
             this.setInspectionDetail(this.conditionFormData);
           } else {

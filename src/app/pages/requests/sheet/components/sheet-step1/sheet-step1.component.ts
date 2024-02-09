@@ -207,11 +207,19 @@ export class SheetStep1Component implements OnInit {
       this.requestForm.controls.corporate.valid &&
       this.requestForm.controls.modelNo.valid
     ) {
-      const runNumber: any = await this._request.setControlNo(
-        this.requestForm.value.corporate,
-        this.requestForm.value.modelNo
-      );
-      this.requestForm.controls.controlNo.setValue(runNumber);
+      if (this.requestForm.value.controlNo) {
+        let value: any = this.requestForm.value.controlNo
+        value = value.split('-')
+        let newModel: any = this.requestForm.value.modelNo
+        value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel.toString().padStart('0',6)}`
+        this.requestForm.controls.controlNo.setValue(value)
+      } else {
+        const runNumber: any = await this._request.setControlNo(
+          this.requestForm.value.corporate,
+          this.requestForm.value.modelNo
+        );
+        this.requestForm.controls.controlNo.setValue(runNumber);
+      }
     }
   }
 
@@ -272,7 +280,6 @@ export class SheetStep1Component implements OnInit {
   }
   async removeFile(file: any, index: number) {
     const resDelete = await this.$file.delete(file.name).toPromise();
-    console.log('🚀 ~ resDelete:', resDelete);
     this.data.files = this.data.files.filter(
       (d: any, i: number) => i !== index
     );
@@ -347,7 +354,7 @@ export class SheetStep1Component implements OnInit {
       showCancelButton: true,
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
-        this._loading.start();
+        // this._loading.start();
         if (this.requestForm.value._id) {
           this.update();
         } else {
@@ -358,6 +365,7 @@ export class SheetStep1Component implements OnInit {
   }
 
   async update() {
+    const resUpdateRequest = await this.$request.updateControlNo(this.requestForm.value.requestId, this.requestForm.value).toPromise()
     const resUpdate = await this.$step1
       .update(this.requestForm.value._id, this.requestForm.value)
       .toPromise();
@@ -501,8 +509,8 @@ export class SheetStep1Component implements OnInit {
   sendLog(data: any) {
     this.$log.insertLogFlow(data).subscribe((res) => console.log(res));
   }
-  handleAdmin(){
-    if(localStorage.getItem("RLS_authorize")=='admin'){
+  handleAdmin() {
+    if (localStorage.getItem("RLS_authorize") == 'admin') {
       return true
     }
     return false

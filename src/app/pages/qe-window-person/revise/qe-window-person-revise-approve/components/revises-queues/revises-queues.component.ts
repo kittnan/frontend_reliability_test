@@ -140,7 +140,6 @@ export class RevisesQueuesComponent implements OnInit {
       })
       dialogRef.afterClosed().subscribe(async res => {
         if (res) {
-          // console.log(res);
 
           item.chamber = res
         }

@@ -16,58 +16,60 @@
       </button>
     </div> -->
 
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch">
-      <mat-form-field fxFlex="100" appearance="fill">
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <mat-form-field fxFlex="50" appearance="fill">
         <mat-label>Search</mat-label>
         <input matInput (keyup)="applyFilter($event)" #input>
       </mat-form-field>
+      <button fxFlex="50" fxFlex.gt-md="25" [disabled]="!selection.selected || selection.selected.length== 0 "
+        mat-raised-button color="accent" (click)="handlePreview()" style="margin: 10px 5px 0 0;">
+        <div fxLayout="row wrap" fxLayoutAlign="center center">
+          <span class="material-icons-outlined">
+            manage_search
+          </span>
+          Preview
+        </div>
+      </button>
 
-      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch" class="">
-        <table fxFlex="100" mat-table [dataSource]="dataSource" matSort>
-
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> No </th>
-            <td mat-cell *matCellDef="let row;let i = index"> {{i+1}} </td>
+      <div *ngIf="dataSource" fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start">
+        <table mat-table [dataSource]="dataSource" style="width: 100%">
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
-            <td mat-cell *matCellDef="let row"> {{row.code |uppercase}} </td>
+            <th mat-header-cell *matHeaderCellDef>code</th>
+            <td mat-cell *matCellDef="let element">{{ element.code }}</td>
           </ng-container>
-
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.name |uppercase}} </td>
+            <th mat-header-cell *matHeaderCellDef>name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
           </ng-container>
-
-          <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.no |uppercase}} </td>
-          </ng-container>
-
           <ng-container matColumnDef="location">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
-            <td mat-cell *matCellDef="let row"> {{row.location |uppercase}} </td>
+            <th mat-header-cell *matHeaderCellDef>location</th>
+            <td mat-cell *matCellDef="let element">{{ element.location }}</td>
           </ng-container>
 
           <ng-container matColumnDef="qrcode">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> QR code </th>
-            <td mat-cell *matCellDef="let row">
-              <img [src]="row.qrcode" alt="" style="width: 150px; height: 150px;">
+            <th mat-header-cell *matHeaderCellDef>qrcode</th>
+            <td mat-cell *matCellDef="let element">
+              <img [src]="element.qrcode" alt="" style="width: 50px; height: 50px" />
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No data matching the filter "{{input.value}}"
-            </td>
-          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="selection.toggle(row)"></tr>
         </table>
-
-        <mat-paginator fxFlex="100" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
-        </mat-paginator>
       </div>
 
     </div>

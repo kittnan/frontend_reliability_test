@@ -29,7 +29,6 @@ export class PlanDetail2Component implements OnInit {
       });
       dialogRef.afterClosed().subscribe(async (res) => {
         if (res) {
-          // console.log(res);
 
           item.chamber = res;
         }

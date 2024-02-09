@@ -42,7 +42,6 @@ export class PlanDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.queues = await this.getQueuesDraft(this.queues);
-    // console.log('🚀 ~ this.queues:', this.queues);
     const table = await this.mapForTable(this.queues, this.formInput);
     this.tableData = table;
     this.shortMenuOption = this.queues.map((a: any, i: number) => {
@@ -117,7 +116,6 @@ export class PlanDetailComponent implements OnInit {
     const ids = elements2.map((a: any) => a.id);
 
     const id: any = ids[i];
-    console.log(id);
     (document.getElementById(id) as HTMLElement).scrollIntoView({
       behavior: 'smooth',
       block: 'start',

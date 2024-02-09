@@ -31,7 +31,6 @@ export class QeChamberService {
     if (endDate) {
       item.endDate = endDate;
     }
-    console.log('🚀 ~ item:', item);
     return item;
   }
   genEndDateActual(item: any) {
@@ -177,9 +176,7 @@ export class QeChamberService {
     }
   }
   compareDate(d1: any, d2: any) {
-    console.log('🚀 ~ d1:', d1);
-    console.log('🚀 ~ d2:', d2);
-    console.log(moment(d1).diff(moment(d2), 'hour'));
+
     if (moment(d1).diff(moment(d2), 'hour') >= 0) {
       return moment(d1).toDate();
     }

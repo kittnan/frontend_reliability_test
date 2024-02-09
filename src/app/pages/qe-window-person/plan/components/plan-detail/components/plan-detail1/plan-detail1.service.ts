@@ -15,7 +15,6 @@ export class PlanDetail1Service {
     if (endDate) {
       item.endDate = endDate;
     }
-    console.log('🚀 ~ item:', item);
     return item;
   }
 

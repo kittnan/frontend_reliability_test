@@ -267,7 +267,6 @@ export class QeTechnicalManageComponent implements OnInit {
     this.pageSizeOptions = [1, 5, 10, 25, 100];
   }
   onClickView(item: any) {
-    console.log('🚀 ~ item:', item);
     const dialogRef = this.dialog.open(DialogViewComponent, {
       data: item,
       width: '90%',
@@ -464,7 +463,6 @@ export class QeTechnicalManageComponent implements OnInit {
         if (form.step4.data[0].data.report.length > 0) {
           reportStatus = true;
         }
-        console.log(form.step4);
 
         const table_inspection: any = await this._qenInspectionTable.genTable(
           times_inspection,
@@ -476,7 +474,6 @@ export class QeTechnicalManageComponent implements OnInit {
           reportStatus,
           form.step4
         );
-        console.log('🚀 ~ table_inspection:', table_inspection);
 
         const table = {
           header: header,

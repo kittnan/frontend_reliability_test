@@ -44,12 +44,10 @@ export class PlanActualComponent implements OnInit {
         console.clear();
         const { id, editPlan } = params;
         const resData = await this.$request.get_id(id).toPromise();
-        console.log('🚀 ~ resData:', resData);
         this.request = resData[0];
         this.dataSource.data = this.plan$.setDataTable(resData[0]);
         this.planing = this.request.queues;
         // this.planing = this.plan$.genPlan(this.dataSource.data);
-        console.log('🚀 ~ this.planing:', this.planing);
       });
     } catch (error) {
       console.log('🚀 ~ error:', error);

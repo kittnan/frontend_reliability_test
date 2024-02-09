@@ -34,7 +34,6 @@ export class SheetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.params);
 
     this._loading.start();
     if (this.params && this.params['id']) {

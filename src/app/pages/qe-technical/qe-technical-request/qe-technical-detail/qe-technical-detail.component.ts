@@ -42,7 +42,6 @@ export class QeTechnicalDetailComponent implements OnInit {
   handleScan(e: any, value: string, item: any) {
     try {
       let notPass = [17]
-      console.log(e.keyCode);
       const key = e.keyCode
 
       if (this.ctrState && key === 86) {
