@@ -203,15 +203,17 @@ export class SheetStep1Component implements OnInit {
     }
   }
   async onSelectCorporate() {
+   setTimeout(async () => {
     if (
       this.requestForm.controls.corporate.valid &&
       this.requestForm.controls.modelNo.valid
     ) {
+
       if (this.requestForm.value.controlNo) {
         let value: any = this.requestForm.value.controlNo
         value = value.split('-')
-        let newModel: any = this.requestForm.value.modelNo
-        value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel.toString().padStart('0',6)}`
+        let newModel: any = this.requestForm.value.modelNo?.padStart(6,'0')
+        value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel}`
         this.requestForm.controls.controlNo.setValue(value)
       } else {
         const runNumber: any = await this._request.setControlNo(
@@ -221,6 +223,7 @@ export class SheetStep1Component implements OnInit {
         this.requestForm.controls.controlNo.setValue(runNumber);
       }
     }
+   }, 0);
   }
 
   onUploadFile(e: any) {
