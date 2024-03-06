@@ -45,7 +45,7 @@ import { DashboardGanttEquipmentComponent } from './pages/dashboard-gantt-equipm
 
 export function HttpLoaderFactory(http: HttpClient) {
   // return new TranslateHttpLoader(http);
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
   // return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 // export function translateHttpLoaderFactory(httpBackend: HttpBackend): TranslateHttpLoader {

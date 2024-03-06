@@ -21,7 +21,7 @@
     "reportRequireDate": "Report require date",
     "files": "Files",
     "files_choose": "Choose files...",
-    "sampleDescription": "Sample Description"
+    "sampleDescription": "Purpose test (Please explain detail purpose testing)"
   },
   "sheet2": {
     "description": "Description"
