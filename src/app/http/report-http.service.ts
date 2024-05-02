@@ -16,6 +16,9 @@ export class ReportHttpService {
   upload(formData: any): Observable<any> {
     return this.http.post(`${this.URL}/${this.SUB}/upload`, formData)
   }
+  uploadTemplate(formData: any): Observable<any> {
+    return this.http.post(`${this.URL}/${this.SUB}/uploadTemplate`, formData)
+  }
   delete(data: any): Observable<any> {
     return this.http.delete(`${this.URL}/${this.SUB}/delete/${data}`)
   }

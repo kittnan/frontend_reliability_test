@@ -1,73 +1,35 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap">
-  <div
-    *ngIf="request"
-    #content
-    fxFlex.gt-md="80"
-    fxFlex.lt-md="100"
-    fxLayoutAlign="center stretch"
-    fxLayout="row wrap"
-    class="mtb-4"
-  >
+  <div *ngIf="request" #content fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
+    class="mtb-4">
     <a id="top"></a>
 
-    <button mat-raised-button (click)="generateCover()">
+    <!-- <button mat-raised-button (click)="generateCover()">
       <div fxLayout="row wrap" fxLayoutAlign="center center">
         Cover report
-        <!-- <mat-icon class="mat-18">file</mat-icon> -->
       </div>
-    </button>
+    </button> -->
 
 
-    <app-views
-      fxFlex="100"
-      [formInput]="request"
-      [showReport]="false"
-    ></app-views>
+    <app-views fxFlex="100" [formInput]="request" [showReport]="false"></app-views>
 
-    <div
-      fxFlex="100"
-      fxLayout="row wrap"
-      fxLayoutAlign="start start"
-      class="content-item"
-    >
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" class="content-item">
       <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
         <span class="box-title"> Actual </span>
       </div>
       <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
-        <mat-accordion
-          fxFlex="100"
-          fxLayoutAlign="start stretch"
-          fxLayout="row wrap"
-        >
-          <mat-expansion-panel
-            hideToggle
-            *ngFor="let item of request.queues; let i = index"
-            fxFlex="100"
-            fxLayoutAlign="start stretch"
-            fxLayout="row wrap"
-            class="b-left-red"
-            [ngClass]="{ 'b-left-green': item._id }"
-          >
-            <mat-expansion-panel-header
-              class="jump"
-              fxFlex="100"
-              fxLayoutAlign="start stretch"
-              fxLayout="row wrap"
-              (click)="jump2('q' + i)"
-            >
+        <mat-accordion fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+          <mat-expansion-panel hideToggle *ngFor="let item of request.queues; let i = index" fxFlex="100"
+            fxLayoutAlign="start stretch" fxLayout="row wrap" class="b-left-red"
+            [ngClass]="{ 'b-left-green': item._id }">
+            <mat-expansion-panel-header class="jump" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
+              (click)="jump2('q' + i)">
               <mat-panel-title [id]="'q' + i">
                 {{ i + 1 }}. {{ item.condition.name }}
               </mat-panel-title>
             </mat-expansion-panel-header>
 
-            <app-qe-technical-detail
-            *ngIf="request"
-            fxFlex="100"
-            [item]="item"
-            [formInput]="request"
-            [index]="i"
-            [trackingOperate]="trackingOperate"
-            ></app-qe-technical-detail>
+            <app-qe-technical-detail *ngIf="request" fxFlex="100" [item]="item" [formInput]="request" [index]="i"
+              [trackingOperate]="trackingOperate"></app-qe-technical-detail>
 
           </mat-expansion-panel>
         </mat-accordion>
@@ -80,4 +42,3 @@
 
 <a (click)="scrollTo('top')" id="myBtn">↑ Top</a>
 <a (click)="scrollTo('down')" id="myBtn2">↓ Down</a>
-

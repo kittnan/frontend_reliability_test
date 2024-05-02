@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { lastValueFrom } from 'rxjs';
 import { FilesHttpService } from 'src/app/http/files-http.service';
+import { WorkSheet } from 'xlsx';
 
 @Injectable({
   providedIn: 'root'
@@ -38,12 +39,13 @@ export class ReportService {
 
   async genReportExcel(form: any) {
     this.form = form
+    console.log("🚀 ~ this.form:", this.form)
     this.step1 = form.step1
     this.step2 = form.step2
     this.step3 = form.step3
     this.step4 = form.step4
     this.step5 = form.step5
-    this.http.get('./assets/request.xlsx', { responseType: "arraybuffer" }).subscribe(res => {
+    this.http.get('./assets/excel/report.xlsx', { responseType: "arraybuffer" }).subscribe(res => {
       const wb = new Workbook()
       const arrayBuffer = new Response(res).arrayBuffer();
       arrayBuffer.then(async (buff: any) => {
@@ -85,6 +87,8 @@ export class ReportService {
           column.width = maxLength < 10 ? 10 : maxLength;
         });
 
+        const ws4: Worksheet = wb.getWorksheet('Cover')
+        this.setCover(ws4)
 
 
 
@@ -242,6 +246,51 @@ export class ReportService {
     ws.getCell('C66').value = user_6?.date ? moment(user_6.date).format('D-MMM-YY') : ''
     ws.getCell('F66').value = user_7?.date ? moment(user_7.date).format('D-MMM-YY') : ''
 
+
+  }
+
+  setCover(ws: Worksheet) {
+    ws.getCell('G8').value = this.step1.customer
+    ws.getCell('G9').value = this.step1.modelNo
+    ws.getCell('G10').value = this.step1.modelName
+    ws.getCell('G11').value = this.step1.size
+    ws.getCell('G13').value = this.step1.controlNo
+    ws.getCell('G14').value = this.step5[0].prevUser.name
+    ws.getCell('G15').value = moment(this.step1.requestDate).format('DD-MMM-YY')
+    ws.getCell('G16').value = moment(this.form.qeReceive.date).format('DD-MMM-YY')
+    ws.getCell('G17').value = this.step2.purpose
+    ws.getCell('G22').value = moment(this.step1.sampleSentToQE_withinDate).format('DD-MMM-YY')
+    ws.getCell('G29').value = this.step1.modelName
+
+    ws.getCell('G21').value = this.step2.description.value
+
+    const startConditionRow = ws.getRow(36)
+    for (let i = 0; i < this.form.step4.data.length; i++) {
+      const condition = this.form.step4.data[i];
+      const row = ws.getRow(startConditionRow.number + i)
+      row.eachCell((cell: ExcelJS.Cell, colNum: number) => {
+
+        if (colNum === 2) {
+          cell.value = condition.data.sample
+        }
+        if (colNum === 4) {
+          cell.value = condition.dataTable.name
+        }
+        if (colNum === 12) {
+          cell.value = condition.data.inspection
+        }
+        // if(colNum===15){
+        //   cell.value = condition.data.inspection
+        // }
+      })
+    }
+    const deleteRowNum = 36 + this.form.step4.data.length
+    const diffDeleteRowNum = 10 - this.form.step4.data.length
+
+    ws.getRows(deleteRowNum, diffDeleteRowNum)?.map((row: ExcelJS.Row) => {
+      row.values = []
+    })
+    ws.getCell('A56').value = this.form.step5[0].prevUser.name
 
   }
 

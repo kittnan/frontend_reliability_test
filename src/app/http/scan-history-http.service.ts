@@ -23,5 +23,15 @@ export class ScanHistoryHttpService {
   insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/${this.sub}/insert`, data)
   }
+  deleteAllByCode(params: HttpParams): Observable<any> {
+    return this.http.delete(`${this.URL}/${this.sub}/deleteAllByCode`, {
+      params: params
+    })
+  }
+  deleteByCode(params: HttpParams): Observable<any> {
+    return this.http.delete(`${this.URL}/${this.sub}/deleteByCode`, {
+      params: params
+    })
+  }
 
 }

@@ -232,6 +232,11 @@ export class AppComponent {
               icon: 'api',
               title: 'functional-chamber',
             },
+            {
+              path: '/admin/report',
+              icon: 'article',
+              title: 'report excel',
+            },
           ],
         },
         {

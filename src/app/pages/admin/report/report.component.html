@@ -1,0 +1,12 @@
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="10" class="over-flow" style="margin-top: 2rem;">
+  <button mat-raised-button (click)="onDownload()">
+    Download
+  </button>
+  <input hidden type="file" #fileUpload (change)="onUpload($event)">
+  <button mat-raised-button (click)="fileUpload.click()">
+    Upload
+  </button>
+  <p style="color: red; text-align: center; background-color: #333; font-size: 20px;">
+    แก้ไขชื่อ File ให้เป็น report
+  </p>
+</div>

@@ -42,6 +42,7 @@ import { QrCodeChamberComponent } from './qr-code/qr-code-chamber/qr-code-chambe
 import { QrCodeOperateComponent } from './qr-code/qr-code-operate/qr-code-operate.component';
 import { QrCodePreviewComponent } from './qr-code/qr-code-preview/qr-code-preview.component';
 import { EquipmentComponent } from './operate/equipment/equipment.component';
+import { ReportComponent } from './report/report.component';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { EquipmentComponent } from './operate/equipment/equipment.component';
     QrCodeOperateComponent,
     QrCodePreviewComponent,
     EquipmentComponent,
+    ReportComponent,
   ],
   imports: [
     CommonModule,
