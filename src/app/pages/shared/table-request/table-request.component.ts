@@ -75,6 +75,8 @@ export class TableRequestComponent implements OnInit {
   selected_section: any = null;
   sections: any[] = [];
 
+  sumStatus: any
+
   constructor(
     private $request: RequestHttpService,
     private router: Router,
@@ -176,6 +178,7 @@ export class TableRequestComponent implements OnInit {
         this.dataSource.data = resultMap;
       } else {
         this.dataSource = new MatTableDataSource(resultMap);
+        this.generateStatus(resultMap)
         this.setOption();
       }
     } else {
@@ -199,13 +202,14 @@ export class TableRequestComponent implements OnInit {
         this.dataSource.data = resultMap;
       } else {
         this.dataSource = new MatTableDataSource(resultMap);
+        this.generateStatus(resultMap)
         this.setOption();
       }
     }
   }
   private mapRows(data: any) {
     return new Promise((resolve) => {
-      const foo = data.map((item: any) => {
+      const result = data.map((item: any) => {
         return {
           ...item,
           btn_status: this.rowStatus(item),
@@ -215,46 +219,40 @@ export class TableRequestComponent implements OnInit {
           // ongoing: this.rowOngoing(item),
         };
       });
-      resolve(foo);
+      resolve(result);
     });
   }
-  // rowOngoing(item: any) {
-  //   // console.log('🚀 ~ item:', item);
-  //   const allInspection = item.queues.reduce((p: any, n: any) => {
-  //     return p.concat(n.inspectionTime);
-  //   }, []);
-  //   const key = 'startDate';
-  //   const arrayUniqueByKey = [
-  //     ...new Map(allInspection.map((item: any) => [item[key], item])).values(),
-  //   ];
-  //   const arrSorted = arrayUniqueByKey.sort(
-  //     (a: any, b: any) =>
-  //       new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
-  //   );
 
-  //   const isBetween = arrSorted.filter((a: any) =>
-  //     moment().isBetween(moment(a.startDate), moment(a.endDate))
-  //   );
-  //   const notStart: any = arrSorted.find(
-  //     (a: any) => moment(a.startDate).diff(moment()) > 0
-  //   );
-  //   // const passed: any = arrSorted.some(
-  //   //   (a: any) => moment().diff(moment(a.endDate)) > 0
-  //   // );
-  //   // if (!passed) {
-  //   //   return 'PASSED';
-  //   // }
-  //   if (isBetween.length === 0) {
-  //     if (notStart) {
-  //       return `Start In ${moment(notStart.startDate).format(
-  //         'YYYY-MMM-DD, HH:mm'
-  //       )}`;
-  //     }
-  //   } else {
-  //     return isBetween.length;
-  //   }
-  //   return '';
-  // }
+  generateStatus(data: any) {
+    const uniqueStatus = [...new Set(data.map((item: any) => item.status))];
+    const fixStatus = ["draft", "request_approve", "qe_window_person", "qe_engineer", "reject_request", "request_confirm", "qe_window_person_report"]
+    this.sumStatus = uniqueStatus.map((n_status: any) => {
+      const dataFilter = data.filter((d: any) => d.status == n_status)
+      return {
+        status: n_status,
+        count: dataFilter.length
+      }
+    }).sort((a: any, b: any) => {
+      const indexA = fixStatus.indexOf(a.status);
+      const indexB = fixStatus.indexOf(b.status);
+
+      // If both are in fixStatus, sort by their order in fixStatus
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      }
+
+      // If only one of them is in fixStatus, prioritize that one
+      if (indexA !== -1) return -1;
+      if (indexB !== -1) return 1;
+
+      // If neither is in fixStatus, maintain their original order
+      return 0;
+    }).map((item: any) => {
+      item.status = this.htmlStatus(item.status)
+      return item
+    })
+  }
+
 
   rowUserRequest(item: any) {
     const resultFind = item.step5.find((i: any) => i.level == 1);
@@ -380,6 +378,16 @@ export class TableRequestComponent implements OnInit {
     }
   }
 
+  onClickFilterBtn(status: any) {
+    let el :any = document.querySelector('#inputFilter')
+    if(el){
+      el.value = status
+      this.dataSource.filter = status
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    }
+  }
   onEdit(item: any) {
     if (item.status === 'draft') this.linkTo('/request/sheet', item._id);
     if (item.status === 'request_approve')
