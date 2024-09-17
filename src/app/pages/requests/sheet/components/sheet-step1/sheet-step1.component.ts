@@ -118,13 +118,41 @@ export class SheetStep1Component implements OnInit {
     // this.requestForm.get('requestDate')?.disable()
   }
 
+
+
   async ngOnInit() {
+    let timerInterval: any;
     Swal.fire({
-      title:
-        'sample test ทุกตัวที่มาจาก MDL จะต้องมีการ write OTP มาก่อนทุกครั้ง และ ต้องผ่าน final inspection ก่อนเอาเข้า Reliability test',
+      title: 'sample test ทุกตัวที่มาจาก MDL จะต้องมีการ write OTP มาก่อนทุกครั้ง และ ต้องผ่าน final inspection ก่อนเอาเข้า Reliability test',
       icon: 'warning',
       allowOutsideClick: false,
-    });
+      showConfirmButton: true,
+      timer: 6000,
+      timerProgressBar: true,
+      didOpen: () => {
+        const fn1 = () => {
+          const SwalHtml = Swal.getPopup()
+          if (SwalHtml) {
+            const tagB: HTMLElement | null = SwalHtml.querySelector(".swal2-actions")
+            if (tagB) {
+              timerInterval = setInterval(() => {
+                if (Swal.getTimerLeft()) {
+                  const show = Number(Swal.getTimerLeft()) / 1000
+                  tagB.textContent = `${Math.ceil(show)}`;
+                }
+              }, 100);
+            }
+          }
+        }
+        fn1()
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      }
+    })
+
+
+
 
     // this.requestForm.controls.requestSubject.markAsTouched()
     this.requestForm.markAllAsTouched();
@@ -162,6 +190,7 @@ export class SheetStep1Component implements OnInit {
     //   department: this.userLogin.section
     // })
   }
+
 
   private _filter(value: any): any[] {
     const filterValue = value.toLowerCase();
@@ -203,27 +232,27 @@ export class SheetStep1Component implements OnInit {
     }
   }
   async onSelectCorporate() {
-   setTimeout(async () => {
-    if (
-      this.requestForm.controls.corporate.valid &&
-      this.requestForm.controls.modelNo.valid
-    ) {
+    setTimeout(async () => {
+      if (
+        this.requestForm.controls.corporate.valid &&
+        this.requestForm.controls.modelNo.valid
+      ) {
 
-      if (this.requestForm.value.controlNo) {
-        let value: any = this.requestForm.value.controlNo
-        value = value.split('-')
-        let newModel: any = this.requestForm.value.modelNo?.padStart(6,'0')
-        value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel}`
-        this.requestForm.controls.controlNo.setValue(value)
-      } else {
-        const runNumber: any = await this._request.setControlNo(
-          this.requestForm.value.corporate,
-          this.requestForm.value.modelNo
-        );
-        this.requestForm.controls.controlNo.setValue(runNumber);
+        if (this.requestForm.value.controlNo) {
+          let value: any = this.requestForm.value.controlNo
+          value = value.split('-')
+          let newModel: any = this.requestForm.value.modelNo?.padStart(6, '0')
+          value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel}`
+          this.requestForm.controls.controlNo.setValue(value)
+        } else {
+          const runNumber: any = await this._request.setControlNo(
+            this.requestForm.value.corporate,
+            this.requestForm.value.modelNo
+          );
+          this.requestForm.controls.controlNo.setValue(runNumber);
+        }
       }
-    }
-   }, 0);
+    }, 0);
   }
 
   onUploadFile(e: any) {

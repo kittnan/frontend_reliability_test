@@ -353,7 +353,6 @@ export class TableRequestComponent implements OnInit {
     this.pageSizeOptions = [1, 5, 10, 25, 100];
   }
   onClickView(item: any) {
-    console.log('🚀 ~ item:', item);
     const dialogRef = this.dialog.open(DialogViewComponent, {
       data: item,
       width: '90%',
