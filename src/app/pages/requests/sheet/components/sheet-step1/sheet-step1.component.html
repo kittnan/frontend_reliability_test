@@ -16,13 +16,18 @@
 
     <mat-divider fxFlex="100" style="margin: 10px 0;"></mat-divider>
 
-    <div fxFlex="40" fxFlex.sm="100" style="padding: 10px;background-color: rgba(0,0,0,.04); margin: 10px 0;">
+    <!-- <div fxFlex="40" fxFlex.sm="100" style="padding: 10px;background-color: rgba(0,0,0,.04); margin: 10px 0;">
       <label>{{'sheet1.requestStatus' |translate}} </label>
       <mat-radio-group formControlName="requestStatus">
         <mat-radio-button value="normal" style="padding: 0 10px;">{{'sheet1.normal' | translate}}</mat-radio-button>
         <mat-radio-button value="urgent" style="padding: 0 10px;">{{'sheet1.urgent' | translate}}</mat-radio-button>
       </mat-radio-group>
-    </div>
+    </div> -->
+
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.sampleSendQty' |translate}}</mat-label>
+      <input formControlName="sampleSendQty" matInput type="number">
+    </mat-form-field>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
       <mat-label>{{'sheet1.requestSubject' |translate}}</mat-label>

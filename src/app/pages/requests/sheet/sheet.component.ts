@@ -29,8 +29,8 @@ export class SheetComponent implements OnInit {
     this.active.queryParams.subscribe((params) => (this.params = params));
 
     translate.addLangs(['en', 'th']);
-    translate.setDefaultLang('en');
-    translate.use('en');
+    translate.setDefaultLang('th');
+    translate.use('th');
   }
 
   ngOnInit(): void {

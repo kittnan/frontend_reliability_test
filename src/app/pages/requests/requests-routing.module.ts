@@ -8,6 +8,7 @@ import { RequestsComponent } from './requests.component';
 import { RevisesSheetComponent } from './revises/revises-sheet/revises-sheet.component';
 import { RevisesTableComponent } from './revises/revises-table/revises-table.component';
 import { RevisesApproveComponent } from './revises/revises-approve/revises-approve.component';
+import { Sheet2Module } from './sheet2/sheet2.module';
 
 const routes: Routes = [
   {
@@ -26,7 +27,6 @@ const routes: Routes = [
         path: 'confirm',
         component: ConfirmComponent
       },
-
       {
         path: 'manage',
         component: ManageComponent
@@ -42,6 +42,11 @@ const routes: Routes = [
       {
         path: 'revises-approve',
         component: RevisesApproveComponent
+      },
+      {
+        path: 'sheet2',
+        loadChildren: () => Sheet2Module,
+        canActivate: [],
       },
       {
         path: '',

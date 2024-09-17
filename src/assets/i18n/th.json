@@ -1,5 +1,6 @@
 {
   "sheet1": {
+    "controlNo": "เลขเอกสาร",
     "requestStatus": "สถานะการร้องขอ​",
     "requestSubject": "หัวข้อการร้องขอ​",
     "normal": "งานปกติ",
@@ -17,7 +18,10 @@
     "reportRequireDate": "วันที่ต้องการผลรายงาน​",
     "files": "ไฟล์แนบเพิ่มเติม​",
     "files_choose": "เลือกไฟล์แนบ",
-    "sampleDescription": "รายละเอียด วัตถุประสงค์การทดสอบงาน​"
+    "sampleDescription": "รายละเอียด วัตถุประสงค์การทดสอบงาน​",
+
+    "sampleSendQty": "จำนวนงานที่ส่ง"
+
   },
   "sheet2": {
     "description": "รายละเอียดเพิ่มเติม"

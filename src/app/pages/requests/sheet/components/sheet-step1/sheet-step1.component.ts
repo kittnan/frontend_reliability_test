@@ -73,6 +73,11 @@ export class SheetStep1Component implements OnInit {
     sampleDescription: new FormControl('', Validators.required),
     files: new FormControl(<any>[]),
     upload: new FormControl(),
+
+    sampleSendQty: new FormControl<Number | null>(
+      null,
+      Validators.required
+    )
   });
 
   filteredModelOptions!: Observable<any[]>;
@@ -126,6 +131,7 @@ export class SheetStep1Component implements OnInit {
       title: 'sample test ทุกตัวที่มาจาก MDL จะต้องมีการ write OTP มาก่อนทุกครั้ง และ ต้องผ่าน final inspection ก่อนเอาเข้า Reliability test',
       icon: 'warning',
       allowOutsideClick: false,
+      allowEscapeKey: false,
       showConfirmButton: true,
       timer: 6000,
       timerProgressBar: true,
@@ -149,9 +155,8 @@ export class SheetStep1Component implements OnInit {
       willClose: () => {
         clearInterval(timerInterval);
       }
+
     })
-
-
 
 
     // this.requestForm.controls.requestSubject.markAsTouched()
@@ -189,6 +194,12 @@ export class SheetStep1Component implements OnInit {
     // this.requestForm.patchValue({
     //   department: this.userLogin.section
     // })
+
+    setTimeout(() => {
+      console.log(this.requestForm.value);
+
+    }, 3000);
+
   }
 
 
