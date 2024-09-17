@@ -38,71 +38,76 @@ export class ReportService {
 
 
   async genReportExcel(form: any) {
-    this.form = form
-    console.log("🚀 ~ this.form:", this.form)
-    this.step1 = form.step1
-    this.step2 = form.step2
-    this.step3 = form.step3
-    this.step4 = form.step4
-    this.step5 = form.step5
-    this.http.get('./assets/excel/report.xlsx', { responseType: "arraybuffer" }).subscribe(res => {
-      const wb = new Workbook()
-      const arrayBuffer = new Response(res).arrayBuffer();
-      arrayBuffer.then(async (buff: any) => {
-        await wb.xlsx.load(buff)
-        const ws1 = wb.getWorksheet('Request')
-        this.setRequest(ws1)
-        await this.loopBase64(this.step1.files, wb, ws1)
+    try {
+      this.form = form
+      this.step1 = form.step1
+      this.step2 = form.step2
+      this.step3 = form.step3
+      this.step4 = form.step4
+      this.step5 = form.step5
+      this.http.get('./assets/excel/report.xlsx', { responseType: "arraybuffer" }).subscribe(res => {
+        const wb = new Workbook()
+        const arrayBuffer = new Response(res).arrayBuffer();
+        arrayBuffer.then(async (buff: any) => {
+          await wb.xlsx.load(buff)
+          const ws1 = wb.getWorksheet('Request')
+          this.setRequest(ws1)
+          await this.loopBase64(this.step1.files, wb, ws1)
 
-        // * add sheet 2
-        const ws2: Worksheet = wb.addWorksheet('Work', { views: [{ showGridLines: false }] })
-        this.sheet2.setSheet2(ws2, form)
-        ws2.insertRow(5, ['INSPECTION & REPORT RESULT'])
-        this.sheet2.setStyleW2(ws2)
+          // * add sheet 2
+          const ws2: Worksheet = wb.addWorksheet('Work', { views: [{ showGridLines: false }] })
+          this.sheet2.setSheet2(ws2, form)
+          ws2.insertRow(5, ['INSPECTION & REPORT RESULT'])
+          this.sheet2.setStyleW2(ws2)
 
-        ws2.columns.forEach(function (column: any, i: any) {
-          var maxLength = 0;
-          column["eachCell"]({ includeEmpty: true }, function (cell: any) {
-            var columnLength = cell.value ? cell.value.toString().length : 10;
-            if (columnLength > maxLength) {
-              maxLength = columnLength;
-            }
+          ws2.columns.forEach(function (column: any, i: any) {
+            var maxLength = 0;
+            column["eachCell"]({ includeEmpty: true }, function (cell: any) {
+              var columnLength = cell.value ? cell.value.toString().length : 10;
+              if (columnLength > maxLength) {
+                maxLength = columnLength;
+              }
+            });
+            column.width = maxLength < 10 ? 10 : maxLength;
           });
-          column.width = maxLength < 10 ? 10 : maxLength;
-        });
 
-        // * add sheet 3
-        const ws3: Worksheet = wb.addWorksheet('Job', { views: [{ showGridLines: false }] })
-        this.sheet3.setSheet3(ws3, form)
-        this.sheet3.setStyleW3(ws3)
+          // * add sheet 3
+          const ws3: Worksheet = wb.addWorksheet('Job', { views: [{ showGridLines: false }] })
+          this.sheet3.setSheet3(ws3, form)
+          this.sheet3.setStyleW3(ws3)
 
-        ws3.columns.forEach(function (column: any, i: any) {
-          var maxLength = 0;
-          column["eachCell"]({ includeEmpty: true }, function (cell: any) {
-            var columnLength = cell.value ? cell.value.toString().length : 10;
-            if (columnLength > maxLength) {
-              maxLength = columnLength;
-            }
+          ws3.columns.forEach(function (column: any, i: any) {
+            var maxLength = 0;
+            column["eachCell"]({ includeEmpty: true }, function (cell: any) {
+              var columnLength = cell.value ? cell.value.toString().length : 10;
+              if (columnLength > maxLength) {
+                maxLength = columnLength;
+              }
+            });
+            column.width = maxLength < 10 ? 10 : maxLength;
           });
-          column.width = maxLength < 10 ? 10 : maxLength;
-        });
 
-        const ws4: Worksheet = wb.getWorksheet('Cover')
-        this.setCover(ws4)
+          const ws4: Worksheet = wb.getWorksheet('Cover')
+          this.setCover(ws4)
 
 
 
-        wb.xlsx.writeBuffer().then(excelData => {
-          const blob = new Blob([excelData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-          const name = form.step1.controlNo + '_' + new Date().getTime() + '.xlsx'
-          saveAs(blob, name)
+          wb.xlsx.writeBuffer().then(excelData => {
+            const blob = new Blob([excelData], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+            const name = form.step1.controlNo + '_' + new Date().getTime() + '.xlsx'
+            saveAs(blob, name)
+          })
+
+          setTimeout(() => {
+            this._loading.stopAll()
+          }, 500);
         })
-
-        setTimeout(() => {
-          this._loading.stopAll()
-        }, 500);
       })
-    })
+    } catch (error) {
+      console.log("🚀 ~ error:", error)
+
+    }
+
 
   }
 
@@ -259,7 +264,7 @@ export class ReportService {
     ws.getCell('G15').value = moment(this.step1.requestDate).format('DD-MMM-YY')
     ws.getCell('G16').value = moment(this.form.qeReceive.date).format('DD-MMM-YY')
     ws.getCell('G17').value = this.step2.purpose
-    ws.getCell('G22').value = moment(this.step1.sampleSentToQE_withinDate).format('DD-MMM-YY')
+    ws.getCell('G22').value = this.step1.requestSubject
     ws.getCell('G29').value = this.step1.modelName
 
     ws.getCell('G21').value = this.step2.description.value

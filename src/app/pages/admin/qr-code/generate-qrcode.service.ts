@@ -18,9 +18,10 @@ export class GenerateQrcodeService {
         const div: any = document.querySelectorAll('#print');
         const options = {
           background: 'white',
-          scale: 3,
+          scale: 10,
         };
-        var doc: any = new jsPDF('l', 'mm',[51,22]);
+        var doc: any = new jsPDF('l', 'mm',[54,24]);
+        // var doc: any = new jsPDF('l', 'mm',[51,22]);
         // doc.setPageSize(51,24)
         for (let index = 0; index < div.length; index++) {
           const d = div[index];
