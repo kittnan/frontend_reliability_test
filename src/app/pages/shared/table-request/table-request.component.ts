@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -11,12 +11,10 @@ import { interval, lastValueFrom, Subscription } from 'rxjs';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { environment } from 'src/environments/environment';
 
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { GenInspectionTableService } from '../../qe-window-person/qe-chamber/qe-chamber-planning-detail/gen-inspection-table.service';
 import { DialogViewComponent } from '../dialog-view/dialog-view.component';
 import { ReportService } from './report.service';
-import { RevisesQueuesService } from '../../qe-window-person/revise/qe-window-person-revise-approve/components/revises-queues/revises-queues.service';
-import { RevisesHttpService } from 'src/app/http/revises-http.service';
-import { GenInspectionTableService } from '../../qe-window-person/qe-chamber/qe-chamber-planning-detail/gen-inspection-table.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
 
 interface ParamsForm {
   userId: string;
@@ -38,6 +36,8 @@ export class TableRequestComponent implements OnInit {
   selected_status = 'ongoing';
   requests: any = [];
 
+  rows: any = []
+  inputFilter: any = ''
   displayedColumns: string[] = [
     'controlNo',
     'userRequest',
@@ -76,6 +76,7 @@ export class TableRequestComponent implements OnInit {
   sections: any[] = [];
 
   sumStatus: any
+  btnFilterActive: string = ''
 
   constructor(
     private $request: RequestHttpService,
@@ -83,8 +84,6 @@ export class TableRequestComponent implements OnInit {
     private dialog: MatDialog,
     private _loading: NgxUiLoaderService,
     private _report: ReportService,
-    private $reviseQueues: RevisesQueuesService,
-    private $revise: RevisesHttpService,
     private _qenInspectionTable: GenInspectionTableService
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin');
@@ -152,6 +151,8 @@ export class TableRequestComponent implements OnInit {
   async onSelectStatus() {
     let status: any = [];
     let statusStr: any = null;
+    this.inputFilter = ''
+    this.btnFilterActive = ''
     if (this.selected_status == 'ongoing') {
       status = this.ongoing;
       statusStr = 'ongoing';
@@ -170,9 +171,11 @@ export class TableRequestComponent implements OnInit {
       localStorage.getItem('RLS_authorize') === 'admin' ||
       localStorage.getItem('RLS_authorize') === 'qe_technical'
     ) {
+
       const param: HttpParams = new HttpParams().set('status', statusStr);
       const resData = await this.$request.tableAdmin(param).toPromise();
       const resultMap: any = await this.mapRows(resData);
+      this.rows = [...resultMap]
       this.presentCount = resultMap.length;
       if (this.dataSource?.data) {
         this.dataSource.data = resultMap;
@@ -181,7 +184,16 @@ export class TableRequestComponent implements OnInit {
         this.generateStatus(resultMap)
         this.setOption();
       }
+
     } else {
+
+
+
+    }
+  }
+
+  async getData(statusStr: any) {
+    try {
       const tempSection =
         this.selected_section === 'all'
           ? this.sections
@@ -195,17 +207,21 @@ export class TableRequestComponent implements OnInit {
         .set('userId', this.params.userId)
         .set('status', statusStr)
         .set('section', section);
-      const resData = await this.$request.table(param).toPromise();
-      const resultMap: any = await this.mapRows(resData);
-      this.presentCount = resultMap.length;
-      if (this.dataSource?.data) {
-        this.dataSource.data = resultMap;
-      } else {
+      const resData: any = await this.$request.table(param).toPromise();
+      if (resData?.length != 0) {
+        const resultMap: any = await this.mapRows(resData);
+        this.rows = [...resultMap]
+        this.presentCount = resultMap.length;
+
         this.dataSource = new MatTableDataSource(resultMap);
         this.generateStatus(resultMap)
         this.setOption();
       }
+
+    } catch (error) {
+      console.log("🚀 ~ error:", error)
     }
+
   }
   private mapRows(data: any) {
     return new Promise((resolve) => {
@@ -217,6 +233,7 @@ export class TableRequestComponent implements OnInit {
           btn_css: this.rowCss(item),
           userRequest: this.rowUserRequest(item),
           // ongoing: this.rowOngoing(item),
+          statusShow: this.htmlStatus(item.status)
         };
       });
       resolve(result);
@@ -224,17 +241,17 @@ export class TableRequestComponent implements OnInit {
   }
 
   generateStatus(data: any) {
-    const uniqueStatus = [...new Set(data.map((item: any) => item.status))];
-    const fixStatus = ["draft", "request_approve", "qe_window_person", "qe_engineer", "reject_request", "request_confirm", "qe_window_person_report"]
+    const uniqueStatus = [...new Set(data.map((item: any) => item.statusShow))];
+    const fixStatus = ["draft", "request_approve", "qe_window_person", "qe_engineer", "reject_request", "qc_dept_head", "qe_sec_head", "request_confirm", "continue_test", "edit_report"]
     this.sumStatus = uniqueStatus.map((n_status: any) => {
-      const dataFilter = data.filter((d: any) => d.status == n_status)
+      const dataFilter = data.filter((d: any) => d.statusShow.toLowerCase() == n_status.toLowerCase())
       return {
-        status: n_status,
+        statusShow: n_status,
         count: dataFilter.length
       }
     }).sort((a: any, b: any) => {
-      const indexA = fixStatus.indexOf(a.status);
-      const indexB = fixStatus.indexOf(b.status);
+      const indexA = fixStatus.indexOf(a.statusShow.toLowerCase());
+      const indexB = fixStatus.indexOf(b.statusShow.toLowerCase());
 
       // If both are in fixStatus, sort by their order in fixStatus
       if (indexA !== -1 && indexB !== -1) {
@@ -247,10 +264,7 @@ export class TableRequestComponent implements OnInit {
 
       // If neither is in fixStatus, maintain their original order
       return 0;
-    }).map((item: any) => {
-      item.status = this.htmlStatus(item.status)
-      return item
-    })
+    }).filter((item: any) => item.count != 0)
   }
 
 
@@ -370,22 +384,20 @@ export class TableRequestComponent implements OnInit {
     );
     window.open(url, '_blank');
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter() {
+    this.onClickFilterBtn(this.btnFilterActive)
+    this.dataSource.filter = this.inputFilter
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
   onClickFilterBtn(status: any) {
-    let el :any = document.querySelector('#inputFilter')
-    if(el){
-      el.value = status
-      this.dataSource.filter = status
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
+    this.btnFilterActive = status
+    const data = this.rows.filter((row: any) => row.statusShow.toLowerCase() == status.toLowerCase())
+    this.dataSource = new MatTableDataSource(data)
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
   onEdit(item: any) {
