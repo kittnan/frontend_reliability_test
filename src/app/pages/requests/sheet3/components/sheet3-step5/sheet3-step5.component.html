@@ -1,0 +1,46 @@
+<div fxLayoutAlign="center stretch" fxLayout="row wrap">
+
+  <div fxFlex="100" fxLayoutAlign="space-around stretch">
+    <mat-form-field *ngIf="userLogin" appearance="legacy" fxFlex="30" fxFlex.sm="100">
+      <mat-label>Requester Name</mat-label>
+      <input matInput value="{{userLogin.name|uppercase}}" [readonly]="true">
+    </mat-form-field>
+    <mat-form-field appearance="legacy" fxFlex="30" fxFlex.sm="100">
+      <mat-label>Requester Date</mat-label>
+      <input matInput [value]="date|date:'d-MMM-y'" [readonly]="true">
+    </mat-form-field>
+    <mat-form-field appearance="fill" fxFlex="30" fxFlex.sm="100">
+      <mat-label>User Approve</mat-label>
+      <mat-select [compareWith]="objectComparisonFunction" [(ngModel)]="approve.selected">
+        <mat-option *ngFor="let item of userApprove; let i=index" [value]="item">
+          {{approve.groupStatus? approve.name: item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+
+
+  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+    <button fxFlex="30" mat-raised-button color="accent" (click)="onBack()">
+      <span class="material-icons-outlined">
+        keyboard_double_arrow_left
+      </span>
+      <span class="btn-back">
+        Back
+      </span>
+    </button>
+    <button fxFlex="30" mat-raised-button color="primary" [disabled]="!approve.selected" (click)="onNext()">
+
+      <span class="material-icons-outlined">
+        done_all
+      </span>
+      <span class="btn-next">
+        Submit
+      </span>
+    </button>
+  </div>
+
+
+
+</div>

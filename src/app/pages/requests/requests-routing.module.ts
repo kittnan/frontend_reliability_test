@@ -9,6 +9,7 @@ import { RevisesSheetComponent } from './revises/revises-sheet/revises-sheet.com
 import { RevisesTableComponent } from './revises/revises-table/revises-table.component';
 import { RevisesApproveComponent } from './revises/revises-approve/revises-approve.component';
 import { Sheet2Module } from './sheet2/sheet2.module';
+import { Sheet3Component } from './sheet3/sheet3.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
         path: 'sheet2',
         loadChildren: () => Sheet2Module,
         canActivate: [],
+      },
+      {
+        path: 'sheet3',
+        component: Sheet3Component
       },
       {
         path: '',

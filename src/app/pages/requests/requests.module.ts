@@ -30,6 +30,12 @@ import { RevisesSheet3Component } from './revises/revises-sheet/components/revis
 import { RevisesSheet4Component } from './revises/revises-sheet/components/revises-sheet4/revises-sheet4.component';
 import { RevisesSheet5Component } from './revises/revises-sheet/components/revises-sheet5/revises-sheet5.component';
 import { RevisesApproveComponent } from './revises/revises-approve/revises-approve.component';
+import { Sheet3Component } from './sheet3/sheet3.component';
+import { Sheet3Step1Component } from './sheet3/components/sheet3-step1/sheet3-step1.component';
+import { Sheet3Step2Component } from './sheet3/components/sheet3-step2/sheet3-step2.component';
+import { Sheet3Step3Component } from './sheet3/components/sheet3-step3/sheet3-step3.component';
+import { Sheet3Step4Component } from './sheet3/components/sheet3-step4/sheet3-step4.component';
+import { Sheet3Step5Component } from './sheet3/components/sheet3-step5/sheet3-step5.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -57,6 +63,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     RevisesSheet4Component,
     RevisesSheet5Component,
     RevisesApproveComponent,
+    Sheet3Component,
+    Sheet3Step1Component,
+    Sheet3Step2Component,
+    Sheet3Step3Component,
+    Sheet3Step4Component,
+    Sheet3Step5Component,
   ],
   imports: [
     CommonModule,
