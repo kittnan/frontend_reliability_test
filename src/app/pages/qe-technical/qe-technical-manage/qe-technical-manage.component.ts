@@ -236,9 +236,12 @@ export class QeTechnicalManageComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
-    const auth = localStorage.getItem('RLS_authorize');
-    const section = localStorage.getItem('RLS_section');
-    if (item.status == 'qe_window_person_report') {
+    if (
+      item.status == 'qe_window_person_report' ||
+      item.status == 'qe_engineer2' ||
+      item.status == 'qe_section_head' ||
+      item.status == 'request_confirm'
+    ) {
       return false
     }
 
@@ -292,9 +295,7 @@ export class QeTechnicalManageComponent implements OnInit {
   }
 
   onEdit(item: any) {
-    if (item.status === 'qe_window_person_report'){
-      this.linkTo('/qe-technical/request', item._id);
-    }
+    this.linkTo('/qe-technical/request', item._id);
   }
 
   linkTo(path: any, param: any) {

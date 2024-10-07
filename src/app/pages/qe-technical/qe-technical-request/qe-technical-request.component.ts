@@ -7,6 +7,7 @@ import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
 import { HttpParams } from '@angular/common/http';
 import { TrackingOperateHttpService } from 'src/app/http/tracking-operate-http.service';
 import { GenerateCoverService } from 'src/app/services/generate-cover.service';
+import { EquipmentHttpService } from 'src/app/http/equipment-http.service';
 
 @Component({
   selector: 'app-qe-technical-request',
@@ -18,13 +19,14 @@ export class QeTechnicalRequestComponent implements OnInit {
   request: any = null;
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   planing: any = null;
-  trackingOperate: any = null
+  equipments: any = null
   constructor(
     private routeActive: ActivatedRoute,
     private $request: RequestHttpService,
     private $scanHistory: ScanHistoryHttpService,
-    private $trackingOperate: TrackingOperateHttpService,
-    private $generateCover:GenerateCoverService
+    // private $trackingOperate: TrackingOperateHttpService,
+    private $equipment: EquipmentHttpService,
+    private $generateCover: GenerateCoverService
 
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin');
@@ -35,9 +37,9 @@ export class QeTechnicalRequestComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       let dataParam: HttpParams = new HttpParams()
-      dataParam = dataParam.set('status', JSON.stringify(['normal']))
-      const resTracking = await this.$trackingOperate.get(dataParam).toPromise()
-      this.trackingOperate = resTracking
+      // dataParam = dataParam.set('status', JSON.stringify(['normal']))
+      const resTracking = await this.$equipment.get(dataParam).toPromise()
+      this.equipments = resTracking
 
       this.routeActive.queryParams.subscribe(async (params: any) => {
         const { id, editPlan } = params;
@@ -82,7 +84,7 @@ export class QeTechnicalRequestComponent implements OnInit {
     }, 500);
   }
 
-  generateCover(){
+  generateCover() {
     try {
       this.$generateCover.generateCover(this.request)
     } catch (error) {
