@@ -1,8 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { interval, lastValueFrom, Observable, Subscription } from 'rxjs';
+import * as moment from 'moment';
+import { lastValueFrom } from 'rxjs';
+import { QueueService } from 'src/app/http/queue.service';
 import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
-import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'app-qe-technical-detail',
@@ -13,200 +14,275 @@ export class QeTechnicalDetailComponent implements OnInit {
 
   @Input() index!: number
   @Input() item: any;
+  @Input() equipments: any;
   @Input() formInput: any;
-  @Input() trackingOperate: any;
 
-
-  scannerInput: any = null
-  startDelay: boolean = false
-
-  observe!: Observable<any>
-  sub1!: Subscription
-
-  ctrState: boolean = false
+  historyScan: any = []
+  inputText = ''
+  outputText = ''
 
   constructor(
     private $scanHistory: ScanHistoryHttpService,
+    private $queue: QueueService
 
   ) { }
 
   async ngOnInit(): Promise<void> {
     try {
-      const intervalTime = 200
-      this.observe = interval(intervalTime)
-    } catch (error) {
-      console.log("🚀 ~ error:", error)
-
-    }
-
-  }
-
-  handleScan(e: any, value: string, item: any) {
-    try {
-      let notPass = [17]
-      const key = e.keyCode
-      if (key === 13 || key === 9) {
-        this.onPass(value, item)
+      let p0: HttpParams = new HttpParams()
+      p0 = p0.set('runNo', JSON.stringify([this.item.work.controlNo]))
+      p0 = p0.set('conditionValue', JSON.stringify([this.item.condition.value]))
+      p0 = p0.set('conditionName', JSON.stringify([this.item.condition.name]))
+      this.historyScan = await lastValueFrom(this.$scanHistory.get(p0))
+      if (this.historyScan?.length != 0) {
+        this.item.scans = this.historyScan
+        this.loopPassInspec()
       }
-
-
-      // todo block copy
-      // if (this.ctrState && key === 86) {
-      //   this.clearScan(item)
-      //   this.ctrState = false
-      // } else {
-      //   if (notPass.some((np: number) => np !== key)) {
-      //     if (key === 13 || key === 9) {
-      //       this.sub1.unsubscribe()
-      //       this.onPass(value, item)
-      //     } else {
-      //       if (!this.sub1 || this.sub1?.closed) {
-      //         this.sub1 = this.observe.subscribe(() => this.clearScan(item))
-      //       }
-      //     }
-      //   } else {
-      //     this.ctrState = true
-      //     this.clearScan(item)
-      //   }
-      // }
-      // todo block copy
-
-
-      // this.startDelay = true
-      // if ((e.keyCode === 13 || e.keyCode === 9) || e.keyCode != 17) {
-      //   let val = value.trim()
-      //   if (val) {
-      //     this.startDelay = false
-      //     setTimeout(() => {
-      //       const newItem = {
-      //         code: val,
-      //         scanDate: new Date(),
-      //         at: item.at,
-      //         runNo: this.item.work.controlNo,
-      //         condition: this.item.condition,
-      //         status: ''
-      //       }
-      //       item.scannerInput = null
-      //       this.validateInOut(item, newItem)
-
-
-      //     }, 200);
-      //   }
-
-      // } else {
-      //   setTimeout(() => {
-      //     if (this.startDelay || e.keyCode == 17) {
-      //       alert('not scanner')
-      //       item.scannerInput = null
-      //     }
-      //   }, 1000);
-      // }
-
-
     } catch (error) {
       console.log("🚀 ~ error:", error)
+
     }
+
   }
-  onPass(value: string, item: any) {
-    let val = value?.trim()
-    if (val) {
-      if (this.trackingOperate.some((operate: any) => operate.code == value)) {
-        const newItem = {
-          code: val,
+  async scan(e: any, action: string, inputId: string) {
+    try {
+      if (e.key == 'Enter' || e.key == 'Tab') {
+        let value: string = e.target.value
+        value = value.trim()
+        e.preventDefault();
+        if (!value) throw 'Code not correct'
+        if (!this.equipments.some((eq: any) => eq.name == value)) throw 'Code not correct'
+        const scan = {
+          code: value,
           scanDate: new Date(),
-          at: item.at,
+          scanDateLocal: moment().toLocaleString(),
+          // at: inspec.at,
           runNo: this.item.work.controlNo,
           condition: this.item.condition,
-          status: ''
+          action: action,
+          diff_hour: 0,
+          diff_min: 0,
+          total_hour: 0,
         }
-        item.scannerInput = null
-        this.validateInOut(item, newItem)
-      } else {
-        alert('not found')
+        if (action == 'in') {
+          if (this.item.scans && this.item.scans.length != 0) {
+            const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
+            if (lastItem?.action != action) {
+              this.item.scans.push(scan)
+              const res1 = await this.$scanHistory.insert(scan).toPromise()
+              this.clearInputAndFocus(inputId)
+            } else {
+              alert('Please Scan Out')
+              this.clearInputAndFocus(inputId)
+            }
+
+          } else {
+            this.item.scans = [scan]
+            const res1 = await this.$scanHistory.insert(scan).toPromise()
+            this.clearInputAndFocus(inputId)
+          }
+        }
+        if (action == 'out') {
+          // scan.scanDate = moment(scan.scanDate).add('second', 360000).toDate() //! for test
+          if (this.item.scans && this.item.scans.length != 0) {
+            const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
+            if (lastItem?.action != action) {
+              let diff: number = moment(scan.scanDate).diff(lastItem.scanDate, 'second')
+              const diffObj = this.convertSecondsToHoursAndMinutes(diff)
+
+              scan.diff_hour = diffObj.hours
+              scan.diff_min = diffObj.minutes
+
+
+              this.item.scans.push(scan)
+              this.item.total_hour = this.item.scans.reduce((p: any, n: any) => {
+                if (n.action == 'out') {
+                  p += n.diff_hour
+                }
+                return p
+              }, 0)
+              scan.total_hour = this.item.total_hour
+              const res1 = await this.$scanHistory.insert(scan).toPromise()
+
+              const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+              this.clearInputAndFocus(inputId)
+            } else {
+              alert('Please Scan In')
+              this.clearInputAndFocus(inputId)
+            }
+
+          } else {
+            this.item.scans = [scan]
+            const res1 = await this.$scanHistory.insert(scan).toPromise()
+            const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+            this.clearInputAndFocus(inputId)
+          }
+          this.loopPassInspec()
+        }
       }
-    }
-  }
-  clearScan(item: any) {
-    setTimeout(() => {
-      item.scannerInput = null
-      // this.sub1.unsubscribe()
-    }, 100);
-  }
-
-  trackingScan(item: any) {
-    item.scannerInput = null
-  }
-
-  validateInOut(item: any, newItem: any) {
-    if (item.input.find((a: any) => a.code == newItem.code)) {
-      if (!item.output.find((a: any) => a.code == newItem.code)) {
-        newItem['status'] = 'out'
-        this.createNewHistory(newItem)
-        item.output.push(newItem)
-      } else {
-        alert('full')
-      }
-    } else {
-      newItem['status'] = 'in'
-      item.input.push(newItem)
-      this.createNewHistory(newItem)
-    }
-  }
-
-  async createNewHistory(newItem: any) {
-    try {
-      const res1 = await this.$scanHistory.insert(newItem).toPromise()
     } catch (error) {
+      alert(error)
+      this.clearInputAndFocus(inputId)
       console.log("🚀 ~ error:", error)
     }
+
   }
 
-  onClickInDelete(i_inspec: number, i_input: number, inp: any) {
-    Swal.fire({
-      title: "Delete ?",
-      icon: 'question',
-      showCancelButton: true
-    }).then(async (v: SweetAlertResult) => {
-      if (v.isConfirmed) {
-        let input: any = this.item.inspectionTime[i_inspec].input
-        let output: any = this.item.inspectionTime[i_inspec].output
-        input = input.filter((aa: any, i: number) => i != i_input && aa.code != inp.code)
-        output = output.filter((aa: any, i: number) => i != i_input && aa.code != inp.code)
-        this.item.inspectionTime[i_inspec].input = input
-        this.item.inspectionTime[i_inspec].output = output
-
-        let param: HttpParams = new HttpParams().set('code', inp.code)
-        await lastValueFrom(this.$scanHistory.deleteAllByCode(param))
-        Swal.fire({
-          title: 'Success',
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500
-        })
+  loopPassInspec() {
+    let remain_hour: number = this.item.total_hour
+    for (let i = 0; i < this.item.inspectionTime.length; i++) {
+      const inspecItem = this.item.inspectionTime[i];
+      if (remain_hour > 0) {
+        remain_hour -= parseFloat(inspecItem.at)
+        if (remain_hour >= 0) {
+          inspecItem.pass = true
+        }
       }
-    })
+    }
   }
-  onClickOutDelete(i_inspec: number, i_output: number, out: any) {
-    Swal.fire({
-      title: "Delete ?",
-      icon: 'question',
-      showCancelButton: true
-    }).then(async (v: SweetAlertResult) => {
-      if (v.isConfirmed) {
-        let output: any = this.item.inspectionTime[i_inspec].output
-        output = output.filter((aa: any, i: number) => i != i_output && aa.code != out.code)
-        this.item.inspectionTime[i_inspec].output = output
 
-        let param: HttpParams = new HttpParams().set('code', out.code).set('status', 'out')
-        await lastValueFrom(this.$scanHistory.deleteByCode(param))
-        Swal.fire({
-          title: 'Success',
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500
-        })
-      }
-    })
+  convertSecondsToHoursAndMinutes(seconds: number) {
+    let hours = Math.floor(seconds / 3600);
+    let minutes = Math.floor((seconds % 3600) / 60);
+    return { hours, minutes }
   }
+  clearInputAndFocus(inputId: string) {
+    let el: any = document.querySelector('#' + inputId);
+    if (el) {
+      setTimeout(() => {
+        this.inputText = ''; // Use value to clear input elements
+        this.outputText = ''; // Use value to clear input elements
+        el.focus(); // Set focus to the element
+      }, 500);
+    }
+  }
+
+
+  // handleScan(e: any, value: string, inspec: any, item: any, action: string) {
+  //   try {
+  //     const key = e.keyCode
+  //     if (key === 13 || key === 9) {
+  //       this.onPass(value, inspec, item, action)
+  //     }
+  //   } catch (error) {
+  //     console.log("🚀 ~ error:", error)
+  //   }
+  // }
+  // onPass(value: string, inspec: any, item: any, action: string) {
+  //   let val = value?.trim()
+  //   if (val) {
+  //     if (this.equipments.some((eq: any) => eq.name == val)) {
+  //       const newItem = {
+  //         code: val,
+  //         scanDate: new Date(),
+  //         at: inspec.at,
+  //         runNo: this.item.work.controlNo,
+  //         condition: this.item.condition,
+  //         status: ''
+  //       }
+  //       item.scannerInput = null
+  //       if (action == 'in') {
+  //         this.scanIn(inspec, newItem)
+  //       }
+  //       if (action == 'out') {
+  //         this.scanOut(inspec, newItem)
+  //       }
+  //       // this.validateInOut(inspec, newItem)
+  //     } else {
+  //       alert('not found')
+  //     }
+  //   }
+  // }
+  // clearScan(item: any) {
+  //   setTimeout(() => {
+  //     item.scannerInput = null
+  //     // this.sub1.unsubscribe()
+  //   }, 100);
+  // }
+
+  // trackingScan(item: any) {
+  //   item.scannerInput = null
+  // }
+
+  // scanIn(item: any, newItem: any) {
+
+  // }
+  // scanOut(item: any, newItem: any) {
+  //   if (item.input.find((a: any) => a.code == newItem.code)) {
+
+  //   }
+  // }
+
+  // validateInOut(item: any, newItem: any) {
+  //   if (item.input.find((a: any) => a.code == newItem.code)) {
+  //     if (!item.output.find((a: any) => a.code == newItem.code)) {
+  //       newItem['status'] = 'out'
+  //       this.createNewHistory(newItem)
+  //       item.output.push(newItem)
+  //     } else {
+  //       alert('full')
+  //     }
+  //   } else {
+  //     newItem['status'] = 'in'
+  //     item.input.push(newItem)
+  //     this.createNewHistory(newItem)
+  //   }
+  // }
+
+  // async createNewHistory(newItem: any) {
+  //   try {
+  //     const res1 = await this.$scanHistory.insert(newItem).toPromise()
+  //   } catch (error) {
+  //     console.log("🚀 ~ error:", error)
+  //   }
+  // }
+
+  // onClickInDelete(i_inspec: number, i_input: number, inp: any) {
+  //   Swal.fire({
+  //     title: "Delete ?",
+  //     icon: 'question',
+  //     showCancelButton: true
+  //   }).then(async (v: SweetAlertResult) => {
+  //     if (v.isConfirmed) {
+  //       let input: any = this.item.inspectionTime[i_inspec].input
+  //       let output: any = this.item.inspectionTime[i_inspec].output
+  //       input = input.filter((aa: any, i: number) => i != i_input && aa.code != inp.code)
+  //       output = output.filter((aa: any, i: number) => i != i_input && aa.code != inp.code)
+  //       this.item.inspectionTime[i_inspec].input = input
+  //       this.item.inspectionTime[i_inspec].output = output
+
+  //       let param: HttpParams = new HttpParams().set('code', inp.code)
+  //       await lastValueFrom(this.$scanHistory.deleteAllByCode(param))
+  //       Swal.fire({
+  //         title: 'Success',
+  //         icon: 'success',
+  //         showConfirmButton: false,
+  //         timer: 1500
+  //       })
+  //     }
+  //   })
+  // }
+  // onClickOutDelete(i_inspec: number, i_output: number, out: any) {
+  //   Swal.fire({
+  //     title: "Delete ?",
+  //     icon: 'question',
+  //     showCancelButton: true
+  //   }).then(async (v: SweetAlertResult) => {
+  //     if (v.isConfirmed) {
+  //       let output: any = this.item.inspectionTime[i_inspec].output
+  //       output = output.filter((aa: any, i: number) => i != i_output && aa.code != out.code)
+  //       this.item.inspectionTime[i_inspec].output = output
+
+  //       let param: HttpParams = new HttpParams().set('code', out.code).set('status', 'out')
+  //       await lastValueFrom(this.$scanHistory.deleteByCode(param))
+  //       Swal.fire({
+  //         title: 'Success',
+  //         icon: 'success',
+  //         showConfirmButton: false,
+  //         timer: 1500
+  //       })
+  //     }
+  //   })
+  // }
 
 }

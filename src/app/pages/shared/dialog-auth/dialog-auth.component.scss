@@ -7,3 +7,11 @@
   -webkit-backdrop-filter: blur(11.5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
+.btn-auth{
+  transition: 0.25s ease all;
+}
+.btn-auth:hover{
+  background-color: aquamarine;
+  color: black;
+  font-weight: bold;
+}

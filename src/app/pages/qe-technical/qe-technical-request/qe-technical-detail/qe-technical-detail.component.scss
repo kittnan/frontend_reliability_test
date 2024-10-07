@@ -1,16 +1,36 @@
-table{
+table {
   border-collapse: collapse;
 }
-table, td,th{
-    border: 1px solid;
+
+table,
+td,
+th {
+  border: 1px solid;
 }
-th,td{
+
+th,
+td {
   padding: 10px;
 }
 
-label{
+label {
   font-weight: bold;
 }
-.text-bold{
+
+.text-bold {
   font-weight: bold;
+}
+
+.input-scan {
+  padding: 5px;
+  background: #ffb498;
+  border-radius: 10px;
+}
+
+.row-normal {
+  transition: ease all 0.5s;
+}
+
+.row-green {
+  background-color: lightgreen;
 }

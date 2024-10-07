@@ -1,12 +1,8 @@
 <div fxLayoutAlign="start stretch" fxLayout="row wrap">
 
   <ng-container *ngFor="let auth of data; let i=index">
-    <button fxFlex="100" mat-flat-button color="primary" (click)="onClick(auth)" style="margin: 10px;">
-
+    <button fxFlex="100" mat-flat-button color="primary" (click)="onClick(auth)" class="btn-auth" style="margin: 10px; ">
       {{htmlAuth(auth) | uppercase}}
-      <!-- {{auth |uppercase}} -->
-
     </button>
   </ng-container>
-
 </div>

@@ -1,110 +1,168 @@
-<div fxFlex="100" fxLayoutAlign="space-between start" fxLayout="row wrap" class="box-body mtb-4">
+<div fxFlex="100" fxLayoutAlign="start start" fxLayout="row wrap" class="box-body mtb-4">
   <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
     <button mat-stroked-button color="primary">{{ index + 1 }}.1 DETAIL</button>
   </div>
-  <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.condition" appearance="legacy">
-    <mat-label>Condition Name</mat-label>
-    <input matInput [(ngModel)]="item.condition.name" [readonly]="true" />
-  </mat-form-field>
-  <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.work" appearance="legacy">
-    <mat-label>Qty</mat-label>
-    <input matInput [(ngModel)]="item.work.qty" [readonly]="true" />
-  </mat-form-field>
+  <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap" fxLayoutGap="10" style="margin-top: 1rem;">
+    <mat-form-field fxFlex="fill" *ngIf="item.condition" appearance="legacy" style="width: 300px;">
+      <mat-label>Condition Name</mat-label>
+      <input matInput [(ngModel)]="item.condition.name" [readonly]="true" />
+    </mat-form-field>
+    <mat-form-field *ngIf="item.work" appearance="legacy">
+      <mat-label>Qty</mat-label>
+      <input matInput [(ngModel)]="item.work.qty" [readonly]="true" />
+    </mat-form-field>
+  </div>
 
-  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start"
-    *ngFor="let inspec of item.inspectionTime; let i_inspec = index" style="margin: 20px 0">
+  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10">
+    <table>
+      <colgroup>
+        <col width="100px">
+        <col width="200px">
+        <col width="200px">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            Inspection Time
+          </th>
+          <th>
+            Start
+          </th>
+          <th>
+            End
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let inspec of item.inspectionTime; let i_inspec = index">
+          <tr class="row-normal" [ngClass]="{'row-green': inspec.pass}">
+            <td style="text-align: end;">
+              <span *ngIf="inspec.pass">
+                ✔️
+              </span>
+              {{inspec.at}}
+            </td>
+            <td style="text-align: center;">
+              {{ inspec.startDate | date : "dd-MMM-YY, HH:mm" }}
+            </td>
+            <td style="text-align: center;">
+              {{ inspec.endDate | date : "dd-MMM-YY, HH:mm" }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+
+  </div>
+  <mat-divider fxFlex="100" style="margin: 10px"></mat-divider>
+  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10">
+    <table>
+      <colgroup>
+        <col width="200px">
+        <col width="200px">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div fxLayout="row wrap" fxLayoutAlign="center center">
+              <h3 style="margin: 0;">
+                IN
+              </h3>
+              <input id="inputId" type="text" class="input-scan" [(ngModel)]="inputText"
+                (keydown)="scan($event,'in','inputId')">
+            </div>
+          </th>
+          <th>
+            Date
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let scan of item.scans; let i_inspec = index">
+          <tr *ngIf="scan.action == 'in'">
+            <td style="text-align: start;">
+              {{scan.code}}
+            </td>
+            <td style="text-align: center;">
+              {{ scan.scanDate | date : "dd-MMM-YY, HH:mm:ss" }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <table>
+      <colgroup>
+        <col width="200px">
+        <col width="200px">
+        <col width="150px">
+        <col width="100px">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div fxLayout="row wrap" fxLayoutAlign="center center">
+              <h3 style="margin: 0;">
+                OUT
+              </h3>
+              <input id="outputId" type="text" class="input-scan" [(ngModel)]="outputText"
+                (keydown)="scan($event,'out','outputId')">
+            </div>
+          </th>
+          <th>
+            Date
+          </th>
+          <th>
+            Diff Time
+          </th>
+          <th>
+            Total time
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let scan of item.scans; let i_inspec = index">
+          <tr *ngIf="scan.action == 'out'">
+            <td style="text-align: start;">
+              {{scan.code}}
+            </td>
+            <td style="text-align: center;">
+              {{ scan.scanDate | date : "dd-MMM-YY, HH:mm:ss" }}
+            </td>
+            <td>
+              Hour: {{scan.diff_hour}} Min: {{scan.diff_min}}
+            </td>
+            <td>
+              Hour: {{scan.total_hour}}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start"
+    *ngFor="let inspec of item.inspectionTime; let i_inspec = index" style="margin: 5px 0">
     <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20">
-      <div fxFlex="30" fxLayoutAlign="start center">
+      <div fxLayoutAlign="start center">
         <label for="">Inspection Time : </label>
         <span class="text-bold" style="color: rgb(255, 121, 32)">
           {{ inspec.at }}
         </span>
       </div>
-      <div fxFlex="30" fxLayoutAlign="start center">
+      <div fxLayoutAlign="start center">
         <label for="">Start Date : </label>
         <span class="text-bold" style="color: blue">
           {{ inspec.startDate | date : "dd-MMM-YY, HH:mm:ss" }}
         </span>
       </div>
-      <div fxFlex="30" fxLayoutAlign="start center">
+      <div fxLayoutAlign="start center">
         <label for="">End Date : </label>
         <span class="text-bold" style="color: blue">
           {{ inspec.endDate | date : "dd-MMM-YY, HH:mm:ss" }}
         </span>
       </div>
     </div>
-
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10">
-      <span>
-        QR Code:
-      </span>
-      <input type="text" [(ngModel)]="inspec.scannerInput" (keydown)="handleScan($event, inspec.scannerInput, inspec)"
-        (blur)="clearScan(inspec)" />
-    </div>
-
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10">
-      <div fxFlex="40" fxLayout="row wrap" fxLayoutAlign="start start">
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start">
-          <span style="font-weight: bold;">
-            Input
-          </span>
-        </div>
-
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start">
-          <table>
-            <tr>
-              <th>Code</th>
-              <th>Scan Date</th>
-              <th></th>
-            </tr>
-            <ng-container *ngIf="inspec.input && inspec.input.length > 0">
-              <tr *ngFor="let inp of inspec.input; let i_input = index">
-                <td>
-                  {{ inp.code }}
-                </td>
-                <td>
-                  {{ inp.scanDate | date : "dd-MMM-YY, HH:mm:ss" }}
-                </td>
-                <td style="cursor: pointer;" (click)="onClickInDelete(i_inspec,i_input,inp)">
-                  X
-                </td>
-              </tr>
-            </ng-container>
-          </table>
-        </div>
-      </div>
-      <div fxFlex="40" fxLayout="row wrap" fxLayoutAlign="start start">
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start">
-          <span style="font-weight: bold;">
-            Output
-          </span>
-        </div>
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start">
-          <table>
-            <tr>
-              <th>Code</th>
-              <th>Scan Date</th>
-              <th></th>
-
-            </tr>
-            <ng-container *ngIf="inspec.output && inspec.output.length > 0">
-              <tr *ngFor="let out of inspec.output; let i_output = index">
-                <td>
-                  {{ out.code }}
-                </td>
-                <td>
-                  {{ out.scanDate | date : "dd-MMM-YY, HH:mm:ss" }}
-                </td>
-                <td style="cursor: pointer;" (click)="onClickOutDelete(i_inspec,i_output,out)">
-                  X
-                </td>
-              </tr>
-            </ng-container>
-          </table>
-        </div>
-      </div>
-    </div>
-
     <mat-divider fxFlex="100" style="margin: 10px"></mat-divider>
-  </div>
+  </div> -->
 </div>

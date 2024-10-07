@@ -78,7 +78,7 @@ export class AppComponent {
         top: '0',
       },
       width: '30%',
-      height: '40%',
+      height: 'auto',
     });
     let newAuth: any = null;
     dialogRef.afterClosed().subscribe((res) => {
@@ -282,19 +282,31 @@ export class AppComponent {
             },
           ],
         },
+        // {
+        //   title: 'qr code',
+        //   icon: 'qr_code_scanner',
+        //   items: [
+        //     // {
+        //     //   path: '/admin/qr-code-chamber',
+        //     //   icon: 'qr_code_2',
+        //     //   title: 'chamber',
+        //     // },
+        //     {
+        //       path: '/admin/qr-code-operate',
+        //       icon: 'qr_code_2',
+        //       title: 'operate',
+        //     },
+        //   ],
+        // },
+
         {
-          title: 'qr code',
-          icon: 'qr_code_scanner',
+          title: 'equipment',
+          icon: 'diversity_3',
           items: [
-            // {
-            //   path: '/admin/qr-code-chamber',
-            //   icon: 'qr_code_2',
-            //   title: 'chamber',
-            // },
             {
-              path: '/admin/qr-code-operate',
-              icon: 'qr_code_2',
-              title: 'operate',
+              path: '/admin/equipment2',
+              icon: 'group',
+              title: 'equipment',
             },
           ],
         },

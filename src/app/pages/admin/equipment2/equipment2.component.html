@@ -1,0 +1,46 @@
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch" class="over-flow">
+
+  <div fxFlex.gt-md="60" fxFlex="95" fxLayout="row wrap" fxLayoutAlign="center stretch" class="content-item mt-2">
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end stretch">
+      <button mat-raised-button color="primary" (click)="onNew()">
+        New
+      </button>
+    </div>
+    <table fxFlex="100" mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-2">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="imgs">
+        <th mat-header-cell *matHeaderCellDef> imgs </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngFor="let img of element.imgs; let i=index">
+            <img [src]="img.path" alt="" style="width: 200px; height: 200px;"  (click)="openPopup(img)">
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button color="accent" (click)="edit(element)">Edit</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+</div>
+
+
+<div class="popup-container" id="popup">
+  <span class="close-popup" (click)="closePopup()">&times;</span>
+  <img *ngIf="img" class="popup-image" id="popupImage" [src]="img.path" alt="Popup Image">
+</div>
+
