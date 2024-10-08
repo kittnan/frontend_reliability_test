@@ -36,5 +36,9 @@
   </div>
 </div>
 <button mat-button class="bubble" (click)="onTranslate()">
-  {{ translate.currentLang }}
+  <img *ngIf="translate.currentLang == 'th'" src="./assets/thailand.png" alt=""
+    style="width: 20px;height: 20px;margin-right: 2px;">
+  <img *ngIf="translate.currentLang == 'en'" src="./assets/united-kingdom.png"
+    style="width: 20px;height: 20px;margin-right: 2px;">
+  <span>{{ translate.currentLang }}</span>
 </button>

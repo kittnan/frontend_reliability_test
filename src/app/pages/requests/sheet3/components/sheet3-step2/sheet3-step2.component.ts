@@ -8,6 +8,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 
+interface descriptionForm {
+  status: boolean,
+  value: string
+}
 @Component({
   selector: 'app-sheet3-step2',
   templateUrl: './sheet3-step2.component.html',
@@ -23,7 +27,7 @@ export class Sheet3Step2Component implements OnInit {
     _id: new FormControl(null),
     requestId: new FormControl(null),
     purpose: new FormControl('', Validators.required),
-    description: new FormControl(),
+    description: new FormControl<descriptionForm>({ status: true, value: '' }, Validators.required),
   })
   testPurposes: any = []
 
@@ -37,23 +41,21 @@ export class Sheet3Step2Component implements OnInit {
 
   async ngOnInit() {
     this.testPurposes = await this.$master.getTestPurposeMaster().toPromise()
+    this.testPurposes = this.testPurposes.map((purpose: any) => {
+      purpose.description = {
+        status: true,
+        value: ''
+      }
+      return purpose
+    })
     if (this.formId) {
       const params = new HttpParams().set('requestId', this.formId)
       const resGet = await this.$step2.get(params).toPromise()
       if (resGet && resGet.length > 0) {
-        this.testPurposes = this.testPurposes.map((t: any) => {
-          if (t.name == resGet[0].purpose) {
-            return {
-              ...t,
-              checked: true,
-              description: resGet[0].description
-            }
-          }
-          return t
-        })
         this.testPurposeForm.patchValue({
           ...resGet[0]
         })
+
       }
     }
   }
@@ -62,40 +64,11 @@ export class Sheet3Step2Component implements OnInit {
     return `${item}`
   }
 
-  onCheckRadio(event: any, purpose: any) {
-    if (purpose['description'].status) {
-      let temp: any = document.getElementById(purpose._id)
-      temp.value = ''
-    }
-    this.testPurposes = this.testPurposes.map((p: any) => {
-      p.checked = false
-      p['description'].value = ""
-      return p
-    })
-    purpose.checked = true
-    this.testPurposeForm.patchValue({
-      purpose: purpose.name,
-      description: purpose.description
-    })
-  }
-  onInputDescription(event: any) {
-    const value: any = event.target.value
-    this.testPurposeForm.patchValue({
-      description: {
-        status: true,
-        value: value
-      }
-    })
-  }
-
-
 
   onNext() {
-
     this.testPurposeForm.patchValue({
       requestId: this.formId
     })
-
     Swal.fire({
       title: `Do you want to save draft?`,
       icon: 'question',
@@ -149,23 +122,51 @@ export class Sheet3Step2Component implements OnInit {
     this._stepper.previous()
   }
 
-  handleValidClassDescription(purpose: any) {
-    if (purpose.checked) {
-      if (purpose.description.status) {
-        if (purpose.description.value.trim() == '') {
-          return 'text-red'
-        }
-      }
-    }
-    return ''
-  }
+  // handleValidClassDescription(purpose: any) {
+  //   if (purpose.checked) {
+  //     if (purpose.description.status) {
+  //       if (purpose.description.value.trim() == '') {
+  //         return 'text-red'
+  //       }handleDescription
+  //     }
+  //   }
+  //   return ''
+  // }
   handleDescription() {
-
     if (this.testPurposeForm.value?.description?.status && this.testPurposeForm.value.description.value.trim() !== '') {
       return false
     }
-    if (!this.testPurposeForm.value?.description?.status) return false
     return true
   }
 
+  // todo new Selection
+  public objectComparisonFunction = function (option: any, value: any): boolean {
+    return option.name === value.purpose;
+  }
+  controlValuePurpose() {
+    return this.testPurposeForm.value
+  }
+  onChangePurpose(purpose: any) {
+    this.testPurposeForm.patchValue({
+      purpose: purpose.name,
+      description: purpose.description
+    })
+
+  }
+  controlValueDescription() {
+    return this.testPurposeForm.controls.description.value?.value ? this.testPurposeForm.controls.description.value.value : ''
+  }
+  onChangeDescription(e: any) {
+    if (e.target.value) {
+      this.testPurposeForm.controls.description.patchValue({
+        value: e.target.value,
+        status: true
+      })
+    }else{
+      this.testPurposeForm.controls.description.patchValue({
+        value: '',
+        status: true
+      })
+    }
+  }
 }

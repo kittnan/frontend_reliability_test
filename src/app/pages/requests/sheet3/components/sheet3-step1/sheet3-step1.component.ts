@@ -197,8 +197,6 @@ export class Sheet3Step1Component implements OnInit {
     // })
 
     setTimeout(() => {
-      console.log(this.requestForm.value);
-
     }, 3000);
 
   }
@@ -399,6 +397,8 @@ export class Sheet3Step1Component implements OnInit {
     }).then((value: SweetAlertResult) => {
       if (value.isConfirmed) {
         // this._loading.start();
+        console.log(this.requestForm.value);
+
         if (this.requestForm.value._id) {
           this.update();
         } else {
