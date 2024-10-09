@@ -121,7 +121,7 @@ export class TableRequestComponent implements OnInit {
       sort: '-1',
     };
     this.onSelectStatus();
-    this.interval$ = interval(60000).subscribe((res) => this.autoFeed());
+    // this.interval$ = interval(60000).subscribe((res) => this.autoFeed());
   }
 
   ngAfterViewInit(): void {
@@ -131,7 +131,7 @@ export class TableRequestComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.interval$.unsubscribe();
+    // this.interval$.unsubscribe();
   }
 
   async autoFeed() {
@@ -186,14 +186,6 @@ export class TableRequestComponent implements OnInit {
       }
 
     } else {
-
-
-
-    }
-  }
-
-  async getData(statusStr: any) {
-    try {
       const tempSection =
         this.selected_section === 'all'
           ? this.sections
@@ -207,22 +199,55 @@ export class TableRequestComponent implements OnInit {
         .set('userId', this.params.userId)
         .set('status', statusStr)
         .set('section', section);
-      const resData: any = await this.$request.table(param).toPromise();
-      if (resData?.length != 0) {
-        const resultMap: any = await this.mapRows(resData);
-        this.rows = [...resultMap]
-        this.presentCount = resultMap.length;
+      const resData = await this.$request.table(param).toPromise();
+      const resultMap: any = await this.mapRows(resData);
+      this.presentCount = resultMap.length;
+      // if (this.dataSource?.data) {
+      //   this.rows = [...resultMap]
+      //   this.generateStatus(resultMap)
+      //   this.dataSource = new MatTableDataSource(resultMap);
+      //   this.setOption();
+      // } else {
 
-        this.dataSource = new MatTableDataSource(resultMap);
-        this.generateStatus(resultMap)
-        this.setOption();
-      }
-
-    } catch (error) {
-      console.log("🚀 ~ error:", error)
+      this.rows = [...resultMap]
+      this.dataSource = new MatTableDataSource(resultMap);
+      this.generateStatus(resultMap)
+      this.setOption();
+      // }
     }
-
   }
+
+  // async getData(statusStr: any) {
+  //   try {
+  //     const tempSection =
+  //       this.selected_section === 'all'
+  //         ? this.sections
+  //         : [this.selected_section];
+  //     let section: any = [...tempSection, 'DST'];
+  //     if (localStorage.getItem('RLS_authorize')?.includes('qe')) {
+  //       section = [];
+  //     }
+  //     section = JSON.stringify(section);
+  //     const param: HttpParams = new HttpParams()
+  //       .set('userId', this.params.userId)
+  //       .set('status', statusStr)
+  //       .set('section', section);
+  //     const resData: any = await this.$request.table(param).toPromise();
+  //     if (resData?.length != 0) {
+  //       const resultMap: any = await this.mapRows(resData);
+  //       this.rows = [...resultMap]
+  //       this.presentCount = resultMap.length;
+
+  //       this.dataSource = new MatTableDataSource(resultMap);
+  //       this.generateStatus(resultMap)
+  //       this.setOption();
+  //     }
+
+  //   } catch (error) {
+  //     console.log("🚀 ~ error:", error)
+  //   }
+
+  // }
   private mapRows(data: any) {
     return new Promise((resolve) => {
       const result = data.map((item: any) => {
@@ -393,10 +418,22 @@ export class TableRequestComponent implements OnInit {
 
   onClickFilterBtn(status: any) {
     this.btnFilterActive = status
-    const data = this.rows.filter((row: any) => row.statusShow.toLowerCase() == status.toLowerCase())
-    this.dataSource = new MatTableDataSource(data)
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    if (status == '') {
+      const data = this.rows.filter((row: any) => true)
+      this.dataSource = new MatTableDataSource(data)
+      this.setOption();
+
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    } else {
+      const data = this.rows.filter((row: any) => row.statusShow.toLowerCase() == status.toLowerCase())
+      this.dataSource = new MatTableDataSource(data)
+      this.setOption();
+
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
     }
   }
   onEdit(item: any) {

@@ -1,5 +1,5 @@
 <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" class="over-flow">
-  <div fxFlex="95" fxFlex.xl="95" fxFlex.lg="95" fxLayout="row wrap" fxLayoutAlign="center start"
+  <div fxFlex="95" fxFlex.xl="95" fxFlex.lg="95" fxLayout="row wrap" fxLayoutAlign="start start"
     class="content-item mt-2">
     <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
       <span class="box-title"> Table Request </span>
@@ -25,23 +25,25 @@
     <div fxFlex="100" fxLayoutAlign="center center" fxLayout="row wrap" style="overflow: auto">
 
 
-      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch">
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="10">
         <ng-container *ngFor="let item of sumStatus; let i=index">
-          <button [attr.id]="item.statusShow" fxFlex="20" mat-flat-button class="text-color0" [ngClass]="{'btn-filter-active': btnFilterActive == item.statusShow}" [class]="'text-color'+(i+1)" (click)="onClickFilterBtn(item.statusShow)">
+          <button [attr.id]="item.statusShow" mat-flat-button class="text-color0"
+            [ngClass]="{'btn-filter-active': btnFilterActive == item.statusShow}" [class]="'text-color'+(i+1)"
+            (click)="onClickFilterBtn(item.statusShow)">
             <span style="text-transform: capitalize;">
               {{item.statusShow}}
             </span>
-            <span >
+            <span>
               ( {{item.count}} )
             </span>
           </button>
         </ng-container>
-        <button [attr.id]="'all'" fxFlex="20" mat-flat-button class="text-color0" (click)="onClickFilterBtn('')">
-          <span >
+        <button [attr.id]="'all'" mat-flat-button class="text-color0" (click)="onClickFilterBtn('')">
+          <span>
             All
           </span>
           <span *ngIf="dataSource?.data">
-           ( {{dataSource.data.length}} )
+            ( {{rows.length}} )
           </span>
         </button>
       </div>
