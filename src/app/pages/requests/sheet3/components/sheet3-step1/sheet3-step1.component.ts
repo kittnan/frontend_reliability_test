@@ -66,6 +66,7 @@ export class Sheet3Step1Component implements OnInit {
     inputToProductionDate: new FormControl(''),
     concernCustomerDate: new FormControl(''),
     reportRequireDate: new FormControl(''),
+    productType: new FormControl('', Validators.required),
     modelNo: new FormControl('', Validators.required),
     modelName: new FormControl('', Validators.required),
     lotNo: new FormControl('', Validators.required),
@@ -74,11 +75,10 @@ export class Sheet3Step1Component implements OnInit {
     sampleDescription: new FormControl('', Validators.required),
     files: new FormControl(<any>[]),
     upload: new FormControl(),
-
     sampleSendQty: new FormControl<Number | null>(
       null,
       Validators.required
-    )
+    ),
   });
 
   filteredModelOptions!: Observable<any[]>;
@@ -99,8 +99,9 @@ export class Sheet3Step1Component implements OnInit {
   tempUpload: any[] = [];
   userLogin: any;
   minDate: Date = new Date();
-
   params: any;
+  firstStatus: boolean = false
+  firstStatus2: boolean = false
   constructor(
     private _request: RequestSheetService,
     private _loading: NgxUiLoaderService,
@@ -112,7 +113,6 @@ export class Sheet3Step1Component implements OnInit {
     private $file: FilesHttpService,
     private $step1: Step1HttpService,
     private $step5: Step5HttpService,
-    private $user: UserHttpService,
     private $log: LogFlowService,
     private translate: TranslateService
   ) {
@@ -122,46 +122,47 @@ export class Sheet3Step1Component implements OnInit {
     const section = localStorage.getItem('RLS_section');
     this.requestForm.patchValue({ department: section });
     // this.requestForm.get('requestDate')?.disable()
+
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin');
+    this.userLogin = JSON.parse(userLoginStr);
   }
 
 
 
   async ngOnInit() {
     let timerInterval: any;
-    Swal.fire({
-      title: 'sample test ทุกตัวที่มาจาก MDL จะต้องมีการ write OTP มาก่อนทุกครั้ง และ ต้องผ่าน final inspection ก่อนเอาเข้า Reliability test',
-      icon: 'warning',
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showConfirmButton: true,
-      timer: 6000,
-      timerProgressBar: true,
-      didOpen: () => {
-        const fn1 = () => {
-          const SwalHtml = Swal.getPopup()
-          if (SwalHtml) {
-            const tagB: HTMLElement | null = SwalHtml.querySelector(".swal2-actions")
-            if (tagB) {
-              timerInterval = setInterval(() => {
-                if (Swal.getTimerLeft()) {
-                  const show = Number(Swal.getTimerLeft()) / 1000
-                  tagB.textContent = `${Math.ceil(show)}`;
-                }
-              }, 100);
+    if (!this.formId) {
+      Swal.fire({
+        title: 'sample test ทุกตัวที่มาจาก MDL จะต้องมีการ write OTP มาก่อนทุกครั้ง และ ต้องผ่าน final inspection ก่อนเอาเข้า Reliability test',
+        icon: 'warning',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: true,
+        timer: 6000,
+        timerProgressBar: true,
+        didOpen: () => {
+          const fn1 = () => {
+            const SwalHtml = Swal.getPopup()
+            if (SwalHtml) {
+              const tagB: HTMLElement | null = SwalHtml.querySelector(".swal2-actions")
+              if (tagB) {
+                timerInterval = setInterval(() => {
+                  if (Swal.getTimerLeft()) {
+                    const show = Number(Swal.getTimerLeft()) / 1000
+                    tagB.textContent = `${Math.ceil(show)}`;
+                  }
+                }, 100);
+              }
             }
           }
+          fn1()
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
         }
-        fn1()
-      },
-      willClose: () => {
-        clearInterval(timerInterval);
-      }
 
-    })
-
-
-    // this.requestForm.controls.requestSubject.markAsTouched()
-    this.requestForm.markAllAsTouched();
+      })
+    }
     this.models = await this.$master.getModelMaster().toPromise();
 
     this.filteredModelOptions =
@@ -170,14 +171,9 @@ export class Sheet3Step1Component implements OnInit {
         map((value: any) => this._filter(value || ''))
       );
 
-    // this.departments = await this.$master.getDepartmentMaster().toPromise()
     if (this.data) {
       this.requestForm.patchValue({ ...this.data });
     }
-    let userLoginStr: any = localStorage.getItem('RLS_userLogin');
-    this.userLogin = JSON.parse(userLoginStr);
-    // const tempId: any = localStorage.getItem('RLS_id')
-    // this.userLogin = await this.$user.getUserById(tempId).toPromise()
 
     if (this.params && this.params['id']) {
       this.formId = this.params['id'];
@@ -191,16 +187,75 @@ export class Sheet3Step1Component implements OnInit {
         this.minDate = moment('1999-01-01').toDate();
       }
     }
-
-    // this.requestForm.patchValue({
-    //   department: this.userLogin.section
-    // })
-
-    setTimeout(() => {
-    }, 3000);
-
+    this.setupControlForm()
   }
+  setupControlForm() {
+    this.requestForm.markAllAsTouched();
+    this.onChangeCorporate()
+    this.onChangeProductType()
+    this.requestForm.get('corporate')?.valueChanges.subscribe(() => this.onChangeCorporate())
+    this.requestForm.get('productType')?.valueChanges.subscribe(() => this.onChangeProductType())
+    this.requestForm.get('modelNo')?.valueChanges.subscribe(() => this.onChangeModelNo())
+  }
+  private onChangeCorporate() {
+    if (this.firstStatus) {
+      this.requestForm.controls.productType.setValue('')
+      this.requestForm.controls.modelNo.setValue('')
+      this.requestForm.controls.modelName.setValue('')
+      this.requestForm.controls.size.setValue('')
+      this.requestForm.controls.customer.setValue('')
+    } else {
+      this.firstStatus = true
+    }
+    const corporateValue = this.requestForm.controls.corporate.value
+    if (corporateValue) {
+      this.requestForm.controls['productType'].enable()
+    } else {
+      this.requestForm.controls['productType'].disable()
+    }
 
+    if (this.requestForm.controls.corporate.value == 'amt') {
+      this.requestForm.controls.productType.setValue('Prelaunch')
+    }
+  }
+  private onChangeProductType() {
+    if (this.firstStatus2) {
+      this.requestForm.controls.modelNo.setValue('')
+      this.requestForm.controls.modelName.setValue('')
+      this.requestForm.controls.size.setValue('')
+      this.requestForm.controls.customer.setValue('')
+    } else {
+      this.firstStatus2 = true
+    }
+
+    const productTypeValue = this.requestForm.controls.productType.value
+    if (productTypeValue) {
+      this.requestForm.controls['modelNo'].enable()
+      this.requestForm.controls['modelName'].enable()
+      this.requestForm.controls['size'].enable()
+      this.requestForm.controls['customer'].enable()
+      this.requestForm.controls['lotNo'].enable()
+    } else {
+      this.requestForm.controls['modelNo'].disable()
+      this.requestForm.controls['modelName'].disable()
+      this.requestForm.controls['size'].disable()
+      this.requestForm.controls['customer'].disable()
+      this.requestForm.controls['lotNo'].disable()
+    }
+  }
+  private onChangeModelNo() {
+    if (
+      this.requestForm.controls.corporate.value == 'dst' &&
+      this.requestForm.controls.productType.value == 'Mass'
+    ) {
+      this.autoFillModel()
+    } else {
+      this.requestForm.controls.modelName.setValue('')
+      this.requestForm.controls.size.setValue('')
+      this.requestForm.controls.customer.setValue('')
+    }
+    this.createControlNo()
+  }
 
   private _filter(value: any): any[] {
     const filterValue = value.toLowerCase();
@@ -224,8 +279,8 @@ export class Sheet3Step1Component implements OnInit {
     return day !== 0 && day !== 6;
   };
 
-  onSelectModelNo() {
-    const modelNo = this.requestForm.value.modelNo;
+  autoFillModel() {
+    const modelNo = this.requestForm.controls.modelNo.value
     const objModel: any = this.models.find((m: any) => m.modelNo == modelNo);
     if (objModel) {
       this.requestForm.patchValue({
@@ -241,28 +296,25 @@ export class Sheet3Step1Component implements OnInit {
       });
     }
   }
-  async onSelectCorporate() {
-    setTimeout(async () => {
-      if (
-        this.requestForm.controls.corporate.valid &&
-        this.requestForm.controls.modelNo.valid
-      ) {
-
-        if (this.requestForm.value.controlNo) {
-          let value: any = this.requestForm.value.controlNo
-          value = value.split('-')
-          let newModel: any = this.requestForm.value.modelNo?.padStart(6, '0')
-          value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel}`
-          this.requestForm.controls.controlNo.setValue(value)
-        } else {
-          const runNumber: any = await this._request.setControlNo(
-            this.requestForm.value.corporate,
-            this.requestForm.value.modelNo
-          );
-          this.requestForm.controls.controlNo.setValue(runNumber);
-        }
+  async createControlNo() {
+    if (
+      this.requestForm.controls.corporate.valid &&
+      this.requestForm.controls.modelNo.valid
+    ) {
+      if (this.requestForm.value.controlNo) {
+        let value: any = this.requestForm.value.controlNo
+        value = value.split('-')
+        let newModel: any = this.requestForm.value.modelNo?.padStart(6, '0')
+        value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel}`
+        this.requestForm.controls.controlNo.setValue(value)
+      } else {
+        const runNumber: any = await this._request.setControlNo(
+          this.requestForm.value.corporate,
+          this.requestForm.value.modelNo
+        );
+        this.requestForm.controls.controlNo.setValue(runNumber);
       }
-    }, 0);
+    }
   }
 
   onUploadFile(e: any) {
@@ -462,7 +514,7 @@ export class Sheet3Step1Component implements OnInit {
       Swal.fire(str, '', 'error');
       setTimeout(() => {
         this._loading.stop();
-        this.onSelectCorporate();
+        this.createControlNo();
       }, 1000);
     }
   }
@@ -559,4 +611,24 @@ export class Sheet3Step1Component implements OnInit {
     }
     return false
   }
+
+  validateProductTypeIsMass() {
+    if (this.requestForm.controls.productType.value == 'Mass') {
+      return true
+    } else {
+      return false
+    }
+  }
+  validateProductTypeInvalid() {
+    return this.requestForm.controls.productType.invalid
+  }
+
+  validateCorporateIsValid() {
+    return this.requestForm.controls.corporate.valid
+  }
+  validateCorporateIsInvalid() {
+    return this.requestForm.controls.corporate.invalid
+  }
+
+
 }

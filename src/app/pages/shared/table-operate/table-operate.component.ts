@@ -32,12 +32,12 @@ export class TableOperateComponent implements OnInit {
   ngOnInit(): void {
     if (this.table) {
       this.dataSource = new MatTableDataSource(this.table)
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }, 1000);
     }
 
-  }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

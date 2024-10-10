@@ -16,14 +16,6 @@
 
     <mat-divider fxFlex="100" style="margin: 10px 0;"></mat-divider>
 
-    <!-- <div fxFlex="40" fxFlex.sm="100" style="padding: 10px;background-color: rgba(0,0,0,.04); margin: 10px 0;">
-      <label>{{'sheet1.requestStatus' |translate}} </label>
-      <mat-radio-group formControlName="requestStatus">
-        <mat-radio-button value="normal" style="padding: 0 10px;">{{'sheet1.normal' | translate}}</mat-radio-button>
-        <mat-radio-button value="urgent" style="padding: 0 10px;">{{'sheet1.urgent' | translate}}</mat-radio-button>
-      </mat-radio-group>
-    </div> -->
-
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
       <mat-label>{{'sheet1.sampleSendQty' |translate}}</mat-label>
       <input formControlName="sampleSendQty" matInput type="number">
@@ -36,28 +28,50 @@
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
       <mat-label>{{'sheet1.corporate' |translate}}</mat-label>
-      <mat-select formControlName="corporate" name="corporate" (selectionChange)="onSelectCorporate()">
+      <mat-select formControlName="corporate" name="corporate">
         <mat-option *ngFor="let cor of corporate" [value]="cor.value">
           {{cor.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field fxFlex="40" fxFlex.sm="100" appearance="fill">
-      <mat-label>{{'sheet1.modelNo' |translate}}</mat-label>
-      <input type="text" matInput formControlName="modelNo" [matAutocomplete]="modelNoAuto"
-        (input)="onSelectModelNo();onSelectCorporate();">
+    <div fxFlex="40" fxFlex.sm="100" fxLayout="row wrap" fxLayoutAlign="start center">
+      <mat-form-field fxFlex="50" appearance="fill">
+        <mat-label>Mass/Prelaunch</mat-label>
+        <mat-select formControlName="productType">
+          <mat-option [disabled]="requestForm.controls.corporate.value=='amt'" [value]="'Mass'">
+            Mass
+          </mat-option>
+          <mat-option [value]="'Prelaunch'">
+            Prelaunch
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-      <button mat-icon-button matSuffix>
-        <mat-icon color="primary">{{ requestForm.value.modelName!=''? 'verified':''}}</mat-icon>
-      </button>
+      <ng-container *ngIf="validateProductTypeIsMass()">
+        <mat-form-field fxFlex="50" appearance="fill">
+          <mat-label>{{'sheet1.modelNo' |translate}}</mat-label>
+          <input type="text" matInput formControlName="modelNo" [matAutocomplete]="modelNoAuto">
+          <button mat-icon-button matSuffix>
+            <mat-icon color="primary">{{ requestForm.value.modelName!=''? 'verified':''}}</mat-icon>
+          </button>
+          <mat-autocomplete #modelNoAuto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredModelOptions | async" [value]="option.modelNo">
+              {{option.modelNo}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint>autocomplete</mat-hint>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="!validateProductTypeIsMass()">
+        <mat-form-field fxFlex="50" appearance="fill">
+          <mat-label>{{'sheet1.modelNo' |translate}}</mat-label>
+          <input type="text" matInput formControlName="modelNo">
+        </mat-form-field>
+      </ng-container>
 
-      <mat-autocomplete #modelNoAuto="matAutocomplete" (closed)="onSelectModelNo();onSelectCorporate()">
-        <mat-option *ngFor="let option of filteredModelOptions | async" [value]="option.modelNo">
-          {{option.modelNo}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+
+    </div>
 
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
       <mat-label>{{'sheet1.modelName' |translate}}</mat-label>
