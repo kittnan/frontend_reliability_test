@@ -4,6 +4,40 @@ import * as moment from 'moment';
 import { lastValueFrom } from 'rxjs';
 import { QueueService } from 'src/app/http/queue.service';
 import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
+import Swal from 'sweetalert2';
+
+export interface ScanHistory {
+  code: string,
+  scanDate: Date,
+  scanDateLocal: string,
+  // at: inspec.at,
+  runNo: string,
+  condition: {
+    value: string,
+    name: string
+  },
+  action: string,
+  diff_hour: number,
+  diff_min: number,
+  total_hour: number,
+  queue_id: string,
+  user: {
+    _id: string,
+    authorize: string[],
+    createdAt: string,
+    createdBy: string,
+    department: string,
+    email: string,
+    employee_ID: string,
+    name: string,
+    password: string,
+    username: string,
+    updatedAt: string,
+    section: string[],
+  },
+  createdAt: Date,
+  updatedAt: Date,
+}
 
 @Component({
   selector: 'app-qe-technical-detail',
@@ -11,7 +45,7 @@ import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
   styleUrls: ['./qe-technical-detail.component.scss']
 })
 export class QeTechnicalDetailComponent implements OnInit {
-
+  userLogin: any
   @Input() index!: number
   @Input() item: any;
   @Input() equipments: any;
@@ -25,7 +59,10 @@ export class QeTechnicalDetailComponent implements OnInit {
     private $scanHistory: ScanHistoryHttpService,
     private $queue: QueueService
 
-  ) { }
+  ) {
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin');
+    this.userLogin = JSON.parse(userLoginStr);
+  }
 
   async ngOnInit(): Promise<void> {
     try {
@@ -33,10 +70,13 @@ export class QeTechnicalDetailComponent implements OnInit {
       p0 = p0.set('runNo', JSON.stringify([this.item.work.controlNo]))
       p0 = p0.set('conditionValue', JSON.stringify([this.item.condition.value]))
       p0 = p0.set('conditionName', JSON.stringify([this.item.condition.name]))
+      p0 = p0.set('queue_id', this.item._id)
       this.historyScan = await lastValueFrom(this.$scanHistory.get(p0))
+      this.loopPassInspec()
       if (this.historyScan?.length != 0) {
         this.item.scans = this.historyScan
-        this.loopPassInspec()
+      } else {
+        this.item.scans = []
       }
     } catch (error) {
       console.log("🚀 ~ error:", error)
@@ -52,7 +92,7 @@ export class QeTechnicalDetailComponent implements OnInit {
         e.preventDefault();
         if (!value) throw 'Code not correct'
         if (!this.equipments.some((eq: any) => eq.name == value)) throw 'Code not correct'
-        const scan = {
+        let scan: ScanHistory = {
           code: value,
           scanDate: new Date(),
           scanDateLocal: moment().toLocaleString(),
@@ -63,61 +103,16 @@ export class QeTechnicalDetailComponent implements OnInit {
           diff_hour: 0,
           diff_min: 0,
           total_hour: 0,
+          queue_id: this.item._id,
+          user: this.userLogin,
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
         if (action == 'in') {
-          if (this.item.scans && this.item.scans.length != 0) {
-            const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
-            if (lastItem?.action != action) {
-              this.item.scans.push(scan)
-              const res1 = await this.$scanHistory.insert(scan).toPromise()
-              this.clearInputAndFocus(inputId)
-            } else {
-              alert('Please Scan Out')
-              this.clearInputAndFocus(inputId)
-            }
-
-          } else {
-            this.item.scans = [scan]
-            const res1 = await this.$scanHistory.insert(scan).toPromise()
-            this.clearInputAndFocus(inputId)
-          }
+          this.scanIn(action, scan, value, inputId)
         }
         if (action == 'out') {
-          // scan.scanDate = moment(scan.scanDate).add('second', 360000).toDate() //! for test
-          if (this.item.scans && this.item.scans.length != 0) {
-            const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
-            if (lastItem?.action != action) {
-              let diff: number = moment(scan.scanDate).diff(lastItem.scanDate, 'second')
-              const diffObj = this.convertSecondsToHoursAndMinutes(diff)
-
-              scan.diff_hour = diffObj.hours
-              scan.diff_min = diffObj.minutes
-
-
-              this.item.scans.push(scan)
-              this.item.total_hour = this.item.scans.reduce((p: any, n: any) => {
-                if (n.action == 'out') {
-                  p += n.diff_hour
-                }
-                return p
-              }, 0)
-              scan.total_hour = this.item.total_hour
-              const res1 = await this.$scanHistory.insert(scan).toPromise()
-
-              const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
-              this.clearInputAndFocus(inputId)
-            } else {
-              alert('Please Scan In')
-              this.clearInputAndFocus(inputId)
-            }
-
-          } else {
-            this.item.scans = [scan]
-            const res1 = await this.$scanHistory.insert(scan).toPromise()
-            const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
-            this.clearInputAndFocus(inputId)
-          }
-          this.loopPassInspec()
+          this.scanOut(action, scan, value, inputId)
         }
       }
     } catch (error) {
@@ -128,22 +123,148 @@ export class QeTechnicalDetailComponent implements OnInit {
 
   }
 
-  loopPassInspec() {
-    let remain_hour: number = this.item.total_hour
-    for (let i = 0; i < this.item.inspectionTime.length; i++) {
-      const inspecItem = this.item.inspectionTime[i];
-      if (remain_hour > 0) {
-        remain_hour -= parseFloat(inspecItem.at)
-        if (remain_hour >= 0) {
-          inspecItem.pass = true
-        }
+  private async scanIn(action: string, scan: ScanHistory, value: string, inputId: string) {
+    if (this.item.scans && this.item.scans.length != 0) {
+      const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
+      if (lastItem?.action != action) {
+        this.item.scans.push(scan)
+        const res1 = await this.$scanHistory.insert(scan).toPromise()
+        this.clearInputAndFocus(inputId)
+      } else {
+        alert('Please Scan Out')
+        this.clearInputAndFocus(inputId)
       }
+
+    } else {
+      this.item.scans = [scan]
+      const res1 = await this.$scanHistory.insert(scan).toPromise()
+      this.item.total_hour = 0
+      if (this.item.inspectionTime[0].at == 0) {
+        this.item.inspectionTime[0].pass = true
+      }
+      const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+      this.clearInputAndFocus(inputId)
     }
   }
 
+  private async scanOut(action: string, scan: ScanHistory, value: string, inputId: string) {
+    try {
+      scan.scanDate = moment(scan.scanDate).add('second', 793000).toDate() //! for test
+      if (this.item.scans && this.item.scans.length != 0) { // เช็คว่าเป็นสแกนครั้งแรกไหม
+
+        const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
+        if (lastItem?.action != action) { // ครั้งล่าสุดไม่ใช่ output
+          let diff: number = moment(scan.scanDate).diff(lastItem.scanDate, 'second')
+          const diffObj = this.convertSecondsToHoursAndMinutes(diff)
+          scan.diff_hour = diffObj.hours
+          scan.diff_min = diffObj.minutes
+          // console.log("🚀 ~ scan:", scan)
+          this.item.scans.push(scan)
+          const res1 = await this.$scanHistory.insert(scan).toPromise()
+
+          // this.item.total_hour += scan.diff_hour
+          // const timeInspectNow = this.item.inspectionTime.find((time: any) => !time.pass)
+          // if (!timeInspectNow) throw 'No inspection time'
+          // const diffHr = Math.abs(timeInspectNow.at - this.item.total_hour)
+          // if (diffHr > 20) throw 'ไม่ครบกำหนด'
+          // this.item.total_hour -= scan.diff_hour
+          // scan.diff_hour = timeInspectNow.at
+          // scan.diff_min = 0
+          // this.item.total_hour += timeInspectNow.at
+
+          // console.log(this.item);
+          // console.log(scan);
+
+
+          // this.item.scans.push(scan)
+          // this.item.total_hour = this.item.scans.reduce((p: any, n: any) => {
+          //   if (n.action == 'out') {
+          //     p += n.diff_hour
+          //   }
+          //   return p
+          // }, 0)
+          // scan.total_hour = this.item.total_hour
+          // const res1 = await this.$scanHistory.insert(scan).toPromise()
+          // const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+          this.clearInputAndFocus(inputId)
+        } else {
+          alert('Please Scan In')
+          this.clearInputAndFocus(inputId)
+        }
+
+      } else {
+        this.item.scans = [scan]
+        const res1 = await this.$scanHistory.insert(scan).toPromise()
+        const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+        this.clearInputAndFocus(inputId)
+      }
+      this.loopPassInspec()
+    } catch (error) {
+      console.log("🚀 ~ error:", error)
+      Swal.fire(JSON.stringify(error), '', 'error')
+    }
+
+  }
+
+  async loopPassInspec() {
+    let p0: HttpParams = new HttpParams()
+    p0 = p0.set('runNo', JSON.stringify([this.item.work.controlNo]))
+    p0 = p0.set('conditionValue', JSON.stringify([this.item.condition.value]))
+    p0 = p0.set('conditionName', JSON.stringify([this.item.condition.name]))
+    p0 = p0.set('queue_id', this.item._id)
+    this.historyScan = await lastValueFrom(this.$scanHistory.get(p0))
+    if (this.historyScan?.length != 0) {
+      console.clear()
+      console.log(this.historyScan);
+
+      let times = this.item.inspectionTime.map((time: any) => time.at)
+
+      const total = this.historyScan.filter((his: any) => his.action == 'out').reduce((p: any, n: any) => {
+        p += n.diff_hour
+        console.log('p1', p);
+
+        const result = times.filter((time: any) => time === p || time <= (p + 20));
+        console.log(result);
+        if (result?.length != 0) {
+          if (result[result.length - 1] > p) {
+            p = result.pop()
+          }
+        }
+        console.log('p2', p);
+        return p
+      }, 0)
+      // console.log("🚀 ~ total:", total)
+      this.item.inspectionTime.forEach((item: any) => {
+        if (item.at <= total) {
+          item.pass = true
+        } else {
+          item.pass = false
+        }
+      });
+      // const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+    } else {
+      this.item.inspectionTime.forEach((item: any) => {
+        item.pass = false
+      });
+      console.log(this.item.inspectionTime);
+
+    }
+
+
+    // let remain_hour: number = this.item.total_hour
+    // for (let i = 0; i < this.item.inspectionTime.length; i++) {
+    //   const inspecItem = this.item.inspectionTime[i];
+    //   if (
+    //     (remain_hour - parseFloat(inspecItem.at)) >= 0
+    //   ) {
+    //     inspecItem.pass = true
+    //   }
+    // }
+  }
+
   convertSecondsToHoursAndMinutes(seconds: number) {
-    let hours = Math.floor(seconds / 3600);
-    let minutes = Math.floor((seconds % 3600) / 60);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
     return { hours, minutes }
   }
   clearInputAndFocus(inputId: string) {
