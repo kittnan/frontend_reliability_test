@@ -21,6 +21,8 @@ export class QeTechnicalDetailComponent implements OnInit {
   inputText = ''
   outputText = ''
 
+  inputId: any = ''
+
   constructor(
     private $scanHistory: ScanHistoryHttpService,
     private $queue: QueueService
@@ -34,10 +36,14 @@ export class QeTechnicalDetailComponent implements OnInit {
       p0 = p0.set('conditionValue', JSON.stringify([this.item.condition.value]))
       p0 = p0.set('conditionName', JSON.stringify([this.item.condition.name]))
       this.historyScan = await lastValueFrom(this.$scanHistory.get(p0))
-      if (this.historyScan?.length != 0) {
-        this.item.scans = this.historyScan
-        this.loopPassInspec()
-      }
+      this.item.scans = this.historyScan
+
+      // this.item.inspectionTime.map((inspec: any) => {
+      //   inspec.pass = false
+      // })
+      // if (this.historyScan.length != 0) {
+      //   this.loopPassInspec()
+      // }
     } catch (error) {
       console.log("🚀 ~ error:", error)
 
@@ -46,17 +52,21 @@ export class QeTechnicalDetailComponent implements OnInit {
   }
   async scan(e: any, action: string, inputId: string) {
     try {
+      this.inputId = inputId
       if (e.key == 'Enter' || e.key == 'Tab') {
         let value: string = e.target.value
         value = value.trim()
         e.preventDefault();
         if (!value) throw 'Code not correct'
         if (!this.equipments.some((eq: any) => eq.name == value)) throw 'Code not correct'
-        const scan = {
+
+        const stage = this.item.inspectionTime.filter((a: any) => !a.pass).sort((a: any, b: any) => a.at - b.at)[0]
+        if (!stage) throw 'no stage match'
+        const scanNow = {
           code: value,
           scanDate: new Date(),
           scanDateLocal: moment().toLocaleString(),
-          // at: inspec.at,
+          stage: stage.at,
           runNo: this.item.work.controlNo,
           condition: this.item.condition,
           action: action,
@@ -64,81 +74,180 @@ export class QeTechnicalDetailComponent implements OnInit {
           diff_min: 0,
           total_hour: 0,
         }
-        if (action == 'in') {
-          if (this.item.scans && this.item.scans.length != 0) {
-            const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
-            if (lastItem?.action != action) {
-              this.item.scans.push(scan)
-              const res1 = await this.$scanHistory.insert(scan).toPromise()
-              this.clearInputAndFocus(inputId)
-            } else {
-              alert('Please Scan Out')
-              this.clearInputAndFocus(inputId)
-            }
 
+        if (this.item.scans && this.item.scans.length != 0) {
+          const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
+          if (lastItem?.action != action) {
+            this.scanHistory(scanNow, action)
           } else {
-            this.item.scans = [scan]
-            const res1 = await this.$scanHistory.insert(scan).toPromise()
+            alert('Please Scan Out')
             this.clearInputAndFocus(inputId)
           }
+
+        } else {
+          this.scanNoHistory(scanNow, action, stage)
         }
-        if (action == 'out') {
-          // scan.scanDate = moment(scan.scanDate).add('second', 360000).toDate() //! for test
-          if (this.item.scans && this.item.scans.length != 0) {
-            const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
-            if (lastItem?.action != action) {
-              let diff: number = moment(scan.scanDate).diff(lastItem.scanDate, 'second')
-              const diffObj = this.convertSecondsToHoursAndMinutes(diff)
-
-              scan.diff_hour = diffObj.hours
-              scan.diff_min = diffObj.minutes
 
 
-              this.item.scans.push(scan)
-              this.item.total_hour = this.item.scans.reduce((p: any, n: any) => {
-                if (n.action == 'out') {
-                  p += n.diff_hour
-                }
-                return p
-              }, 0)
-              scan.total_hour = this.item.total_hour
-              const res1 = await this.$scanHistory.insert(scan).toPromise()
 
-              const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
-              this.clearInputAndFocus(inputId)
-            } else {
-              alert('Please Scan In')
-              this.clearInputAndFocus(inputId)
-            }
+        // const scan = {
+        //   code: value,
+        //   scanDate: new Date(),
+        //   scanDateLocal: moment().toLocaleString(),
+        //   // at: inspec.at,
+        //   runNo: this.item.work.controlNo,
+        //   condition: this.item.condition,
+        //   action: action,
+        //   diff_hour: 0,
+        //   diff_min: 0,
+        //   total_hour: 0,
+        // }
+        // if (action == 'in') {
+        //   if (this.item.scans && this.item.scans.length != 0) { // ! have scans history
+        //     const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
+        //     if (lastItem?.action != action) {
+        //       this.item.scans.push(scan)
+        //       const res1 = await this.$scanHistory.insert(scan).toPromise()
+        //       this.clearInputAndFocus(inputId)
+        //     } else {
+        //       alert('Please Scan Out')
+        //       this.clearInputAndFocus(inputId)
+        //     }
 
-          } else {
-            this.item.scans = [scan]
-            const res1 = await this.$scanHistory.insert(scan).toPromise()
-            const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
-            this.clearInputAndFocus(inputId)
-          }
-          this.loopPassInspec()
-        }
+        //   } else { // ! no have scans history
+        //     this.item.scans = [scan]
+        //     const res1 = await this.$scanHistory.insert(scan).toPromise()
+        //     this.clearInputAndFocus(inputId)
+        //   }
+        // }
+        // if (action == 'out') {
+        //   // scan.scanDate = moment(scan.scanDate).add('second', 360000).toDate() //! for test
+        //   if (this.item.scans && this.item.scans.length != 0) {
+        //     const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
+        //     if (lastItem?.action != action) {
+        //       let diff: number = moment(scan.scanDate).diff(lastItem.scanDate, 'second')
+        //       const diffObj = this.convertSecondsToHoursAndMinutes(diff)
+
+        //       scan.diff_hour = diffObj.hours
+        //       scan.diff_min = diffObj.minutes
+
+
+        //       this.item.scans.push(scan)
+        //       this.item.total_hour = this.item.scans.reduce((p: any, n: any) => {
+        //         if (n.action == 'out') {
+        //           p += n.diff_hour
+        //         }
+        //         return p
+        //       }, 0)
+        //       scan.total_hour = this.item.total_hour
+        //       const res1 = await this.$scanHistory.insert(scan).toPromise()
+
+        //       const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+        //       this.clearInputAndFocus(inputId)
+        //     } else {
+        //       alert('Please Scan In')
+        //       this.clearInputAndFocus(inputId)
+        //     }
+
+        //   } else {
+        //     this.item.scans = [scan]
+        //     const res1 = await this.$scanHistory.insert(scan).toPromise()
+        //     const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+        //     this.clearInputAndFocus(inputId)
+        //   }
+        //   this.loopPassInspec()
+        // }
       }
     } catch (error) {
       alert(error)
       this.clearInputAndFocus(inputId)
       console.log("🚀 ~ error:", error)
     }
-
   }
 
-  loopPassInspec() {
-    let remain_hour: number = this.item.total_hour
-    for (let i = 0; i < this.item.inspectionTime.length; i++) {
-      const inspecItem = this.item.inspectionTime[i];
-      if (remain_hour > 0) {
-        remain_hour -= parseFloat(inspecItem.at)
-        if (remain_hour >= 0) {
-          inspecItem.pass = true
-        }
+  scanHistory(scanNow: any, action: any) {
+    if (action === 'in') {
+      this.scanHistoryIn(scanNow)
+    } else
+      if (action === 'out') {
+        this.scanHistoryOut(scanNow)
       }
-    }
+  }
+  async scanHistoryIn(scanNow: any) {
+    const res1 = await this.$scanHistory.insert(scanNow).toPromise()
+    this.item.scans.push(scanNow)
+    this.clearInputAndFocus(this.inputId)
+  }
+  scanHistoryOut(scanNow: any) {
+    // console.clear()
+    // scanNow.scanDate = moment(scanNow.scanDate).add('second', 360000).toDate() //! for test
+    // const lastItem = this.item.scans.filter((scan: any) => scan.code == scanNow.code && scan.action === 'in').pop()
+    // let diff: number = moment(scanNow.scanDate).diff(lastItem.scanDate, 'second')
+    // const diffObj = this.convertSecondsToHoursAndMinutes(diff)
+    // scanNow.diff_hour = diffObj.hours
+    // scanNow.diff_min = diffObj.minutes
+
+    // console.log(scanNow);
+    // console.log(this.item);
+
+    // const stage = this.item.inspectionTime.filter((a: any) => !a.pass).sort((a: any, b: any) => a.at - b.at)[0]
+    // console.log("🚀 ~ stage:", stage)
+
+    // if (scanNow.diff_hour >= stage.at) {
+    //   stage.pass = true
+    //   scanNow.total_hour = stage.at
+    //   // todo stage pass
+    // } else if ((scanNow.diff_hour + 20) >= stage.at) {
+    //   stage.pass = true
+    //   scanNow.total_hour = stage.at
+    //   // todo stage pass
+    // } else {
+
+    // }
+  }
+
+  async scanNoHistory(scanNow: any, action: any, stage: any) {
+    if (action === 'in') {
+      console.log(this.item);
+      if (stage.at === 0) {
+        stage.pass = true
+        const res1 = await this.$scanHistory.insert(scanNow).toPromise()
+        this.item.scans.push(scanNow)
+        const res2 = await this.$queue.update(this.item._id, this.item).toPromise()
+        this.clearInputAndFocus(this.inputId)
+      } else {
+        const res1 = await this.$scanHistory.insert(scanNow).toPromise()
+        this.item.scans.push(scanNow)
+        this.clearInputAndFocus(this.inputId)
+      }
+
+
+    } else
+      if (action === 'out') {
+        alert('Please scan in')
+        this.clearInputAndFocus(this.inputId)
+      }
+  }
+
+
+
+  loopPassInspec() {
+    console.log(this.item.scans);
+
+    this.item.inspectionTime.map((inspec: any) => {
+      console.log(inspec);
+
+    })
+    // let remain_hour: number = this.item.total_hour
+    // for (let i = 0; i < this.item.inspectionTime.length; i++) {
+    //   const inspecItem = this.item.inspectionTime[i];
+    //   if (remain_hour > 0) {
+    //     remain_hour -= parseFloat(inspecItem.at)
+    //     if (remain_hour >= 0) {
+    //       inspecItem.pass = true
+    //     }
+    //   }
+    // }
   }
 
   convertSecondsToHoursAndMinutes(seconds: number) {

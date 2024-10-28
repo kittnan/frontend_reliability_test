@@ -45,22 +45,22 @@ export class QeTechnicalRequestComponent implements OnInit {
         const { id, editPlan } = params;
         const resData = await this.$request.get_id(id).toPromise();
         this.request = resData[0];
-        const resScan = await this.$scanHistory.get(new HttpParams().set('runNo', JSON.stringify([this.request.step1.controlNo]))).toPromise()
-        this.request.queues = this.request.queues.map((a: any) => {
-          a['inspectionTime'] = a['inspectionTime'].map((b: any) => {
+        // const resScan = await this.$scanHistory.get(new HttpParams().set('runNo', JSON.stringify([this.request.step1.controlNo]))).toPromise()
+        // this.request.queues = this.request.queues.map((a: any) => {
+        //   a['inspectionTime'] = a['inspectionTime'].map((b: any) => {
 
-            const historyScanInput = resScan.filter((scan: any) => scan.at == b.at && scan.status == 'in' && scan.condition.name == a.condition.name)
+        //     const historyScanInput = resScan.filter((scan: any) => scan.at == b.at && scan.status == 'in' && scan.condition.name == a.condition.name)
 
-            const historyScanOutput = resScan.filter((scan: any) => scan.at == b.at && scan.status == 'out' && scan.condition.name == a.condition.name)
+        //     const historyScanOutput = resScan.filter((scan: any) => scan.at == b.at && scan.status == 'out' && scan.condition.name == a.condition.name)
 
-            return {
-              ...b,
-              input: historyScanInput ? historyScanInput : [],
-              output: historyScanOutput ? historyScanOutput : [],
-            }
-          })
-          return a
-        })
+        //     return {
+        //       ...b,
+        //       input: historyScanInput ? historyScanInput : [],
+        //       output: historyScanOutput ? historyScanOutput : [],
+        //     }
+        //   })
+        //   return a
+        // })
       });
     } catch (error) {
       console.log('🚀 ~ error:', error);
