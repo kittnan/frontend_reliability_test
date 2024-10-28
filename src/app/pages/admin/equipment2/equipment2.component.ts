@@ -12,9 +12,11 @@ import { EquipmentHttpService } from 'src/app/http/equipment-http.service';
 })
 export class Equipment2Component implements OnInit {
 
-  displayedColumns: string[] = ['name', 'imgs', 'action'];
-  dataSource: MatTableDataSource<any> = new MatTableDataSource();
+  // displayedColumns: string[] = ['name', 'imgs', 'action'];
+  // dataSource: MatTableDataSource<any> = new MatTableDataSource();
+  dataSet: any = []
   img: any
+  preview: string = ''
   constructor(
     private $equipment: EquipmentHttpService,
     private router: Router
@@ -25,8 +27,10 @@ export class Equipment2Component implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       const resData: any = await lastValueFrom(this.$equipment.get(new HttpParams()))
-      console.log("🚀 ~ resData:", resData)
-      this.dataSource = new MatTableDataSource(resData)
+      this.dataSet = resData.map((item: any) => {
+        item.preview = item.imgs.length != 0 ? item.imgs[0].path : ''
+        return item
+      })
     } catch (error) {
       console.log("🚀 ~ error:", error)
     }
@@ -42,20 +46,27 @@ export class Equipment2Component implements OnInit {
       }
     })
   }
-  // ฟังก์ชันสำหรับเปิดป๊อปอัป
-  openPopup(img: any): void {
-    const popup = document.getElementById('popup') as HTMLElement;
-    if (popup) {
-      this.img = img
-      popup.style.display = 'flex'; // แสดงป๊อปอัป
+  // // ฟังก์ชันสำหรับเปิดป๊อปอัป
+  // openPopup(img: any): void {
+  //   const popup = document.getElementById('popup') as HTMLElement;
+  //   if (popup) {
+  //     this.img = img
+  //     popup.style.display = 'flex'; // แสดงป๊อปอัป
+  //   }
+  // }
+  openDialog(src: string) {
+    let div: any = document.getElementById("imageDialog")
+    if (div) {
+      this.preview = src
+      div.style.display = "block";
     }
   }
 
-  // ฟังก์ชันสำหรับปิดป๊อปอัป
-  closePopup(): void {
-    const popup = document.getElementById('popup') as HTMLElement;
-    if (popup) {
-      popup.style.display = 'none'; // ซ่อนป๊อปอัป
+  closeDialog() {
+    let div: any = document.getElementById("imageDialog")
+    if (div) {
+      div.style.display = "none";
+      this.preview = ''
     }
   }
 

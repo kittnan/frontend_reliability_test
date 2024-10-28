@@ -21,5 +21,10 @@ export class EquipmentHttpService {
   createOrUpdate(data: any): Observable<any> {
     return this.http.post(`${this.URL}/${this.sub}/createOrUpdate`, data)
   }
+  deleteById(_id: any): Observable<any> {
+    return this.http.delete(`${this.URL}/${this.sub}/deleteById`, {
+      params: _id
+    })
+  }
 
 }

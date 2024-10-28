@@ -2,27 +2,105 @@
 
   <div fxFlex.gt-md="60" fxFlex="95" fxLayout="row wrap" fxLayoutAlign="start stretch" class="content-item mt-2">
     <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between stretch">
-      <button mat-raised-button color="accent" (click)="back()">
-        Back
-      </button>
-      <button mat-raised-button color="primary" (click)="save()">
-        Save
-      </button>
-    </div>
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Code</mat-label>
-        <input matInput [(ngModel)]="item.name">
-      </mat-form-field>
-      <input type="file" (change)="upload($event)">
-    </div>
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
-      <ng-container *ngFor="let img of item.imgs; let i=index">
-        <div class="image-container">
-          <img [src]="img.path" alt="">
-          <span class="close-btn" (click)="delete(img)">&times;</span>
+      <button mat-button color="primary" (click)="back()">
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="5">
+          <span class="material-symbols-outlined">
+            arrow_back
+          </span>
+          <span>
+            Back
+          </span>
         </div>
-      </ng-container>
+      </button>
+      <button mat-button color="warn" (click)="deleteEquipment()" style="width: 140px;">
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="5">
+          <span class="material-symbols-outlined">
+            cancel
+          </span>
+          <span>
+            Delete
+          </span>
+        </div>
+      </button>
     </div>
+
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start">
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10" style="width: 500px;">
+        <label for="" class="equipment-new-label" style="width: 120px;">
+          Code
+        </label>
+        <mat-form-field fxFlex="fill" class="example-full-width" appearance="legacy">
+          <mat-label></mat-label>
+          <input matInput [(ngModel)]="item.name">
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start">
+      <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10" style="width: 500px;">
+        <label for="" class="equipment-new-label" style="width: 120px;">
+          Description
+        </label>
+        <mat-form-field class="example-full-width" style="width: 350px;" appearance="fill">
+          <mat-label></mat-label>
+          <textarea matInput [(ngModel)]="item.description" [rows]="10"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start">
+      <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10" style="width: 500px;">
+        <label for="" class="equipment-new-label" style="width: 120px;">
+          Upload
+        </label>
+        <button mat-button (click)="inputFile.click()">
+          <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="5">
+            <span class="material-symbols-outlined">
+              add_photo_alternate
+            </span>
+          </div>
+        </button>
+        <input #inputFile hidden type="file" accept="image/*" (change)="upload($event)">
+      </div>
+    </div>
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" style="margin-top: 1rem;">
+      <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10" style="width: 500px;">
+        <label for="" class="equipment-new-label" style="width: 120px;">
+          Images
+        </label>
+        <ng-container *ngFor="let img of item.imgs; let i=index">
+          <div class="image-container">
+            <img [src]="img.path" alt="" (click)="openDialog(img.path)">
+            <button class="delete-button" (click)="delete(img)">
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" style="margin-top: 3rem;">
+      <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10" style="width: 500px;">
+        <label for="" class="equipment-new-label" style="width: 120px;">
+        </label>
+        <button mat-raised-button color="primary" (click)="save()" style="width: 350px;">
+          <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="5">
+            <span class="material-symbols-outlined">
+              save
+            </span>
+            <span>
+              Save
+            </span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog สำหรับแสดงรูปขยาย -->
+<div id="imageDialog" class="dialog" (click)="closeDialog()">
+  <div class="dialog-content">
+    <span class="close-button" (click)="closeDialog()">&times;</span>
+    <img [src]="preview" alt="Expanded Image" class="full-screen-image">
   </div>
 </div>
