@@ -96,7 +96,6 @@
         <col width="200px">
         <col width="200px">
         <col width="150px">
-        <col width="100px">
       </colgroup>
       <thead>
         <tr>
@@ -113,11 +112,9 @@
             Date
           </th>
           <th>
-            Diff Time
+            Stage
           </th>
-          <th>
-            Total time
-          </th>
+
         </tr>
       </thead>
       <tbody>
@@ -129,40 +126,24 @@
             <td style="text-align: center;">
               {{ scan.scanDate | date : "dd-MMM-YY, HH:mm:ss" }}
             </td>
-            <td>
-              Hour: {{scan.diff_hour}} Min: {{scan.diff_min}}
+            <td style="text-align: end;">
+              {{scan.stage}}
             </td>
-            <td>
-              Hour: {{scan.total_hour}}
-            </td>
+
           </tr>
         </ng-container>
       </tbody>
+      <tfoot class="tfoot-sum">
+        <tr>
+          <td>
+            Total
+          </td>
+          <td></td>
+          <td style="text-align: end;">
+            {{item.total_hour}}
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </div>
-
-  <!-- <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start"
-    *ngFor="let inspec of item.inspectionTime; let i_inspec = index" style="margin: 5px 0">
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20">
-      <div fxLayoutAlign="start center">
-        <label for="">Inspection Time : </label>
-        <span class="text-bold" style="color: rgb(255, 121, 32)">
-          {{ inspec.at }}
-        </span>
-      </div>
-      <div fxLayoutAlign="start center">
-        <label for="">Start Date : </label>
-        <span class="text-bold" style="color: blue">
-          {{ inspec.startDate | date : "dd-MMM-YY, HH:mm:ss" }}
-        </span>
-      </div>
-      <div fxLayoutAlign="start center">
-        <label for="">End Date : </label>
-        <span class="text-bold" style="color: blue">
-          {{ inspec.endDate | date : "dd-MMM-YY, HH:mm:ss" }}
-        </span>
-      </div>
-    </div>
-    <mat-divider fxFlex="100" style="margin: 10px"></mat-divider>
-  </div> -->
 </div>
