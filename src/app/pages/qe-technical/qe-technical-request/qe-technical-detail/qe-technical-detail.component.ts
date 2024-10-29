@@ -4,6 +4,40 @@ import * as moment from 'moment';
 import { lastValueFrom } from 'rxjs';
 import { QueueService } from 'src/app/http/queue.service';
 import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
+import Swal from 'sweetalert2';
+
+export interface ScanHistory {
+  code: string,
+  scanDate: Date,
+  scanDateLocal: string,
+  // at: inspec.at,
+  runNo: string,
+  condition: {
+    value: string,
+    name: string
+  },
+  action: string,
+  diff_hour: number,
+  diff_min: number,
+  total_hour: number,
+  queue_id: string,
+  user: {
+    _id: string,
+    authorize: string[],
+    createdAt: string,
+    createdBy: string,
+    department: string,
+    email: string,
+    employee_ID: string,
+    name: string,
+    password: string,
+    username: string,
+    updatedAt: string,
+    section: string[],
+  },
+  createdAt: Date,
+  updatedAt: Date,
+}
 
 @Component({
   selector: 'app-qe-technical-detail',
@@ -11,7 +45,7 @@ import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
   styleUrls: ['./qe-technical-detail.component.scss']
 })
 export class QeTechnicalDetailComponent implements OnInit {
-
+  userLogin: any
   @Input() index!: number
   @Input() item: any;
   @Input() equipments: any;
@@ -27,7 +61,10 @@ export class QeTechnicalDetailComponent implements OnInit {
     private $scanHistory: ScanHistoryHttpService,
     private $queue: QueueService
 
-  ) { }
+  ) {
+    let userLoginStr: any = localStorage.getItem('RLS_userLogin');
+    this.userLogin = JSON.parse(userLoginStr);
+  }
 
   async ngOnInit(): Promise<void> {
     try {
@@ -35,6 +72,7 @@ export class QeTechnicalDetailComponent implements OnInit {
       p0 = p0.set('runNo', JSON.stringify([this.item.work.controlNo]))
       p0 = p0.set('conditionValue', JSON.stringify([this.item.condition.value]))
       p0 = p0.set('conditionName', JSON.stringify([this.item.condition.name]))
+      p0 = p0.set('queue_id', this.item._id)
       this.historyScan = await lastValueFrom(this.$scanHistory.get(p0))
       this.item.scans = this.historyScan
 
@@ -73,6 +111,10 @@ export class QeTechnicalDetailComponent implements OnInit {
           diff_hour: 0,
           diff_min: 0,
           total_hour: 0,
+          queue_id: this.item._id,
+          user: this.userLogin,
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
 
         const lastItem = this.item.scans.filter((scan: any) => scan.code == value).pop()
@@ -137,9 +179,8 @@ export class QeTechnicalDetailComponent implements OnInit {
         }
       }
     } catch (error) {
-      alert(error)
-      this.clearInputAndFocus(inputId)
       console.log("🚀 ~ error:", error)
+      Swal.fire(JSON.stringify(error), '', 'error')
     }
   }
 
@@ -150,8 +191,8 @@ export class QeTechnicalDetailComponent implements OnInit {
 
 
   convertSecondsToHoursAndMinutes(seconds: number) {
-    let hours = Math.floor(seconds / 3600);
-    let minutes = Math.floor((seconds % 3600) / 60);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
     return { hours, minutes }
   }
   clearInputAndFocus(inputId: string) {

@@ -2,14 +2,6 @@
   <div *ngIf="request" #content fxFlex.gt-md="80" fxFlex.lt-md="100" fxLayoutAlign="center stretch" fxLayout="row wrap"
     class="mtb-4">
     <a id="top"></a>
-
-    <!-- <button mat-raised-button (click)="generateCover()">
-      <div fxLayout="row wrap" fxLayoutAlign="center center">
-        Cover report
-      </div>
-    </button> -->
-
-
     <app-views fxFlex="100" [formInput]="request" [showReport]="false"></app-views>
 
     <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" class="content-item">
@@ -35,7 +27,6 @@
         </mat-accordion>
       </div>
     </div>
-
     <a id="down"></a>
   </div>
 </div>

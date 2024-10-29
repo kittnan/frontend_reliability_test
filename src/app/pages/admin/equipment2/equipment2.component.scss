@@ -1,33 +1,138 @@
-.popup-container {
+.content-item2 {
+  // --tw-bg-opacity: 1 !important;
+  // background-color: rgb(232 232 232 / var(--tw-bg-opacity)) !important;
+  background-color: azure;
+  border-radius: 5px;
+  margin-bottom: 5rem;
+}
+
+.dialog {
   display: none;
   position: fixed;
-  top: 0;
+  z-index: 1000;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
 }
 
-.popup-image {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
+.dialog-content {
+  position: relative;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80%;
+  max-width: 800px;
+  text-align: center;
+  background: none;
 }
 
-.close-popup {
+.full-screen-image {
+  width: 80%;
+  height: auto;
+}
+
+.close-button {
   position: absolute;
-  top: 20px;
-  right: 40px;
-  font-size: 40px;
+  top: 10px;
+  right: 95px;
+  font-size: 30px;
   color: white;
   cursor: pointer;
 }
 
-.thumbnail {
-  width: 150px;
+.close-button:hover {
+  color: red;
+}
+
+
+
+/* From Uiverse.io by KSAplay */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 220px;
+  height: 350px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  margin: 3rem;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid;
+  border: 2px #00a98c solid;
+}
+
+.edit-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #00a98c; /* สีพื้นหลังของปุ่ม */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
   cursor: pointer;
-  margin: 20px;
+  font-size: 10px;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+.edit-button:hover {
+  background-color: #007d65; /* สีเมื่อ hover */
+}
+/* Landscape section */
+.landscape-section {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+  cursor: pointer;
+
+}
+
+.landscape-section * {
+  position: absolute;
+}
+
+/* Content section */
+.content-section {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.forecast {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+  padding: 10px 25px;
+}
+
+.forecast>div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: lightslategray;
+  font-size: 9pt;
+}
+
+.forecast>div>.title {
+  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 1px;
 }
