@@ -11,6 +11,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { QeTechnicalRequestComponent } from './qe-technical-request/qe-technical-request.component';
 import { QeTechnicalDetailComponent } from './qe-technical-request/qe-technical-detail/qe-technical-detail.component';
+import { QeTechnicalEquipmentControlComponent } from './qe-technical-equipment-control/qe-technical-equipment-control.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { QeTechnicalDetailComponent } from './qe-technical-request/qe-technical-
     QeTechnicalComponent,
     QeTechnicalManageComponent,
     QeTechnicalRequestComponent,
-    QeTechnicalDetailComponent
+    QeTechnicalDetailComponent,
+    QeTechnicalEquipmentControlComponent,
   ],
   imports: [
     CommonModule,

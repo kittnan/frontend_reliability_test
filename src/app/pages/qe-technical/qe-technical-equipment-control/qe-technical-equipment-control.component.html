@@ -1,0 +1,53 @@
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center stretch" class="over-flow">
+
+
+
+  <div fxFlex.gt-md="95" fxFlex="95" fxLayout="row wrap" fxLayoutAlign="space-around start" fxLayoutGap="10"
+    class="content-item2 mt-2">
+
+
+    <ng-container *ngFor="let item of dataSet; let i=index">
+      <div class="card">
+        <!-- <button class="edit-button" (click)="edit(item)">
+          <span class="material-icons-outlined">
+            edit
+          </span>
+        </button> -->
+        <button *ngIf="item.active" class="dot-status" matTooltip="Toggle To No Active" (click)="onActive(item)">
+          <span class="material-icons-outlined">
+            radio_button_checked
+          </span>
+        </button>
+        <button *ngIf="!item.active" class="dot-status dot-status-false" matTooltip="Toggle To Active" (click)="onActive(item)">
+          <span class="material-icons-outlined">
+            radio_button_unchecked
+          </span>
+        </button>
+        <section (click)="openDialog(item.preview)" [ngClass]="{'filter-op': !item.active}" class="landscape-section"
+          [ngStyle]="{'background-image': 'url(' + item.preview + ')'}">
+        </section>
+        <section class="content-section">
+          <div class="forecast">
+            <div>
+              <p class="title">{{item.name}}</p>
+            </div>
+            <div>
+              <p>
+                {{item.description}}
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </ng-container>
+
+  </div>
+
+
+</div>
+<div id="imageDialog" class="dialog" (click)="closeDialog()">
+  <div class="dialog-content">
+    <span class="close-button" (click)="closeDialog()">&times;</span>
+    <img [src]="preview" alt="Expanded Image" class="full-screen-image">
+  </div>
+</div>

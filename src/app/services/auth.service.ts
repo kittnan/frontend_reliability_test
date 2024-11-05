@@ -9,7 +9,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class AuthService {
   filter$!: Observable<any>;
-  constructor(private _user_service: UserHttpService) {}
+  constructor(private _user_service: UserHttpService) { }
 
   getToken() {
     const token = localStorage.getItem('RLS_token');
@@ -74,6 +74,17 @@ export class AuthService {
   getAuthorizeGuest() {
     if (localStorage.getItem('RLS_authorize') == 'guest') return true;
     if (localStorage.getItem('RLS_authorize') == 'admin') return true;
+
+    return false;
+  }
+  getAuthorizeQESection() {
+    if (localStorage.getItem('RLS_authorize') == 'admin') return true;
+    if (localStorage.getItem('RLS_authorize') == 'qe_engineer') return true;
+    if (localStorage.getItem('RLS_authorize') == 'qe_engineer2') return true;
+    if (localStorage.getItem('RLS_authorize') == 'qe_window_person') return true;
+    if (localStorage.getItem('RLS_authorize') == 'qe_section_head') return true;
+    if (localStorage.getItem('RLS_authorize') == 'qe_department_head') return true;
+    if (localStorage.getItem('RLS_authorize') == 'qe_technical') return true;
 
     return false;
   }

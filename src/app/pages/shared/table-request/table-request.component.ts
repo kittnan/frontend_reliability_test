@@ -774,4 +774,20 @@ export class TableRequestComponent implements OnInit {
     //   });
     // }
   }
+
+  allowQEAuth(auth: string) {
+    let status = ['qe_window_person_report', 'qe_window_person', 'qe_section_head', 'qe_engineer', 'qe_engineer2', 'qe_department_head', 'qe_technical']
+    if (status.some((s: any) => s == auth)) return true
+    return false
+  }
+  allowNormal(auth: string) {
+    let status = ['request', 'request_approve']
+    if (status.some((s: any) => s == auth)) return true
+    return false
+  }
+  allowQETechnical(auth: string) {
+    let status = ['qe_technical']
+    if (status.some((s: any) => s == auth)) return true
+    return false
+  }
 }

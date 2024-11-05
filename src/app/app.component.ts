@@ -250,27 +250,27 @@ export class AppComponent {
             },
           ],
         },
-        {
-          title: 'operate',
-          icon: 'hardware',
-          items: [
-            {
-              path: '/admin/operate-group',
-              icon: 'home_repair_service',
-              title: 'group',
-            },
-            {
-              path: '/admin/operate-items',
-              icon: 'hardware',
-              title: 'items',
-            },
-            {
-              path: '/admin/equipment',
-              icon: 'hardware',
-              title: 'equipments',
-            },
-          ],
-        },
+        // {
+        //   title: 'operate',
+        //   icon: 'hardware',
+        //   items: [
+        //     {
+        //       path: '/admin/operate-group',
+        //       icon: 'home_repair_service',
+        //       title: 'group',
+        //     },
+        //     {
+        //       path: '/admin/operate-items',
+        //       icon: 'hardware',
+        //       title: 'items',
+        //     },
+        //     {
+        //       path: '/admin/equipment',
+        //       icon: 'hardware',
+        //       title: 'equipments',
+        //     },
+        //   ],
+        // },
         {
           title: 'approver',
           icon: 'diversity_3',
@@ -301,12 +301,17 @@ export class AppComponent {
 
         {
           title: 'equipment',
-          icon: 'diversity_3',
+          icon: 'hardware',
           items: [
             {
               path: '/admin/equipment2',
-              icon: 'group',
-              title: 'equipment',
+              icon: 'settings',
+              title: 'manage',
+            },
+            {
+              path: '/qe-technical/equipment-control',
+              icon: 'settings_input_component',
+              title: 'monitor',
             },
           ],
         },
@@ -419,6 +424,17 @@ export class AppComponent {
             },
           ],
         },
+        {
+          title: 'equipment',
+          icon: 'hardware',
+          items: [
+            {
+              path: '/qe-technical/equipment-control',
+              icon: 'settings_input_component',
+              title: 'monitor',
+            },
+          ],
+        },
       ];
     }
     if (this.authorize == 'qe_engineer' || this.authorize == 'qe_engineer2') {
@@ -452,6 +468,17 @@ export class AppComponent {
               path: '/qe-engineer/revises-table',
               icon: 'feed',
               title: 'revises-plan',
+            },
+          ],
+        },
+        {
+          title: 'equipment',
+          icon: 'hardware',
+          items: [
+            {
+              path: '/qe-technical/equipment-control',
+              icon: 'settings_input_component',
+              title: 'monitor',
             },
           ],
         },
@@ -491,6 +518,17 @@ export class AppComponent {
             },
           ],
         },
+        {
+          title: 'equipment',
+          icon: 'hardware',
+          items: [
+            {
+              path: '/qe-technical/equipment-control',
+              icon: 'settings_input_component',
+              title: 'monitor',
+            },
+          ],
+        },
       ];
     }
     if (this.authorize == 'qe_department_head') {
@@ -503,6 +541,17 @@ export class AppComponent {
               path: '/qe-department-head',
               icon: 'home',
               title: 'manage',
+            },
+          ],
+        },
+        {
+          title: 'equipment',
+          icon: 'hardware',
+          items: [
+            {
+              path: '/qe-technical/equipment-control',
+              icon: 'settings_input_component',
+              title: 'monitor',
             },
           ],
         },
@@ -553,6 +602,18 @@ export class AppComponent {
             },
           ],
         },
+        {
+          title: 'equipment',
+          icon: 'hardware',
+          items: [
+            {
+              path: '/qe-technical/equipment-control',
+              icon: 'settings_input_component',
+              title: 'monitor',
+            },
+          ],
+        },
+
       ];
     }
   }

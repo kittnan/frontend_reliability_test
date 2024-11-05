@@ -1,4 +1,6 @@
 <ng-container>
+  <app-files-report *ngIf="form && form.queues && showReport" [form]="form" [queues]="form.queues"
+  [show]="false"></app-files-report>
   <app-step1 *ngIf="step1 && show1" [(step1)]="step1"></app-step1>
   <app-step2 *ngIf="step2 && show2" [(step2)]="step2"></app-step2>
   <app-step3 *ngIf="step3 && show3" [(step3)]="step3"></app-step3>
@@ -6,8 +8,7 @@
   <app-step5 *ngIf="step5 && show5" [(step5)]="step5"></app-step5>
   <app-plan-reliability-test id="foo" *ngIf="form &&form.table &&showTest" [requestForm]="[form]"
   [queues]="form.table"></app-plan-reliability-test>
-  <app-files-report *ngIf="form && form.queues && showReport" [form]="form" [queues]="form.queues"
-  [show]="false"></app-files-report>
   <app-view-log *ngIf="form._id" [formId]="form._id"></app-view-log>
   <app-comment *ngIf="showComment" [comment]="form.comment"></app-comment>
+  <app-actual-detail *ngIf="showActual" [queues]="form.queues"></app-actual-detail>
 </ng-container>

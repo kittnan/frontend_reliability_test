@@ -142,7 +142,85 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="btn">
+          <ng-container *ngIf="authorize == 'admin'">
+            <ng-container matColumnDef="btn">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let row" style="padding: 0 !important">
+                <button mat-icon-button color="primary" (click)="onClickView(row)">
+                  <span class="material-icons-outlined"> zoom_in </span>
+                </button>
+                <button mat-icon-button color="primary" (click)="onClickViewNewTab(row)">
+                  <span class="material-icons-outlined"> open_in_new </span>
+                </button>
+                <button [disabled]="row.level < 7" mat-icon-button color="primary" (click)="onDownload(row)">
+                  <span class="material-icons-outlined"> file_download </span>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="onClickToggleFollowUp(row)">
+                    <mat-icon class="material-icons-outlined">
+                      notifications
+                    </mat-icon>
+                    <span>Notifications</span>
+                  </button>
+                  <button *ngIf="validQeWindowAuth()" mat-menu-item (click)="onClickGeneratePlan(row)">
+                    <mat-icon>insert_invitation</mat-icon>
+                    <span>Generate plan</span>
+                  </button>
+                  <button mat-menu-item (click)="onClickEditPlan(row)">
+                    <mat-icon>edit_calendar</mat-icon>
+                    <span>Edit plan</span>
+                  </button>
+                  <button mat-menu-item (click)="onClickActualPlan(row)">
+                    <mat-icon>edit_calendar</mat-icon>
+                    <span>Actual plan</span>
+                  </button>
+                  <button mat-menu-item (click)="onClickAdvanceMode(row)">
+                    <mat-icon>admin_panel_settings</mat-icon>
+                    <span>Advance Mode</span>
+                  </button>
+                  <button mat-menu-item (click)="onClickAdvanceMode(row)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Revise QE Report</span>
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="allowQEAuth(authorize)">
+            <ng-container matColumnDef="btn">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let row" style="padding: 0 !important">
+                <button mat-icon-button color="primary" (click)="onClickView(row)">
+                  <span class="material-icons-outlined"> zoom_in </span>
+                </button>
+                <button mat-icon-button color="primary" (click)="onClickViewNewTab(row)">
+                  <span class="material-icons-outlined"> open_in_new </span>
+                </button>
+                <button [disabled]="row.level < 7" mat-icon-button color="primary" (click)="onDownload(row)">
+                  <span class="material-icons-outlined"> file_download </span>
+                </button>
+              </td>
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="allowNormal(authorize)">
+            <ng-container matColumnDef="btn">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let row" style="padding: 0 !important">
+                <button mat-icon-button color="primary" (click)="onClickViewNewTab(row)">
+                  <span class="material-icons-outlined"> open_in_new </span>
+                </button>
+              </td>
+            </ng-container>
+          </ng-container>
+
+
+          <!-- <ng-container matColumnDef="btn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let row" style="padding: 0 !important">
               <button mat-icon-button color="primary" (click)="onClickView(row)">
@@ -151,7 +229,6 @@
               <button mat-icon-button color="primary" (click)="onClickViewNewTab(row)">
                 <span class="material-icons-outlined"> open_in_new </span>
               </button>
-
               <button [disabled]="row.level < 7" mat-icon-button color="primary" (click)="onDownload(row)">
                 <span class="material-icons-outlined"> file_download </span>
               </button>
@@ -197,7 +274,7 @@
                 </mat-menu>
               </ng-container>
             </td>
-          </ng-container>
+          </ng-container> -->
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

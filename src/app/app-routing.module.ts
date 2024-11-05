@@ -21,6 +21,7 @@ import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.com
 import { QeTechnicalModule } from './pages/qe-technical/qe-technical.module';
 import { QeTechnicalGuard } from './guards/qe-technical.guard';
 import { DashboardGanttEquipmentComponent } from './pages/dashboard-gantt-equipment/dashboard-gantt-equipment.component';
+import { QeSectionGuard } from './guards/qe-section.guard';
 
 const routes: Routes = [
   {
@@ -65,7 +66,7 @@ const routes: Routes = [
   {
     path: 'qe-technical',
     loadChildren: () => QeTechnicalModule,
-    canActivate: [QeTechnicalGuard],
+    canActivate: [QeSectionGuard],
   },
   {
     path: 'view-page',
@@ -96,4 +97,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

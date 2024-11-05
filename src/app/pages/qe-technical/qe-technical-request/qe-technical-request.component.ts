@@ -1,13 +1,11 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { RequestHttpService } from 'src/app/http/request-http.service';
-import { PlanService } from '../../qe-window-person/plan/plan.service';
-import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
-import { HttpParams } from '@angular/common/http';
-import { TrackingOperateHttpService } from 'src/app/http/tracking-operate-http.service';
-import { GenerateCoverService } from 'src/app/services/generate-cover.service';
 import { EquipmentHttpService } from 'src/app/http/equipment-http.service';
+import { RequestHttpService } from 'src/app/http/request-http.service';
+import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
+import { GenerateCoverService } from 'src/app/services/generate-cover.service';
 
 @Component({
   selector: 'app-qe-technical-request',
@@ -65,6 +63,12 @@ export class QeTechnicalRequestComponent implements OnInit {
     } catch (error) {
       console.log('🚀 ~ error:', error);
     }
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.scrollTo('down')
+    }, 1000);
   }
 
   scrollTo(element: any): void {

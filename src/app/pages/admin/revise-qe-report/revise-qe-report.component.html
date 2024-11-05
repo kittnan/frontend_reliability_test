@@ -1,0 +1,6 @@
+<div *ngIf="data" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
+  <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="mtb-4">
+    <app-step1 [step1]="data.step1"></app-step1>
+    <app-files-report fxFlex="100" [queues]="data.queues" [form]="data" [userLogin]="userLogin"> </app-files-report>
+  </div>
+</div>

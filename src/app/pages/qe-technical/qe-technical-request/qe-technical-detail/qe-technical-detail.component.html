@@ -69,8 +69,10 @@
               <h3 style="margin: 0;">
                 IN
               </h3>
-              <input id="inputId" type="text" class="input-scan" [(ngModel)]="inputText"
+              <input id="inputId" type="text" class="input-scan" [formControl]="scanInForm"
                 (keydown)="scan($event,'in','inputId')">
+              <!-- <input id="inputId" type="text" class="input-scan" [(ngModel)]="inputText"
+                (keydown)="scan($event,'in','inputId')"> -->
             </div>
           </th>
           <th>
@@ -104,8 +106,10 @@
               <h3 style="margin: 0;">
                 OUT
               </h3>
-              <input id="outputId" type="text" class="input-scan" [(ngModel)]="outputText"
+              <input id="outputId" type="text" class="input-scan" [formControl]="scanOutForm"
                 (keydown)="scan($event,'out','outputId')">
+              <!-- <input id="outputId" type="text" class="input-scan" [(ngModel)]="outputText"
+                (keydown)="scan($event,'out','outputId')"> -->
             </div>
           </th>
           <th>

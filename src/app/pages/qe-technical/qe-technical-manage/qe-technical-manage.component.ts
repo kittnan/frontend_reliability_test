@@ -118,7 +118,7 @@ export class QeTechnicalManageComponent implements OnInit {
       sort: '-1',
     };
     this.onSelectStatus();
-    this.interval$ = interval(60000).subscribe((res) => this.autoFeed());
+    // this.interval$ = interval(60000).subscribe((res) => this.autoFeed());
   }
 
   ngAfterViewInit(): void {
@@ -127,9 +127,7 @@ export class QeTechnicalManageComponent implements OnInit {
     }, 1000);
   }
 
-  ngOnDestroy(): void {
-    this.interval$.unsubscribe();
-  }
+
 
   async autoFeed() {
     let statusStr: any = null;
@@ -237,9 +235,12 @@ export class QeTechnicalManageComponent implements OnInit {
 
   private rowStatus(item: any) {
     if (
+      item.status == 'qe_window_person' ||
       item.status == 'qe_window_person_report' ||
+      item.status == 'qe_engineer' ||
       item.status == 'qe_engineer2' ||
       item.status == 'qe_section_head' ||
+      item.status == 'qe_department_head' ||
       item.status == 'request_confirm'
     ) {
       return false

@@ -16,6 +16,7 @@ export class ViewsComponent implements OnInit {
   @Input() showComment: any = true;
   @Input() showTest: any = true;
   @Input() showReport: any = true;
+  @Input() showActual: any = false;
   form: any;
   step1: any;
   step2: any;
@@ -23,7 +24,7 @@ export class ViewsComponent implements OnInit {
   step4: any;
   step5: any;
   imgs: any = [];
-  constructor(private _loading: NgxUiLoaderService) {}
+  constructor(private _loading: NgxUiLoaderService) { }
 
   ngOnInit(): void {
     this.form = this.formInput;

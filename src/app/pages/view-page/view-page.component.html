@@ -1,6 +1,5 @@
 <div *ngIf="data" fxLayoutAlign="center stretch" fxLayout="row wrap" class="overflow">
-    <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="content">
-        <app-views fxFlex="100" [formInput]="data"></app-views>
-    </div>
-
+  <div fxFlex="80" fxLayoutAlign="space-around stretch" fxLayout="row wrap" class="content">
+    <app-views fxFlex="100" [showActual]="true" [formInput]="data"></app-views>
+  </div>
 </div>

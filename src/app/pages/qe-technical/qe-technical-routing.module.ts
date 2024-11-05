@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { QeTechnicalComponent } from './qe-technical.component';
 import { QeTechnicalManageComponent } from './qe-technical-manage/qe-technical-manage.component';
 import { QeTechnicalRequestComponent } from './qe-technical-request/qe-technical-request.component';
+import { QeTechnicalEquipmentControlComponent } from './qe-technical-equipment-control/qe-technical-equipment-control.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'request',
         component: QeTechnicalRequestComponent
+      },
+      {
+        path: 'equipment-control',
+        component: QeTechnicalEquipmentControlComponent
       },
       {
         path: '',

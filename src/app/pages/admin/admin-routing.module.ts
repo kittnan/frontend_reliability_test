@@ -22,6 +22,7 @@ import { EquipmentComponent } from './operate/equipment/equipment.component';
 import { ReportComponent } from './report/report.component';
 import { Equipment2Component } from './equipment2/equipment2.component';
 import { Equipment2NewComponent } from './equipment2-new/equipment2-new.component';
+import { ReviseQeReportComponent } from './revise-qe-report/revise-qe-report.component';
 
 const routes: Routes = [
   {
@@ -111,6 +112,10 @@ const routes: Routes = [
       {
         path: 'equipment2-new',
         component: Equipment2NewComponent,
+      },
+      {
+        path: 'revise-qe-report',
+        component: ReviseQeReportComponent,
       },
 
       {

@@ -1,0 +1,166 @@
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" class="content-item">
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <span class="box-title"> Actual </span>
+  </div>
+  <div fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+    <mat-accordion fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
+      <mat-expansion-panel hideToggle *ngFor="let item of queues; let index = index" fxFlex="100"
+        fxLayoutAlign="start stretch" fxLayout="row wrap" class="b-left-red" [ngClass]="{ 'b-left-green': item._id }">
+        <mat-expansion-panel-header class="jump" fxFlex="100" fxLayoutAlign="start stretch" fxLayout="row wrap"
+          (click)="jump2('q' + index)">
+          <mat-panel-title [id]="'q' + index">
+            {{ index + 1 }}. {{ item.condition.name }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div fxFlex="100" fxLayoutAlign="start start" fxLayout="row wrap" class="box-body mtb-4">
+          <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
+            <button mat-stroked-button color="primary">{{ index + 1 }}.1 DETAIL</button>
+          </div>
+          <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap" fxLayoutGap="10" style="margin-top: 1rem;">
+            <mat-form-field fxFlex="fill" *ngIf="item.condition" appearance="legacy" style="width: 300px;">
+              <mat-label>Condition Name</mat-label>
+              <input matInput [(ngModel)]="item.condition.name" [readonly]="true" />
+            </mat-form-field>
+            <mat-form-field *ngIf="item.work" appearance="legacy">
+              <mat-label>Qty</mat-label>
+              <input matInput [(ngModel)]="item.work.qty" [readonly]="true" />
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10">
+            <table>
+              <colgroup>
+                <col width="100px">
+                <col width="200px">
+                <col width="200px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>
+                    Inspection Time
+                  </th>
+                  <th>
+                    Start
+                  </th>
+                  <th>
+                    End
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let inspec of item.inspectionTime; let i_inspec = index">
+                  <tr class="row-normal" [ngClass]="{'row-green': inspec.pass}">
+                    <td style="text-align: end;">
+                      <span *ngIf="inspec.pass">
+                        ✔️
+                      </span>
+                      {{inspec.at}}
+                    </td>
+                    <td style="text-align: center;">
+                      {{ inspec.startDate | date : "dd-MMM-YY, HH:mm" }}
+                    </td>
+                    <td style="text-align: center;">
+                      {{ inspec.endDate | date : "dd-MMM-YY, HH:mm" }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+
+
+          </div>
+          <mat-divider fxFlex="100" style="margin: 10px"></mat-divider>
+          <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10">
+            <table>
+              <colgroup>
+                <col width="200px">
+                <col width="200px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>
+                    <div fxLayout="row wrap" fxLayoutAlign="center center">
+                      <h3 style="margin: 0;">
+                        IN
+                      </h3>
+                    </div>
+                  </th>
+                  <th>
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let scan of item.scans; let i_inspec = index">
+                  <tr *ngIf="scan.action == 'in'">
+                    <td style="text-align: start;">
+                      {{scan.code}}
+                    </td>
+                    <td style="text-align: center;">
+                      {{ scan.scanDate | date : "dd-MMM-YY, HH:mm:ss" }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+            <table>
+              <colgroup>
+                <col width="200px">
+                <col width="200px">
+                <col width="150px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>
+                    <div fxLayout="row wrap" fxLayoutAlign="center center">
+                      <h3 style="margin: 0;">
+                        OUT
+                      </h3>
+                    </div>
+                  </th>
+                  <th>
+                    Date
+                  </th>
+                  <th>
+                    Stage
+                  </th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let scan of item.scans; let i_inspec = index">
+                  <tr *ngIf="scan.action == 'out'">
+                    <td style="text-align: start;">
+                      {{scan.code}}
+                    </td>
+                    <td style="text-align: center;">
+                      {{ scan.scanDate | date : "dd-MMM-YY, HH:mm:ss" }}
+                    </td>
+                    <td style="text-align: end;">
+                      {{scan.stage}}
+                    </td>
+
+                  </tr>
+                </ng-container>
+              </tbody>
+              <tfoot class="tfoot-sum">
+                <tr>
+                  <td>
+                    Total
+                  </td>
+                  <td></td>
+                  <td style="text-align: end;">
+                    {{item.total_hour}}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

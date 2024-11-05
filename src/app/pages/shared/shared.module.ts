@@ -67,6 +67,7 @@ import { InspectionFormComponent } from '../requests/sheet/components/sheet-step
 import { LowTempFormComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/low-temp-form/low-temp-form.component';
 import { NoOvenComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/no-oven/no-oven.component';
 import { TempRoomComponent } from '../requests/sheet/components/sheet-step4/step4-form/step4-home/form/temp-room/temp-room.component';
+import { ActualDetailComponent } from './views/actual-detail/actual-detail.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -127,6 +128,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InspectionFormComponent,
     NoOvenComponent,
     TempRoomComponent,
+    ActualDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -192,6 +194,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InspectionFormComponent,
     NoOvenComponent,
     TempRoomComponent,
+    ActualDetailComponent
   ],
 })
 export class SharedModule {}

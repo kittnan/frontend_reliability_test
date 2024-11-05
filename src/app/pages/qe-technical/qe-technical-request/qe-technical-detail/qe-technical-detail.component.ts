@@ -1,7 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
-import { lastValueFrom } from 'rxjs';
+import { debounceTime, lastValueFrom } from 'rxjs';
 import { QueueService } from 'src/app/http/queue.service';
 import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
 import Swal from 'sweetalert2';
@@ -57,6 +58,8 @@ export class QeTechnicalDetailComponent implements OnInit {
 
   inputId: any = ''
 
+  scanInForm = new FormControl()
+  scanOutForm = new FormControl()
   constructor(
     private $scanHistory: ScanHistoryHttpService,
     private $queue: QueueService
@@ -68,6 +71,18 @@ export class QeTechnicalDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
+
+      this.scanInForm.valueChanges
+        .pipe(debounceTime(300))
+        .subscribe(value => {
+          this.scanInForm.setValue('')
+        })
+      this.scanOutForm.valueChanges
+        .pipe(debounceTime(300))
+        .subscribe(value => {
+          this.scanOutForm.setValue('')
+        })
+
       let p0: HttpParams = new HttpParams()
       p0 = p0.set('runNo', JSON.stringify([this.item.work.controlNo]))
       p0 = p0.set('conditionValue', JSON.stringify([this.item.condition.value]))
@@ -91,6 +106,10 @@ export class QeTechnicalDetailComponent implements OnInit {
   async scan(e: any, action: string, inputId: string) {
     try {
       this.inputId = inputId
+      if (e.key === 'Control') {
+        this.scanInForm.setValue('')
+        throw 'Please Scan Label'
+      }
       if (e.key == 'Enter' || e.key == 'Tab') {
         let value: string = e.target.value
         value = value.trim()
@@ -149,15 +168,19 @@ export class QeTechnicalDetailComponent implements OnInit {
           this.item.total_hour = this.item.total_hour ? this.item.total_hour : 0
           this.item.total_hour += diffObj.hours
           this.item.scans.push(scan)
+
           await this.$scanHistory.insert(scan).toPromise()
 
+          //  ! in case over 3 day ปัดลงเท่ากับ stage
           if (this.item.total_hour >= currentStage.at) {
             currentStage.pass = true
             const nextStage = this.currentStage()
             if (nextStage) {
+              this.item.total_hour = currentStage.at
               this.item.stage = nextStage.at
               await this.$queue.update(this.item._id, this.item).toPromise()
             } else {
+              this.item.total_hour = currentStage.at
               await this.$queue.update(this.item._id, this.item).toPromise()
               console.log('no next stage');
             }
@@ -202,7 +225,7 @@ export class QeTechnicalDetailComponent implements OnInit {
         this.inputText = ''; // Use value to clear input elements
         this.outputText = ''; // Use value to clear input elements
         el.focus(); // Set focus to the element
-      }, 500);
+      }, 300);
     }
   }
 
