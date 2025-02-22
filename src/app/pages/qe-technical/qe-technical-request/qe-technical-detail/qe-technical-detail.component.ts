@@ -40,6 +40,7 @@ export interface ScanHistory {
   updatedAt: Date,
 }
 
+
 @Component({
   selector: 'app-qe-technical-detail',
   templateUrl: './qe-technical-detail.component.html',
@@ -60,6 +61,9 @@ export class QeTechnicalDetailComponent implements OnInit {
 
   scanInForm = new FormControl()
   scanOutForm = new FormControl()
+
+  dateIn: any = new Date()
+  dateOut: any = new Date()
   constructor(
     private $scanHistory: ScanHistoryHttpService,
     private $queue: QueueService
@@ -71,7 +75,6 @@ export class QeTechnicalDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-
       this.scanInForm.valueChanges
         .pipe(debounceTime(300))
         .subscribe(value => {
@@ -145,6 +148,13 @@ export class QeTechnicalDetailComponent implements OnInit {
 
           if (currentStage.at === 0) {
             currentStage.pass = true
+            scan.scanDate = moment(this.dateIn)
+              .set({
+                hour: moment().hour(),
+                minute: moment().minute(),
+                second: moment().second()
+              }).toDate()
+
             this.item.scans = [scan]
             await this.$scanHistory.insert(scan).toPromise()
             const nextStage = this.currentStage()

@@ -115,7 +115,14 @@ export class AppComponent {
     this._toast.success();
     setTimeout(() => {
       this._loading.start();
-      location.reload();
+      if (newAuth == 'qe_engineer') {
+        this._router.navigate(['qe-engineer'])
+      } else
+        if (newAuth == 'qe_window_person') {
+          this._router.navigate(['qe-window-person'])
+        } else {
+          location.reload();
+        }
     }, 1000);
   }
 

@@ -196,8 +196,6 @@ export class SheetStep1Component implements OnInit {
     // })
 
     setTimeout(() => {
-      console.log(this.requestForm.value);
-
     }, 3000);
 
   }

@@ -56,7 +56,8 @@
 
   </div>
   <mat-divider fxFlex="100" style="margin: 10px"></mat-divider>
-  <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10">
+  <div *ngIf="item && item.condition && item.condition.value!='0'" fxFlex="100" fxLayout="row wrap"
+    fxLayoutAlign="start start" fxLayoutGap="10">
     <table>
       <colgroup>
         <col width="200px">
@@ -77,6 +78,13 @@
           </th>
           <th>
             Date
+            <mat-form-field appearance="fill">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="dateIn">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
           </th>
         </tr>
       </thead>
@@ -114,6 +122,13 @@
           </th>
           <th>
             Date
+            <mat-form-field appearance="fill">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker2" [(ngModel)]="dateOut">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
           </th>
           <th>
             Stage

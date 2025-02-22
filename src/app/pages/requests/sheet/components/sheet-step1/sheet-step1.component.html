@@ -80,6 +80,11 @@
       <input [readonly]="true" formControlName="department" matInput>
     </mat-form-field>
 
+    <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100">
+      <mat-label>{{'sheet1.sampleSendQty'|translate}}</mat-label>
+      <input  type="number" formControlName="sampleSendQty" matInput>
+    </mat-form-field>
+
     <mat-form-field appearance="fill" fxFlex="40" fxFlex.sm="100" class="mb-10">
       <mat-label>{{'sheet1.requestDate' |translate}}</mat-label>
       <input [disabled]="true" formControlName="requestDate" matInput [matDatepicker]="picker1" [readonly]="true"
