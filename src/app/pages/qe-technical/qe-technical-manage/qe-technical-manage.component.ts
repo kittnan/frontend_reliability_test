@@ -234,6 +234,7 @@ export class QeTechnicalManageComponent implements OnInit {
   }
 
   private rowStatus(item: any) {
+    if (item.queues?.length > 0 && item.queues.every((a: any) => a.condition.value == '0')) return true
     if (
       item.status == 'qe_window_person' ||
       item.status == 'qe_window_person_report' ||

@@ -70,7 +70,7 @@
               <h3 style="margin: 0;">
                 IN
               </h3>
-              <input id="inputId" type="text" class="input-scan" [formControl]="scanInForm"
+              <input [disabled]="!dateIn || !timeIn" id="inputId" type="text" class="input-scan" [formControl]="scanInForm"
                 (keydown)="scan($event,'in','inputId')">
               <!-- <input id="inputId" type="text" class="input-scan" [(ngModel)]="inputText"
                 (keydown)="scan($event,'in','inputId')"> -->
@@ -85,6 +85,7 @@
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
+            <input type="time" [(ngModel)]="timeIn" style="width: 100%;">
           </th>
         </tr>
       </thead>
@@ -129,6 +130,7 @@
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
+            <input type="time" [(ngModel)]="timeOut" style="width: 100%;">
           </th>
           <th>
             Stage

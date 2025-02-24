@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { debounceTime, lastValueFrom } from 'rxjs';
 import { QueueService } from 'src/app/http/queue.service';
@@ -59,11 +59,13 @@ export class QeTechnicalDetailComponent implements OnInit {
 
   inputId: any = ''
 
-  scanInForm = new FormControl()
+  scanInForm = new FormControl('', Validators.required)
   scanOutForm = new FormControl()
 
   dateIn: any = new Date()
   dateOut: any = new Date()
+  timeIn: any = null
+  timeOut: any = null
   constructor(
     private $scanHistory: ScanHistoryHttpService,
     private $queue: QueueService
@@ -71,6 +73,11 @@ export class QeTechnicalDetailComponent implements OnInit {
   ) {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin');
     this.userLogin = JSON.parse(userLoginStr);
+
+    // this.scanInForm.valueChanges.subscribe(value => {
+    //   this.isFormValid()
+    // })
+
   }
 
   async ngOnInit(): Promise<void> {
@@ -109,10 +116,10 @@ export class QeTechnicalDetailComponent implements OnInit {
   async scan(e: any, action: string, inputId: string) {
     try {
       this.inputId = inputId
-      if (e.key === 'Control') {
-        this.scanInForm.setValue('')
-        throw 'Please Scan Label'
-      }
+      // if (e.key === 'Control') {
+      //   this.scanInForm.setValue('')
+      //   throw 'Please Scan Label'
+      // }
       if (e.key == 'Enter' || e.key == 'Tab') {
         let value: string = e.target.value
         value = value.trim()
@@ -145,15 +152,15 @@ export class QeTechnicalDetailComponent implements OnInit {
 
 
         if (action === 'in') {
+          scan.scanDate = moment(this.dateIn)
+            .set({
+              hour: moment(this.timeIn, 'HH:mm').hour(),
+              minute: moment(this.timeIn, 'HH:mm').minute(),
+              second: 0,  // You can adjust seconds if necessary
+            }).toDate();
 
           if (currentStage.at === 0) {
             currentStage.pass = true
-            scan.scanDate = moment(this.dateIn)
-              .set({
-                hour: moment().hour(),
-                minute: moment().minute(),
-                second: moment().second()
-              }).toDate()
 
             this.item.scans = [scan]
             await this.$scanHistory.insert(scan).toPromise()
@@ -162,53 +169,78 @@ export class QeTechnicalDetailComponent implements OnInit {
             await this.$queue.update(this.item._id, this.item).toPromise()
             this.clearInputAndFocus(inputId)
           } else {
-            this.item.scans.push(scan)
-            await this.$scanHistory.insert(scan).toPromise()
-            this.clearInputAndFocus(inputId)
+            if (this.item.scans?.length != 0) {
+              if (moment(scan.scanDate).isAfter(moment(this.item.scans[this.item.scans.length - 1]["scanDate"]))) {
+                this.item.scans.push(scan)
+                await this.$scanHistory.insert(scan).toPromise()
+                this.clearInputAndFocus(inputId)
+              } else {
+                console.log('before');
+                throw 'Please change date scan'
+              }
+            } else {
+              this.item.scans.push(scan)
+              await this.$scanHistory.insert(scan).toPromise()
+              this.clearInputAndFocus(inputId)
+            }
 
           }
 
         }
         if (action === 'out') {
           // scan.scanDate = moment(scan.scanDate).add('second', 396000).toDate() //! for test
-          const diff = moment(scan.scanDate).diff(lastItem.scanDate, 'second')
-          const diffObj = this.convertSecondsToHoursAndMinutes(diff)
-          scan.diff_hour = diffObj.hours
-          scan.diff_min = diffObj.minutes
-          this.item.total_hour = this.item.total_hour ? this.item.total_hour : 0
-          this.item.total_hour += diffObj.hours
-          this.item.scans.push(scan)
 
-          await this.$scanHistory.insert(scan).toPromise()
+          scan.scanDate = moment(this.dateOut)
+            .set({
+              hour: moment(this.timeOut, 'HH:mm').hour(),
+              minute: moment(this.timeOut, 'HH:mm').minute(),
+              second: 0,  // You can adjust seconds if necessary
+            }).toDate();
 
-          //  ! in case over 3 day ปัดลงเท่ากับ stage
-          if (this.item.total_hour >= currentStage.at) {
-            currentStage.pass = true
-            const nextStage = this.currentStage()
-            if (nextStage) {
+          if (moment(scan.scanDate).isAfter(moment(this.item.scans[this.item.scans.length - 1]["scanDate"]))) {
+            const diff = moment(scan.scanDate).diff(lastItem.scanDate, 'second')
+            const diffObj = this.convertSecondsToHoursAndMinutes(diff)
+            scan.diff_hour = diffObj.hours
+            scan.diff_min = diffObj.minutes
+            this.item.total_hour = this.item.total_hour ? this.item.total_hour : 0
+            this.item.total_hour += diffObj.hours
+            this.item.scans.push(scan)
+
+            await this.$scanHistory.insert(scan).toPromise()
+
+            //  ! in case over 3 day ปัดลงเท่ากับ stage
+            if (this.item.total_hour >= currentStage.at) {
+              currentStage.pass = true
+              const nextStage = this.currentStage()
+              if (nextStage) {
+                this.item.total_hour = currentStage.at
+                this.item.stage = nextStage.at
+                await this.$queue.update(this.item._id, this.item).toPromise()
+              } else {
+                this.item.total_hour = currentStage.at
+                await this.$queue.update(this.item._id, this.item).toPromise()
+                console.log('no next stage');
+              }
+            } else if ((this.item.total_hour + 20) >= currentStage.at) {
               this.item.total_hour = currentStage.at
-              this.item.stage = nextStage.at
-              await this.$queue.update(this.item._id, this.item).toPromise()
-            } else {
-              this.item.total_hour = currentStage.at
-              await this.$queue.update(this.item._id, this.item).toPromise()
-              console.log('no next stage');
-            }
-          } else if ((this.item.total_hour + 20) >= currentStage.at) {
-            this.item.total_hour = currentStage.at
-            currentStage.pass = true
-            const nextStage = this.currentStage()
-            if (nextStage) {
-              this.item.stage = nextStage.at
-              await this.$queue.update(this.item._id, this.item).toPromise()
+              currentStage.pass = true
+              const nextStage = this.currentStage()
+              if (nextStage) {
+                this.item.stage = nextStage.at
+                await this.$queue.update(this.item._id, this.item).toPromise()
+              } else {
+                await this.$queue.update(this.item._id, this.item).toPromise()
+                console.log('no next stage');
+              }
             } else {
               await this.$queue.update(this.item._id, this.item).toPromise()
-              console.log('no next stage');
             }
-          } else {
-            await this.$queue.update(this.item._id, this.item).toPromise()
+            this.clearInputAndFocus(inputId)
+          }else{
+            throw 'Please change date scan'
           }
-          this.clearInputAndFocus(inputId)
+
+
         }
       }
     } catch (error) {
@@ -237,6 +269,10 @@ export class QeTechnicalDetailComponent implements OnInit {
         el.focus(); // Set focus to the element
       }, 300);
     }
+  }
+
+  get isFormValid(): boolean {
+    return this.dateIn && this.timeIn;
   }
 
 }
