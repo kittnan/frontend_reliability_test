@@ -30,7 +30,8 @@ h1.example-app-name {
 .container {
   // background-image: linear-gradient(to top, #96fbc4 0%, #f9f586 100%);
   // background-image: linear-gradient(to top, #c1dfc4 0%, #deecdd 100%);
-  background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+  // background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+   background-image: linear-gradient(15deg, #61c5ff 0%, #2effe8 100%);
   // background-image: linear-gradient(-20deg, #00cdac 0%, #8ddad5 100%);
   // background-image: linear-gradient(to top, #b3ffab 0%, #12fff7 100%);
   // background-image: url("./assets/bg-4.jpg");
@@ -45,7 +46,7 @@ h1.example-app-name {
 }
 
 app-login > .container {
-  background-image: url("./assets/bg-5.png") !important;
+  // background-image: url("./assets/bg-5.png") !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
