@@ -244,6 +244,11 @@ export class AppComponent {
               icon: 'article',
               title: 'report excel',
             },
+            {
+              path: '/admin/model-condition',
+              icon: 'settings',
+              title: 'model-condition',
+            },
           ],
         },
         {

@@ -29,8 +29,6 @@ export class AuthorizeMasterComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMaster()
-
-
   }
 
 

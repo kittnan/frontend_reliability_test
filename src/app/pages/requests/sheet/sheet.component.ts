@@ -39,6 +39,8 @@ export class SheetComponent implements OnInit {
     if (this.params && this.params['id']) {
       this.formId = this.params['id'];
       this.$request.get_id(this.params['id']).subscribe((res) => {
+        console.log(res);
+        
         this.request = res[0];
       });
     }

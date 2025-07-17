@@ -36,6 +36,8 @@ import { Sheet3Step2Component } from './sheet3/components/sheet3-step2/sheet3-st
 import { Sheet3Step3Component } from './sheet3/components/sheet3-step3/sheet3-step3.component';
 import { Sheet3Step4Component } from './sheet3/components/sheet3-step4/sheet3-step4.component';
 import { Sheet3Step5Component } from './sheet3/components/sheet3-step5/sheet3-step5.component';
+import { DialogSelectTempComponent } from './sheet/components/sheet-step4/step4-form/step4-home/dialog-select-temp/dialog-select-temp.component';
+import { DiaLogSelectOperateComponent } from './sheet/components/sheet-step4/step4-form/step4-home/dia-log-select-operate/dia-log-select-operate.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -69,6 +71,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     Sheet3Step3Component,
     Sheet3Step4Component,
     Sheet3Step5Component,
+    DialogSelectTempComponent,
+    DiaLogSelectOperateComponent,
   ],
   imports: [
     CommonModule,

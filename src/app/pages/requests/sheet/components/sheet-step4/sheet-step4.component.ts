@@ -5,6 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { Step3HttpService } from 'src/app/http/step3-http.service';
+import { Step1HttpService } from 'src/app/http/step1-http.service';
 
 @Component({
   selector: 'app-sheet-step4',
@@ -18,18 +19,22 @@ export class SheetStep4Component implements OnInit {
   }
   table: any[] = []
   chamber: any
+  step1: any
   constructor(
     private _stepper: CdkStepper,
     private _loading: NgxUiLoaderService,
     private $step4: Step4HttpService,
-    private $step3: Step3HttpService
+    private $step3: Step3HttpService,
+    private $step1: Step1HttpService
   ) { }
 
   async ngOnInit() {
+
     if (this.formId) {
       const params: HttpParams = new HttpParams().set('requestId', this.formId)
       const resStep3 = await this.$step3.get(params).toPromise();
       const resStep4 = await this.$step4.get(params).toPromise();
+      const resStep1 = await this.$step1.get(params).toPromise();
       if (resStep3 && resStep3.length > 0) {
         if (resStep3[0].data.find((d: any) => d.checked && d.type == 'oven')) {
           this.chamber = 'yes'
@@ -40,6 +45,9 @@ export class SheetStep4Component implements OnInit {
       if (resStep4 && resStep4.length > 0) {
 
         this.conditionForm = resStep4[0]
+      }
+      if (resStep1 && resStep1.length > 0) {
+        this.step1 = resStep1[0]
       }
 
     }

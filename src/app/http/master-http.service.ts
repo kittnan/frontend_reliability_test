@@ -129,10 +129,23 @@ export class MasterHttpService {
   deleteFunctionChamber(id: any): Observable<any> {
     return this.http.delete(`${this.URL}/function_chamber/delete/${id}`)
   }
-  getFunctionChamberLastRecord():Observable<any>{
+  getFunctionChamberLastRecord(): Observable<any> {
     return this.http.get(`${this.URL}/function_chamber/lastRecord`)
   }
 
+  getModelCondition(p: any = null): Observable<any> {
+    if (p) {
+      return this.http.get(`${this.URL}/model_condition/`, { params: p })
+    } else {
+      return this.http.get(`${this.URL}/model_condition/`)
+    }
+  }
+  insertModelCondition(data: any): Observable<any> {
+    return this.http.post(`${this.URL}/model_condition/insert`, data)
+  }
+  updateModelCondition(id: any, data: any): Observable<any> {
+    return this.http.put(`${this.URL}/model_condition/update/${id}`, data)
+  }
 
 
 }

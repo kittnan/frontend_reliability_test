@@ -3,7 +3,7 @@
   "version": "0.0.59",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --o",
     "prebuild": "npm --no-git-tag-version version patch",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

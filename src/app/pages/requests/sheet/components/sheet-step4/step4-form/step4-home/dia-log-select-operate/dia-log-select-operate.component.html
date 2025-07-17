@@ -1,0 +1,24 @@
+<div style="margin-bottom: 10px; display: flex; flex-wrap: wrap;">
+    <h3>เลือกการดำเนินการ</h3>
+    <div fxFlex="100">
+        <mat-form-field fxFlex="90" appearance="fill" style="font-size: 18px; ">
+            <mat-label style="color: red;">Operate</mat-label>
+            <mat-select [disabled]="data.disable" [(ngModel)]="data.operate" [compareWith]="objectComparisonFunction"
+                style="color: red;">
+                <mat-option *ngFor="let item of items" [value]="item">
+                    {{item.text |uppercase}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <button mat-button color="primary" (click)="emit()">
+        <mat-icon>done</mat-icon>
+        ตกลง
+    </button>
+</div>
+<div>
+    <span style="color: orange;">
+        {{data.text || 'กรุณาเลือกการดำเนินการที่ต้องการ'}}
+        <span *ngIf="data.disable"> (ไม่สามารถแก้ไขได้)</span>
+    </span>
+</div>

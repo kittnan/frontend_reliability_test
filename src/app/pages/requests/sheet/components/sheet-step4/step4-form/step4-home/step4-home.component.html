@@ -28,7 +28,7 @@
       </h4>
       <div fxFlex.gt-lg="100" fxFlex.gt-md="100" fxFlex.gt-xs="100" fxLayoutAlign="start stretch" fxLayout="row wrap">
         <app-no-oven fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
-          *ngIf="con.value===0 " ></app-no-oven>
+          *ngIf="con.value=== 0"></app-no-oven>
         <app-low-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"
           *ngIf="con.value=== 1"></app-low-temp-form>
         <app-high-temp-form fxFlex="100" [data]="con.data" (dataChange)="dataChange($event,con)"

@@ -10,6 +10,10 @@ export class Step1HttpService {
   constructor(
     private http: HttpClient
   ) { }
+  get(params: any): Observable<any> {
+    return this.http.get(`${this.URL}/step1`, { params: params })
+  }
+
   insert(data: any): Observable<any> {
     return this.http.post(`${this.URL}/step1/insert`, data)
   }

@@ -21,26 +21,26 @@ export class Sheet2Service {
 
       ]
     )
-    const header = ['Condition'].concat(form.table.header)
-    ws.addRows([header])
-    const foo = form.table.data.map((d: any, i: number) => {
-      return d.map((d1: any) => {
-        if (d1 && d1.length > 0) {
-          return d1.reduce((p: any, n: any) => {
-            p += `\n ${n}`
-            return p
-          }, '')
-        } else {
-          return ''
-        }
+    if (form.table?.data) {
+      const header = form.table?.header ? ['Condition'].concat(form.table.header) : ['Condition']
+      ws.addRows([header])
+      const foo = form.table.data.map((d: any, i: number) => {
+        return d.map((d1: any) => {
+          if (d1 && d1.length > 0) {
+            return d1.reduce((p: any, n: any) => {
+              p += `\n ${n}`
+              return p
+            }, '')
+          } else {
+            return ''
+          }
+
+        })
 
       })
+      ws.addRows(foo)
+    }
 
-    })
-
-    // for (let i = 0; i < form.table.data.length; i++) {
-    ws.addRows(foo)
-    // }
   }
 
   setStyleW2(ws: Worksheet) {

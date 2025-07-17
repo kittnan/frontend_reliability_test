@@ -1,0 +1,8 @@
+<div *ngFor="let item of data; let i=index">
+    <button mat-button color="primary" (click)="onSelectTemp(item)">
+        {{item.name}} ➡️ <span style="font-size: 20px;">{{item.value}}</span>
+    </button>
+</div>
+<button mat-button color="warn" (click)="onSelectTemp(null)">
+    กำหนดเอง
+</button>

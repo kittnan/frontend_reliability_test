@@ -1,5 +1,4 @@
 import { HttpParams } from '@angular/common/http';
-import { Step3HttpService } from './../../../../../../../http/step3-http.service';
 import {
   Component,
   EventEmitter,
@@ -8,10 +7,14 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { MasterHttpService } from 'src/app/http/master-http.service';
-import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { Step3HttpService } from './../../../../../../../http/step3-http.service';
+import { DialogSelectTempComponent } from './dialog-select-temp/dialog-select-temp.component';
+import { DiaLogSelectOperateComponent } from './dia-log-select-operate/dia-log-select-operate.component';
+import { Step1HttpService } from 'src/app/http/step1-http.service';
 
 interface ConditionListForm {
   name: string;
@@ -24,6 +27,7 @@ interface ConditionListForm {
   styleUrls: ['./step4-home.component.scss'],
 })
 export class Step4HomeComponent implements OnInit {
+  @Input() step1: any;
   @Input() formId: any;
   @Input() conditionForm: any = [];
   // tempConditionForm: any = []
@@ -40,12 +44,20 @@ export class Step4HomeComponent implements OnInit {
     detail: '',
   };
   chamber: any;
+
+  modelCondition: any
   constructor(
     private $master: MasterHttpService,
-    private $step3: Step3HttpService
+    private $step3: Step3HttpService,
+    public dialog: MatDialog,
+    private $step1 :Step1HttpService
   ) { }
 
   async ngOnInit(): Promise<void> {
+    console.log(this.step1);
+    if (this.step1) {
+      this.modelCondition = await this.$master.getModelCondition(new HttpParams().set('Model', this.step1.modelNo)).toPromise();
+    }
     this.condition_list = await this.$master.getFunctionChamber().toPromise();
     this.condition_list = this.condition_list.map((con: ConditionListForm) => {
       return {
@@ -150,30 +162,131 @@ export class Step4HomeComponent implements OnInit {
   }
 
   async onSelected() {
+    let choices: any[] = [];
+    if (this.modelCondition) {
+      for (const key in this.modelCondition) {
+        if (!key.includes('[')) continue;
+        let newKey = key
+        let operateStateCondition: boolean = false
+        if (key.includes('-o')) {
+          operateStateCondition = true
+          newKey = newKey.replace('-o', '');
+        } else {
+          operateStateCondition = false
+          newKey = newKey.replace('-n', '');
+        }
+
+
+        newKey = newKey.split('[')[0];
+        if (newKey == this.selected.name) {
+          choices.push({
+            name: newKey,
+            value: this.modelCondition[key],
+            operate: operateStateCondition
+            // maxInterval: this.modelCondition["Max interval"],
+          });
+        }
+      }
+    }
+    if (choices.length > 0) {
+      let disableState = false
+      let operateObj = {
+        text: 'operate',
+        value: true,
+      }
+      // todo : heat shock
+      if (this.selected.value == 6) {
+        disableState = true
+        operateObj = {
+          text: 'no-operate',
+          value: false,
+        }
+      }
+
+      let dataRef1 = this.dialog.open(DiaLogSelectOperateComponent, {
+        data: {
+          disable: disableState,
+          operate: operateObj
+        },
+        disableClose: true
+      })
+      dataRef1.afterClosed().subscribe((res: any) => {
+        if (res) {
+          operateObj = res.operate;
+          if (res.operate.value) {
+            choices = choices.filter((c: any) => c.operate == true);
+          } else {
+            choices = choices.filter((c: any) => c.operate == false);
+          }
+          let dataRef = this.dialog.open(DialogSelectTempComponent, {
+            data: choices,
+            disableClose: true,
+          })
+          dataRef.afterClosed().subscribe((res: any) => {
+            if (res) {
+              if (this.selected.value == 1) {
+                this.createNewCondition(res.value, '0', '0', operateObj);
+              }
+              else
+                if (this.selected.value == 2) {
+                  this.createNewCondition('0', res.value, '0', operateObj);
+                }
+                else
+                  if (this.selected.value == 3) {
+                    const valueSp = res.value.toString().replaceAll(' ', '').replaceAll('%', '').split(',')
+                    const temp = valueSp[0] ? valueSp[0] : '0'
+                    const humi = valueSp[1] ? valueSp[1] : '0'
+
+                    this.createNewCondition('0', temp, humi, operateObj);
+                  }
+                  else
+                    if (this.selected.value == 6) {
+                      const valueSp = res.value.toString().replaceAll(' ', '').replaceAll('%', '').split(',')
+                      const low = valueSp[0] ? valueSp[0] : '0'
+                      const high = valueSp[1] ? valueSp[1] : '0'
+                      this.createNewCondition(low, high, '0', operateObj);
+                    }
+            } else {
+              this.createNewCondition('0', '0', '0', operateObj);
+            }
+          })
+        } else {
+
+        }
+      })
+
+
+    } else {
+      this.createNewCondition('0', '0', '0');
+    }
+
+
+  }
+
+  createNewCondition(low: string = '0', high: string = '0', humi: string = '0', operate = {
+    text: 'operate',
+    value: true
+  }) {
     this.data.push({
-      ...this.selected,
       data: {
         roomTemp: {
           temp: '0',
           tempVar: '0',
         },
         lowTemp: {
-          temp: '0',
-          tempVar: '0',
+          temp: low,
+          tempVar: '',
         },
         highTemp: {
-          temp: '0',
+          temp: high,
           tempVar: '0',
         },
-        operate: {
-          text: 'operate',
-          value: true,
-        },
+        operate: operate,
         sample: '',
         qty: '',
         inspection: [0],
         report: [0],
-        humi: '0',
+        humi: humi,
         frequency: {
           high: '0',
           low: '0',
@@ -186,18 +299,15 @@ export class Step4HomeComponent implements OnInit {
           y: '0',
           z: '0',
         },
-        inspectionDetail: {
-          name: 'normal',
-          value: '',
-        },
       },
+      name: this.selected.name,
+      value: this.selected.value,
       inspectionDetail: {},
       reportStatus: true,
-    });
-    // this.emit()
+    })
     setTimeout(() => {
-      this.selected = 0;
-    }, 100);
+      this.selected = 0
+    }, 1);
   }
 
   async dataChange(e: any, con: any) {

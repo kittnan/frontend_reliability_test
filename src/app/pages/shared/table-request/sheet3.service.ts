@@ -36,51 +36,51 @@ export class Sheet3Service {
         right: { style: 'thin' }
       }
     }
-    const header = ['', 'Condition'].concat(form.table.header)
-    ws.addRows([header])
-    const result_merge = form.table.data.map((d: any, i: number) => {
-      return d.map((d1: any) => {
-        if (d1 && d1.length > 0) {
-          return d1.reduce((p: any, n: any) => {
-            p += `\n${n}`
-            return p
-          }, '')
-        } else {
-          return ''
-        }
+    if (form.table?.data) {
+      const header = ['', 'Condition'].concat(form.table.header)
+      ws.addRows([header])
+      const result_merge = form.table.data.map((d: any, i: number) => {
+        return d.map((d1: any) => {
+          if (d1 && d1.length > 0) {
+            return d1.reduce((p: any, n: any) => {
+              p += `\n${n}`
+              return p
+            }, '')
+          } else {
+            return ''
+          }
+
+        })
 
       })
-
-    })
-    const addFirstColumn = result_merge.map((m: any) => [''].concat(m))
-    let c = 0
-    const foo = addFirstColumn.reduce((p: any, n: any) => {
-      c += 1;
-      if (c == 4) {
-        p = p.concat(
-          [
-            ['QE', 'Out of chamber date', '', ''],
-            ['', 'Inspection (FCT/APP) date', '', ''],
-            ['', 'Optical measurement date', '', ''],
-            ['', 'Input Chamber Date', '', ''],
-            ['', 'Name operator', '', ''],
-          ]
-        )
-        p = p.concat([n])
-        c = 0
-      } else {
-        if (c == 2) {
-          n[0] = 'Plan'
+      const addFirstColumn = result_merge.map((m: any) => [''].concat(m))
+      let c = 0
+      const foo = addFirstColumn.reduce((p: any, n: any) => {
+        c += 1;
+        if (c == 4) {
+          p = p.concat(
+            [
+              ['QE', 'Out of chamber date', '', ''],
+              ['', 'Inspection (FCT/APP) date', '', ''],
+              ['', 'Optical measurement date', '', ''],
+              ['', 'Input Chamber Date', '', ''],
+              ['', 'Name operator', '', ''],
+            ]
+          )
           p = p.concat([n])
+          c = 0
         } else {
-          p = p.concat([n])
+          if (c == 2) {
+            n[0] = 'Plan'
+            p = p.concat([n])
+          } else {
+            p = p.concat([n])
+          }
         }
-      }
-      return p
-    }, [])
-    // console.log('foo', foo);
-
-    ws.addRows(foo)
+        return p
+      }, [])
+      ws.addRows(foo)
+    }
   }
 
   setStyleW3(ws: Worksheet) {
