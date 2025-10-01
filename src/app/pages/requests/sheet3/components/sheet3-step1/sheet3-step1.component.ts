@@ -23,7 +23,7 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { Observable, map, startWith } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { RequestSheetService } from '../../../sheet/request-sheet.service';
 
 export interface ModelNo {
@@ -33,9 +33,10 @@ export interface ModelNo {
   customer: string;
 }
 @Component({
-  selector: 'app-sheet3-step1',
-  templateUrl: './sheet3-step1.component.html',
-  styleUrls: ['./sheet3-step1.component.scss']
+    selector: 'app-sheet3-step1',
+    templateUrl: './sheet3-step1.component.html',
+    styleUrls: ['./sheet3-step1.component.scss'],
+    standalone: false
 })
 export class Sheet3Step1Component implements OnInit {
 

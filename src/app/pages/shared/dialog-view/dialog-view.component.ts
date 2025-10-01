@@ -4,9 +4,10 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 
 @Component({
-  selector: 'app-dialog-view',
-  templateUrl: './dialog-view.component.html',
-  styleUrls: ['./dialog-view.component.scss']
+    selector: 'app-dialog-view',
+    templateUrl: './dialog-view.component.html',
+    styleUrls: ['./dialog-view.component.scss'],
+    standalone: false
 })
 export class DialogViewComponent implements OnInit {
 

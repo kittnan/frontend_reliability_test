@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as moment from 'moment';
+import moment from 'moment';
 import { DialogApproveComponent } from '../../approve-form/dialog-approve/dialog-approve.component';
 import { RejectService } from '../../approve-form/reject.service';
 import { Router } from '@angular/router';
@@ -9,9 +9,10 @@ import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-reject-revises',
-  templateUrl: './dialog-reject-revises.component.html',
-  styleUrls: ['./dialog-reject-revises.component.scss']
+    selector: 'app-dialog-reject-revises',
+    templateUrl: './dialog-reject-revises.component.html',
+    styleUrls: ['./dialog-reject-revises.component.scss'],
+    standalone: false
 })
 export class DialogRejectRevisesComponent implements OnInit {
   select: any = null

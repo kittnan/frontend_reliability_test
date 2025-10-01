@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
-  selector: 'app-card-number',
-  templateUrl: './card-number.component.html',
-  styleUrls: ['./card-number.component.scss'],
+    selector: 'app-card-number',
+    templateUrl: './card-number.component.html',
+    styleUrls: ['./card-number.component.scss'],
+    standalone: false
 })
 export class CardNumberComponent implements OnInit {
 

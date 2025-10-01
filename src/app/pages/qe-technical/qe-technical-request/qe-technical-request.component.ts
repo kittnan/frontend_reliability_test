@@ -8,9 +8,10 @@ import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
 import { GenerateCoverService } from 'src/app/services/generate-cover.service';
 
 @Component({
-  selector: 'app-qe-technical-request',
-  templateUrl: './qe-technical-request.component.html',
-  styleUrls: ['./qe-technical-request.component.scss']
+    selector: 'app-qe-technical-request',
+    templateUrl: './qe-technical-request.component.html',
+    styleUrls: ['./qe-technical-request.component.scss'],
+    standalone: false
 })
 export class QeTechnicalRequestComponent implements OnInit {
   userLogin: any = null;

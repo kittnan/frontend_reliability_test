@@ -13,9 +13,10 @@ interface descriptionForm {
   value: string
 }
 @Component({
-  selector: 'app-sheet3-step2',
-  templateUrl: './sheet3-step2.component.html',
-  styleUrls: ['./sheet3-step2.component.scss']
+    selector: 'app-sheet3-step2',
+    templateUrl: './sheet3-step2.component.html',
+    styleUrls: ['./sheet3-step2.component.scss'],
+    standalone: false
 })
 export class Sheet3Step2Component implements OnInit {
 

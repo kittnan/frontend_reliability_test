@@ -2,9 +2,10 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-low-temp-form',
-  templateUrl: './low-temp-form.component.html',
-  styleUrls: ['./low-temp-form.component.scss'],
+    selector: 'app-low-temp-form',
+    templateUrl: './low-temp-form.component.html',
+    styleUrls: ['./low-temp-form.component.scss'],
+    standalone: false
 })
 export class LowTempFormComponent implements OnInit {
   @Input() data: any;

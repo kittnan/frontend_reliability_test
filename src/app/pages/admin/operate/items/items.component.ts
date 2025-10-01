@@ -11,9 +11,10 @@ import { DialogModelMasterComponent } from '../../master-manage/model-master/dia
 import { ItemsDialogComponent } from './items-dialog/items-dialog.component';
 
 @Component({
-  selector: 'app-items',
-  templateUrl: './items.component.html',
-  styleUrls: ['./items.component.scss']
+    selector: 'app-items',
+    templateUrl: './items.component.html',
+    styleUrls: ['./items.component.scss'],
+    standalone: false
 })
 export class ItemsComponent implements OnInit {
 

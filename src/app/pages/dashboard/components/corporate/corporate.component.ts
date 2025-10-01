@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-corporate',
-  templateUrl: './corporate.component.html',
-  styleUrls: ['./corporate.component.scss']
+    selector: 'app-corporate',
+    templateUrl: './corporate.component.html',
+    styleUrls: ['./corporate.component.scss'],
+    standalone: false
 })
 export class CorporateComponent implements OnInit {
   @Input() corporate!: any[]

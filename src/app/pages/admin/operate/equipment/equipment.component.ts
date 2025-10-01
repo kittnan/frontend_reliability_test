@@ -9,9 +9,10 @@ import { lastValueFrom } from 'rxjs';
 import { TrackingOperateHttpService } from 'src/app/http/tracking-operate-http.service';
 
 @Component({
-  selector: 'app-equipment',
-  templateUrl: './equipment.component.html',
-  styleUrls: ['./equipment.component.scss']
+    selector: 'app-equipment',
+    templateUrl: './equipment.component.html',
+    styleUrls: ['./equipment.component.scss'],
+    standalone: false
 })
 export class EquipmentComponent implements OnInit {
 

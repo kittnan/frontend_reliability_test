@@ -65,19 +65,17 @@ export interface ToolForm {
 }
 
 @Component({
-  selector: 'app-qe-chamber',
-  templateUrl: './qe-chamber.component.html',
-  styleUrls: ['./qe-chamber.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
+    selector: 'app-qe-chamber',
+    templateUrl: './qe-chamber.component.html',
+    styleUrls: ['./qe-chamber.component.scss'],
+    animations: [
+        trigger('detailExpand', [
+            state('collapsed', style({ height: '0px', minHeight: '0' })),
+            state('expanded', style({ height: '*' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    standalone: false
 })
 export class QeChamberComponent implements OnInit {
   dataSource: any;

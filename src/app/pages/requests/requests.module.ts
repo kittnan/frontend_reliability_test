@@ -11,7 +11,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ManageComponent } from './manage/manage.component';
 import { SharedModule } from '../shared/shared.module';
 import { PipeModule } from 'src/app/pipe/pipe.module';
@@ -42,57 +42,47 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-@NgModule({
-  declarations: [
-    RequestsComponent,
-
-    ManageComponent,
-
-    SheetComponent,
-    SheetStep1Component,
-    SheetStep2Component,
-    SheetStep3Component,
-    SheetStep4Component,
-    SheetStep5Component,
-    Step4HomeComponent,
-
-    ConfirmComponent,
-    RevisesSheetComponent,
-    RevisesTableComponent,
-    RevisesSheet1Component,
-    RevisesSheet2Component,
-    RevisesSheet3Component,
-    RevisesSheet4Component,
-    RevisesSheet5Component,
-    RevisesApproveComponent,
-    Sheet3Component,
-    Sheet3Step1Component,
-    Sheet3Step2Component,
-    Sheet3Step3Component,
-    Sheet3Step4Component,
-    Sheet3Step5Component,
-    DialogSelectTempComponent,
-    DiaLogSelectOperateComponent,
-  ],
-  imports: [
-    CommonModule,
-    RequestsRoutingModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    SharedModule,
-    PipeModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-  ],
-  exports: [],
-  providers: [],
-})
+@NgModule({ declarations: [
+        RequestsComponent,
+        ManageComponent,
+        SheetComponent,
+        SheetStep1Component,
+        SheetStep2Component,
+        SheetStep3Component,
+        SheetStep4Component,
+        SheetStep5Component,
+        Step4HomeComponent,
+        ConfirmComponent,
+        RevisesSheetComponent,
+        RevisesTableComponent,
+        RevisesSheet1Component,
+        RevisesSheet2Component,
+        RevisesSheet3Component,
+        RevisesSheet4Component,
+        RevisesSheet5Component,
+        RevisesApproveComponent,
+        Sheet3Component,
+        Sheet3Step1Component,
+        Sheet3Step2Component,
+        Sheet3Step3Component,
+        Sheet3Step4Component,
+        Sheet3Step5Component,
+        DialogSelectTempComponent,
+        DiaLogSelectOperateComponent,
+    ],
+    exports: [], imports: [CommonModule,
+        RequestsRoutingModule,
+        MaterialModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        PipeModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class RequestsModule {}

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-frequency',
-  templateUrl: './input-frequency.component.html',
-  styleUrls: ['./input-frequency.component.scss']
+    selector: 'app-input-frequency',
+    templateUrl: './input-frequency.component.html',
+    styleUrls: ['./input-frequency.component.scss'],
+    standalone: false
 })
 export class InputFrequencyComponent implements OnInit {
 

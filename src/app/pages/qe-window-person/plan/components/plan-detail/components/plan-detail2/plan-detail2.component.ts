@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogQeChamberComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-qe-chamber/dialog-qe-chamber.component';
 import { QueueForm } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber.component';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-plan-detail2',
-  templateUrl: './plan-detail2.component.html',
-  styleUrls: ['./plan-detail2.component.scss'],
+    selector: 'app-plan-detail2',
+    templateUrl: './plan-detail2.component.html',
+    styleUrls: ['./plan-detail2.component.scss'],
+    standalone: false
 })
 export class PlanDetail2Component implements OnInit {
   @Input() index!: number;

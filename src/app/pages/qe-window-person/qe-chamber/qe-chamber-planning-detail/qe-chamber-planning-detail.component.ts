@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import * as moment from 'moment';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
@@ -19,9 +19,10 @@ import { GenInspectionTableService } from './gen-inspection-table.service';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
-  selector: 'app-qe-chamber-planning-detail',
-  templateUrl: './qe-chamber-planning-detail.component.html',
-  styleUrls: ['./qe-chamber-planning-detail.component.scss'],
+    selector: 'app-qe-chamber-planning-detail',
+    templateUrl: './qe-chamber-planning-detail.component.html',
+    styleUrls: ['./qe-chamber-planning-detail.component.scss'],
+    standalone: false
 })
 export class QeChamberPlanningDetailComponent implements OnInit {
   chamberTable!: QueueForm[];

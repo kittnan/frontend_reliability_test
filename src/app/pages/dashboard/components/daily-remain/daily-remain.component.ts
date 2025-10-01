@@ -3,9 +3,10 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
-  selector: 'app-daily-remain',
-  templateUrl: './daily-remain.component.html',
-  styleUrls: ['./daily-remain.component.scss']
+    selector: 'app-daily-remain',
+    templateUrl: './daily-remain.component.html',
+    styleUrls: ['./daily-remain.component.scss'],
+    standalone: false
 })
 export class DailyRemainComponent implements OnInit {
   @Input() dailyRemain: any

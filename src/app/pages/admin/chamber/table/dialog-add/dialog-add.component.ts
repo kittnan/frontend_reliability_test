@@ -1,15 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import Swal from 'sweetalert2';
 import { DialogAddService } from './dialog-add.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-add',
-  templateUrl: './dialog-add.component.html',
-  styleUrls: ['./dialog-add.component.scss']
+    selector: 'app-dialog-add',
+    templateUrl: './dialog-add.component.html',
+    styleUrls: ['./dialog-add.component.scss'],
+    standalone: false
 })
 export class DialogAddComponent implements OnInit {
   functionChamberList: any = []

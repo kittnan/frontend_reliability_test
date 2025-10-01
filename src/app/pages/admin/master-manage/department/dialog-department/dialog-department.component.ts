@@ -5,9 +5,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-department',
-  templateUrl: './dialog-department.component.html',
-  styleUrls: ['./dialog-department.component.scss']
+    selector: 'app-dialog-department',
+    templateUrl: './dialog-department.component.html',
+    styleUrls: ['./dialog-department.component.scss'],
+    standalone: false
 })
 export class DialogDepartmentComponent implements OnInit {
 
@@ -39,10 +40,10 @@ export class DialogDepartmentComponent implements OnInit {
   onSave() {
     this.data.name = this.newMaster
     this._master_service.updateDepartmentMaster(this.data._id, this.data).subscribe(res => {
-      if(res.modifiedCount >0){
+      if (res.modifiedCount > 0) {
         this.dialogRef.close(res)
         Swal.fire('SUCCESS', '', 'success')
-      }else{
+      } else {
         Swal.fire(res, '', 'error')
       }
     })

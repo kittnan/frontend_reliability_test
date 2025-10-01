@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
 import { GenInspectionTableService } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber-planning-detail/gen-inspection-table.service';
 import { QueueForm } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber.component';

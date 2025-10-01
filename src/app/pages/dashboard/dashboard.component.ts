@@ -6,13 +6,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { TableChamberComponent } from './components/table-chamber/table-chamber.component';
-import * as moment from 'moment';
+import moment from 'moment';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
+    standalone: false
 })
 export class DashboardComponent implements OnInit {
 

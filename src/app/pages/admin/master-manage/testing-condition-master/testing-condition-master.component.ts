@@ -10,9 +10,10 @@ import { DialogTestingTypeComponent } from '../testing-type-master/dialog-testin
 import { DialogTestingConditionComponent } from './dialog-testing-condition/dialog-testing-condition.component';
 
 @Component({
-  selector: 'app-testing-condition-master',
-  templateUrl: './testing-condition-master.component.html',
-  styleUrls: ['./testing-condition-master.component.scss']
+    selector: 'app-testing-condition-master',
+    templateUrl: './testing-condition-master.component.html',
+    styleUrls: ['./testing-condition-master.component.scss'],
+    standalone: false
 })
 export class TestingConditionMasterComponent implements OnInit {
 

@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-plan-table',
-  templateUrl: './plan-table.component.html',
-  styleUrls: ['./plan-table.component.scss'],
+    selector: 'app-plan-table',
+    templateUrl: './plan-table.component.html',
+    styleUrls: ['./plan-table.component.scss'],
+    standalone: false
 })
 export class PlanTableComponent implements OnInit {
   @Input() dataSource!: MatTableDataSource<any>;

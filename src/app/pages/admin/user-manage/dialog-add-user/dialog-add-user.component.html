@@ -9,7 +9,7 @@
 
   <form [formGroup]="newUserForm" fxLayout="row wrap" fxLayoutAlign="space-between stretch">
 
-    <mat-form-field fxFlex="40" appearance="legacy">
+    <mat-form-field fxFlex="40" appearance="outline">
       <mat-label>Authorize</mat-label>
       <mat-select formControlName="authorize" multiple>
         <mat-option *ngFor="let auth of authorizes" [value]="auth.name">
@@ -19,40 +19,40 @@
     </mat-form-field>
 
 
-    <mat-form-field fxFlex="40" class="w-full" appearance="legacy">
+    <mat-form-field fxFlex="40" class="w-full" appearance="outline">
       <mat-label>EmployeeID </mat-label>
       <input matInput formControlName="employee_ID" placeholder="THxxx/xx, OPxxx/xx">
     </mat-form-field>
 
-    <mat-form-field fxFlex="40" class="w-full" appearance="legacy">
+    <mat-form-field fxFlex="40" class="w-full" appearance="outline">
       <mat-label>Username </mat-label>
       <input matInput formControlName="username">
     </mat-form-field>
 
-    <mat-form-field fxFlex="40" class="w-full" appearance="legacy">
+    <mat-form-field fxFlex="40" class="w-full" appearance="outline">
       <mat-label>Password </mat-label>
       <input type="password" matInput formControlName="password">
     </mat-form-field>
 
-    <mat-form-field fxFlex="40" class="w-full" appearance="legacy">
+    <mat-form-field fxFlex="40" class="w-full" appearance="outline">
       <mat-label>Name </mat-label>
       <input matInput formControlName="name">
     </mat-form-field>
 
 
-    <mat-form-field fxFlex="40" class="w-full" appearance="legacy">
+    <mat-form-field fxFlex="40" class="w-full" appearance="outline">
       <mat-label>Email </mat-label>
       <input type="email" matInput formControlName="email" placeholder="xxx@kyocera.co.th">
     </mat-form-field>
 
-    <mat-form-field fxFlex="40" class="w-full" appearance="legacy">
+    <mat-form-field fxFlex="40" class="w-full" appearance="outline">
       <mat-label>Department</mat-label>
       <mat-select formControlName="department">
         <mat-option *ngFor="let item of departmentList; let i=index" [value]="item.name">{{item.name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field fxFlex="40" appearance="legacy">
+    <mat-form-field fxFlex="40" appearance="outline">
       <mat-label>Section</mat-label>
       <mat-select formControlName="section" multiple>
         <mat-option *ngFor="let sec of sectionList" [value]="sec.name">

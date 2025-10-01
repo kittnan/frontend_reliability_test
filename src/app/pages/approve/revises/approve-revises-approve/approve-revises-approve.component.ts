@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
@@ -10,9 +10,10 @@ import { DialogRejectRevisesComponent } from 'src/app/pages/shared/approve-form-
 import { UserApproveService } from 'src/app/services/user-approve.service';
 
 @Component({
-  selector: 'app-approve-revises-approve',
-  templateUrl: './approve-revises-approve.component.html',
-  styleUrls: ['./approve-revises-approve.component.scss']
+    selector: 'app-approve-revises-approve',
+    templateUrl: './approve-revises-approve.component.html',
+    styleUrls: ['./approve-revises-approve.component.scss'],
+    standalone: false
 })
 export class ApproveRevisesApproveComponent implements OnInit {
   userLogin: any

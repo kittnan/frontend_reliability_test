@@ -2,9 +2,10 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-chamber-table',
-  templateUrl: './chamber-table.component.html',
-  styleUrls: ['./chamber-table.component.scss']
+    selector: 'app-chamber-table',
+    templateUrl: './chamber-table.component.html',
+    styleUrls: ['./chamber-table.component.scss'],
+    standalone: false
 })
 export class ChamberTableComponent implements OnInit {
 

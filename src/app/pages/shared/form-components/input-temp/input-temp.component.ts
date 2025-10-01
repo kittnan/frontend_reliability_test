@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-temp',
-  templateUrl: './input-temp.component.html',
-  styleUrls: ['./input-temp.component.scss'],
+    selector: 'app-input-temp',
+    templateUrl: './input-temp.component.html',
+    styleUrls: ['./input-temp.component.scss'],
+    standalone: false
 })
 export class InputTempComponent implements OnInit {
   @Input() form: any = {

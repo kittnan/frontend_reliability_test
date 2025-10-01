@@ -8,7 +8,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogAddUserComponent } from './user-manage/dialog-add-user/dialog-add-user.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DepartmentComponent } from './master-manage/department/department.component';
 import { DialogDepartmentComponent } from './master-manage/department/dialog-department/dialog-department.component';
 import { ModelMasterComponent } from './master-manage/model-master/model-master.component';
@@ -49,61 +49,55 @@ import { ReviseQeReportComponent } from './revise-qe-report/revise-qe-report.com
 import { ModelConditionComponent } from './master-manage/model-condition/model-condition.component';
 
 
-@NgModule({
-  declarations: [
-    AdminComponent,
-    UserManageComponent,
-    DialogAddUserComponent,
-    DepartmentComponent,
-    DialogDepartmentComponent,
-    ModelMasterComponent,
-    DialogModelMasterComponent,
-    TestPurposeMasterComponent,
-    DialogTestPurposeComponent,
-    TestingTypeMasterComponent,
-    DialogTestingTypeComponent,
-    IntervalMasterComponent,
-    DialogIntervalComponent,
-    SectionMasterComponent,
-    DialogSectionComponent,
-    DialogAuthorizeComponent,
-    AuthorizeMasterComponent,
-    TestingConditionMasterComponent,
-    DialogTestingConditionComponent,
-    GroupComponent,
-    ItemsComponent,
-    GroupDialogComponent,
-    ItemsDialogComponent,
-    TableComponent,
-    DialogAddComponent,
-    FunctionChamberComponent,
-    DialogFunctionChamberComponent,
-    RequestComponent,
-    ApproverComponent,
-    DialogApproverComponent,
-    AdvanceModeComponent,
-    QrCodeChamberComponent,
-    QrCodeOperateComponent,
-    QrCodePreviewComponent,
-    EquipmentComponent,
-    ReportComponent,
-    Equipment2Component,
-    Equipment2NewComponent,
-    ReviseQeReportComponent,
-    ModelConditionComponent,
-  ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    SharedModule
-  ],
-  exports:[
-    QrCodePreviewComponent
-  ]
-})
+@NgModule({ declarations: [
+        AdminComponent,
+        UserManageComponent,
+        DialogAddUserComponent,
+        DepartmentComponent,
+        DialogDepartmentComponent,
+        ModelMasterComponent,
+        DialogModelMasterComponent,
+        TestPurposeMasterComponent,
+        DialogTestPurposeComponent,
+        TestingTypeMasterComponent,
+        DialogTestingTypeComponent,
+        IntervalMasterComponent,
+        DialogIntervalComponent,
+        SectionMasterComponent,
+        DialogSectionComponent,
+        DialogAuthorizeComponent,
+        AuthorizeMasterComponent,
+        TestingConditionMasterComponent,
+        DialogTestingConditionComponent,
+        GroupComponent,
+        ItemsComponent,
+        GroupDialogComponent,
+        ItemsDialogComponent,
+        TableComponent,
+        DialogAddComponent,
+        FunctionChamberComponent,
+        DialogFunctionChamberComponent,
+        RequestComponent,
+        ApproverComponent,
+        DialogApproverComponent,
+        AdvanceModeComponent,
+        QrCodeChamberComponent,
+        QrCodeOperateComponent,
+        QrCodePreviewComponent,
+        EquipmentComponent,
+        ReportComponent,
+        Equipment2Component,
+        Equipment2NewComponent,
+        ReviseQeReportComponent,
+        ModelConditionComponent,
+    ],
+    exports: [
+        QrCodePreviewComponent
+    ], imports: [CommonModule,
+        AdminRoutingModule,
+        MaterialModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AdminModule { }

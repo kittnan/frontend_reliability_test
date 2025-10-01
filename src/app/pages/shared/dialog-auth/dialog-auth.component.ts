@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-auth',
-  templateUrl: './dialog-auth.component.html',
-  styleUrls: ['./dialog-auth.component.scss']
+    selector: 'app-dialog-auth',
+    templateUrl: './dialog-auth.component.html',
+    styleUrls: ['./dialog-auth.component.scss'],
+    standalone: false
 })
 export class DialogAuthComponent implements OnInit {
 

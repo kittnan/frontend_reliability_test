@@ -9,9 +9,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
-  selector: 'app-qe-window-approve',
-  templateUrl: './qe-window-approve.component.html',
-  styleUrls: ['./qe-window-approve.component.scss']
+    selector: 'app-qe-window-approve',
+    templateUrl: './qe-window-approve.component.html',
+    styleUrls: ['./qe-window-approve.component.scss'],
+    standalone: false
 })
 export class QeWindowApproveComponent implements OnInit {
 

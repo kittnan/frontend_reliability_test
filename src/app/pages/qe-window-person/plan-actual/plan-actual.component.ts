@@ -8,9 +8,10 @@ import { PlanService } from '../plan/plan.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-plan-actual',
-  templateUrl: './plan-actual.component.html',
-  styleUrls: ['./plan-actual.component.scss'],
+    selector: 'app-plan-actual',
+    templateUrl: './plan-actual.component.html',
+    styleUrls: ['./plan-actual.component.scss'],
+    standalone: false
 })
 export class PlanActualComponent implements OnInit {
   request: any = null;

@@ -45,7 +45,7 @@
               fxFlex="45"
               fxFlex.lt-md="100"
               *ngIf="item.condition"
-              appearance="legacy"
+              appearance="outline"
             >
               <mat-label>Condition Name</mat-label>
               <input
@@ -59,7 +59,7 @@
               fxFlex="45"
               fxFlex.lt-md="100"
               *ngIf="item.work"
-              appearance="legacy"
+              appearance="outline"
             >
               <mat-label>Qty</mat-label>
               <input matInput [(ngModel)]="item.work.qty" [readonly]="true" />
@@ -77,7 +77,7 @@
               <mat-form-field
                 fxFlex="45"
                 fxFlex.lt-md="100"
-                appearance="legacy"
+                appearance="outline"
               >
                 <mat-label *ngIf="time.at == '0'"
                   >date inspection initial</mat-label
@@ -133,7 +133,7 @@
 
         <mat-divider fxFlex="100"></mat-divider>
         <h4 fxFlex="100">End Time</h4>
-        <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="legacy">
+        <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="outline">
           <mat-label>END DATE</mat-label>
           <input
             matInput

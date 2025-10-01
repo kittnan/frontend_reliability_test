@@ -5,9 +5,10 @@ import { SendMailService } from 'src/app/http/send-mail.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-sendmail',
-  templateUrl: './dialog-sendmail.component.html',
-  styleUrls: ['./dialog-sendmail.component.scss']
+    selector: 'app-dialog-sendmail',
+    templateUrl: './dialog-sendmail.component.html',
+    styleUrls: ['./dialog-sendmail.component.scss'],
+    standalone: false
 })
 export class DialogSendmailComponent implements OnInit {
 

@@ -6,9 +6,10 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { UserApproveService } from 'src/app/services/user-approve.service';
 
 @Component({
-  selector: 'app-approve-request',
-  templateUrl: './approve-request.component.html',
-  styleUrls: ['./approve-request.component.scss']
+    selector: 'app-approve-request',
+    templateUrl: './approve-request.component.html',
+    styleUrls: ['./approve-request.component.scss'],
+    standalone: false
 })
 export class ApproveRequestComponent implements OnInit {
 

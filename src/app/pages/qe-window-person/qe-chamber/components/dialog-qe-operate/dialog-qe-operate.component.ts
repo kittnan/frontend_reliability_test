@@ -1,16 +1,17 @@
 import { HttpParams } from '@angular/common/http';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { throwMatDuplicatedDrawerError } from '@angular/material/sidenav';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-dialog-qe-operate',
-  templateUrl: './dialog-qe-operate.component.html',
-  styleUrls: ['./dialog-qe-operate.component.scss']
+    selector: 'app-dialog-qe-operate',
+    templateUrl: './dialog-qe-operate.component.html',
+    styleUrls: ['./dialog-qe-operate.component.scss'],
+    standalone: false
 })
 export class DialogQeOperateComponent implements OnInit {
 

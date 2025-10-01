@@ -10,9 +10,10 @@ import { DialogAuthorizeComponent } from '../authorize-master/dialog-authorize/d
 import { DialogFunctionChamberComponent } from './dialog-function-chamber/dialog-function-chamber.component';
 
 @Component({
-  selector: 'app-function-chamber',
-  templateUrl: './function-chamber.component.html',
-  styleUrls: ['./function-chamber.component.scss']
+    selector: 'app-function-chamber',
+    templateUrl: './function-chamber.component.html',
+    styleUrls: ['./function-chamber.component.scss'],
+    standalone: false
 })
 export class FunctionChamberComponent implements OnInit {
 

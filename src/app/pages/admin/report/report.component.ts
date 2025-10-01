@@ -4,9 +4,10 @@ import { ReportHttpService } from 'src/app/http/report-http.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+    selector: 'app-report',
+    templateUrl: './report.component.html',
+    styleUrls: ['./report.component.scss'],
+    standalone: false
 })
 export class ReportComponent implements OnInit {
 

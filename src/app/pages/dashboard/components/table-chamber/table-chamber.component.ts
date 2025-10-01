@@ -2,12 +2,13 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-table-chamber',
-  templateUrl: './table-chamber.component.html',
-  styleUrls: ['./table-chamber.component.scss']
+    selector: 'app-table-chamber',
+    templateUrl: './table-chamber.component.html',
+    styleUrls: ['./table-chamber.component.scss'],
+    standalone: false
 })
 export class TableChamberComponent implements OnInit {
   @Input() data: any

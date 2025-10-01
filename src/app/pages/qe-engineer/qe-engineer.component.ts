@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-qe-engineer',
-  templateUrl: './qe-engineer.component.html',
-  styleUrls: ['./qe-engineer.component.scss']
+    selector: 'app-qe-engineer',
+    templateUrl: './qe-engineer.component.html',
+    styleUrls: ['./qe-engineer.component.scss'],
+    standalone: false
 })
 export class QeEngineerComponent implements OnInit {
 

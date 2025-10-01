@@ -9,13 +9,13 @@ import { OperateGroupService } from 'src/app/http/operate-group.service';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
-import { GroupDialogComponent } from '../../operate/group/group-dialog/group-dialog.component';
 import { DialogAddComponent } from './dialog-add/dialog-add.component';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+    selector: 'app-table',
+    templateUrl: './table.component.html',
+    styleUrls: ['./table.component.scss'],
+    standalone: false
 })
 export class TableComponent implements OnInit {
 

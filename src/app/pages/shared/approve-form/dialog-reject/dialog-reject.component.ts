@@ -2,12 +2,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogApproveComponent } from '../dialog-approve/dialog-approve.component';
 import { RejectService } from '../reject.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-dialog-reject',
-  templateUrl: './dialog-reject.component.html',
-  styleUrls: ['./dialog-reject.component.scss']
+    selector: 'app-dialog-reject',
+    templateUrl: './dialog-reject.component.html',
+    styleUrls: ['./dialog-reject.component.scss'],
+    standalone: false
 })
 export class DialogRejectComponent implements OnInit {
 

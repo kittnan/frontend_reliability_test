@@ -1,14 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-interval',
-  templateUrl: './dialog-interval.component.html',
-  styleUrls: ['./dialog-interval.component.scss']
+    selector: 'app-dialog-interval',
+    templateUrl: './dialog-interval.component.html',
+    styleUrls: ['./dialog-interval.component.scss'],
+    standalone: false
 })
 export class DialogIntervalComponent implements OnInit {
 

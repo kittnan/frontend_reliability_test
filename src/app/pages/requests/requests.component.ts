@@ -2,9 +2,10 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-requests',
-  templateUrl: './requests.component.html',
-  styleUrls: ['./requests.component.scss']
+    selector: 'app-requests',
+    templateUrl: './requests.component.html',
+    styleUrls: ['./requests.component.scss'],
+    standalone: false
 })
 export class RequestsComponent implements OnInit {
 

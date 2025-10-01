@@ -8,9 +8,10 @@ interface requestForm {
   step2: any;
 }
 @Component({
-  selector: 'app-sheet3',
-  templateUrl: './sheet3.component.html',
-  styleUrls: ['./sheet3.component.scss']
+    selector: 'app-sheet3',
+    templateUrl: './sheet3.component.html',
+    styleUrls: ['./sheet3.component.scss'],
+    standalone: false
 })
 export class Sheet3Component implements OnInit {
 

@@ -12,9 +12,10 @@ import { ItemsDialogComponent } from '../items/items-dialog/items-dialog.compone
 import { GroupDialogComponent } from './group-dialog/group-dialog.component';
 
 @Component({
-  selector: 'app-group',
-  templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss']
+    selector: 'app-group',
+    templateUrl: './group.component.html',
+    styleUrls: ['./group.component.scss'],
+    standalone: false
 })
 export class GroupComponent implements OnInit {
 

@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-function-chamber',
-  templateUrl: './dialog-function-chamber.component.html',
-  styleUrls: ['./dialog-function-chamber.component.scss']
+    selector: 'app-dialog-function-chamber',
+    templateUrl: './dialog-function-chamber.component.html',
+    styleUrls: ['./dialog-function-chamber.component.scss'],
+    standalone: false
 })
 export class DialogFunctionChamberComponent implements OnInit {
 

@@ -4,9 +4,10 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 
 @Component({
-  selector: 'app-revise-qe-report',
-  templateUrl: './revise-qe-report.component.html',
-  styleUrls: ['./revise-qe-report.component.scss']
+    selector: 'app-revise-qe-report',
+    templateUrl: './revise-qe-report.component.html',
+    styleUrls: ['./revise-qe-report.component.scss'],
+    standalone: false
 })
 export class ReviseQeReportComponent implements OnInit {
   data: any

@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { LogFlowService } from 'src/app/http/log-flow.service';
 
 @Component({
-  selector: 'app-view-log',
-  templateUrl: './view-log.component.html',
-  styleUrls: ['./view-log.component.scss']
+    selector: 'app-view-log',
+    templateUrl: './view-log.component.html',
+    styleUrls: ['./view-log.component.scss'],
+    standalone: false
 })
 export class ViewLogComponent implements OnInit {
 

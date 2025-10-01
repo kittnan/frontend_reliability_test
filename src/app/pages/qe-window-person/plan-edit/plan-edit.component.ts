@@ -7,9 +7,10 @@ import { ApproverForm } from '../../admin/approver/dialog-approver/dialog-approv
 import { PlanService } from '../plan/plan.service';
 
 @Component({
-  selector: 'app-plan-edit',
-  templateUrl: './plan-edit.component.html',
-  styleUrls: ['./plan-edit.component.scss'],
+    selector: 'app-plan-edit',
+    templateUrl: './plan-edit.component.html',
+    styleUrls: ['./plan-edit.component.scss'],
+    standalone: false
 })
 export class PlanEditComponent implements OnInit {
   request: any = null;

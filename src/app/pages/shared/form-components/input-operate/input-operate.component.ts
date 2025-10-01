@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-operate',
-  templateUrl: './input-operate.component.html',
-  styleUrls: ['./input-operate.component.scss']
+    selector: 'app-input-operate',
+    templateUrl: './input-operate.component.html',
+    styleUrls: ['./input-operate.component.scss'],
+    standalone: false
 })
 export class InputOperateComponent implements OnInit {
 

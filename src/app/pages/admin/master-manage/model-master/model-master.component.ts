@@ -8,9 +8,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 import { DialogModelMasterComponent } from './dialog-model-master/dialog-model-master.component';
 @Component({
-  selector: 'app-model-master',
-  templateUrl: './model-master.component.html',
-  styleUrls: ['./model-master.component.scss']
+    selector: 'app-model-master',
+    templateUrl: './model-master.component.html',
+    styleUrls: ['./model-master.component.scss'],
+    standalone: false
 })
 export class ModelMasterComponent implements OnInit {
 

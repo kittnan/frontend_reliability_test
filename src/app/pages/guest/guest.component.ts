@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,7 +11,7 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { environment } from 'src/environments/environment';
 import { DialogViewComponent } from '../shared/dialog-view/dialog-view.component';
 import { ReportService } from '../shared/table-request/report.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 interface ParamsForm {
   userId: string;
@@ -23,9 +23,10 @@ interface ParamsForm {
 }
 
 @Component({
-  selector: 'app-guest',
-  templateUrl: './guest.component.html',
-  styleUrls: ['./guest.component.scss'],
+    selector: 'app-guest',
+    templateUrl: './guest.component.html',
+    styleUrls: ['./guest.component.scss'],
+    standalone: false
 })
 export class GuestComponent implements OnInit {
   userLogin: any;

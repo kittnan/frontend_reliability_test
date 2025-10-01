@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { QueueForm, TimeForm } from './qe-chamber.component';
-import * as moment from 'moment';
+import moment from 'moment';
 @Injectable({
   providedIn: 'root',
 })

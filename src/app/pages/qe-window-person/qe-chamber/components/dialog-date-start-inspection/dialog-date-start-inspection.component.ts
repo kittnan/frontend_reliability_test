@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-date-start-inspection',
-  templateUrl: './dialog-date-start-inspection.component.html',
-  styleUrls: ['./dialog-date-start-inspection.component.scss']
+    selector: 'app-dialog-date-start-inspection',
+    templateUrl: './dialog-date-start-inspection.component.html',
+    styleUrls: ['./dialog-date-start-inspection.component.scss'],
+    standalone: false
 })
 export class DialogDateStartInspectionComponent implements OnInit {
 

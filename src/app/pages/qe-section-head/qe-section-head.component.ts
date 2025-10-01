@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-qe-section-head',
-  templateUrl: './qe-section-head.component.html',
-  styleUrls: ['./qe-section-head.component.scss']
+    selector: 'app-qe-section-head',
+    templateUrl: './qe-section-head.component.html',
+    styleUrls: ['./qe-section-head.component.scss'],
+    standalone: false
 })
 export class QeSectionHeadComponent implements OnInit {
 

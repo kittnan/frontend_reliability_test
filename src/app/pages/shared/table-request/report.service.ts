@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import * as ExcelJS from 'ExcelJs';
 import { Cell, Row, Workbook, Worksheet } from 'ExcelJs';
 import { saveAs } from 'file-saver';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { lastValueFrom } from 'rxjs';

@@ -1,14 +1,15 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import * as moment from 'moment';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import moment from 'moment';
 import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-qe-chamber',
-  templateUrl: './dialog-qe-chamber.component.html',
-  styleUrls: ['./dialog-qe-chamber.component.scss']
+    selector: 'app-dialog-qe-chamber',
+    templateUrl: './dialog-qe-chamber.component.html',
+    styleUrls: ['./dialog-qe-chamber.component.scss'],
+    standalone: false
 })
 export class DialogQeChamberComponent implements OnInit {
 

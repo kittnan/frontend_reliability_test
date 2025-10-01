@@ -6,9 +6,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-items-dialog',
-  templateUrl: './items-dialog.component.html',
-  styleUrls: ['./items-dialog.component.scss']
+    selector: 'app-items-dialog',
+    templateUrl: './items-dialog.component.html',
+    styleUrls: ['./items-dialog.component.scss'],
+    standalone: false
 })
 export class ItemsDialogComponent implements OnInit {
 

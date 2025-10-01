@@ -5,9 +5,10 @@ import { ChamberHttpService } from 'src/app/http/chamber-http.service';
 import * as QRCode from 'qrcode'
 import { NavigationExtras, Router } from '@angular/router';
 @Component({
-  selector: 'app-qr-code-chamber',
-  templateUrl: './qr-code-chamber.component.html',
-  styleUrls: ['./qr-code-chamber.component.scss']
+    selector: 'app-qr-code-chamber',
+    templateUrl: './qr-code-chamber.component.html',
+    styleUrls: ['./qr-code-chamber.component.scss'],
+    standalone: false
 })
 export class QrCodeChamberComponent implements OnInit {
   displayedColumns: string[] = ['select', 'code', 'name', 'capacity', 'function', 'qrcode'];

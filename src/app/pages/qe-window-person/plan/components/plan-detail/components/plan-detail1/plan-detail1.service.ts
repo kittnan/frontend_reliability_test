@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { TimeForm } from 'src/app/pages/qe-window-person/qe-chamber/qe-chamber.component';
 
 @Injectable({

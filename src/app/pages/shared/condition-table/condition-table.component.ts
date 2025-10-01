@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-condition-table',
-  templateUrl: './condition-table.component.html',
-  styleUrls: ['./condition-table.component.scss']
+    selector: 'app-condition-table',
+    templateUrl: './condition-table.component.html',
+    styleUrls: ['./condition-table.component.scss'],
+    standalone: false
 })
 export class ConditionTableComponent implements OnInit {
 

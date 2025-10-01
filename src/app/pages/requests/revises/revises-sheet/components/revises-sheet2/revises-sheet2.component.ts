@@ -8,10 +8,11 @@ import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
-  selector: 'app-revises-sheet2',
-  templateUrl: './revises-sheet2.component.html',
-  styleUrls: ['./revises-sheet2.component.scss'],
-  providers: []
+    selector: 'app-revises-sheet2',
+    templateUrl: './revises-sheet2.component.html',
+    styleUrls: ['./revises-sheet2.component.scss'],
+    providers: [],
+    standalone: false
 })
 export class RevisesSheet2Component implements OnInit {
   // @Input() step2: any

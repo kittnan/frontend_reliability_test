@@ -3,9 +3,10 @@ import { TestingConditionForm } from 'src/app/interface/testingConditionForm';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-high-temp-humi-vibration-form',
-  templateUrl: './high-temp-humi-vibration-form.component.html',
-  styleUrls: ['./high-temp-humi-vibration-form.component.scss'],
+    selector: 'app-high-temp-humi-vibration-form',
+    templateUrl: './high-temp-humi-vibration-form.component.html',
+    styleUrls: ['./high-temp-humi-vibration-form.component.scss'],
+    standalone: false
 })
 export class HighTempHumiVibrationFormComponent implements OnInit {
   @Input() data: any;

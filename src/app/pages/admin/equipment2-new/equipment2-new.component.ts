@@ -7,9 +7,10 @@ import { HttpFileServeService } from 'src/app/http/http-file-serve.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
-  selector: 'app-equipment2-new',
-  templateUrl: './equipment2-new.component.html',
-  styleUrls: ['./equipment2-new.component.scss']
+    selector: 'app-equipment2-new',
+    templateUrl: './equipment2-new.component.html',
+    styleUrls: ['./equipment2-new.component.scss'],
+    standalone: false
 })
 export class Equipment2NewComponent implements OnInit {
 

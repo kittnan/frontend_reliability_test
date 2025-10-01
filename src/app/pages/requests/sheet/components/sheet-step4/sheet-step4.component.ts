@@ -8,9 +8,10 @@ import { Step3HttpService } from 'src/app/http/step3-http.service';
 import { Step1HttpService } from 'src/app/http/step1-http.service';
 
 @Component({
-  selector: 'app-sheet-step4',
-  templateUrl: './sheet-step4.component.html',
-  styleUrls: ['./sheet-step4.component.scss']
+    selector: 'app-sheet-step4',
+    templateUrl: './sheet-step4.component.html',
+    styleUrls: ['./sheet-step4.component.scss'],
+    standalone: false
 })
 export class SheetStep4Component implements OnInit {
   @Input() formId: any

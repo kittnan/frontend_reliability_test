@@ -4,16 +4,17 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { ApproverForm } from 'src/app/pages/admin/approver/dialog-approver/dialog-approver.component';
 import { UserApproveService } from 'src/app/services/user-approve.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogApproveComponent } from 'src/app/pages/shared/approve-form/dialog-approve/dialog-approve.component';
 import { DialogApproveRevisesComponent } from 'src/app/pages/shared/approve-form-revises/dialog-approve-revises/dialog-approve-revises.component';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-revises-sheet5',
-  templateUrl: './revises-sheet5.component.html',
-  styleUrls: ['./revises-sheet5.component.scss']
+    selector: 'app-revises-sheet5',
+    templateUrl: './revises-sheet5.component.html',
+    styleUrls: ['./revises-sheet5.component.scss'],
+    standalone: false
 })
 export class RevisesSheet5Component implements OnInit {
   @Input() requestId: any

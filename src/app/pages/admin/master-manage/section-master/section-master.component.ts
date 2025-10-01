@@ -9,9 +9,10 @@ import Swal from 'sweetalert2';
 import { DialogSectionComponent } from './dialog-section/dialog-section.component';
 
 @Component({
-  selector: 'app-section-master',
-  templateUrl: './section-master.component.html',
-  styleUrls: ['./section-master.component.scss']
+    selector: 'app-section-master',
+    templateUrl: './section-master.component.html',
+    styleUrls: ['./section-master.component.scss'],
+    standalone: false
 })
 export class SectionMasterComponent implements OnInit {
 

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-cycle',
-  templateUrl: './input-cycle.component.html',
-  styleUrls: ['./input-cycle.component.scss']
+    selector: 'app-input-cycle',
+    templateUrl: './input-cycle.component.html',
+    styleUrls: ['./input-cycle.component.scss'],
+    standalone: false
 })
 export class InputCycleComponent implements OnInit {
 

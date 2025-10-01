@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { QeChamberService } from '../../../qe-chamber/qe-chamber.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-plan-actual-detail',
-  templateUrl: './plan-actual-detail.component.html',
-  styleUrls: ['./plan-actual-detail.component.scss'],
+    selector: 'app-plan-actual-detail',
+    templateUrl: './plan-actual-detail.component.html',
+    styleUrls: ['./plan-actual-detail.component.scss'],
+    standalone: false
 })
 export class PlanActualDetailComponent implements OnInit {
   @Input() queues: any;

@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { debounceTime, lastValueFrom } from 'rxjs';
 import { QueueService } from 'src/app/http/queue.service';
 import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
@@ -42,9 +42,10 @@ export interface ScanHistory {
 
 
 @Component({
-  selector: 'app-qe-technical-detail',
-  templateUrl: './qe-technical-detail.component.html',
-  styleUrls: ['./qe-technical-detail.component.scss']
+    selector: 'app-qe-technical-detail',
+    templateUrl: './qe-technical-detail.component.html',
+    styleUrls: ['./qe-technical-detail.component.scss'],
+    standalone: false
 })
 export class QeTechnicalDetailComponent implements OnInit {
   userLogin: any

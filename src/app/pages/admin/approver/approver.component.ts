@@ -1,19 +1,19 @@
-import { ApproverHttpService } from './../../../http/approver-http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
+import { map } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
-import { map } from 'rxjs';
+import { ApproverHttpService } from './../../../http/approver-http.service';
 import { DialogApproverComponent } from './dialog-approver/dialog-approver.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-approver',
-  templateUrl: './approver.component.html',
-  styleUrls: ['./approver.component.scss']
+    selector: 'app-approver',
+    templateUrl: './approver.component.html',
+    styleUrls: ['./approver.component.scss'],
+    standalone: false
 })
 export class ApproverComponent implements OnInit {
 

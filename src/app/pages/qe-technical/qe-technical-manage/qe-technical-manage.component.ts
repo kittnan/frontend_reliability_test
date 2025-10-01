@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subscription, interval, lastValueFrom } from 'rxjs';
 import { RequestHttpService } from 'src/app/http/request-http.service';
@@ -25,9 +25,10 @@ interface ParamsForm {
   count: string;
 }
 @Component({
-  selector: 'app-qe-technical-manage',
-  templateUrl: './qe-technical-manage.component.html',
-  styleUrls: ['./qe-technical-manage.component.scss']
+    selector: 'app-qe-technical-manage',
+    templateUrl: './qe-technical-manage.component.html',
+    styleUrls: ['./qe-technical-manage.component.scss'],
+    standalone: false
 })
 export class QeTechnicalManageComponent implements OnInit {
   userLogin: any;

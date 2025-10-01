@@ -24,7 +24,7 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { UserHttpService } from 'src/app/http/user-http.service';
 import { Observable, map, startWith } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import moment from 'moment';
 
 export interface ModelNo {
   modelNo: string;
@@ -33,9 +33,10 @@ export interface ModelNo {
   customer: string;
 }
 @Component({
-  selector: 'app-sheet-step1',
-  templateUrl: './sheet-step1.component.html',
-  styleUrls: ['./sheet-step1.component.scss'],
+    selector: 'app-sheet-step1',
+    templateUrl: './sheet-step1.component.html',
+    styleUrls: ['./sheet-step1.component.scss'],
+    standalone: false
 })
 export class SheetStep1Component implements OnInit {
   @Input() formId: any;

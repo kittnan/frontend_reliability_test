@@ -5,9 +5,10 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 
 @Component({
-  selector: 'app-qe-window-report',
-  templateUrl: './qe-window-report.component.html',
-  styleUrls: ['./qe-window-report.component.scss']
+    selector: 'app-qe-window-report',
+    templateUrl: './qe-window-report.component.html',
+    styleUrls: ['./qe-window-report.component.scss'],
+    standalone: false
 })
 export class QeWindowReportComponent implements OnInit {
 

@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 import { DialogDepartmentComponent } from './dialog-department/dialog-department.component';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 @Component({
-  selector: 'app-department',
-  templateUrl: './department.component.html',
-  styleUrls: ['./department.component.scss']
+    selector: 'app-department',
+    templateUrl: './department.component.html',
+    styleUrls: ['./department.component.scss'],
+    standalone: false
 })
 export class DepartmentComponent implements OnInit {
 
@@ -33,7 +34,7 @@ export class DepartmentComponent implements OnInit {
   async getMaster() {
     const resData = await this._master_service.getDepartmentMaster().toPromise()
     this.dataSource = new MatTableDataSource(resData)
-    this.displayedColumns = ['no', 'name','action']
+    this.displayedColumns = ['no', 'name', 'action']
     this.tableConfig()
   }
 

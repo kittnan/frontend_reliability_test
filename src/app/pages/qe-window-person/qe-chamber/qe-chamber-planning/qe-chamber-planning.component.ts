@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogQeChamberComponent } from '../components/dialog-qe-chamber/dialog-qe-chamber.component';
 import { DialogQeOperateComponent } from '../components/dialog-qe-operate/dialog-qe-operate.component';
@@ -7,9 +7,10 @@ import { QueueForm } from '../qe-chamber.component';
 import { QeChamberService } from '../qe-chamber.service';
 
 @Component({
-  selector: 'app-qe-chamber-planning',
-  templateUrl: './qe-chamber-planning.component.html',
-  styleUrls: ['./qe-chamber-planning.component.scss'],
+    selector: 'app-qe-chamber-planning',
+    templateUrl: './qe-chamber-planning.component.html',
+    styleUrls: ['./qe-chamber-planning.component.scss'],
+    standalone: false
 })
 export class QeChamberPlanningComponent implements OnInit {
   @Input() data: any;

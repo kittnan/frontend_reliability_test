@@ -1,5 +1,5 @@
 import { RequestHttpService } from 'src/app/http/request-http.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogAuthComponent } from './../pages/shared/dialog-auth/dialog-auth.component';
 import { v4 as uuid } from 'uuid';
 import { HttpClient, HttpParams } from '@angular/common/http';

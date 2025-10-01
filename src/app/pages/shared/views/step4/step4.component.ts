@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
-  selector: 'app-step4',
-  templateUrl: './step4.component.html',
-  styleUrls: ['./step4.component.scss']
+    selector: 'app-step4',
+    templateUrl: './step4.component.html',
+    styleUrls: ['./step4.component.scss'],
+    standalone: false
 })
 export class Step4Component implements OnInit {
 

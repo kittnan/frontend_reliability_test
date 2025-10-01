@@ -1,16 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
-import { ToastService } from 'src/app/services/toast.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-model-master',
-  templateUrl: './dialog-model-master.component.html',
-  styleUrls: ['./dialog-model-master.component.scss']
+    selector: 'app-dialog-model-master',
+    templateUrl: './dialog-model-master.component.html',
+    styleUrls: ['./dialog-model-master.component.scss'],
+    standalone: false
 })
 export class DialogModelMasterComponent implements OnInit {
 

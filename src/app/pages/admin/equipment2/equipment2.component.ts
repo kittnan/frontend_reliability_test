@@ -1,14 +1,14 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { EquipmentHttpService } from 'src/app/http/equipment-http.service';
 
 @Component({
-  selector: 'app-equipment2',
-  templateUrl: './equipment2.component.html',
-  styleUrls: ['./equipment2.component.scss']
+    selector: 'app-equipment2',
+    templateUrl: './equipment2.component.html',
+    styleUrls: ['./equipment2.component.scss'],
+    standalone: false
 })
 export class Equipment2Component implements OnInit {
 

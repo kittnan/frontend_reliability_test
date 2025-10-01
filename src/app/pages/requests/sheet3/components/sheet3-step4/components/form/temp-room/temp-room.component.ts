@@ -2,9 +2,10 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-temp-room',
-  templateUrl: './temp-room.component.html',
-  styleUrls: ['./temp-room.component.scss'],
+    selector: 'app-temp-room',
+    templateUrl: './temp-room.component.html',
+    styleUrls: ['./temp-room.component.scss'],
+    standalone: false
 })
 export class TempRoomComponent implements OnInit {
   @Input() data: any;

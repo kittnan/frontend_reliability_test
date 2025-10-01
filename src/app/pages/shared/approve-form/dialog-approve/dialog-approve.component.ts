@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApproveService } from '../approve.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-dialog-approve',
-  templateUrl: './dialog-approve.component.html',
-  styleUrls: ['./dialog-approve.component.scss']
+    selector: 'app-dialog-approve',
+    templateUrl: './dialog-approve.component.html',
+    styleUrls: ['./dialog-approve.component.scss'],
+    standalone: false
 })
 export class DialogApproveComponent implements OnInit {
   select: any

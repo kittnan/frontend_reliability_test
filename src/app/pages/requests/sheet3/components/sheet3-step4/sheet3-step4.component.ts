@@ -7,9 +7,10 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { Step3HttpService } from 'src/app/http/step3-http.service';
 
 @Component({
-  selector: 'app-sheet3-step4',
-  templateUrl: './sheet3-step4.component.html',
-  styleUrls: ['./sheet3-step4.component.scss']
+    selector: 'app-sheet3-step4',
+    templateUrl: './sheet3-step4.component.html',
+    styleUrls: ['./sheet3-step4.component.scss'],
+    standalone: false
 })
 export class Sheet3Step4Component implements OnInit {
 

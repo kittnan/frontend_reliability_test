@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as QRCode from 'qrcode'
 import { GenerateQrcodeService } from '../generate-qrcode.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-qr-code-preview',
-  templateUrl: './qr-code-preview.component.html',
-  styleUrls: ['./qr-code-preview.component.scss']
+    selector: 'app-qr-code-preview',
+    templateUrl: './qr-code-preview.component.html',
+    styleUrls: ['./qr-code-preview.component.scss'],
+    standalone: false
 })
 export class QrCodePreviewComponent implements OnInit {
 

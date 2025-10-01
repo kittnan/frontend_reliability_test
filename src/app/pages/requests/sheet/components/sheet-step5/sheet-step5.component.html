@@ -1,11 +1,11 @@
 <div fxLayoutAlign="center stretch" fxLayout="row wrap">
 
   <div fxFlex="100" fxLayoutAlign="space-around stretch">
-    <mat-form-field *ngIf="userLogin" appearance="legacy" fxFlex="30" fxFlex.sm="100">
+    <mat-form-field *ngIf="userLogin" appearance="outline" fxFlex="30" fxFlex.sm="100">
       <mat-label>Requester Name</mat-label>
       <input matInput value="{{userLogin.name|uppercase}}" [readonly]="true">
     </mat-form-field>
-    <mat-form-field appearance="legacy" fxFlex="30" fxFlex.sm="100">
+    <mat-form-field appearance="outline" fxFlex="30" fxFlex.sm="100">
       <mat-label>Requester Date</mat-label>
       <input matInput [value]="date|date:'d-MMM-y'" [readonly]="true">
     </mat-form-field>

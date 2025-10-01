@@ -1,27 +1,27 @@
 <div [formGroup]="modelGroup">
     <h4>Model Master</h4>
 
-    <mat-form-field class="w-full" appearance="legacy">
+    <mat-form-field class="w-full" appearance="outline">
         <mat-label>ModelName</mat-label>
         <input matInput formControlName="modelName">
     </mat-form-field>
 
-    <mat-form-field class="w-full" appearance="legacy">
+    <mat-form-field class="w-full" appearance="outline">
         <mat-label>ModelNo</mat-label>
         <input matInput formControlName="modelNo">
     </mat-form-field>
 
-    <mat-form-field class="w-full" appearance="legacy">
+    <mat-form-field class="w-full" appearance="outline">
         <mat-label>Size</mat-label>
         <input matInput formControlName="size">
     </mat-form-field>
 
-    <mat-form-field class="w-full" appearance="legacy">
+    <mat-form-field class="w-full" appearance="outline">
         <mat-label>Customer</mat-label>
         <input matInput formControlName="customer">
     </mat-form-field>
 
-    <mat-form-field class="w-full" appearance="legacy">
+    <mat-form-field class="w-full" appearance="outline">
         <mat-label>Operate Group</mat-label>
         <mat-select formControlName="operateGroupCode">
             <mat-option *ngFor="let item of operateList" [value]="item.code">

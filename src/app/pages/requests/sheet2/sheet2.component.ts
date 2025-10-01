@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-sheet2',
-  templateUrl: './sheet2.component.html',
-  styleUrls: ['./sheet2.component.scss']
+    selector: 'app-sheet2',
+    templateUrl: './sheet2.component.html',
+    styleUrls: ['./sheet2.component.scss'],
+    standalone: false
 })
 export class Sheet2Component implements OnInit {
 

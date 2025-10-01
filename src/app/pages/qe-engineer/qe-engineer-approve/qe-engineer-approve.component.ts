@@ -8,9 +8,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import { ApproveService } from '../../shared/approve-form/approve.service';
 
 @Component({
-  selector: 'app-qe-engineer-approve',
-  templateUrl: './qe-engineer-approve.component.html',
-  styleUrls: ['./qe-engineer-approve.component.scss']
+    selector: 'app-qe-engineer-approve',
+    templateUrl: './qe-engineer-approve.component.html',
+    styleUrls: ['./qe-engineer-approve.component.scss'],
+    standalone: false
 })
 export class QeEngineerApproveComponent implements OnInit {
 
@@ -81,6 +82,9 @@ export class QeEngineerApproveComponent implements OnInit {
     let userLoginStr: any = localStorage.getItem('RLS_userLogin')
     this.userLogin = JSON.parse(userLoginStr)
     this.userApprove = await this._userApprove.getUserApprove(this.userLogin, this.authorize)
+
+    console.log(`⚡ ~ :86 ~ QeEngineerApproveComponent ~ this.userApprove:`, this.userApprove);
+
     this.approver = await this._userApprove.approver(this.authorize, this.form.level, this.userLogin)
     if (this.approver && this.approver.groupStatus) {
       this.userApprove = [this.approver.selected]

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-step3',
-  templateUrl: './step3.component.html',
-  styleUrls: ['./step3.component.scss']
+    selector: 'app-step3',
+    templateUrl: './step3.component.html',
+    styleUrls: ['./step3.component.scss'],
+    standalone: false
 })
 export class Step3Component implements OnInit {
 

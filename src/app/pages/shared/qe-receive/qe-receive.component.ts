@@ -3,9 +3,10 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
-  selector: 'app-qe-receive',
-  templateUrl: './qe-receive.component.html',
-  styleUrls: ['./qe-receive.component.scss']
+    selector: 'app-qe-receive',
+    templateUrl: './qe-receive.component.html',
+    styleUrls: ['./qe-receive.component.scss'],
+    standalone: false
 })
 export class QeReceiveComponent implements OnInit {
 

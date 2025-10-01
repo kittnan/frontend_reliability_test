@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-no-oven',
-  templateUrl: './no-oven.component.html',
-  styleUrls: ['./no-oven.component.scss'],
+    selector: 'app-no-oven',
+    templateUrl: './no-oven.component.html',
+    styleUrls: ['./no-oven.component.scss'],
+    standalone: false
 })
 export class NoOvenComponent implements OnInit {
   @Input() data: any;

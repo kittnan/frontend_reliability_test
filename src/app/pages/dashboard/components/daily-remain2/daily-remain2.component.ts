@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-daily-remain2',
-  templateUrl: './daily-remain2.component.html',
-  styleUrls: ['./daily-remain2.component.scss']
+    selector: 'app-daily-remain2',
+    templateUrl: './daily-remain2.component.html',
+    styleUrls: ['./daily-remain2.component.scss'],
+    standalone: false
 })
 export class DailyRemain2Component implements OnInit {
   @Input() daily: any

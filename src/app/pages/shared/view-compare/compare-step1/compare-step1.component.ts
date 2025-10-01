@@ -3,9 +3,10 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { ModelNo, Department } from '../../views/step1/step1.component';
 
 @Component({
-  selector: 'app-compare-step1',
-  templateUrl: './compare-step1.component.html',
-  styleUrls: ['./compare-step1.component.scss']
+    selector: 'app-compare-step1',
+    templateUrl: './compare-step1.component.html',
+    styleUrls: ['./compare-step1.component.scss'],
+    standalone: false
 })
 export class CompareStep1Component implements OnInit {
 

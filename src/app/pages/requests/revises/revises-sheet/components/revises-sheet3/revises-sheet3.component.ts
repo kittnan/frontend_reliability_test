@@ -11,9 +11,10 @@ import { RequestSheetService } from 'src/app/pages/requests/sheet/request-sheet.
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
-  selector: 'app-revises-sheet3',
-  templateUrl: './revises-sheet3.component.html',
-  styleUrls: ['./revises-sheet3.component.scss']
+    selector: 'app-revises-sheet3',
+    templateUrl: './revises-sheet3.component.html',
+    styleUrls: ['./revises-sheet3.component.scss'],
+    standalone: false
 })
 export class RevisesSheet3Component implements OnInit {
 

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-inspection-form',
-  templateUrl: './inspection-form.component.html',
-  styleUrls: ['./inspection-form.component.scss']
+    selector: 'app-inspection-form',
+    templateUrl: './inspection-form.component.html',
+    styleUrls: ['./inspection-form.component.scss'],
+    standalone: false
 })
 export class InspectionFormComponent implements OnInit {
 

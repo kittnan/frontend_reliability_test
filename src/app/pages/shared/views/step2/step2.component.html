@@ -13,12 +13,12 @@
 
     <div class="box-body" fxFlex="100" fxLayoutAlign="space-between stretch" fxLayout="row wrap">
 
-      <mat-form-field fxFlex="auto" appearance="legacy">
+      <mat-form-field fxFlex="auto" appearance="outline">
         <mat-label>Test Purpose </mat-label>
         <input [readonly]="true" [value]="step2.purpose" matInput>
       </mat-form-field>
 
-      <mat-form-field *ngIf="step2.description?.status" fxFlex="auto" appearance="legacy">
+      <mat-form-field *ngIf="step2.description?.status" fxFlex="auto" appearance="outline">
         <mat-label>Description </mat-label>
         <input [readonly]="true" [value]="step2.description?.value" matInput>
       </mat-form-field>

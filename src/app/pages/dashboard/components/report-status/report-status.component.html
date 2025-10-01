@@ -16,7 +16,7 @@
   </div>
   <div *ngIf="data && data.length>0" fxFlex="92" fxLayoutAlign="start stretch" fxLayout="row wrap" class="card-table"
     style="overflow: auto;background-color: white;">
-    <mat-form-field fxFlex="100" appearance="standard">
+    <mat-form-field fxFlex="100" appearance="outline">
       <mat-label>Search</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>

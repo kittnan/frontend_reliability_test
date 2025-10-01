@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MasterHttpService } from 'src/app/http/master-http.service';
-import { ToastService } from 'src/app/services/toast.service';
-import Swal from 'sweetalert2';
-import { AuthorizeForm } from 'src/app/interface/authorize_master';
-import { DialogAuthorizeComponent } from './dialog-authorize/dialog-authorize.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MasterHttpService } from 'src/app/http/master-http.service';
+import { ToastService } from 'src/app/services/toast.service';
+import Swal from 'sweetalert2';
+import { DialogAuthorizeComponent } from './dialog-authorize/dialog-authorize.component';
 
 @Component({
-  selector: 'app-authorize-master',
-  templateUrl: './authorize-master.component.html',
-  styleUrls: ['./authorize-master.component.scss']
+    selector: 'app-authorize-master',
+    templateUrl: './authorize-master.component.html',
+    styleUrls: ['./authorize-master.component.scss'],
+    standalone: false
 })
 export class AuthorizeMasterComponent implements OnInit {
 

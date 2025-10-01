@@ -24,9 +24,10 @@ interface listForm {
   name: String
 }
 @Component({
-  selector: 'app-sheet3-step3',
-  templateUrl: './sheet3-step3.component.html',
-  styleUrls: ['./sheet3-step3.component.scss']
+    selector: 'app-sheet3-step3',
+    templateUrl: './sheet3-step3.component.html',
+    styleUrls: ['./sheet3-step3.component.scss'],
+    standalone: false
 })
 export class Sheet3Step3Component implements OnInit {
   @Input() formId: any

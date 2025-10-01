@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dia-log-select-operate',
-  templateUrl: './dia-log-select-operate.component.html',
-  styleUrls: ['./dia-log-select-operate.component.scss']
+    selector: 'app-dia-log-select-operate',
+    templateUrl: './dia-log-select-operate.component.html',
+    styleUrls: ['./dia-log-select-operate.component.scss'],
+    standalone: false
 })
 export class DiaLogSelectOperateComponent implements OnInit {
 

@@ -4,9 +4,10 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 
 @Component({
-  selector: 'app-view-page',
-  templateUrl: './view-page.component.html',
-  styleUrls: ['./view-page.component.scss']
+    selector: 'app-view-page',
+    templateUrl: './view-page.component.html',
+    styleUrls: ['./view-page.component.scss'],
+    standalone: false
 })
 export class ViewPageComponent implements OnInit {
 

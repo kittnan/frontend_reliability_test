@@ -6,9 +6,10 @@ import Swal from 'sweetalert2';
 import { DialogIntervalComponent } from './dialog-interval/dialog-interval.component';
 
 @Component({
-  selector: 'app-interval-master',
-  templateUrl: './interval-master.component.html',
-  styleUrls: ['./interval-master.component.scss']
+    selector: 'app-interval-master',
+    templateUrl: './interval-master.component.html',
+    styleUrls: ['./interval-master.component.scss'],
+    standalone: false
 })
 export class IntervalMasterComponent implements OnInit {
 

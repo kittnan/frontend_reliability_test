@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-qe-window-person',
-  templateUrl: './qe-window-person.component.html',
-  styleUrls: ['./qe-window-person.component.scss']
+    selector: 'app-qe-window-person',
+    templateUrl: './qe-window-person.component.html',
+    styleUrls: ['./qe-window-person.component.scss'],
+    standalone: false
 })
 export class QeWindowPersonComponent implements OnInit {
 

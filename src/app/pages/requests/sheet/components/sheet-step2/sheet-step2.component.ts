@@ -9,9 +9,10 @@ import { HttpParams } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-sheet-step2',
-  templateUrl: './sheet-step2.component.html',
-  styleUrls: ['./sheet-step2.component.scss']
+    selector: 'app-sheet-step2',
+    templateUrl: './sheet-step2.component.html',
+    styleUrls: ['./sheet-step2.component.scss'],
+    standalone: false
 })
 export class SheetStep2Component implements OnInit {
   @Input() formId: any

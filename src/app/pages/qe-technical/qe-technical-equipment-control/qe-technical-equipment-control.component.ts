@@ -13,9 +13,10 @@ interface ParamsForm {
   count: string;
 }
 @Component({
-  selector: 'app-qe-technical-equipment-control',
-  templateUrl: './qe-technical-equipment-control.component.html',
-  styleUrls: ['./qe-technical-equipment-control.component.scss']
+    selector: 'app-qe-technical-equipment-control',
+    templateUrl: './qe-technical-equipment-control.component.html',
+    styleUrls: ['./qe-technical-equipment-control.component.scss'],
+    standalone: false
 })
 export class QeTechnicalEquipmentControlComponent implements OnInit {
 

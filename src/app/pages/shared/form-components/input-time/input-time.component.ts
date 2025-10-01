@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-time',
-  templateUrl: './input-time.component.html',
-  styleUrls: ['./input-time.component.scss']
+    selector: 'app-input-time',
+    templateUrl: './input-time.component.html',
+    styleUrls: ['./input-time.component.scss'],
+    standalone: false
 })
 export class InputTimeComponent implements OnInit {
 

@@ -6,15 +6,34 @@
     </mat-form-field>
     <mat-form-field fxFlex="100" appearance="fill">
         <mat-label>List Name</mat-label>
-        <mat-chip-list #chipList>
+        <mat-chip-grid #chipList>
+            <mat-chip-row *ngFor="let list of testingCondition.list" (removed)="remove(list)">
+                {{list.name}}
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip-row>
+        </mat-chip-grid>
+        <!-- <input placeholder="New Fruit..." #fruitInput  [matChipInputFor]="chipList"
+            [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)" />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            @for (fruit of testingCondition.list | async; track fruit) {
+            <mat-option [value]="fruit">{{fruit}}</mat-option>
+            }
+        </mat-autocomplete> -->
+
+        <!-- <mat-chip-list #chipList>
             <mat-chip *ngFor="let list of testingCondition.list" (removed)="remove(list)">
                 {{list.name}}
                 <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
                 </button>
             </mat-chip>
-            <input placeholder="New fruit..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
+            <input placeholder="New fruit..." [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false"
+                (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list> -->
     </mat-form-field>
     <ng-container *ngIf="data; else elseTemplate">
         <button fxFlex="100" mat-raised-button color="primary" (click)="onSubmit()">

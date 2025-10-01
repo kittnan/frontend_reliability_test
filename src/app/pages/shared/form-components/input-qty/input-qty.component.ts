@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-input-qty',
-  templateUrl: './input-qty.component.html',
-  styleUrls: ['./input-qty.component.scss'],
-  providers: [TranslatePipe]
+    selector: 'app-input-qty',
+    templateUrl: './input-qty.component.html',
+    styleUrls: ['./input-qty.component.scss'],
+    providers: [TranslatePipe],
+    standalone: false
 })
 export class InputQtyComponent implements OnInit {
 

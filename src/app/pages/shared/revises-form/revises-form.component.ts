@@ -2,9 +2,10 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-revises-form',
-  templateUrl: './revises-form.component.html',
-  styleUrls: ['./revises-form.component.scss']
+    selector: 'app-revises-form',
+    templateUrl: './revises-form.component.html',
+    styleUrls: ['./revises-form.component.scss'],
+    standalone: false
 })
 export class RevisesFormComponent implements OnInit {
 

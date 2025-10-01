@@ -7,9 +7,10 @@ import { Step4HttpService } from 'src/app/http/step4-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
-  selector: 'app-advance-mode',
-  templateUrl: './advance-mode.component.html',
-  styleUrls: ['./advance-mode.component.scss'],
+    selector: 'app-advance-mode',
+    templateUrl: './advance-mode.component.html',
+    styleUrls: ['./advance-mode.component.scss'],
+    standalone: false
 })
 export class AdvanceModeComponent implements OnInit {
   request: any = null;

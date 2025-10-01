@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-qe-engineer-manage',
-  templateUrl: './qe-engineer-manage.component.html',
-  styleUrls: ['./qe-engineer-manage.component.scss']
+    selector: 'app-qe-engineer-manage',
+    templateUrl: './qe-engineer-manage.component.html',
+    styleUrls: ['./qe-engineer-manage.component.scss'],
+    standalone: false
 })
 export class QeEngineerManageComponent implements OnInit {
 

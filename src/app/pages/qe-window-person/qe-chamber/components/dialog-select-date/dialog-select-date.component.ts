@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-select-date',
-  templateUrl: './dialog-select-date.component.html',
-  styleUrls: ['./dialog-select-date.component.scss']
+    selector: 'app-dialog-select-date',
+    templateUrl: './dialog-select-date.component.html',
+    styleUrls: ['./dialog-select-date.component.scss'],
+    standalone: false
 })
 export class DialogSelectDateComponent implements OnInit {
 

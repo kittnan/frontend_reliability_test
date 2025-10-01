@@ -9,14 +9,15 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApproverForm } from '../../admin/approver/dialog-approver/dialog-approver.component';
 import { QueueService } from 'src/app/http/queue.service';
 import { PlanDetailComponent } from './components/plan-detail/plan-detail.component';
-import * as moment from 'moment';
+import moment from 'moment';
 import { GenInspectionTableService } from '../qe-chamber/qe-chamber-planning-detail/gen-inspection-table.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-plan',
-  templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss'],
+    selector: 'app-plan',
+    templateUrl: './plan.component.html',
+    styleUrls: ['./plan.component.scss'],
+    standalone: false
 })
 export class PlanComponent implements OnInit {
   request: any = null;

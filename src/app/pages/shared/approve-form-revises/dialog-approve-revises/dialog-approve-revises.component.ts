@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
@@ -9,9 +9,10 @@ import { SendMailService } from 'src/app/http/send-mail.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-approve-revises',
-  templateUrl: './dialog-approve-revises.component.html',
-  styleUrls: ['./dialog-approve-revises.component.scss']
+    selector: 'app-dialog-approve-revises',
+    templateUrl: './dialog-approve-revises.component.html',
+    styleUrls: ['./dialog-approve-revises.component.scss'],
+    standalone: false
 })
 export class DialogApproveRevisesComponent implements OnInit {
   select: any

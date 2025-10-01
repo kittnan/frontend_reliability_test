@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import Swal, { SweetAlertResult } from 'sweetalert2';
@@ -22,9 +22,10 @@ interface ConditionListForm {
   disable?: boolean;
 }
 @Component({
-  selector: 'app-step4-home',
-  templateUrl: './step4-home.component.html',
-  styleUrls: ['./step4-home.component.scss'],
+    selector: 'app-step4-home',
+    templateUrl: './step4-home.component.html',
+    styleUrls: ['./step4-home.component.scss'],
+    standalone: false
 })
 export class Step4HomeComponent implements OnInit {
   @Input() step1: any;

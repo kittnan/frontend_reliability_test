@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-high-temp-form',
-  templateUrl: './high-temp-form.component.html',
-  styleUrls: ['./high-temp-form.component.scss'],
+    selector: 'app-high-temp-form',
+    templateUrl: './high-temp-form.component.html',
+    styleUrls: ['./high-temp-form.component.scss'],
+    standalone: false
 })
 export class HighTempFormComponent implements OnInit {
   @Input() data: any;

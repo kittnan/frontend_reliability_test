@@ -1,6 +1,6 @@
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { DialogApproveComponent } from 'src/app/pages/shared/approve-form/dialog-approve/dialog-approve.component';
 
@@ -8,9 +8,10 @@ import { UserApproveService } from './../../../../../services/user-approve.servi
 import { ApproverForm } from './../../../../admin/approver/dialog-approver/dialog-approver.component';
 
 @Component({
-  selector: 'app-sheet3-step5',
-  templateUrl: './sheet3-step5.component.html',
-  styleUrls: ['./sheet3-step5.component.scss']
+    selector: 'app-sheet3-step5',
+    templateUrl: './sheet3-step5.component.html',
+    styleUrls: ['./sheet3-step5.component.scss'],
+    standalone: false
 })
 export class Sheet3Step5Component implements OnInit {
 

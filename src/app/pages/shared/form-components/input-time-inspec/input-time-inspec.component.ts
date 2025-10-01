@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-time-inspec',
-  templateUrl: './input-time-inspec.component.html',
-  styleUrls: ['./input-time-inspec.component.scss'],
+    selector: 'app-input-time-inspec',
+    templateUrl: './input-time-inspec.component.html',
+    styleUrls: ['./input-time-inspec.component.scss'],
+    standalone: false
 })
 export class InputTimeInspecComponent implements OnInit {
   @Input() title: any;

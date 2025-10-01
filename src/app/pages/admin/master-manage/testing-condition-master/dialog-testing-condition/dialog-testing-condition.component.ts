@@ -7,9 +7,10 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
-  selector: 'app-dialog-testing-condition',
-  templateUrl: './dialog-testing-condition.component.html',
-  styleUrls: ['./dialog-testing-condition.component.scss']
+    selector: 'app-dialog-testing-condition',
+    templateUrl: './dialog-testing-condition.component.html',
+    styleUrls: ['./dialog-testing-condition.component.scss'],
+    standalone: false
 })
 export class DialogTestingConditionComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;

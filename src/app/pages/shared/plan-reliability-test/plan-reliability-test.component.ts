@@ -4,9 +4,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import * as XLSX from 'xlsx';
 @Component({
-  selector: 'app-plan-reliability-test',
-  templateUrl: './plan-reliability-test.component.html',
-  styleUrls: ['./plan-reliability-test.component.scss']
+    selector: 'app-plan-reliability-test',
+    templateUrl: './plan-reliability-test.component.html',
+    styleUrls: ['./plan-reliability-test.component.scss'],
+    standalone: false
 })
 export class PlanReliabilityTestComponent implements OnInit {
 

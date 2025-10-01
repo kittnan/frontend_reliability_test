@@ -18,11 +18,11 @@
             <button mat-stroked-button color="primary">{{ index + 1 }}.1 DETAIL</button>
           </div>
           <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap" fxLayoutGap="10" style="margin-top: 1rem;">
-            <mat-form-field fxFlex="fill" *ngIf="item.condition" appearance="legacy" style="width: 300px;">
+            <mat-form-field fxFlex="fill" *ngIf="item.condition" appearance="outline" style="width: 300px;">
               <mat-label>Condition Name</mat-label>
               <input matInput [(ngModel)]="item.condition.name" [readonly]="true" />
             </mat-form-field>
-            <mat-form-field *ngIf="item.work" appearance="legacy">
+            <mat-form-field *ngIf="item.work" appearance="outline">
               <mat-label>Qty</mat-label>
               <input matInput [(ngModel)]="item.work.qty" [readonly]="true" />
             </mat-form-field>

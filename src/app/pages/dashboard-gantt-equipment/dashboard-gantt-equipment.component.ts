@@ -5,16 +5,17 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
-import * as moment from 'moment';
+import moment from 'moment';
 import { lastValueFrom } from 'rxjs';
 import { ScanHistoryHttpService } from 'src/app/http/scan-history-http.service';
 
 
 
 @Component({
-  selector: 'app-dashboard-gantt-equipment',
-  templateUrl: './dashboard-gantt-equipment.component.html',
-  styleUrls: ['./dashboard-gantt-equipment.component.scss']
+    selector: 'app-dashboard-gantt-equipment',
+    templateUrl: './dashboard-gantt-equipment.component.html',
+    styleUrls: ['./dashboard-gantt-equipment.component.scss'],
+    standalone: false
 })
 export class DashboardGanttEquipmentComponent implements OnInit {
   displayedColumns: string[] = [

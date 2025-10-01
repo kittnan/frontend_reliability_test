@@ -6,9 +6,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-test-purpose',
-  templateUrl: './dialog-test-purpose.component.html',
-  styleUrls: ['./dialog-test-purpose.component.scss']
+    selector: 'app-dialog-test-purpose',
+    templateUrl: './dialog-test-purpose.component.html',
+    styleUrls: ['./dialog-test-purpose.component.scss'],
+    standalone: false
 })
 export class DialogTestPurposeComponent implements OnInit {
 

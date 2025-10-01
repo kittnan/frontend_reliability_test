@@ -4,9 +4,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-table-operate',
-  templateUrl: './table-operate.component.html',
-  styleUrls: ['./table-operate.component.scss']
+    selector: 'app-table-operate',
+    templateUrl: './table-operate.component.html',
+    styleUrls: ['./table-operate.component.scss'],
+    standalone: false
 })
 export class TableOperateComponent implements OnInit {
 

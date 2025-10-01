@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-compare-step3',
-  templateUrl: './compare-step3.component.html',
-  styleUrls: ['./compare-step3.component.scss']
+    selector: 'app-compare-step3',
+    templateUrl: './compare-step3.component.html',
+    styleUrls: ['./compare-step3.component.scss'],
+    standalone: false
 })
 export class CompareStep3Component implements OnInit {
   @Input() formRevise: any = null

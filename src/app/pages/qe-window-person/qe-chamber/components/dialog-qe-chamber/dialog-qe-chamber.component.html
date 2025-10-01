@@ -75,22 +75,22 @@
     <!-- <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-around stretch" *ngFor="let row of rows; let i=index"
       (click)="onSelect(row)" class="pointer box-body mtb-2 b-1" [ngClass]="{'chamber-red': !row.status}">
 
-      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
+      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="outline">
         <mat-label>CODE</mat-label>
         <input matInput [(ngModel)]="row.code" [readonly]="true" class="pointer">
       </mat-form-field>
 
-      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
+      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="outline">
         <mat-label>NAME</mat-label>
         <input matInput [(ngModel)]="row.name" [readonly]="true" class="pointer">
       </mat-form-field>
 
-      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
+      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="outline">
         <mat-label>CAPACITY</mat-label>
         <input matInput [value]="htmlCap(row)" [readonly]="true" class="pointer">
       </mat-form-field>
 
-      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="legacy">
+      <mat-form-field fxFlex.gt-lg="22" fxFlex.sm="50" appearance="outline">
         <mat-label>USE SPACE</mat-label>
         <input matInput [value]="htmlCalCapPercent(row)|percent" [readonly]="true" class="pointer">
       </mat-form-field>

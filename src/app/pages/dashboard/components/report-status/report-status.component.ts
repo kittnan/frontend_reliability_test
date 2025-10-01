@@ -2,12 +2,13 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-  selector: 'app-report-status',
-  templateUrl: './report-status.component.html',
-  styleUrls: ['./report-status.component.scss']
+    selector: 'app-report-status',
+    templateUrl: './report-status.component.html',
+    styleUrls: ['./report-status.component.scss'],
+    standalone: false
 })
 export class ReportStatusComponent implements OnInit {
 

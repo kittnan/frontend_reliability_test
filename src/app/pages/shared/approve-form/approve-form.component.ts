@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 import { DialogApproveComponent } from './dialog-approve/dialog-approve.component';
@@ -7,9 +7,10 @@ import { DialogRejectComponent } from './dialog-reject/dialog-reject.component';
 import { DialogSendmailComponent } from './dialog-sendmail/dialog-sendmail.component';
 
 @Component({
-  selector: 'app-approve-form',
-  templateUrl: './approve-form.component.html',
-  styleUrls: ['./approve-form.component.scss']
+    selector: 'app-approve-form',
+    templateUrl: './approve-form.component.html',
+    styleUrls: ['./approve-form.component.scss'],
+    standalone: false
 })
 export class ApproveFormComponent implements OnInit {
 

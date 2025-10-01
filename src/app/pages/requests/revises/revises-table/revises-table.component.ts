@@ -1,11 +1,11 @@
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { DialogViewComponent } from 'src/app/pages/shared/dialog-view/dialog-view.component';
@@ -14,9 +14,10 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 
 @Component({
-  selector: 'app-revises-table',
-  templateUrl: './revises-table.component.html',
-  styleUrls: ['./revises-table.component.scss']
+    selector: 'app-revises-table',
+    templateUrl: './revises-table.component.html',
+    styleUrls: ['./revises-table.component.scss'],
+    standalone: false
 })
 export class RevisesTableComponent implements OnInit {
   userLogin: any;

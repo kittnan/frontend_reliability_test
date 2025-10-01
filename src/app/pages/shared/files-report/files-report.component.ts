@@ -9,9 +9,10 @@ import { ApproveService } from '../approve-form/approve.service';
 import { lastValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-files-report',
-  templateUrl: './files-report.component.html',
-  styleUrls: ['./files-report.component.scss']
+    selector: 'app-files-report',
+    templateUrl: './files-report.component.html',
+    styleUrls: ['./files-report.component.scss'],
+    standalone: false
 })
 export class FilesReportComponent implements OnInit {
 

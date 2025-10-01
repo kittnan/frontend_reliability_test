@@ -22,9 +22,10 @@ interface ConditionListForm {
   disable?: boolean;
 }
 @Component({
-  selector: 'app-revises-sheet4',
-  templateUrl: './revises-sheet4.component.html',
-  styleUrls: ['./revises-sheet4.component.scss'],
+    selector: 'app-revises-sheet4',
+    templateUrl: './revises-sheet4.component.html',
+    styleUrls: ['./revises-sheet4.component.scss'],
+    standalone: false
 })
 export class RevisesSheet4Component implements OnInit {
   // @Input() step4: any

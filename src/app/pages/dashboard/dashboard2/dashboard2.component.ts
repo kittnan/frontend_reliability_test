@@ -1,13 +1,14 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DashboardHttpService } from 'src/app/http/dashboard-http.service';
 
 @Component({
-  selector: 'app-dashboard2',
-  templateUrl: './dashboard2.component.html',
-  styleUrls: ['./dashboard2.component.scss']
+    selector: 'app-dashboard2',
+    templateUrl: './dashboard2.component.html',
+    styleUrls: ['./dashboard2.component.scss'],
+    standalone: false
 })
 export class Dashboard2Component implements OnInit {
 

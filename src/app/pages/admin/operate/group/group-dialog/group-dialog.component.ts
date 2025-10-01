@@ -23,9 +23,10 @@ interface OperateItemForm {
 }
 
 @Component({
-  selector: 'app-group-dialog',
-  templateUrl: './group-dialog.component.html',
-  styleUrls: ['./group-dialog.component.scss']
+    selector: 'app-group-dialog',
+    templateUrl: './group-dialog.component.html',
+    styleUrls: ['./group-dialog.component.scss'],
+    standalone: false
 })
 export class GroupDialogComponent implements OnInit {
 

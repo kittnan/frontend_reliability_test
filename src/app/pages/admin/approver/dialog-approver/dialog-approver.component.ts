@@ -1,12 +1,12 @@
-import { ApproverHttpService } from './../../../../http/approver-http.service';
-import { UserHttpService } from './../../../../http/user-http.service';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import Swal, { SweetAlertResult } from 'sweetalert2';
 import { ToastService } from 'src/app/services/toast.service';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { ApproverHttpService } from './../../../../http/approver-http.service';
+import { UserHttpService } from './../../../../http/user-http.service';
 
 export interface ApproverForm {
   level: Number | null,
@@ -18,9 +18,10 @@ export interface ApproverForm {
 }
 
 @Component({
-  selector: 'app-dialog-approver',
-  templateUrl: './dialog-approver.component.html',
-  styleUrls: ['./dialog-approver.component.scss']
+    selector: 'app-dialog-approver',
+    templateUrl: './dialog-approver.component.html',
+    styleUrls: ['./dialog-approver.component.scss'],
+    standalone: false
 })
 export class DialogApproverComponent implements OnInit {
 

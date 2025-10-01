@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Sheet2RoutingModule } from './sheet2-routing.module';
 import { Sheet2Component } from './sheet2.component';
 import { Sheet2Page1Component } from './page/sheet2-page1/sheet2-page1.component';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -14,28 +14,22 @@ import { SharedModule } from '../../shared/shared.module';
 import { HttpLoaderFactory } from '../requests.module';
 
 
-@NgModule({
-  declarations: [
-    Sheet2Component,
-    Sheet2Page1Component
-  ],
-  imports: [
-    CommonModule,
-    Sheet2RoutingModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    SharedModule,
-    PipeModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-  ]
-})
+@NgModule({ declarations: [
+        Sheet2Component,
+        Sheet2Page1Component
+    ], imports: [CommonModule,
+        Sheet2RoutingModule,
+        MaterialModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        PipeModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class Sheet2Module { }

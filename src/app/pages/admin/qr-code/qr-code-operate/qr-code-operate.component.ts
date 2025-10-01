@@ -6,9 +6,10 @@ import * as QRCode from 'qrcode';
 import { TrackingOperateHttpService } from 'src/app/http/tracking-operate-http.service';
 
 @Component({
-  selector: 'app-qr-code-operate',
-  templateUrl: './qr-code-operate.component.html',
-  styleUrls: ['./qr-code-operate.component.scss']
+    selector: 'app-qr-code-operate',
+    templateUrl: './qr-code-operate.component.html',
+    styleUrls: ['./qr-code-operate.component.scss'],
+    standalone: false
 })
 export class QrCodeOperateComponent implements OnInit {
   displayedColumns: string[] = ['select', 'code', 'name', 'location', 'qrcode'];

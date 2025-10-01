@@ -7,9 +7,10 @@ import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 
 @Component({
-  selector: 'app-revises-sheet',
-  templateUrl: './revises-sheet.component.html',
-  styleUrls: ['./revises-sheet.component.scss']
+    selector: 'app-revises-sheet',
+    templateUrl: './revises-sheet.component.html',
+    styleUrls: ['./revises-sheet.component.scss'],
+    standalone: false
 })
 export class RevisesSheetComponent implements OnInit {
 

@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-acceleration',
-  templateUrl: './input-acceleration.component.html',
-  styleUrls: ['./input-acceleration.component.scss']
+    selector: 'app-input-acceleration',
+    templateUrl: './input-acceleration.component.html',
+    styleUrls: ['./input-acceleration.component.scss'],
+    standalone: false
 })
 export class InputAccelerationComponent implements OnInit {
 

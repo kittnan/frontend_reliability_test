@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-direction',
-  templateUrl: './input-direction.component.html',
-  styleUrls: ['./input-direction.component.scss']
+    selector: 'app-input-direction',
+    templateUrl: './input-direction.component.html',
+    styleUrls: ['./input-direction.component.scss'],
+    standalone: false
 })
 export class InputDirectionComponent implements OnInit {
 

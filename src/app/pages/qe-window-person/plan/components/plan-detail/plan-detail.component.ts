@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { OperateGroupService } from 'src/app/http/operate-group.service';
 import { OperateItemsHttpService } from 'src/app/http/operate-items-http.service';
@@ -13,9 +13,10 @@ import { GenInspectionTableService } from '../../../qe-chamber/qe-chamber-planni
 import { QeChamberService } from '../../../qe-chamber/qe-chamber.service';
 
 @Component({
-  selector: 'app-plan-detail',
-  templateUrl: './plan-detail.component.html',
-  styleUrls: ['./plan-detail.component.scss'],
+    selector: 'app-plan-detail',
+    templateUrl: './plan-detail.component.html',
+    styleUrls: ['./plan-detail.component.scss'],
+    standalone: false
 })
 export class PlanDetailComponent implements OnInit {
   @Input() queues: any;

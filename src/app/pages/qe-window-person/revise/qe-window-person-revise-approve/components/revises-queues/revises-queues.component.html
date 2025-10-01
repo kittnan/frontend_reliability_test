@@ -18,12 +18,12 @@
             {{i+1}}.1 DETAIL
           </button>
         </div>
-        <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.condition" appearance="legacy">
+        <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.condition" appearance="outline">
           <mat-label>Condition Name</mat-label>
           <input matInput [(ngModel)]="item.condition.name" [readonly]="true">
         </mat-form-field>
 
-        <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.work" appearance="legacy">
+        <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.work" appearance="outline">
           <mat-label>Qty</mat-label>
           <input matInput [(ngModel)]="item.work.qty" [readonly]="true">
         </mat-form-field>
@@ -68,7 +68,7 @@
 
         <h4 fxFlex="100">End Time</h4>
 
-        <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="legacy">
+        <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="outline">
           <mat-label>END DATE</mat-label>
           <input matInput [value]="item.endDate|date:'EEEE, d MMMM y, h:mm a'" [readonly]="true">
         </mat-form-field>
@@ -107,11 +107,11 @@
           </div>
           <div fxFlex="100" fxLayoutAlign="start  stretch" fxLayout="row wrap">
 
-            <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
+            <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="outline">
               <mat-label>CHAMBER CODE</mat-label>
               <input matInput [(ngModel)]="item.chamber.code" [readonly]="true">
             </mat-form-field>
-            <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="legacy">
+            <mat-form-field fxFlex="50" fxFlex.lt-md="100" *ngIf="item.chamber" appearance="outline">
               <mat-label>CHAMBER NAME</mat-label>
               <input matInput [(ngModel)]="item.chamber.name" [readonly]="true">
             </mat-form-field>
@@ -148,13 +148,13 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-form-field fxFlex="100" appearance="outline">
                 <mat-label>CODE</mat-label>
                 <input matInput [(ngModel)]="item.operate.checker.code" [readonly]="true"
                   style="text-transform: uppercase;">
               </mat-form-field>
 
-              <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-form-field fxFlex="100" appearance="outline">
                 <mat-label>CHECKER NAME</mat-label>
                 <input matInput [(ngModel)]="item.operate.checker.name" [readonly]="true">
               </mat-form-field>
@@ -180,13 +180,13 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-form-field fxFlex="100" appearance="outline">
                 <mat-label>CODE</mat-label>
                 <input matInput [(ngModel)]="item.operate.power.code" [readonly]="true"
                   style="text-transform: uppercase;">
               </mat-form-field>
 
-              <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-form-field fxFlex="100" appearance="outline">
                 <mat-label>CHECKER NAME</mat-label>
                 <input matInput [(ngModel)]="item.operate.power.name" [readonly]="true">
               </mat-form-field>
@@ -212,13 +212,13 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-form-field fxFlex="100" appearance="outline">
                 <mat-label>CODE</mat-label>
                 <input matInput [(ngModel)]="item.operate.attachment.code" [readonly]="true"
                   style="text-transform: uppercase;">
               </mat-form-field>
 
-              <mat-form-field fxFlex="100" appearance="legacy">
+              <mat-form-field fxFlex="100" appearance="outline">
                 <mat-label>CHECKER NAME</mat-label>
                 <input matInput [(ngModel)]="item.operate.attachment.name" [readonly]="true">
               </mat-form-field>

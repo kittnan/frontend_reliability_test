@@ -5,9 +5,10 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
-  selector: 'app-dialog-testing-type',
-  templateUrl: './dialog-testing-type.component.html',
-  styleUrls: ['./dialog-testing-type.component.scss']
+    selector: 'app-dialog-testing-type',
+    templateUrl: './dialog-testing-type.component.html',
+    styleUrls: ['./dialog-testing-type.component.scss'],
+    standalone: false
 })
 export class DialogTestingTypeComponent implements OnInit {
 

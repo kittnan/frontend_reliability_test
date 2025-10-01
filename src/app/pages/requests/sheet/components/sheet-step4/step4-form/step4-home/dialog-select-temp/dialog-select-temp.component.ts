@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-select-temp',
-  templateUrl: './dialog-select-temp.component.html',
-  styleUrls: ['./dialog-select-temp.component.scss']
+    selector: 'app-dialog-select-temp',
+    templateUrl: './dialog-select-temp.component.html',
+    styleUrls: ['./dialog-select-temp.component.scss'],
+    standalone: false
 })
 export class DialogSelectTempComponent {
 

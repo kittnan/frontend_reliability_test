@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-heat-shock',
-  templateUrl: './heat-shock.component.html',
-  styleUrls: ['./heat-shock.component.scss'],
+    selector: 'app-heat-shock',
+    templateUrl: './heat-shock.component.html',
+    styleUrls: ['./heat-shock.component.scss'],
+    standalone: false
 })
 export class HeatShockComponent implements OnInit {
   @Input() data: any;

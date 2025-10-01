@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-condition-table-no-chamber',
-  templateUrl: './condition-table-no-chamber.component.html',
-  styleUrls: ['./condition-table-no-chamber.component.scss']
+    selector: 'app-condition-table-no-chamber',
+    templateUrl: './condition-table-no-chamber.component.html',
+    styleUrls: ['./condition-table-no-chamber.component.scss'],
+    standalone: false
 })
 export class ConditionTableNoChamberComponent implements OnInit {
 

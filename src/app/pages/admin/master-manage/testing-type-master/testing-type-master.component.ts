@@ -9,9 +9,10 @@ import Swal from 'sweetalert2';
 import { DialogTestingTypeComponent } from './dialog-testing-type/dialog-testing-type.component';
 
 @Component({
-  selector: 'app-testing-type-master',
-  templateUrl: './testing-type-master.component.html',
-  styleUrls: ['./testing-type-master.component.scss']
+    selector: 'app-testing-type-master',
+    templateUrl: './testing-type-master.component.html',
+    styleUrls: ['./testing-type-master.component.scss'],
+    standalone: false
 })
 export class TestingTypeMasterComponent implements OnInit {
 

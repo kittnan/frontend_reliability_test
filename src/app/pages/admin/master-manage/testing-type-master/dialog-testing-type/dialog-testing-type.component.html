@@ -1,7 +1,7 @@
 <h4>Testing Type</h4>
 <mat-dialog-content class="mat-typography">
   <div [formGroup]="TestingTypeForm">
-    <mat-form-field class="w-full" appearance="legacy">
+    <mat-form-field class="w-full" appearance="outline">
       <mat-label>Group</mat-label>
       <input matInput formControlName="group">
     </mat-form-field>
@@ -18,7 +18,7 @@
     <div class="list-content" formArrayName="list" *ngFor="let item of getList(); let i = index;">
       <div [formGroupName]="i" class="group-list" style="padding: 20px;">
 
-        <mat-form-field class="w-full" appearance="legacy">
+        <mat-form-field class="w-full" appearance="outline">
           <mat-label>List Name</mat-label>
           <input matInput formControlName="name" placeholder="Low Temperature">
           <span matSuffix (click)="deleteList(i)" class="material-icons-outlined btn-del-list-item">

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { QeWindowPersonRoutingModule } from './qe-window-person-routing.module';
 import { QeApproveManageComponent } from './qe-approve-manage/qe-approve-manage.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -33,44 +33,38 @@ import { PlanEditComponent } from './plan-edit/plan-edit.component';
 import { PlanActualComponent } from './plan-actual/plan-actual.component';
 import { PlanActualDetailComponent } from './plan-actual/components/plan-actual-detail/plan-actual-detail.component';
 
-@NgModule({
-  declarations: [
-    QeWindowPersonComponent,
-    QeApproveManageComponent,
-    QeWindowApproveComponent,
-    QeWindowReportComponent,
-    QeChamberComponent,
-    DialogQeChamberComponent,
-    DialogQeOperateComponent,
-    QeChamberPlanningComponent,
-    QeChamberPlanningDetailComponent,
-    DialogDateComponent,
-    DialogDateStartInspectionComponent,
-    QeWindowPersonReviseTableComponent,
-    QeWindowPersonReviseApproveComponent,
-    TablePlaningComponent,
-    RevisesQueuesComponent,
-    DialogSelectDateComponent,
-    PlanComponent,
-    PlanTableComponent,
-    PlanDetailComponent,
-    PlanDetail1Component,
-    PlanDetail2Component,
-    PlanDetail3Component,
-    PlanEditComponent,
-    PlanActualComponent,
-    PlanActualDetailComponent,
-  ],
-  imports: [
-    CommonModule,
-    QeWindowPersonRoutingModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    SharedModule,
-  ],
-  exports: [],
-})
+@NgModule({ declarations: [
+        QeWindowPersonComponent,
+        QeApproveManageComponent,
+        QeWindowApproveComponent,
+        QeWindowReportComponent,
+        QeChamberComponent,
+        DialogQeChamberComponent,
+        DialogQeOperateComponent,
+        QeChamberPlanningComponent,
+        QeChamberPlanningDetailComponent,
+        DialogDateComponent,
+        DialogDateStartInspectionComponent,
+        QeWindowPersonReviseTableComponent,
+        QeWindowPersonReviseApproveComponent,
+        TablePlaningComponent,
+        RevisesQueuesComponent,
+        DialogSelectDateComponent,
+        PlanComponent,
+        PlanTableComponent,
+        PlanDetailComponent,
+        PlanDetail1Component,
+        PlanDetail2Component,
+        PlanDetail3Component,
+        PlanEditComponent,
+        PlanActualComponent,
+        PlanActualDetailComponent,
+    ],
+    exports: [], imports: [CommonModule,
+        QeWindowPersonRoutingModule,
+        MaterialModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class QeWindowPersonModule {}

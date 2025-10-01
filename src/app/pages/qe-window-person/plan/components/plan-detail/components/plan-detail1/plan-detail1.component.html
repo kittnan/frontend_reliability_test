@@ -2,12 +2,12 @@
   <div fxFlex="100" fxLayoutAlign="start center" fxLayout="row wrap">
     <button mat-stroked-button color="primary">{{ index + 1 }}.1 DETAIL</button>
   </div>
-  <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.condition" appearance="legacy">
+  <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.condition" appearance="outline">
     <mat-label>Condition Name</mat-label>
     <input matInput [(ngModel)]="item.condition.name" [readonly]="true" />
   </mat-form-field>
 
-  <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.work" appearance="legacy">
+  <mat-form-field fxFlex="45" fxFlex.lt-md="100" *ngIf="item.work" appearance="outline">
     <mat-label>Qty</mat-label>
     <input matInput [(ngModel)]="item.work.qty" [readonly]="true" />
   </mat-form-field>
@@ -50,7 +50,7 @@
 
     <mat-divider fxFlex="100"></mat-divider>
     <h4 fxFlex="100">End Time</h4>
-    <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="legacy">
+    <mat-form-field fxFlex="45" fxFlex.lt-md="100" appearance="outline">
       <mat-label>END DATE</mat-label>
       <input matInput [value]="item.endDate | date : 'EEEE, d MMMM y, h:mm a'" [readonly]="true" />
     </mat-form-field>

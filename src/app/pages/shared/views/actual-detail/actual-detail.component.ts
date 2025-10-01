@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-actual-detail',
-  templateUrl: './actual-detail.component.html',
-  styleUrls: ['./actual-detail.component.scss']
+    selector: 'app-actual-detail',
+    templateUrl: './actual-detail.component.html',
+    styleUrls: ['./actual-detail.component.scss'],
+    standalone: false
 })
 export class ActualDetailComponent implements OnInit {
 

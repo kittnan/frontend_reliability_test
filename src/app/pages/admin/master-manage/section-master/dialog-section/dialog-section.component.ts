@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-section',
-  templateUrl: './dialog-section.component.html',
-  styleUrls: ['./dialog-section.component.scss']
+    selector: 'app-dialog-section',
+    templateUrl: './dialog-section.component.html',
+    styleUrls: ['./dialog-section.component.scss'],
+    standalone: false
 })
 export class DialogSectionComponent implements OnInit {
   newMaster: any

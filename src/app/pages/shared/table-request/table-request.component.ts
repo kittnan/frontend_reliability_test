@@ -5,9 +5,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { interval, lastValueFrom, Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { environment } from 'src/environments/environment';
 
@@ -25,9 +25,10 @@ interface ParamsForm {
   count: string;
 }
 @Component({
-  selector: 'app-table-request',
-  templateUrl: './table-request.component.html',
-  styleUrls: ['./table-request.component.scss'],
+    selector: 'app-table-request',
+    templateUrl: './table-request.component.html',
+    styleUrls: ['./table-request.component.scss'],
+    standalone: false
 })
 export class TableRequestComponent implements OnInit {
   userLogin: any;

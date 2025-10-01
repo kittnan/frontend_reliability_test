@@ -6,9 +6,10 @@ import { MasterHttpService } from 'src/app/http/master-http.service';
 import * as ExcelJS from 'ExcelJs';
 import Swal from 'sweetalert2';
 @Component({
-  selector: 'app-model-condition',
-  templateUrl: './model-condition.component.html',
-  styleUrls: ['./model-condition.component.scss']
+    selector: 'app-model-condition',
+    templateUrl: './model-condition.component.html',
+    styleUrls: ['./model-condition.component.scss'],
+    standalone: false
 })
 export class ModelConditionComponent implements OnInit {
   displayedColumns: any = []

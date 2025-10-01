@@ -19,11 +19,7 @@ import {
   NgxUiLoaderHttpModule,
   NgxUiLoaderRouterModule,
 } from 'ngx-ui-loader';
-import {
-  HttpBackend,
-  HttpClient,
-  HttpClientModule,
-} from '@angular/common/http';
+import { HttpBackend, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 // import { QeWindowPersonComponent } from './pages/qe-window-person/qe-window-person.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -83,56 +79,49 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   "minTime": 100
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    NotFoundComponent,
-    FooterComponent,
-    // QeWindowPersonComponent,
-    ViewPageComponent,
-    DashboardComponent,
-    CorporateComponent,
-    SectionComponent,
-    DailyRemainComponent,
-    TableChamberComponent,
-    TableOperateRemainComponent,
-    ReportStatusComponent,
-    GuestComponent,
-    DailyRemain2Component,
-    Dashboard2Component,
-    CardNumberComponent,
-    MomentPipe,
-    DashboardGanttEquipmentComponent,
-  ],
-  imports: [
-    AppRoutingModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    FlexLayoutModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxUiLoaderRouterModule,
-    NgxUiLoaderHttpModule,
-    // ServiceWorkerModule.register('ngsw-worker.js', {
-    //   enabled: environment.production,
-    //   // Register the ServiceWorker as soon as the application is stable
-    //   // or after 30 seconds (whichever comes first).
-    //   registrationStrategy: 'registerWhenStable:30000',
-    // }),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        NotFoundComponent,
+        FooterComponent,
+        // QeWindowPersonComponent,
+        ViewPageComponent,
+        DashboardComponent,
+        CorporateComponent,
+        SectionComponent,
+        DailyRemainComponent,
+        TableChamberComponent,
+        TableOperateRemainComponent,
+        ReportStatusComponent,
+        GuestComponent,
+        DailyRemain2Component,
+        Dashboard2Component,
+        CardNumberComponent,
+        MomentPipe,
+        DashboardGanttEquipmentComponent,
+    ],
+    bootstrap: [AppComponent], imports: [AppRoutingModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+        NgxUiLoaderRouterModule,
+        NgxUiLoaderHttpModule,
+        // ServiceWorkerModule.register('ngsw-worker.js', {
+        //   enabled: environment.production,
+        //   // Register the ServiceWorker as soon as the application is stable
+        //   // or after 30 seconds (whichever comes first).
+        //   registrationStrategy: 'registerWhenStable:30000',
+        // }),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MasterHttpService } from 'src/app/http/master-http.service';
 import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-dialog-authorize',
-  templateUrl: './dialog-authorize.component.html',
-  styleUrls: ['./dialog-authorize.component.scss']
+    selector: 'app-dialog-authorize',
+    templateUrl: './dialog-authorize.component.html',
+    styleUrls: ['./dialog-authorize.component.scss'],
+    standalone: false
 })
 export class DialogAuthorizeComponent implements OnInit {
 
@@ -40,10 +41,10 @@ export class DialogAuthorizeComponent implements OnInit {
   onSave() {
     this.data.name = this.newMaster
     this._master_service.updateAuthorizeMaster(this.data._id, this.data).subscribe(res => {
-      if(res.modifiedCount >0){
+      if (res.modifiedCount > 0) {
         this.dialogRef.close(res)
         Swal.fire('SUCCESS', '', 'success')
-      }else{
+      } else {
         Swal.fire(res, '', 'error')
       }
     })

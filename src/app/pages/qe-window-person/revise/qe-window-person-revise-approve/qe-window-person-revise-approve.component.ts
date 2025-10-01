@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import { ApproverForm } from 'src/app/pages/admin/approver/dialog-approver/dialog-approver.component';
@@ -11,9 +11,10 @@ import { QeWindowPersonReviseApproveService } from './qe-window-person-revise-ap
 import { RequestHttpService } from 'src/app/http/request-http.service';
 
 @Component({
-  selector: 'app-qe-window-person-revise-approve',
-  templateUrl: './qe-window-person-revise-approve.component.html',
-  styleUrls: ['./qe-window-person-revise-approve.component.scss']
+    selector: 'app-qe-window-person-revise-approve',
+    templateUrl: './qe-window-person-revise-approve.component.html',
+    styleUrls: ['./qe-window-person-revise-approve.component.scss'],
+    standalone: false
 })
 export class QeWindowPersonReviseApproveComponent implements OnInit {
   formRevise: any = null

@@ -9,9 +9,10 @@ import { Sheet2Component } from '../../sheet2.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-sheet2-page1',
-  templateUrl: './sheet2-page1.component.html',
-  styleUrls: ['./sheet2-page1.component.scss']
+    selector: 'app-sheet2-page1',
+    templateUrl: './sheet2-page1.component.html',
+    styleUrls: ['./sheet2-page1.component.scss'],
+    standalone: false
 })
 export class Sheet2Page1Component implements OnInit {
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import * as moment from 'moment';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
 import {
@@ -21,9 +21,10 @@ import { RevisesQueuesService } from './revises-queues.service';
 
 
 @Component({
-  selector: 'app-revises-queues',
-  templateUrl: './revises-queues.component.html',
-  styleUrls: ['./revises-queues.component.scss']
+    selector: 'app-revises-queues',
+    templateUrl: './revises-queues.component.html',
+    styleUrls: ['./revises-queues.component.scss'],
+    standalone: false
 })
 export class RevisesQueuesComponent implements OnInit {
   @Input() queuesForm: any = null

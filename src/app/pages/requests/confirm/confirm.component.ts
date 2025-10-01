@@ -7,9 +7,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { ApproverForm } from '../../admin/approver/dialog-approver/dialog-approver.component';
 
 @Component({
-  selector: 'app-confirm',
-  templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss']
+    selector: 'app-confirm',
+    templateUrl: './confirm.component.html',
+    styleUrls: ['./confirm.component.scss'],
+    standalone: false
 })
 export class ConfirmComponent implements OnInit {
 

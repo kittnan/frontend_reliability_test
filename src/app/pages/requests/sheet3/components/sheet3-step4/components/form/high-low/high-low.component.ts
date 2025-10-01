@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-high-low',
-  templateUrl: './high-low.component.html',
-  styleUrls: ['./high-low.component.scss'],
+    selector: 'app-high-low',
+    templateUrl: './high-low.component.html',
+    styleUrls: ['./high-low.component.scss'],
+    standalone: false
 })
 export class HighLowComponent implements OnInit {
   @Input() data: any;

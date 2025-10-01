@@ -9,9 +9,10 @@ import { UserApproveService } from 'src/app/services/user-approve.service';
 import { ApproverForm } from '../../admin/approver/dialog-approver/dialog-approver.component';
 
 @Component({
-  selector: 'app-qe-section-head-approve',
-  templateUrl: './qe-section-head-approve.component.html',
-  styleUrls: ['./qe-section-head-approve.component.scss']
+    selector: 'app-qe-section-head-approve',
+    templateUrl: './qe-section-head-approve.component.html',
+    styleUrls: ['./qe-section-head-approve.component.scss'],
+    standalone: false
 })
 export class QeSectionHeadApproveComponent implements OnInit {
 

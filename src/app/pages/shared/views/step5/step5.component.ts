@@ -3,9 +3,10 @@ import { RequestHttpService } from './../../../../http/request-http.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-step5',
-  templateUrl: './step5.component.html',
-  styleUrls: ['./step5.component.scss'],
+    selector: 'app-step5',
+    templateUrl: './step5.component.html',
+    styleUrls: ['./step5.component.scss'],
+    standalone: false
 })
 export class Step5Component implements OnInit {
   @Input() step5: any;

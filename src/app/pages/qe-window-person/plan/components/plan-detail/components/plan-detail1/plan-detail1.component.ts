@@ -1,15 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import * as moment from 'moment';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import moment from 'moment';
 import { DialogDateStartInspectionComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-date-start-inspection/dialog-date-start-inspection.component';
 import { DialogDateComponent } from 'src/app/pages/qe-window-person/qe-chamber/components/dialog-date/dialog-date.component';
 import Swal from 'sweetalert2';
 import { PlanDetail1Service } from './plan-detail1.service';
 
 @Component({
-  selector: 'app-plan-detail1',
-  templateUrl: './plan-detail1.component.html',
-  styleUrls: ['./plan-detail1.component.scss'],
+    selector: 'app-plan-detail1',
+    templateUrl: './plan-detail1.component.html',
+    styleUrls: ['./plan-detail1.component.scss'],
+    standalone: false
 })
 export class PlanDetail1Component implements OnInit {
   @Input() index!: number;

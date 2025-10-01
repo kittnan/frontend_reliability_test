@@ -9,9 +9,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 import { DialogAddUserComponent } from './dialog-add-user/dialog-add-user.component';
 @Component({
-  selector: 'app-user-manage',
-  templateUrl: './user-manage.component.html',
-  styleUrls: ['./user-manage.component.scss']
+    selector: 'app-user-manage',
+    templateUrl: './user-manage.component.html',
+    styleUrls: ['./user-manage.component.scss'],
+    standalone: false
 })
 export class UserManageComponent implements OnInit {
 

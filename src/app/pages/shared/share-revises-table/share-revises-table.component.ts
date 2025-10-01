@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { DialogViewComponent } from '../dialog-view/dialog-view.component';
 import { HttpParams } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
+import moment from 'moment';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { RequestHttpService } from 'src/app/http/request-http.service';
 import { RevisesHttpService } from 'src/app/http/revises-http.service';
@@ -14,9 +14,10 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 import { ReportService } from '../table-request/report.service';
 
 @Component({
-  selector: 'app-share-revises-table',
-  templateUrl: './share-revises-table.component.html',
-  styleUrls: ['./share-revises-table.component.scss'],
+    selector: 'app-share-revises-table',
+    templateUrl: './share-revises-table.component.html',
+    styleUrls: ['./share-revises-table.component.scss'],
+    standalone: false
 })
 export class ShareRevisesTableComponent implements OnInit {
   userLogin: any;
