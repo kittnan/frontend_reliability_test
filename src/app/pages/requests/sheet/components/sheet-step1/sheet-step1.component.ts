@@ -246,13 +246,21 @@ export class SheetStep1Component implements OnInit {
         this.requestForm.controls.corporate.valid &&
         this.requestForm.controls.modelNo.valid
       ) {
-
         if (this.requestForm.value.controlNo) {
-          let value: any = this.requestForm.value.controlNo
-          value = value.split('-')
-          let newModel: any = this.requestForm.value.modelNo?.padStart(6, '0')
-          value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel}`
-          this.requestForm.controls.controlNo.setValue(value)
+          if (this.requestForm.value._id) {
+            let value: any = this.requestForm.value.controlNo
+            value = value.split('-')
+            let newModel: any = this.requestForm.value.modelNo?.padStart(6, '0')
+            value = `${value[0]}-${value[1]}-${value[2]}-${value[3]}-${newModel}`
+            this.requestForm.controls.controlNo.setValue(value)
+          } else {
+            const runNumber: any = await this._request.setControlNo(
+              this.requestForm.value.corporate,
+              this.requestForm.value.modelNo
+            );
+            this.requestForm.controls.controlNo.setValue(runNumber);
+          }
+
         } else {
           const runNumber: any = await this._request.setControlNo(
             this.requestForm.value.corporate,
@@ -548,7 +556,7 @@ export class SheetStep1Component implements OnInit {
   }
 
   sendLog(data: any) {
-    this.$log.insertLogFlow(data).subscribe((res) => console.log(res));
+    this.$log.insertLogFlow(data).subscribe((res) => console.info(res));
   }
   handleAdmin() {
     if (localStorage.getItem("RLS_authorize") == 'admin') {

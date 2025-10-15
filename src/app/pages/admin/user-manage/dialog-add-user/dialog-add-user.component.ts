@@ -45,7 +45,7 @@ export class DialogAddUserComponent implements OnInit {
 
     this.$master_service.getAuthorizeMaster().subscribe(res => {
       this.authorizes = res
-      this.authorizes = this.authorizes.sort((a, b) => a.name > b.name ? 1 : -1);
+      this.authorizes = this.authorizes.filter((a: any) => !a.name.includes('department_head')).sort((a, b) => a.name.localeCompare(b.name));
     })
 
 
@@ -108,6 +108,4 @@ export class DialogAddUserComponent implements OnInit {
     this.departmentList = await this.$master_service.getDepartmentMaster().toPromise()
     this.sectionList = await this.$master_service.getSectionMaster().toPromise()
   }
-
-
 }

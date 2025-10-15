@@ -116,12 +116,14 @@ export class ReportService {
     let row = 4
     let col = 11
     for (let i = 0; i < files.length; i++) {
-      const foo = files[i].name.split('.')
-      if (foo[foo.length - 1] != 'png' && foo[foo.length - 1] != 'jpg') {
-        ws.getCell(row, col).value = files[i].path
+      const nameSp = files[i].name.split('.')
+      const url = files[i].path
+
+      if (nameSp[nameSp.length - 1] != 'png' && nameSp[nameSp.length - 1] != 'jpg') {
+        ws.getCell(row, col).value = { text: url, hyperlink: url }
         row += 1
       } else {
-        const base64Str: any = await lastValueFrom(this.$file.base64(files[i].path))
+        const base64Str: any = await lastValueFrom(this.$file.base64(url))
         this.imgs.push(base64Str.data)
 
         const temp_id = wb.addImage({

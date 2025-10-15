@@ -35,7 +35,7 @@ export class UserManageComponent implements OnInit {
 
   async getMaster() {
     const resData = await this._user_api.getUser().toPromise()
-    this.dataSource = new MatTableDataSource(resData)
+    this.dataSource = new MatTableDataSource(resData.filter((u:any)=> !u.name.includes('department_head') ))
     this.displayedColumns = ['no', 'name','employee_ID','email','department','section','auth','action']
     this.tableConfig()
   }
