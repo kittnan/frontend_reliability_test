@@ -17,4 +17,7 @@ export class SendMailService {
   sendEditPlan(data: any) {
     return this.http.post(`${this.URL}/mail/sendEditPlan`, data)
   }
+  sendMailRevisePlan(data: any) {
+    return this.http.post(`${this.URL}/mail/sendMailRevisePlan`, data)
+  }
 }

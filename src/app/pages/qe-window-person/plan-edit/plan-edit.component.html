@@ -12,7 +12,12 @@
 
     <app-plan-detail *ngIf="planing && planing.length != 0" fxFlex="100" [(queues)]="planing"
       [formInput]="request"></app-plan-detail>
-
+    <div fxFlex="100" fxLayoutAlign="end center" class="mt-3">
+      <button mat-raised-button color="primary" (click)="sendMail()">
+        <span class="material-icons-outlined">mail_outline</span>
+        Send Mail to Requester
+      </button>
+    </div>
     <a id="down"></a>
   </div>
 </div>
